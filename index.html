@@ -69,45 +69,56 @@
         .highlight { color: #ffbc00; font-weight: bold; }
         p { color: #bcccdc; line-height: 1.6; }
 
-        /* 放大版好評區塊 (置底) */
-        .review-container {
+        /* B站彈幕好評區塊樣式 */
+        .reviews-section {
             width: 100%;
-            max-width: 450px;
-            overflow: hidden;
-            background: rgba(100, 255, 218, 0.1);
-            border-radius: 16px;
-            margin-top: 10px;
+            max-width: 480px; /* 彈幕區塊寬度 */
+            margin-top: 30px;
             padding: 25px 0;
-            border: 1px solid rgba(100, 255, 218, 0.2);
-            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
-        }
-        .review-title {
+            background: rgba(100, 255, 218, 0.08); /* 稍微深一點的背景 */
+            border-radius: 16px;
+            border: 1px solid rgba(100, 255, 218, 0.15);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.4);
             text-align: center;
-            font-size: 16px;
+            position: relative;
+            overflow: hidden; /* 確保超出部分隱藏 */
+            height: 180px; /* 彈幕區塊高度 */
+        }
+        .reviews-section .title {
+            font-size: 18px;
             color: #64ffda;
             margin-bottom: 15px;
             font-weight: bold;
             letter-spacing: 1px;
         }
-        .marquee-wrapper {
-            display: flex;
-            width: fit-content;
-        }
-        .marquee {
-            display: flex;
-            animation: scroll 40s linear infinite;
-        }
-        .review-item {
-            padding: 0 40px;
-            font-size: 15px;
-            color: #ffffff;
-            text-align: center;
+        .danmaku-lane {
+            position: absolute;
+            left: 100%; /* 從右邊開始 */
             white-space: nowrap;
-            font-style: italic;
+            animation-name: danmaku-scroll;
+            animation-timing-function: linear;
+            animation-iteration-count: infinite;
+            font-size: 14px;
+            color: #ffffff;
+            padding: 2px 0;
         }
-        @keyframes scroll {
+        /* 定義多條彈幕軌道位置和速度 */
+        .danmaku-lane:nth-child(1) { top: 45px; animation-duration: 18s; }
+        .danmaku-lane:nth-child(2) { top: 75px; animation-duration: 22s; animation-delay: -5s; color: #b3e0ff; } /* 顏色和延遲讓效果更豐富 */
+        .danmaku-lane:nth-child(3) { top: 105px; animation-duration: 20s; animation-delay: -10s; }
+        .danmaku-lane:nth-child(4) { top: 135px; animation-duration: 24s; animation-delay: -15s; color: #ffefb3; } /* 顏色和延遲讓效果更豐富 */
+        
+        .danmaku-item {
+            display: inline-block;
+            margin-right: 80px; /* 評論之間的間距 */
+            padding: 4px 8px;
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 5px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+        }
+        @keyframes danmaku-scroll {
             0% { transform: translateX(0); }
-            100% { transform: translateX(-50%); }
+            100% { transform: translateX(-150%); } /* 讓評論完全跑出左邊 */
         }
     </style>
 </head>
@@ -127,7 +138,7 @@
     <div class="info-section">
         <div class="info-title">店址資訊</div>
         <p>
-            <a href="https://www.google.com/maps/search/?api=1&query=宇魚水族+新竹縣新埔鎮義民路二段630巷9號" target="_blank" class="address-link">
+            <a href="http://googleusercontent.com/maps.google.com/3" target="_blank" class="address-link">
                 📍 新竹縣新埔鎮義民路二段630巷9號<br>(點我開啟 Google 地圖導航 🚗)
             </a>
         </p>
@@ -138,25 +149,41 @@
         <p class="highlight">✈️ 3/14 - 3/18 泰國考察店休</p>
     </div>
 
-    <div class="review-container">
-        <div class="review-title">⭐️ 顧客五星真心推薦 ⭐️</div>
-        <div class="marquee-wrapper">
-            <div class="marquee">
-                <div class="review-item">「魚隻非常健康，帶回家後適應極快！」</div>
-                <div class="review-item">「宇哥解說很專業，對新手非常有耐心。」</div>
-                <div class="review-item">「店內環境非常乾淨，完全沒有異味。」</div>
-                <div class="review-item">「孔雀魚品系純、色澤漂亮，真心推薦。」</div>
-                <div class="review-item">「出貨包裝很仔細，黑貓隔日抵達很有保障。」</div>
-                <div class="review-item">「這是我見過最用心的水族館老闆。」</div>
-                <div class="review-item">「魚缸周邊工具很好用，隔離杯大推！」</div>
-                <div class="review-item">「在這裡學到很多養魚細節，少走很多冤枉路。」</div>
-                <div class="review-item">「魚隻非常健康，帶回家後適應極快！」</div>
-                <div class="review-item">「柏哥解說很專業，對新手非常有耐心。」</div>
-                <div class="review-item">「店內環境非常乾淨，完全沒有異味。」</div>
-                <div class="review-item">「孔雀魚品系純、色澤漂亮，真心推薦。」</div>
-                <div class="review-item">「出貨包裝很仔細，黑貓隔日抵達很有保障。」</div>
-                <div class="review-item">「這是我見過最用心的水族館老闆。」</div>
-            </div>
+    <div class="reviews-section">
+        <div class="title">⭐️ 顧客五星好評彈幕中 ⭐️</div>
+        <div class="danmaku-lane">
+            <span class="danmaku-item">「魚隻非常健康，帶回家後適應極快！」</span>
+            <span class="danmaku-item">「宇哥解說很專業，對新手非常有耐心。」</span>
+            <span class="danmaku-item">「店內環境非常乾淨，完全沒有異味。」</span>
+            <span class="danmaku-item">「孔雀魚品系純、色澤漂亮，真心推薦。」</span>
+            <span class="danmaku-item">「出貨包裝很仔細，黑貓隔日抵達很有保障。」</span>
+            <span class="danmaku-item">「這是我見過最用心的水族館老闆。」</span>
+            <span class="danmaku-item">「魚缸周邊工具很好用，隔離杯大推！」</span>
+            <span class="danmaku-item">「在這裡學到很多養魚細節，少走很多冤枉路。」</span>
+        </div>
+        <div class="danmaku-lane">
+            <span class="danmaku-item">「老闆人很好，教學非常仔細。」</span>
+            <span class="danmaku-item">「魚兒狀態極佳，值得信賴的好店家！」</span>
+            <span class="danmaku-item">「環境明亮整潔，是個舒服的選魚空間。」</span>
+            <span class="danmaku-item">「品項多樣，每次來都有新發現。」</span>
+            <span class="danmaku-item">「從諮詢到售後都超棒，大推宇魚水族！」</span>
+            <span class="danmaku-item">「買了幾次魚都沒失望，真的有在用心經營。」</span>
+        </div>
+        <div class="danmaku-lane">
+            <span class="danmaku-item">「老闆專業度滿分，魚隻健康有活力！」</span>
+            <span class="danmaku-item">「推薦給想養孔雀魚的朋友，來這就對了！」</span>
+            <span class="danmaku-item">「商品齊全，連稀有品種都有，很厲害！」</span>
+            <span class="danmaku-item">「對魚的照顧很有熱情，值得學習。」</span>
+            <span class="danmaku-item">「網路購買也一樣安心，包裝很棒。」</span>
+            <span class="danmaku-item">「不只賣魚，還提供很多實用建議！」</span>
+        </div>
+         <div class="danmaku-lane">
+            <span class="danmaku-item">「魚隻非常健康，帶回家後適應極快！」</span>
+            <span class="danmaku-item">「宇哥解說很專業，對新手非常有耐心。」</span>
+            <span class="danmaku-item">「店內環境非常乾淨，完全沒有異味。」</span>
+            <span class="danmaku-item">「孔雀魚品系純、色澤漂亮，真心推薦。」</span>
+            <span class="danmaku-item">「出貨包裝很仔細，黑貓隔日抵達很有保障。」</span>
+            <span class="danmaku-item">「這是我見過最用心的水族館老闆。」</span>
         </div>
     </div>
 
