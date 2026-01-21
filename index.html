@@ -20,33 +20,31 @@
             position: relative;
         }
 
-        /* --- 新增：強化版動態氣泡 Start --- */
+        /* --- 背景動態氣泡 Start (修復版) --- */
         .bg-bubbles {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            z-index: -1; 
+            z-index: 0; /* 修改：設為 0，確保在背景之上，但在內容之下 */
             overflow: hidden;
-            pointer-events: none;
+            pointer-events: none; /* 確保點擊穿透 */
         }
         .bg-bubbles li {
             position: absolute;
             list-style: none;
             display: block;
-            bottom: -150px; /* 從更深處冒出來 */
+            bottom: -150px; 
             border-radius: 50%;
-            
-            /* 修改：氣泡質感優化 (中空、光澤感) */
+            /* 氣泡質感：中空帶光澤 */
             background: radial-gradient(circle at 70% 30%, rgba(255, 255, 255, 0.4), rgba(255, 255, 255, 0) 60%);
-            border: 1px solid rgba(255, 255, 255, 0.15); /* 淡淡的氣泡壁 */
-            box-shadow: inset 0 0 10px rgba(255, 255, 255, 0.05); /* 內部光暈 */
-            
+            border: 1px solid rgba(255, 255, 255, 0.15); 
+            box-shadow: inset 0 0 10px rgba(255, 255, 255, 0.05); 
             animation: rise infinite linear;
         }
 
-        /* 個別氣泡設定：速度變快 (原本 20-40s -> 改為 8-25s) */
+        /* 舊有的氣泡設定 */
         .bg-bubbles li:nth-child(1) { left: 10%; width: 40px; height: 40px; animation-duration: 12s; animation-delay: 0s; }
         .bg-bubbles li:nth-child(2) { left: 20%; width: 20px; height: 20px; animation-duration: 18s; animation-delay: 2s; }
         .bg-bubbles li:nth-child(3) { left: 25%; width: 30px; height: 30px; animation-duration: 14s; animation-delay: 4s; }
@@ -57,29 +55,26 @@
         .bg-bubbles li:nth-child(8) { left: 55%; width: 15px; height: 15px; animation-duration: 25s; animation-delay: 10s; }
         .bg-bubbles li:nth-child(9) { left: 25%; width: 10px; height: 10px; animation-duration: 18s; animation-delay: 2s; }
         .bg-bubbles li:nth-child(10) { left: 90%; width: 45px; height: 45px; animation-duration: 17s; animation-delay: 6s; }
-        /* 新增更多小氣泡，增加層次感 */
         .bg-bubbles li:nth-child(11) { left: 65%; width: 12px; height: 12px; animation-duration: 9s; animation-delay: 4s; }
         .bg-bubbles li:nth-child(12) { left: 15%; width: 18px; height: 18px; animation-duration: 13s; animation-delay: 8s; }
         .bg-bubbles li:nth-child(13) { left: 85%; width: 22px; height: 22px; animation-duration: 11s; animation-delay: 1s; }
+        
+        /* 新增：額外 7 顆氣泡 (總數 20)，填補電腦版空隙 */
+        .bg-bubbles li:nth-child(14) { left: 5%; width: 35px; height: 35px; animation-duration: 22s; animation-delay: 5s; }
+        .bg-bubbles li:nth-child(15) { left: 95%; width: 28px; height: 28px; animation-duration: 19s; animation-delay: 2s; }
+        .bg-bubbles li:nth-child(16) { left: 45%; width: 15px; height: 15px; animation-duration: 15s; animation-delay: 9s; }
+        .bg-bubbles li:nth-child(17) { left: 60%; width: 55px; height: 55px; animation-duration: 24s; animation-delay: 3s; opacity: 0.4; }
+        .bg-bubbles li:nth-child(18) { left: 75%; width: 20px; height: 20px; animation-duration: 16s; animation-delay: 6s; }
+        .bg-bubbles li:nth-child(19) { left: 35%; width: 40px; height: 40px; animation-duration: 21s; animation-delay: 1s; }
+        .bg-bubbles li:nth-child(20) { left: 50%; width: 10px; height: 10px; animation-duration: 12s; animation-delay: 5s; }
 
         @keyframes rise {
-            0% {
-                transform: translateY(0) rotate(0deg) translateX(0);
-                opacity: 0;
-            }
-            10% {
-                opacity: 0.8;
-            }
-            50% {
-                /* 加入一點左右搖擺，模擬水流 */
-                transform: translateY(-50vh) rotate(180deg) translateX(15px); 
-            }
-            100% {
-                transform: translateY(-120vh) rotate(360deg) translateX(-15px);
-                opacity: 0;
-            }
+            0% { transform: translateY(0) rotate(0deg) translateX(0); opacity: 0; }
+            10% { opacity: 0.8; }
+            50% { transform: translateY(-50vh) rotate(180deg) translateX(15px); }
+            100% { transform: translateY(-120vh) rotate(360deg) translateX(-15px); opacity: 0; }
         }
-        /* --- 強化版動態氣泡 End --- */
+        /* --- 背景動態氣泡 End --- */
 
         .yuyu-announcement-bar {
             background-color: #ffe100; 
@@ -89,10 +84,11 @@
             font-size: 15px;
             font-weight: 700;
             width: 100%;
-            z-index: 10000;
+            z-index: 10000; /* 確保公告在最上層 */
             box-sizing: border-box;
             box-shadow: 0 2px 8px rgba(0,0,0,0.3);
             line-height: 1.5;
+            position: relative;
         }
 
         .main-container {
@@ -103,6 +99,8 @@
             align-items: center;
             box-sizing: border-box;
             max-width: 100%;
+            z-index: 10; /* 修改：確保內容層級高於氣泡(0) */
+            position: relative;
         }
 
         .avatar { 
@@ -112,14 +110,12 @@
             border: 3px solid #64ffda; 
             margin-bottom: 20px;
             box-shadow: 0 0 25px rgba(100, 255, 218, 0.4); 
-            z-index: 2; 
         }
         h1 { 
             font-size: 26px; 
             margin: 10px 0; 
             letter-spacing: 1px; 
             text-shadow: 0 0 10px rgba(100, 255, 218, 0.3); 
-            z-index: 2;
         }
         
         .description { 
@@ -129,10 +125,8 @@
             line-height: 1.8;
             font-size: 15px;
             font-weight: 500;
-            z-index: 2;
         }
 
-        /* 亮亮按鈕樣式 - 毛玻璃效果 */
         .link-card { 
             width: 100%; 
             max-width: 380px; 
@@ -152,7 +146,6 @@
             display: block;
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); 
             box-sizing: border-box; 
-            z-index: 2;
         }
         .link-card:hover { 
             background: rgba(100, 255, 218, 0.15); 
@@ -160,7 +153,6 @@
             box-shadow: 0 0 25px rgba(100, 255, 218, 0.4); 
         }
 
-        /* 店址資訊區塊 */
         .info-section { 
             width: 100%; 
             max-width: 380px; 
@@ -174,7 +166,6 @@
             border: 1px solid rgba(51, 78, 104, 0.8);
             margin-bottom: 30px;
             box-sizing: border-box;
-            z-index: 2;
         }
         .info-title { 
             color: #f0f4f8; 
@@ -188,7 +179,6 @@
         .highlight { color: #ffbc00; font-weight: bold; }
         p { color: #bcccdc; line-height: 1.6; }
 
-        /* 顧客好評區塊 */
         .reviews-section {
             width: 100%;
             max-width: 480px;
@@ -204,7 +194,6 @@
             overflow: hidden; 
             height: 260px; 
             box-sizing: border-box;
-            z-index: 2;
         }
         .reviews-section .title {
             font-size: 18px;
@@ -246,15 +235,54 @@
             100% { transform: translateX(-50%); }
         }
 
+        /* 社群 Icon 區塊樣式 */
+        .social-icons-container {
+            display: flex;
+            justify-content: center;
+            gap: 25px; 
+            margin-top: 30px;
+            margin-bottom: 10px;
+        }
+        
+        .social-link {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: rgba(100, 255, 218, 0.1);
+            border: 1px solid rgba(100, 255, 218, 0.4);
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); 
+            text-decoration: none;
+        }
+
+        .social-link svg {
+            width: 24px;
+            height: 24px;
+            fill: #64ffda; 
+            transition: fill 0.3s ease;
+        }
+
+        .social-link:hover {
+            background: rgba(100, 255, 218, 0.25);
+            transform: scale(1.15) translateY(-5px); 
+            box-shadow: 0 0 15px rgba(100, 255, 218, 0.6);
+            border-color: #64ffda;
+        }
+        
+        .social-link:hover svg {
+            fill: #ffffff; 
+        }
+
         .counter-section {
-            margin-top: 40px;
+            margin-top: 30px;
             margin-bottom: 40px;
             text-align: center;
             border-top: 1px solid rgba(255, 255, 255, 0.1);
             padding-top: 20px;
             width: 100%;
             max-width: 380px;
-            z-index: 2;
         }
         .counter-text {
             color: #9fb3c8;
@@ -279,19 +307,10 @@
 </head>
 <body>
     <ul class="bg-bubbles">
-        <li></li>
-        <li></li>
-        <li></li>
-        <li></li>
-        <li></li>
-        <li></li>
-        <li></li>
-        <li></li>
-        <li></li>
-        <li></li>
-        <li></li>
-        <li></li>
-        <li></li>
+        <li></li><li></li><li></li><li></li><li></li>
+        <li></li><li></li><li></li><li></li><li></li>
+        <li></li><li></li><li></li><li></li><li></li>
+        <li></li><li></li><li></li><li></li><li></li>
     </ul>
 
     <div class="yuyu-announcement-bar">
@@ -338,7 +357,7 @@
                 <span class="danmaku-item">鬥魚漂亮又健康！老闆親切解釋，還會針對魚缸問題做建議，專業！</span>
                 <span class="danmaku-item">魚隻健康有活力，帶回家後適應極快！</span>
             </div>
-
+            
             <div class="danmaku-lane lane-2">
                 <span class="danmaku-item">三合院中非常有特色，好停車又好逛！老闆介紹詳細不強推。</span>
                 <span class="danmaku-item">這裡的鬥魚種類很多很可愛，老闆很用心照顧，還有辦活動教育孩子。</span>
@@ -348,7 +367,7 @@
                 <span class="danmaku-item">老闆專業度滿分，推薦想入坑的朋友來找宇哥。</span>
             </div>
 
-            <div class="danmaku-lane lane-3">
+             <div class="danmaku-lane lane-3">
                 <span class="danmaku-item">老闆超親切！店內有熱情小狗和柯爾鴨，氣氛愉快適合帶小孩來。</span>
                 <span class="danmaku-item">新手大推！老闆先了解預算風格，教我處理水質，鬥魚牆超好互動。</span>
                 <span class="danmaku-item">出貨包裝很仔細，黑貓隔日抵達很有保障。</span>
@@ -365,6 +384,20 @@
                 <span class="danmaku-item">不只是賣魚，還提供很多實用建議，少走很多冤枉路。</span>
                 <span class="danmaku-item">環境明亮整潔，是個舒服的選魚空間。</span>
             </div>
+        </div>
+
+        <div class="social-icons-container">
+            <a href="https://www.facebook.com/yuyuguppy" target="_blank" class="social-link" aria-label="Facebook">
+                <svg viewBox="0 0 24 24"><path d="M9.9 20h2.5v-7h2.3l.4-3h-2.7V8.5c0-.8.2-1.3 1.3-1.3h1.4V4.7c-.2 0-1.1-.1-2.1-.1-2.1 0-3.5 1.3-3.5 3.7v2H7v3h2.9v7z" fill-rule="evenodd" clip-rule="evenodd"/></svg>
+            </a>
+            
+            <a href="https://www.instagram.com/yuyu_guppy_" target="_blank" class="social-link" aria-label="Instagram">
+                <svg viewBox="0 0 24 24"><path d="M12 2.2c3.2 0 3.6 0 4.8.1 1.2.1 1.9.3 2.3.5.5.2.9.5 1.3.9s.7.8.9 1.3c.2.4.4 1.1.5 2.3.1 1.2.1 1.6.1 4.8s0 3.6-.1 4.8c-.1 1.2-.3 1.9-.5 2.3-.2.5-.5.9-.9 1.3s-.8.7-1.3.9c-.4.2-1.1.4-2.3.5-1.2.1-1.6.1-4.8.1s-3.6 0-4.8-.1c-1.2-.1-1.9-.3-2.3-.5-.5-.2-.9-.5-1.3-.9s-.7-.8-.9-1.3c-.2-.4-.4-1.1-.5-2.3-.1-1.2-.1-1.6-.1-4.8s0-3.6.1-4.8c.1-1.2.3-1.9.5-2.3.2-.5.5-.9.9-1.3s.8-.7 1.3-.9c.4-.2 1.1-.4 2.3-.5 1.2-.1 1.6-.1 4.8-.1zm0-2.2c-3.3 0-3.7 0-5 .1-1.3.1-2.2.3-3 .6-.8.3-1.5.8-2.1 1.4-.6.6-1.1 1.3-1.4 2.1-.3.8-.5 1.7-.6 3-.1 1.3-.1 1.7-.1 5s0 3.7.1 5c.1 1.3.3 2.2.6 3 .3.8.8 1.5 1.4 2.1.6.6 1.3 1.1 2.1 1.4.8.3 1.7.5 3 .6 1.3.1 1.7.1 5 .1s3.7 0 5-.1c1.3-.1 2.2-.3 3-.6.8-.3 1.5-.8 2.1-1.4.6-.6 1.1-1.3 1.4-2.1.3-.8.5-1.7.6-3 .1-1.3.1-1.7.1-5s0-3.7-.1-5c-.1-1.3-.3-2.2-.6-3-.3-.8-.8-1.5-1.4-2.1-.6-.6-1.3-1.1-2.1-1.4-.8-.3-1.7-.5-3-.6-1.3-.1-1.7-.1-5-.1zm0 5.8c-3.4 0-6.2 2.8-6.2 6.2s2.8 6.2 6.2 6.2 6.2-2.8 6.2-6.2-2.8-6.2-6.2-6.2zm0 10.2c-2.2 0-4-1.8-4-4s1.8-4 4-4 4 1.8 4 4-1.8 4-4 4zm6.4-10.4c0 .8-.6 1.4-1.4 1.4-.8 0-1.4-.6-1.4-1.4 0-.8.6-1.4 1.4-1.4.8 0 1.4.6 1.4 1.4z"/></svg>
+            </a>
+            
+            <a href="https://www.tiktok.com/@yuyuguppy" target="_blank" class="social-link" aria-label="TikTok">
+                <svg viewBox="0 0 24 24"><path d="M12.5 0v17c0 3.3-2.7 6-6 6s-6-2.7-6-6 2.7-6 6-6c.6 0 1.1.1 1.7.2V17c-.5-.1-1-.2-1.7-.2-1.7 0-3 1.3-3 3s1.3 3 3 3 3-1.3 3-3V6.5h4.2c.2 2.4 2.1 4.2 4.5 4.5v-4c-1.8-.2-3.2-1.6-3.4-3.5h-2.3z"/></svg>
+            </a>
         </div>
 
         <div class="counter-section">
