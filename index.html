@@ -28,7 +28,7 @@
         .description { 
             text-align: center; 
             color: #9fb3c8; 
-            margin-bottom: 35px; 
+            margin-bottom: 30px; 
             line-height: 1.8;
             font-size: 15px;
         }
@@ -53,42 +53,6 @@
             transform: translateY(-3px);
         }
 
-        /* 跑馬燈樣式 */
-        .review-container {
-            width: 100%;
-            max-width: 380px;
-            overflow: hidden;
-            background: rgba(100, 255, 218, 0.05);
-            border-radius: 12px;
-            margin: 20px 0;
-            padding: 15px 0;
-            border: 1px solid rgba(100, 255, 218, 0.1);
-        }
-        .review-title {
-            text-align: center;
-            font-size: 14px;
-            color: #64ffda;
-            margin-bottom: 10px;
-            font-weight: bold;
-        }
-        .marquee {
-            display: flex;
-            width: 200%;
-            animation: scroll 20s linear infinite;
-        }
-        .review-item {
-            flex: 1;
-            padding: 0 20px;
-            font-size: 13px;
-            color: #bcccdc;
-            text-align: center;
-            white-space: nowrap;
-        }
-        @keyframes scroll {
-            0% { transform: translateX(0); }
-            100% { transform: translateX(-50%); }
-        }
-
         .info-section { 
             width: 100%; 
             max-width: 380px; 
@@ -98,12 +62,51 @@
             margin-top: 20px; 
             font-size: 14px;
             border: 1px solid #334e68;
+            margin-bottom: 30px;
         }
         .info-title { color: #f0f4f8; font-weight: bold; margin-bottom: 12px; font-size: 16px; border-left: 4px solid #64ffda; padding-left: 10px; }
-        .address-link { color: #64ffda; text-decoration: none; }
-        .address-link:hover { text-decoration: underline; }
+        .address-link { color: #64ffda; text-decoration: none; font-weight: bold; }
         .highlight { color: #ffbc00; font-weight: bold; }
         p { color: #bcccdc; line-height: 1.6; }
+
+        /* 放大版好評區塊 (置底) */
+        .review-container {
+            width: 100%;
+            max-width: 420px;
+            overflow: hidden;
+            background: rgba(100, 255, 218, 0.1);
+            border-radius: 16px;
+            margin-top: 10px;
+            padding: 25px 0;
+            border: 1px solid rgba(100, 255, 218, 0.2);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+        }
+        .review-title {
+            text-align: center;
+            font-size: 16px;
+            color: #64ffda;
+            margin-bottom: 15px;
+            font-weight: bold;
+            letter-spacing: 1px;
+        }
+        .marquee {
+            display: flex;
+            width: 200%;
+            animation: scroll 25s linear infinite;
+        }
+        .review-item {
+            flex: 1;
+            padding: 0 30px;
+            font-size: 15px; /* 放大字體 */
+            color: #ffffff;
+            text-align: center;
+            white-space: nowrap;
+            font-style: italic;
+        }
+        @keyframes scroll {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
     </style>
 </head>
 <body>
@@ -115,18 +118,6 @@
         讓水族成為您生活中最療癒的風景
     </div>
 
-    <div class="review-container">
-        <div class="review-title">⭐️ Google 五星好評推薦 ⭐️</div>
-        <div class="marquee">
-            <div class="review-item">「老闆專業度滿分，魚隻健康有活力！」</div>
-            <div class="review-item">「店內環境乾淨，推薦想入坑的朋友來找宇哥」</div>
-            <div class="review-item">「孔雀魚品質真的沒話說，買得很放心」</div>
-            <div class="review-item">「老闆專業度滿分，魚隻健康有活力！」</div>
-            <div class="review-item">「店內環境乾淨，推薦想入坑的朋友來找宇哥」</div>
-            <div class="review-item">「孔雀魚品質真的沒話說，買得很放心」</div>
-        </div>
-    </div>
-
     <a href="https://myship.7-11.com.tw/general/detail/GM2312087898760" target="_blank" class="link-card">🛒 常溫周邊賣場 (隔離杯/飼料)</a>
     <a href="https://myship.7-11.com.tw/general/detail/GM2404054052893" target="_blank" class="link-card">❄️ 冷凍飼料賣場 (豐年蝦幼蟲)</a>
     <a href="https://www.facebook.com/yuyuguppy" target="_blank" class="link-card">💬 私訊粉專 (詢問純品系孔雀魚)</a>
@@ -134,8 +125,8 @@
     <div class="info-section">
         <div class="info-title">店址資訊</div>
         <p>
-            <a href="https://maps.app.goo.gl/9R6q5P3N6pYp4fG87" target="_blank" class="address-link">
-                📍 新竹縣新埔鎮義民路二段630巷9號 (點擊導航)
+            <a href="https://www.google.com/maps/search/?api=1&query=宇魚水族+新竹縣新埔鎮義民路二段630巷9號" target="_blank" class="address-link">
+                📍 新竹縣新埔鎮義民路二段630巷9號<br>(點我開啟 Google 地圖導航 🚗)
             </a>
         </p>
         <div class="info-title">營業時間</div>
@@ -144,5 +135,20 @@
         <div class="info-title">重要公告</div>
         <p class="highlight">✈️ 3/14 - 3/18 泰國考察店休</p>
     </div>
+
+    <div class="review-container">
+        <div class="review-title">⭐️ 顧客五星真心推薦 ⭐️</div>
+        <div class="marquee">
+            <div class="review-item">「老闆專業度滿分，魚隻健康有活力！」</div>
+            <div class="review-item">「店內環境乾淨，推薦想入坑的朋友來找宇哥」</div>
+            <div class="review-item">「孔雀魚品質真的沒話說，買得很放心」</div>
+            <div class="review-item">「老闆很客氣，教了很多養魚的小撇步！」</div>
+            <div class="review-item">「老闆專業度滿分，魚隻健康有活力！」</div>
+            <div class="review-item">「店內環境乾淨，推薦想入坑的朋友來找宇哥」</div>
+            <div class="review-item">「孔雀魚品質真的沒話說，買得很放心」</div>
+            <div class="review-item">「老闆很客氣，教了很多養魚的小撇步！」</div>
+        </div>
+    </div>
+
 </body>
 </html>
