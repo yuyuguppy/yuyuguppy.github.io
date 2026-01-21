@@ -72,17 +72,17 @@
         /* B站彈幕好評區塊樣式 */
         .reviews-section {
             width: 100%;
-            max-width: 480px; /* 彈幕區塊寬度 */
+            max-width: 480px;
             margin-top: 30px;
             padding: 25px 0;
-            background: rgba(100, 255, 218, 0.08); /* 稍微深一點的背景 */
+            background: rgba(100, 255, 218, 0.08);
             border-radius: 16px;
             border: 1px solid rgba(100, 255, 218, 0.15);
             box-shadow: 0 6px 20px rgba(0,0,0,0.4);
             text-align: center;
             position: relative;
-            overflow: hidden; /* 確保超出部分隱藏 */
-            height: 180px; /* 彈幕區塊高度 */
+            overflow: hidden;
+            height: 200px;
         }
         .reviews-section .title {
             font-size: 18px;
@@ -93,7 +93,7 @@
         }
         .danmaku-lane {
             position: absolute;
-            left: 100%; /* 從右邊開始 */
+            left: 100%;
             white-space: nowrap;
             animation-name: danmaku-scroll;
             animation-timing-function: linear;
@@ -102,23 +102,45 @@
             color: #ffffff;
             padding: 2px 0;
         }
-        /* 定義多條彈幕軌道位置和速度 */
-        .danmaku-lane:nth-child(1) { top: 45px; animation-duration: 18s; }
-        .danmaku-lane:nth-child(2) { top: 75px; animation-duration: 22s; animation-delay: -5s; color: #b3e0ff; } /* 顏色和延遲讓效果更豐富 */
-        .danmaku-lane:nth-child(3) { top: 105px; animation-duration: 20s; animation-delay: -10s; }
-        .danmaku-lane:nth-child(4) { top: 135px; animation-duration: 24s; animation-delay: -15s; color: #ffefb3; } /* 顏色和延遲讓效果更豐富 */
+        .danmaku-lane:nth-child(1) { top: 45px; animation-duration: 25s; }
+        .danmaku-lane:nth-child(2) { top: 80px; animation-duration: 30s; animation-delay: -5s; color: #b3e0ff; }
+        .danmaku-lane:nth-child(3) { top: 115px; animation-duration: 28s; animation-delay: -10s; }
+        .danmaku-lane:nth-child(4) { top: 150px; animation-duration: 35s; animation-delay: -15s; color: #ffefb3; }
         
         .danmaku-item {
             display: inline-block;
-            margin-right: 80px; /* 評論之間的間距 */
-            padding: 4px 8px;
-            background: rgba(255, 255, 255, 0.15);
-            border-radius: 5px;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+            margin-right: 100px;
+            padding: 6px 12px;
+            background: rgba(255, 255, 255, 0.12);
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
         }
         @keyframes danmaku-scroll {
             0% { transform: translateX(0); }
-            100% { transform: translateX(-150%); } /* 讓評論完全跑出左邊 */
+            100% { transform: translateX(-250%); }
+        }
+
+        /* 底部計日器樣式 */
+        .counter-section {
+            margin-top: 40px;
+            margin-bottom: 20px;
+            text-align: center;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding-top: 20px;
+            width: 100%;
+            max-width: 380px;
+        }
+        .counter-text {
+            color: #9fb3c8;
+            font-size: 16px;
+            letter-spacing: 1px;
+        }
+        #days-count {
+            color: #64ffda;
+            font-size: 24px;
+            font-weight: bold;
+            margin: 0 5px;
+            text-shadow: 0 0 10px rgba(100, 255, 218, 0.5);
         }
     </style>
 </head>
@@ -138,8 +160,8 @@
     <div class="info-section">
         <div class="info-title">店址資訊</div>
         <p>
-            <a href="http://googleusercontent.com/maps.google.com/3" target="_blank" class="address-link">
-                📍 新竹縣新埔鎮義民路二段630巷9號<br>(點我開啟 Google 地圖導航 🚗)
+            <a href="https://maps.google.com/?q=新竹縣新埔鎮義民路二段630巷9號" target="_blank" class="address-link">
+                📍 新竹縣新埔鎮義民路二段630巷9號<br>(三合院內，點我開啟導航 🚗)
             </a>
         </p>
         <div class="info-title">營業時間</div>
@@ -152,40 +174,43 @@
     <div class="reviews-section">
         <div class="title">⭐️ 顧客五星好評彈幕中 ⭐️</div>
         <div class="danmaku-lane">
-            <span class="danmaku-item">「魚隻非常健康，帶回家後適應極快！」</span>
-            <span class="danmaku-item">「宇哥解說很專業，對新手非常有耐心。」</span>
-            <span class="danmaku-item">「店內環境非常乾淨，完全沒有異味。」</span>
-            <span class="danmaku-item">「孔雀魚品系純、色澤漂亮，真心推薦。」</span>
-            <span class="danmaku-item">「出貨包裝很仔細，黑貓隔日抵達很有保障。」</span>
-            <span class="danmaku-item">「這是我見過最用心的水族館老闆。」</span>
-            <span class="danmaku-item">「魚缸周邊工具很好用，隔離杯大推！」</span>
-            <span class="danmaku-item">「在這裡學到很多養魚細節，少走很多冤枉路。」</span>
+            <span class="danmaku-item">「孔雀魚種類很齊全健康度都顧的很好，老闆會挑選自己喜歡的品系去做繁殖育種！」</span>
+            <span class="danmaku-item">「戶外還有一區繁殖場專門來繁殖孔雀、茉莉。」</span>
+            <span class="danmaku-item">「老闆很有耐心會完整介紹並且詳細說明，不會強硬推銷。」</span>
         </div>
         <div class="danmaku-lane">
-            <span class="danmaku-item">「老闆人很好，教學非常仔細。」</span>
-            <span class="danmaku-item">「魚兒狀態極佳，值得信賴的好店家！」</span>
-            <span class="danmaku-item">「環境明亮整潔，是個舒服的選魚空間。」</span>
-            <span class="danmaku-item">「品項多樣，每次來都有新發現。」</span>
-            <span class="danmaku-item">「從諮詢到售後都超棒，大推宇魚水族！」</span>
-            <span class="danmaku-item">「買了幾次魚都沒失望，真的有在用心經營。」</span>
+            <span class="danmaku-item">「完整設計鬥魚牆可以看到魚隻展鰭的不同面貌，美翻了！」</span>
+            <span class="danmaku-item">「鬥魚都很漂亮又健康！老闆親切解釋我們不懂的地方，推推！」</span>
+            <span class="danmaku-item">「老闆會針對魚缸可能的問題做建議，十分專業。」</span>
         </div>
         <div class="danmaku-lane">
-            <span class="danmaku-item">「老闆專業度滿分，魚隻健康有活力！」</span>
-            <span class="danmaku-item">「推薦給想養孔雀魚的朋友，來這就對了！」</span>
-            <span class="danmaku-item">「商品齊全，連稀有品種都有，很厲害！」</span>
-            <span class="danmaku-item">「對魚的照顧很有熱情，值得學習。」</span>
-            <span class="danmaku-item">「網路購買也一樣安心，包裝很棒。」</span>
-            <span class="danmaku-item">「不只賣魚，還提供很多實用建議！」</span>
+            <span class="danmaku-item">「我是新手，老闆教我怎麼循序增加魚隻、處理水質問題，超受用。」</span>
+            <span class="danmaku-item">「這裡是在一個三合院中，非常有特色，好停車又好逛！」</span>
+            <span class="danmaku-item">「老闆不會硬推銷，反而會先了解你想要的風格跟預算。」</span>
         </div>
-         <div class="danmaku-lane">
-            <span class="danmaku-item">「魚隻非常健康，帶回家後適應極快！」</span>
-            <span class="danmaku-item">「宇哥解說很專業，對新手非常有耐心。」</span>
-            <span class="danmaku-item">「店內環境非常乾淨，完全沒有異味。」</span>
-            <span class="danmaku-item">「孔雀魚品系純、色澤漂亮，真心推薦。」</span>
-            <span class="danmaku-item">「出貨包裝很仔細，黑貓隔日抵達很有保障。」</span>
-            <span class="danmaku-item">「這是我見過最用心的水族館老闆。」</span>
+        <div class="danmaku-lane">
+            <span class="danmaku-item">「有辦活動讓孩子們認識魚類和善待動物，很棒的學習！」</span>
+            <span class="danmaku-item">「環境舒適、氣氛愉快，還有熱情可愛的小狗和柯爾鴨！」</span>
+            <span class="danmaku-item">「不同種類價格都標示得很清楚，店狗店鴨也超級可愛。」</span>
         </div>
     </div>
+
+    <div class="counter-section">
+        <div class="counter-text">
+            宇魚伴游第 <span id="days-count">0</span> 個日子
+        </div>
+    </div>
+
+    <script>
+        function calculateDays() {
+            const startDate = new Date('2024-10-01');
+            const today = new Date();
+            const timeDiff = today - startDate;
+            const daysDiff = Math.floor(timeDiff / (1000 * 60 * 60 * 24));
+            document.getElementById('days-count').innerText = daysDiff;
+        }
+        calculateDays();
+    </script>
 
 </body>
 </html>
