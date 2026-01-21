@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>宇魚水族 - 魚隻專區</title>
+    <style>
+        /* 保持一致的深海風格 */
+        body { 
+            background: linear-gradient(180deg, #0d253f 0%, #03101f 100%); 
+            color: #f0f4f8; 
+            font-family: "PingFang TC", "Heiti TC", "Microsoft JhengHei", sans-serif; 
+            display: flex; 
+            flex-direction: column; 
+            align-items: center; 
+            padding: 40px 20px; 
+            margin: 0;
+            min-height: 100vh;
+        }
+        .avatar-small { 
+            width: 80px; 
+            height: 80px; 
+            border-radius: 50%; 
+            border: 2px solid #64ffda; 
+            margin-bottom: 15px;
+            box-shadow: 0 0 15px rgba(100, 255, 218, 0.4); 
+        }
+        h1 { font-size: 24px; margin: 5px 0 25px 0; letter-spacing: 1px; color: #64ffda; text-shadow: 0 0 10px rgba(100, 255, 218, 0.3); }
+
+        /* 分類按鈕樣式 */
+        .category-btn { 
+            width: 100%; 
+            max-width: 380px; 
+            background: rgba(100, 255, 218, 0.08); 
+            border: 1px solid rgba(100, 255, 218, 0.6); 
+            border-radius: 12px; 
+            padding: 20px; 
+            margin-bottom: 16px; 
+            text-decoration: none; 
+            color: #64ffda; 
+            font-weight: bold;
+            font-size: 18px; /* 字體大一點 */
+            text-shadow: 0 0 8px rgba(100, 255, 218, 0.8); 
+            text-align: center; 
+            transition: all 0.3s ease; 
+            display: block;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3); 
+        }
+        .category-btn:hover { 
+            background: rgba(100, 255, 218, 0.2); 
+            transform: scale(1.02);
+            box-shadow: 0 0 25px rgba(100, 255, 218, 0.5); 
+        }
+
+        /* 返回首頁按鈕 */
+        .back-btn {
+            margin-top: 30px;
+            padding: 10px 20px;
+            border: 1px solid #334e68;
+            border-radius: 20px;
+            background: rgba(255, 255, 255, 0.05);
+            color: #aebccf;
+            text-decoration: none;
+            font-size: 14px;
+            transition: 0.3s;
+        }
+        .back-btn:hover {
+            background: rgba(255, 255, 255, 0.15);
+            color: #fff;
+        }
+    </style>
+</head>
+<body>
+    <img src="logo.jpg" alt="宇魚水族" class="avatar-small">
+    <h1>🐠 魚隻專區</h1>
+
+    <a href="#" class="category-btn">🦚 精品孔雀魚</a>
+    <a href="#" class="category-btn">🌼 茉莉 / 球魚</a>
+    <a href="#" class="category-btn">🦐 觀賞米蝦</a>
+    <a href="#" class="category-btn">🧹 底棲 / 鼠魚</a>
+
+    <a href="index.html" class="back-btn">🏠 返回首頁</a>
+</body>
+</html>
