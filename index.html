@@ -6,6 +6,7 @@
     <title>宇魚水族｜孔雀魚專賣店</title>
     <style>
         body { 
+            /* 深海光影背景 */
             background: radial-gradient(circle at 50% 10%, #1a3c5e 0%, #03101f 100%);
             color: #f0f4f8; 
             font-family: "PingFang TC", "Heiti TC", "Microsoft JhengHei", sans-serif; 
@@ -41,7 +42,7 @@
             box-shadow: inset 0 0 10px rgba(255, 255, 255, 0.05); 
             animation: rise infinite linear;
         }
-        /* 氣泡參數保持原樣 */
+        /* 氣泡設定 */
         .bg-bubbles li:nth-child(1) { left: 10%; width: 40px; height: 40px; animation-duration: 12s; animation-delay: 0s; }
         .bg-bubbles li:nth-child(2) { left: 20%; width: 20px; height: 20px; animation-duration: 18s; animation-delay: 2s; }
         .bg-bubbles li:nth-child(3) { left: 25%; width: 30px; height: 30px; animation-duration: 14s; animation-delay: 4s; }
@@ -388,21 +389,29 @@
             border-color: #64ffda;
         }
 
-        /* 島輝大頭貼樣式 */
-        .daohui-head {
-            width: 45px;
-            height: 45px;
-            border-radius: 50%;
-            object-fit: cover;
-            border: 2px solid #64ffda; /* 螢光綠邊框 */
+        /* 修改：島輝圖片樣式 (移除圓形裁切，改為圓角矩形) */
+        .daohui-dog-img {
+            width: 50px;  /* 稍微加大寬度 */
+            height: auto; /* 高度自動維持比例 */
+            border-radius: 8px; /* 輕微圓角 */
             margin-bottom: 5px;
-            box-shadow: 0 0 10px rgba(100, 255, 218, 0.3);
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            transition: transform 0.3s ease;
+        }
+        
+        /* 箭頭圖示樣式 */
+        .back-to-top-arrow {
+            width: 20px;
+            height: 20px;
+            fill: #64ffda;
+            margin-bottom: 2px;
             transition: transform 0.3s ease;
         }
 
-        /* 滑鼠移上去，島輝會晃動 */
-        .back-to-top:hover .daohui-head {
-            transform: rotate(10deg) scale(1.1); 
+        /* 滑鼠移上去的動畫效果 */
+        .back-to-top:hover .daohui-dog-img,
+        .back-to-top:hover .back-to-top-arrow {
+            transform: translateY(-3px); 
         }
 
         @media (max-width: 768px) {
@@ -416,9 +425,8 @@
                 padding: 6px 10px;
                 font-size: 11px;
             }
-            .daohui-head {
-                width: 38px;
-                height: 38px;
+            .daohui-dog-img {
+                width: 40px;
             }
         }
     </style>
@@ -531,8 +539,9 @@
     </div> 
 
     <div id="backToTop" class="back-to-top" onclick="scrollToTop()">
-        <img src="daohui.jpg" alt="島輝" class="daohui-head">
-        回到最頂端
+        <img src="daohui.jpg" alt="島輝" class="daohui-dog-img">
+        <svg class="back-to-top-arrow" viewBox="0 0 24 24"><path d="M12 4l-8 8h6v8h4v-8h6z"/></svg>
+        <span>回到最頂端</span>
     </div>
 
     <script>
