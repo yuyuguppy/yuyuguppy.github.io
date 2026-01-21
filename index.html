@@ -69,7 +69,7 @@
         .highlight { color: #ffbc00; font-weight: bold; }
         p { color: #bcccdc; line-height: 1.6; }
 
-        /* B站彈幕好評區塊樣式 */
+        /* B站彈幕好評區塊樣式 - 放慢速度版 */
         .reviews-section {
             width: 100%;
             max-width: 480px;
@@ -82,7 +82,7 @@
             text-align: center;
             position: relative;
             overflow: hidden;
-            height: 200px;
+            height: 220px;
         }
         .reviews-section .title {
             font-size: 18px;
@@ -102,28 +102,29 @@
             color: #ffffff;
             padding: 2px 0;
         }
-        .danmaku-lane:nth-child(1) { top: 45px; animation-duration: 25s; }
-        .danmaku-lane:nth-child(2) { top: 80px; animation-duration: 30s; animation-delay: -5s; color: #b3e0ff; }
-        .danmaku-lane:nth-child(3) { top: 115px; animation-duration: 28s; animation-delay: -10s; }
-        .danmaku-lane:nth-child(4) { top: 150px; animation-duration: 35s; animation-delay: -15s; color: #ffefb3; }
+        /* 進一步放慢速度 (35s - 50s) */
+        .danmaku-lane:nth-child(1) { top: 45px; animation-duration: 40s; }
+        .danmaku-lane:nth-child(2) { top: 85px; animation-duration: 50s; animation-delay: -7s; color: #b3e0ff; }
+        .danmaku-lane:nth-child(3) { top: 125px; animation-duration: 45s; animation-delay: -15s; }
+        .danmaku-lane:nth-child(4) { top: 165px; animation-duration: 55s; animation-delay: -22s; color: #ffefb3; }
         
         .danmaku-item {
             display: inline-block;
-            margin-right: 100px;
-            padding: 6px 12px;
+            margin-right: 120px;
+            padding: 8px 15px;
             background: rgba(255, 255, 255, 0.12);
             border-radius: 8px;
             box-shadow: 0 2px 5px rgba(0,0,0,0.2);
         }
         @keyframes danmaku-scroll {
             0% { transform: translateX(0); }
-            100% { transform: translateX(-250%); }
+            100% { transform: translateX(-350%); } 
         }
 
         /* 底部計日器樣式 */
         .counter-section {
             margin-top: 40px;
-            margin-bottom: 20px;
+            margin-bottom: 40px;
             text-align: center;
             border-top: 1px solid rgba(255, 255, 255, 0.1);
             padding-top: 20px;
@@ -137,10 +138,10 @@
         }
         #days-count {
             color: #64ffda;
-            font-size: 24px;
+            font-size: 28px;
             font-weight: bold;
-            margin: 0 5px;
-            text-shadow: 0 0 10px rgba(100, 255, 218, 0.5);
+            margin: 0 8px;
+            text-shadow: 0 0 15px rgba(100, 255, 218, 0.6);
         }
     </style>
 </head>
@@ -174,24 +175,24 @@
     <div class="reviews-section">
         <div class="title">⭐️ 顧客五星好評彈幕中 ⭐️</div>
         <div class="danmaku-lane">
-            <span class="danmaku-item">「孔雀魚種類很齊全健康度都顧的很好，老闆會挑選自己喜歡的品系去做繁殖育種！」</span>
-            <span class="danmaku-item">「戶外還有一區繁殖場專門來繁殖孔雀、茉莉。」</span>
-            <span class="danmaku-item">「老闆很有耐心會完整介紹並且詳細說明，不會強硬推銷。」</span>
+            <span class="danmaku-item">「孔雀魚種類齊全健康度好，老闆會挑選自己喜歡的品系去繁殖育種！」</span>
+            <span class="danmaku-item">「鬥魚漂亮又健康！老闆親切解釋，還會針對魚缸問題做建議，專業！」</span>
+            <span class="danmaku-item">「魚隻健康有活力，帶回家後適應極快！」</span>
         </div>
         <div class="danmaku-lane">
-            <span class="danmaku-item">「完整設計鬥魚牆可以看到魚隻展鰭的不同面貌，美翻了！」</span>
-            <span class="danmaku-item">「鬥魚都很漂亮又健康！老闆親切解釋我們不懂的地方，推推！」</span>
-            <span class="danmaku-item">「老闆會針對魚缸可能的問題做建議，十分專業。」</span>
+            <span class="danmaku-item">「三合院中非常有特色，好停車又好逛！老闆介紹詳細不強推。」</span>
+            <span class="danmaku-item">「這裡的鬥魚種類很多很可愛，老闆很用心照顧，還有辦活動教育孩子。」</span>
+            <span class="danmaku-item">「老闆專業度滿分，推薦想入坑的朋友來找宇哥。」</span>
         </div>
         <div class="danmaku-lane">
-            <span class="danmaku-item">「我是新手，老闆教我怎麼循序增加魚隻、處理水質問題，超受用。」</span>
-            <span class="danmaku-item">「這裡是在一個三合院中，非常有特色，好停車又好逛！」</span>
-            <span class="danmaku-item">「老闆不會硬推銷，反而會先了解你想要的風格跟預算。」</span>
+            <span class="danmaku-item">「老闆超親切！店內有熱情小狗和柯爾鴨，氣氛愉快適合帶小孩來。」</span>
+            <span class="danmaku-item">「新手大推！老闆先了解預算風格，教我處理水質，鬥魚牆超好互動。」</span>
+            <span class="danmaku-item">「出貨包裝很仔細，黑貓隔日抵達很有保障。」</span>
         </div>
         <div class="danmaku-lane">
-            <span class="danmaku-item">「有辦活動讓孩子們認識魚類和善待動物，很棒的學習！」</span>
-            <span class="danmaku-item">「環境舒適、氣氛愉快，還有熱情可愛的小狗和柯爾鴨！」</span>
-            <span class="danmaku-item">「不同種類價格都標示得很清楚，店狗店鴨也超級可愛。」</span>
+            <span class="danmaku-item">「戶外有繁殖場專門育種，可以看到完整設計鬥魚牆展鰭的美貌。」</span>
+            <span class="danmaku-item">「不只是賣魚，還提供很多實用建議，少走很多冤枉路。」</span>
+            <span class="danmaku-item">「環境明亮整潔，是個舒服的選魚空間。」</span>
         </div>
     </div>
 
@@ -203,7 +204,8 @@
 
     <script>
         function calculateDays() {
-            const startDate = new Date('2024-10-01');
+            // 修正為 2023-10-01
+            const startDate = new Date('2023-10-01');
             const today = new Date();
             const timeDiff = today - startDate;
             const daysDiff = Math.floor(timeDiff / (1000 * 60 * 60 * 24));
