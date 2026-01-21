@@ -34,22 +34,19 @@
             font-size: 15px;
         }
 
-        /* 亮亮按鈕樣式 (字體改色 + 發光) */
+        /* 亮亮按鈕樣式 */
         .link-card { 
             width: 100%; 
             max-width: 380px; 
-            background: rgba(100, 255, 218, 0.05); /* 背景稍微淡一點，突顯文字 */
+            background: rgba(100, 255, 218, 0.05); 
             border: 1px solid rgba(100, 255, 218, 0.6); 
             border-radius: 10px; 
             padding: 16px; 
             margin-bottom: 16px; 
             text-decoration: none; 
-            
-            /* 這裡修改字體顏色跟地址一樣，並加上發光 */
             color: #64ffda; 
             font-weight: bold;
-            text-shadow: 0 0 8px rgba(100, 255, 218, 0.8); /* 霓虹光暈 */
-            
+            text-shadow: 0 0 8px rgba(100, 255, 218, 0.8); 
             text-align: center; 
             transition: all 0.3s ease; 
             display: block;
@@ -61,6 +58,7 @@
             box-shadow: 0 0 25px rgba(100, 255, 218, 0.4); 
         }
 
+        /* 店址資訊區塊 (字體加大版) */
         .info-section { 
             width: 100%; 
             max-width: 380px; 
@@ -68,27 +66,42 @@
             border-radius: 12px; 
             padding: 24px; 
             margin-top: 20px; 
-            font-size: 14px;
+            /* 字體加大 */
+            font-size: 16px; 
             border: 1px solid #334e68;
             margin-bottom: 30px;
         }
-        .info-title { color: #f0f4f8; font-weight: bold; margin-bottom: 12px; font-size: 16px; border-left: 4px solid #64ffda; padding-left: 10px; }
+        /* 標題字體也加大 */
+        .info-title { 
+            color: #f0f4f8; 
+            font-weight: bold; 
+            margin-bottom: 12px; 
+            font-size: 18px; 
+            border-left: 4px solid #64ffda; 
+            padding-left: 10px; 
+        }
         .address-link { color: #64ffda; text-decoration: none; font-weight: bold; text-shadow: 0 0 5px rgba(100, 255, 218, 0.4); }
         .highlight { color: #ffbc00; font-weight: bold; }
         p { color: #bcccdc; line-height: 1.6; }
 
-        /* 無縫循環彈幕區 */
+        /* 無縫循環彈幕區 (背景變亮顯眼版) */
         .reviews-section {
             width: 100%;
             max-width: 480px;
             margin-top: 20px;
             padding: 20px 0;
-            background: rgba(0, 0, 0, 0.2);
+            
+            /* 背景改成顯眼的微亮水藍色，不再是暗暗的黑色 */
+            background: rgba(100, 255, 218, 0.1); 
+            /* 邊框加強 */
+            border: 2px solid rgba(100, 255, 218, 0.3); 
+            /* 增加整體發光感 */
+            box-shadow: 0 0 20px rgba(100, 255, 218, 0.1);
+            
             border-radius: 16px;
-            border: 1px solid rgba(100, 255, 218, 0.2);
             position: relative;
             overflow: hidden; 
-            height: 260px; /* 高度足夠放四排 */
+            height: 260px; 
         }
         .reviews-section .title {
             font-size: 18px;
@@ -100,7 +113,6 @@
             text-shadow: 0 0 10px rgba(100, 255, 218, 0.5);
         }
         
-        /* 彈幕軌道容器 */
         .danmaku-lane {
             display: flex;
             width: fit-content;
@@ -110,24 +122,23 @@
             animation: scroll-loop linear infinite;
         }
 
-        /* 四條軌道的不同位置與速度 */
         .danmaku-lane.lane-1 { top: 50px; animation-duration: 45s; }
-        .danmaku-lane.lane-2 { top: 100px; animation-duration: 55s; } /* 慢一點 */
+        .danmaku-lane.lane-2 { top: 100px; animation-duration: 55s; }
         .danmaku-lane.lane-3 { top: 150px; animation-duration: 50s; }
-        .danmaku-lane.lane-4 { top: 200px; animation-duration: 60s; } /* 最慢 */
+        .danmaku-lane.lane-4 { top: 200px; animation-duration: 60s; }
 
         .danmaku-item {
             font-size: 15px;
-            color: #e0e6ed;
+            color: #ffffff; /* 字體改全白，對比更強 */
             padding: 6px 14px;
-            margin-right: 50px; /* 評論之間的間距 */
-            background: rgba(255, 255, 255, 0.08);
+            margin-right: 50px;
+            /* 評論框底色也稍微調亮一點 */
+            background: rgba(255, 255, 255, 0.15);
             border-radius: 20px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
             display: inline-block;
         }
 
-        /* 關鍵動畫：位移 -50% (因為內容複製了一次，移一半剛好接上) */
         @keyframes scroll-loop {
             0% { transform: translateX(0); }
             100% { transform: translateX(-50%); }
@@ -185,7 +196,7 @@
     </div>
 
     <div class="reviews-section">
-        <div class="title">⭐️ 顧客五星好評彈幕中 ⭐️</div>
+        <div class="title">⭐️ 顧客五星好評中 ⭐️</div>
         
         <div class="danmaku-lane lane-1">
             <span class="danmaku-item">孔雀魚種類齊全健康度好，老闆會挑選自己喜歡的品系去繁殖育種！</span>
