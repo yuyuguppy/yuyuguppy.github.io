@@ -58,7 +58,7 @@
             box-shadow: 0 0 25px rgba(100, 255, 218, 0.4); 
         }
 
-        /* 店址資訊區塊 (字體加大版) */
+        /* 店址資訊區塊 */
         .info-section { 
             width: 100%; 
             max-width: 380px; 
@@ -66,12 +66,10 @@
             border-radius: 12px; 
             padding: 24px; 
             margin-top: 20px; 
-            /* 字體加大 */
             font-size: 16px; 
             border: 1px solid #334e68;
             margin-bottom: 30px;
         }
-        /* 標題字體也加大 */
         .info-title { 
             color: #f0f4f8; 
             font-weight: bold; 
@@ -84,20 +82,15 @@
         .highlight { color: #ffbc00; font-weight: bold; }
         p { color: #bcccdc; line-height: 1.6; }
 
-        /* 無縫循環彈幕區 (背景變亮顯眼版) */
+        /* 顧客好評區塊 */
         .reviews-section {
             width: 100%;
             max-width: 480px;
             margin-top: 20px;
             padding: 20px 0;
-            
-            /* 背景改成顯眼的微亮水藍色，不再是暗暗的黑色 */
             background: rgba(100, 255, 218, 0.1); 
-            /* 邊框加強 */
             border: 2px solid rgba(100, 255, 218, 0.3); 
-            /* 增加整體發光感 */
             box-shadow: 0 0 20px rgba(100, 255, 218, 0.1);
-            
             border-radius: 16px;
             position: relative;
             overflow: hidden; 
@@ -129,10 +122,9 @@
 
         .danmaku-item {
             font-size: 15px;
-            color: #ffffff; /* 字體改全白，對比更強 */
+            color: #ffffff; 
             padding: 6px 14px;
             margin-right: 50px;
-            /* 評論框底色也稍微調亮一點 */
             background: rgba(255, 255, 255, 0.15);
             border-radius: 20px;
             border: 1px solid rgba(255, 255, 255, 0.2);
@@ -177,6 +169,8 @@
         讓水族成為您生活中最療癒的風景
     </div>
 
+    <a href="fish.html" class="link-card">🐠 魚隻專區 (孔雀魚、茉莉)</a>
+    
     <a href="https://myship.7-11.com.tw/general/detail/GM2312087898760" target="_blank" class="link-card">🛒 常溫周邊賣場 (隔離杯/飼料)</a>
     <a href="https://myship.7-11.com.tw/general/detail/GM2404054052893" target="_blank" class="link-card">❄️ 冷凍飼料賣場 (豐年蝦幼蟲)</a>
     <a href="https://www.facebook.com/yuyuguppy" target="_blank" class="link-card">💬 私訊粉專 (詢問純品系孔雀魚)</a>
@@ -243,7 +237,6 @@
 
     <script>
         function calculateDays() {
-            // 設定為 2023-10-01
             const startDate = new Date('2023-10-01');
             const today = new Date();
             const timeDiff = today - startDate;
