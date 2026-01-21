@@ -72,7 +72,7 @@
         /* 放大版好評區塊 (置底) */
         .review-container {
             width: 100%;
-            max-width: 420px;
+            max-width: 450px;
             overflow: hidden;
             background: rgba(100, 255, 218, 0.1);
             border-radius: 16px;
@@ -89,15 +89,17 @@
             font-weight: bold;
             letter-spacing: 1px;
         }
+        .marquee-wrapper {
+            display: flex;
+            width: fit-content;
+        }
         .marquee {
             display: flex;
-            width: 200%;
-            animation: scroll 25s linear infinite;
+            animation: scroll 40s linear infinite;
         }
         .review-item {
-            flex: 1;
-            padding: 0 30px;
-            font-size: 15px; /* 放大字體 */
+            padding: 0 40px;
+            font-size: 15px;
             color: #ffffff;
             text-align: center;
             white-space: nowrap;
@@ -138,15 +140,23 @@
 
     <div class="review-container">
         <div class="review-title">⭐️ 顧客五星真心推薦 ⭐️</div>
-        <div class="marquee">
-            <div class="review-item">「老闆專業度滿分，魚隻健康有活力！」</div>
-            <div class="review-item">「店內環境乾淨，推薦想入坑的朋友來找宇哥」</div>
-            <div class="review-item">「孔雀魚品質真的沒話說，買得很放心」</div>
-            <div class="review-item">「老闆很客氣，教了很多養魚的小撇步！」</div>
-            <div class="review-item">「老闆專業度滿分，魚隻健康有活力！」</div>
-            <div class="review-item">「店內環境乾淨，推薦想入坑的朋友來找宇哥」</div>
-            <div class="review-item">「孔雀魚品質真的沒話說，買得很放心」</div>
-            <div class="review-item">「老闆很客氣，教了很多養魚的小撇步！」</div>
+        <div class="marquee-wrapper">
+            <div class="marquee">
+                <div class="review-item">「魚隻非常健康，帶回家後適應極快！」</div>
+                <div class="review-item">「宇哥解說很專業，對新手非常有耐心。」</div>
+                <div class="review-item">「店內環境非常乾淨，完全沒有異味。」</div>
+                <div class="review-item">「孔雀魚品系純、色澤漂亮，真心推薦。」</div>
+                <div class="review-item">「出貨包裝很仔細，黑貓隔日抵達很有保障。」</div>
+                <div class="review-item">「這是我見過最用心的水族館老闆。」</div>
+                <div class="review-item">「魚缸周邊工具很好用，隔離杯大推！」</div>
+                <div class="review-item">「在這裡學到很多養魚細節，少走很多冤枉路。」</div>
+                <div class="review-item">「魚隻非常健康，帶回家後適應極快！」</div>
+                <div class="review-item">「柏哥解說很專業，對新手非常有耐心。」</div>
+                <div class="review-item">「店內環境非常乾淨，完全沒有異味。」</div>
+                <div class="review-item">「孔雀魚品系純、色澤漂亮，真心推薦。」</div>
+                <div class="review-item">「出貨包裝很仔細，黑貓隔日抵達很有保障。」</div>
+                <div class="review-item">「這是我見過最用心的水族館老闆。」</div>
+            </div>
         </div>
     </div>
 
