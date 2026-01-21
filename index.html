@@ -6,7 +6,6 @@
     <title>宇魚水族｜孔雀魚專賣店</title>
     <style>
         body { 
-            /* 背景調亮一點點：從深藍黑調為深海藍漸層 */
             background: linear-gradient(180deg, #102a43 0%, #051626 100%); 
             color: #f0f4f8; 
             font-family: "PingFang TC", "Heiti TC", "Microsoft JhengHei", sans-serif; 
@@ -36,7 +35,6 @@
         .link-card { 
             width: 100%; 
             max-width: 380px; 
-            /* 按鈕背景稍微亮一點點增加通透感 */
             background: rgba(255, 255, 255, 0.08); 
             border: 1px solid #334e68; 
             border-radius: 8px; 
@@ -54,6 +52,43 @@
             border-color: #64ffda; 
             transform: translateY(-3px);
         }
+
+        /* 跑馬燈樣式 */
+        .review-container {
+            width: 100%;
+            max-width: 380px;
+            overflow: hidden;
+            background: rgba(100, 255, 218, 0.05);
+            border-radius: 12px;
+            margin: 20px 0;
+            padding: 15px 0;
+            border: 1px solid rgba(100, 255, 218, 0.1);
+        }
+        .review-title {
+            text-align: center;
+            font-size: 14px;
+            color: #64ffda;
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+        .marquee {
+            display: flex;
+            width: 200%;
+            animation: scroll 20s linear infinite;
+        }
+        .review-item {
+            flex: 1;
+            padding: 0 20px;
+            font-size: 13px;
+            color: #bcccdc;
+            text-align: center;
+            white-space: nowrap;
+        }
+        @keyframes scroll {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+
         .info-section { 
             width: 100%; 
             max-width: 380px; 
@@ -65,6 +100,8 @@
             border: 1px solid #334e68;
         }
         .info-title { color: #f0f4f8; font-weight: bold; margin-bottom: 12px; font-size: 16px; border-left: 4px solid #64ffda; padding-left: 10px; }
+        .address-link { color: #64ffda; text-decoration: none; }
+        .address-link:hover { text-decoration: underline; }
         .highlight { color: #ffbc00; font-weight: bold; }
         p { color: #bcccdc; line-height: 1.6; }
     </style>
@@ -78,13 +115,29 @@
         讓水族成為您生活中最療癒的風景
     </div>
 
+    <div class="review-container">
+        <div class="review-title">⭐️ Google 五星好評推薦 ⭐️</div>
+        <div class="marquee">
+            <div class="review-item">「老闆專業度滿分，魚隻健康有活力！」</div>
+            <div class="review-item">「店內環境乾淨，推薦想入坑的朋友來找宇哥」</div>
+            <div class="review-item">「孔雀魚品質真的沒話說，買得很放心」</div>
+            <div class="review-item">「老闆專業度滿分，魚隻健康有活力！」</div>
+            <div class="review-item">「店內環境乾淨，推薦想入坑的朋友來找宇哥」</div>
+            <div class="review-item">「孔雀魚品質真的沒話說，買得很放心」</div>
+        </div>
+    </div>
+
     <a href="https://myship.7-11.com.tw/general/detail/GM2312087898760" target="_blank" class="link-card">🛒 常溫周邊賣場 (隔離杯/飼料)</a>
     <a href="https://myship.7-11.com.tw/general/detail/GM2404054052893" target="_blank" class="link-card">❄️ 冷凍飼料賣場 (豐年蝦幼蟲)</a>
     <a href="https://www.facebook.com/yuyuguppy" target="_blank" class="link-card">💬 私訊粉專 (詢問純品系孔雀魚)</a>
 
     <div class="info-section">
         <div class="info-title">店址資訊</div>
-        <p>新竹縣新埔鎮義民路二段630巷1號</p>
+        <p>
+            <a href="https://maps.app.goo.gl/9R6q5P3N6pYp4fG87" target="_blank" class="address-link">
+                📍 新竹縣新埔鎮義民路二段630巷9號 (點擊導航)
+            </a>
+        </p>
         <div class="info-title">營業時間</div>
         <p>平日：18:00 - 21:00<br>週末：12:00 - 20:00<br>
            <span style="color: #f57d7d;">固定店休：每週一、二、四</span></p>
