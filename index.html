@@ -6,7 +6,7 @@
     <title>宇魚水族｜孔雀魚專賣店</title>
     <style>
         body { 
-            background: linear-gradient(180deg, #102a43 0%, #051626 100%); 
+            background: linear-gradient(180deg, #0d253f 0%, #03101f 100%); 
             color: #f0f4f8; 
             font-family: "PingFang TC", "Heiti TC", "Microsoft JhengHei", sans-serif; 
             display: flex; 
@@ -15,6 +15,7 @@
             padding: 40px 20px; 
             margin: 0;
             min-height: 100vh;
+            overflow-x: hidden; /* 防止手機版左右搖晃 */
         }
         .avatar { 
             width: 110px; 
@@ -22,41 +23,48 @@
             border-radius: 50%; 
             border: 3px solid #64ffda; 
             margin-bottom: 20px;
-            box-shadow: 0 4px 20px rgba(100, 255, 218, 0.3);
+            box-shadow: 0 0 25px rgba(100, 255, 218, 0.4); /* 頭像也加強發光 */
         }
-        h1 { font-size: 26px; margin: 10px 0; letter-spacing: 1px; }
+        h1 { font-size: 26px; margin: 10px 0; letter-spacing: 1px; text-shadow: 0 0 10px rgba(100, 255, 218, 0.3); }
         .description { 
             text-align: center; 
-            color: #9fb3c8; 
+            color: #aebccf; 
             margin-bottom: 30px; 
             line-height: 1.8;
             font-size: 15px;
         }
+
+        /* 亮亮按鈕樣式 (修復版) */
         .link-card { 
             width: 100%; 
             max-width: 380px; 
-            background: rgba(255, 255, 255, 0.08); 
-            border: 1px solid #334e68; 
-            border-radius: 8px; 
+            /* 背景調亮，增加通透感 */
+            background: rgba(100, 255, 218, 0.12); 
+            /* 邊框調亮 */
+            border: 1px solid rgba(100, 255, 218, 0.5); 
+            border-radius: 10px; 
             padding: 16px; 
             margin-bottom: 16px; 
             text-decoration: none; 
-            color: #64ffda; 
+            color: #ffffff; /* 字體改全白更亮 */
             text-align: center; 
             transition: all 0.3s ease; 
             display: block;
-            font-weight: 500;
+            font-weight: bold;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); /* 增加立體感 */
+            text-shadow: 0 1px 2px rgba(0,0,0,0.5);
         }
         .link-card:hover { 
-            background: rgba(100, 255, 218, 0.15); 
+            background: rgba(100, 255, 218, 0.25); 
             border-color: #64ffda; 
             transform: translateY(-3px);
+            box-shadow: 0 0 20px rgba(100, 255, 218, 0.4); /* 滑鼠碰到時發光 */
         }
 
         .info-section { 
             width: 100%; 
             max-width: 380px; 
-            background: rgba(16, 42, 67, 0.6); 
+            background: rgba(16, 42, 67, 0.8); 
             border-radius: 12px; 
             padding: 24px; 
             margin-top: 20px; 
@@ -69,56 +77,63 @@
         .highlight { color: #ffbc00; font-weight: bold; }
         p { color: #bcccdc; line-height: 1.6; }
 
-        /* B站彈幕好評區塊樣式 - 放慢速度版 */
+        /* B站彈幕修復版 */
         .reviews-section {
             width: 100%;
             max-width: 480px;
-            margin-top: 30px;
-            padding: 25px 0;
-            background: rgba(100, 255, 218, 0.08);
+            margin-top: 20px;
+            padding: 20px 0;
+            background: rgba(0, 0, 0, 0.2); /* 稍微壓暗背景讓文字清楚 */
             border-radius: 16px;
-            border: 1px solid rgba(100, 255, 218, 0.15);
-            box-shadow: 0 6px 20px rgba(0,0,0,0.4);
-            text-align: center;
+            border: 1px solid rgba(100, 255, 218, 0.2);
             position: relative;
-            overflow: hidden;
-            height: 220px;
+            overflow: hidden; /* 關鍵：隱藏超出範圍 */
+            height: 240px; /* 拉高一點避免重疊 */
         }
         .reviews-section .title {
             font-size: 18px;
             color: #64ffda;
-            margin-bottom: 15px;
+            margin-bottom: 10px;
             font-weight: bold;
             letter-spacing: 1px;
+            text-align: center;
+        }
+        .danmaku-container {
+            position: relative;
+            width: 100%;
+            height: 100%;
         }
         .danmaku-lane {
             position: absolute;
-            left: 100%;
-            white-space: nowrap;
+            left: 100%; /* 起點在螢幕右側外 */
+            display: flex;
+            width: max-content; /* 關鍵：寬度隨內容撐開 */
             animation-name: danmaku-scroll;
             animation-timing-function: linear;
             animation-iteration-count: infinite;
-            font-size: 14px;
-            color: #ffffff;
-            padding: 2px 0;
         }
-        /* 進一步放慢速度 (35s - 50s) */
-        .danmaku-lane:nth-child(1) { top: 45px; animation-duration: 40s; }
-        .danmaku-lane:nth-child(2) { top: 85px; animation-duration: 50s; animation-delay: -7s; color: #b3e0ff; }
-        .danmaku-lane:nth-child(3) { top: 125px; animation-duration: 45s; animation-delay: -15s; }
-        .danmaku-lane:nth-child(4) { top: 165px; animation-duration: 55s; animation-delay: -22s; color: #ffefb3; }
         
+        /* 四條軌道設定 */
+        .danmaku-lane:nth-child(1) { top: 0px; animation-duration: 45s; }
+        .danmaku-lane:nth-child(2) { top: 50px; animation-duration: 55s; animation-delay: -5s; }
+        .danmaku-lane:nth-child(3) { top: 100px; animation-duration: 48s; animation-delay: -15s; }
+        .danmaku-lane:nth-child(4) { top: 150px; animation-duration: 60s; animation-delay: -25s; }
+
         .danmaku-item {
-            display: inline-block;
-            margin-right: 120px;
-            padding: 8px 15px;
-            background: rgba(255, 255, 255, 0.12);
-            border-radius: 8px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            font-size: 15px;
+            color: #e0e6ed;
+            padding: 6px 14px;
+            margin-right: 60px; /* 評論間距 */
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            white-space: nowrap; /* 關鍵：不准換行 */
         }
+
+        /* 動畫邏輯：從右邊跑到很遠的左邊，確保長文完全消失 */
         @keyframes danmaku-scroll {
             0% { transform: translateX(0); }
-            100% { transform: translateX(-350%); } 
+            100% { transform: translateX(-200%); } /* 如果文字被切斷，這裡可以改成 -300% */
         }
 
         /* 底部計日器樣式 */
@@ -174,25 +189,31 @@
 
     <div class="reviews-section">
         <div class="title">⭐️ 顧客五星好評彈幕中 ⭐️</div>
-        <div class="danmaku-lane">
-            <span class="danmaku-item">「孔雀魚種類齊全健康度好，老闆會挑選自己喜歡的品系去繁殖育種！」</span>
-            <span class="danmaku-item">「鬥魚漂亮又健康！老闆親切解釋，還會針對魚缸問題做建議，專業！」</span>
-            <span class="danmaku-item">「魚隻健康有活力，帶回家後適應極快！」</span>
-        </div>
-        <div class="danmaku-lane">
-            <span class="danmaku-item">「三合院中非常有特色，好停車又好逛！老闆介紹詳細不強推。」</span>
-            <span class="danmaku-item">「這裡的鬥魚種類很多很可愛，老闆很用心照顧，還有辦活動教育孩子。」</span>
-            <span class="danmaku-item">「老闆專業度滿分，推薦想入坑的朋友來找宇哥。」</span>
-        </div>
-        <div class="danmaku-lane">
-            <span class="danmaku-item">「老闆超親切！店內有熱情小狗和柯爾鴨，氣氛愉快適合帶小孩來。」</span>
-            <span class="danmaku-item">「新手大推！老闆先了解預算風格，教我處理水質，鬥魚牆超好互動。」</span>
-            <span class="danmaku-item">「出貨包裝很仔細，黑貓隔日抵達很有保障。」</span>
-        </div>
-        <div class="danmaku-lane">
-            <span class="danmaku-item">「戶外有繁殖場專門育種，可以看到完整設計鬥魚牆展鰭的美貌。」</span>
-            <span class="danmaku-item">「不只是賣魚，還提供很多實用建議，少走很多冤枉路。」</span>
-            <span class="danmaku-item">「環境明亮整潔，是個舒服的選魚空間。」</span>
+        <div class="danmaku-container">
+            <div class="danmaku-lane">
+                <span class="danmaku-item">孔雀魚種類齊全健康度好，老闆會挑選自己喜歡的品系去繁殖育種！</span>
+                <span class="danmaku-item">鬥魚漂亮又健康！老闆親切解釋，還會針對魚缸問題做建議，專業！</span>
+                <span class="danmaku-item">魚隻健康有活力，帶回家後適應極快！</span>
+                <span class="danmaku-item">孔雀魚種類齊全健康度好，老闆會挑選自己喜歡的品系去繁殖育種！</span>
+            </div>
+            <div class="danmaku-lane">
+                <span class="danmaku-item">三合院中非常有特色，好停車又好逛！老闆介紹詳細不強推。</span>
+                <span class="danmaku-item">這裡的鬥魚種類很多很可愛，老闆很用心照顧，還有辦活動教育孩子。</span>
+                <span class="danmaku-item">老闆專業度滿分，推薦想入坑的朋友來找宇哥。</span>
+                <span class="danmaku-item">三合院中非常有特色，好停車又好逛！</span>
+            </div>
+            <div class="danmaku-lane">
+                <span class="danmaku-item">老闆超親切！店內有熱情小狗和柯爾鴨，氣氛愉快適合帶小孩來。</span>
+                <span class="danmaku-item">新手大推！老闆先了解預算風格，教我處理水質，鬥魚牆超好互動。</span>
+                <span class="danmaku-item">出貨包裝很仔細，黑貓隔日抵達很有保障。</span>
+                <span class="danmaku-item">老闆超親切！店內有熱情小狗和柯爾鴨。</span>
+            </div>
+            <div class="danmaku-lane">
+                <span class="danmaku-item">戶外有繁殖場專門育種，可以看到完整設計鬥魚牆展鰭的美貌。</span>
+                <span class="danmaku-item">不只是賣魚，還提供很多實用建議，少走很多冤枉路。</span>
+                <span class="danmaku-item">環境明亮整潔，是個舒服的選魚空間。</span>
+                <span class="danmaku-item">戶外有繁殖場專門育種，超美！</span>
+            </div>
         </div>
     </div>
 
@@ -204,7 +225,6 @@
 
     <script>
         function calculateDays() {
-            // 修正為 2023-10-01
             const startDate = new Date('2023-10-01');
             const today = new Date();
             const timeDiff = today - startDate;
@@ -213,6 +233,5 @@
         }
         calculateDays();
     </script>
-
 </body>
 </html>
