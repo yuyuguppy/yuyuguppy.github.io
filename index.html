@@ -350,30 +350,25 @@
             text-shadow: 0 0 15px rgba(100, 255, 218, 0.6);
         }
 
-        /* --- 修正版：島輝回到頂部按鈕樣式 --- */
+        /* --- 最終版：島輝無框懸浮按鈕樣式 --- */
         .back-to-top {
             position: fixed;
-            bottom: 30px;
-            right: 25px;
-            background: rgba(16, 42, 67, 0.85); /* 深藍底色 */
-            color: #64ffda; 
-            border: 1px solid rgba(100, 255, 218, 0.5);
-            padding: 8px 12px;
-            border-radius: 16px;
-            cursor: pointer;
+            bottom: 20px;
+            right: 20px;
+            /* 移除背景和邊框，只保留定位 */
+            background: none; 
+            border: none;
+            padding: 0;
+            /* Flex 排版 */
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: center;
-            font-size: 12px;
-            font-weight: bold;
+            cursor: pointer;
             z-index: 9999;
+            /* 隱藏機制 */
             opacity: 0; 
             visibility: hidden;
             transition: all 0.4s ease;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
-            backdrop-filter: blur(4px);
-            -webkit-backdrop-filter: blur(4px);
         }
 
         .back-to-top.show {
@@ -382,36 +377,33 @@
             transform: translateY(0);
         }
 
-        .back-to-top:hover {
-            background: rgba(100, 255, 218, 0.15);
-            transform: translateY(-5px);
-            box-shadow: 0 0 20px rgba(100, 255, 218, 0.5);
-            border-color: #64ffda;
-        }
-
-        /* 修改：島輝圖片樣式 (移除圓形裁切，改為圓角矩形) */
+        /* 圖片樣式：加大，加陰影，像貼紙一樣 */
         .daohui-dog-img {
-            width: 50px;  /* 稍微加大寬度 */
-            height: auto; /* 高度自動維持比例 */
-            border-radius: 8px; /* 輕微圓角 */
-            margin-bottom: 5px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-            transition: transform 0.3s ease;
-        }
-        
-        /* 箭頭圖示樣式 */
-        .back-to-top-arrow {
-            width: 20px;
-            height: 20px;
-            fill: #64ffda;
-            margin-bottom: 2px;
+            width: 60px; /* 加大尺寸 */
+            height: auto;
+            border-radius: 8px; /* 輕微圓角，保留方形構圖 */
+            /* 加上螢光綠細邊框，增加辨識度 */
+            border: 2px solid #64ffda; 
+            /* 加上強烈陰影，製造懸浮感 */
+            box-shadow: 0 4px 10px rgba(0,0,0,0.6);
             transition: transform 0.3s ease;
         }
 
-        /* 滑鼠移上去的動畫效果 */
-        .back-to-top:hover .daohui-dog-img,
-        .back-to-top:hover .back-to-top-arrow {
-            transform: translateY(-3px); 
+        /* 文字樣式：確保在深色背景清晰可見 */
+        .back-to-top span {
+            margin-top: 5px;
+            color: #64ffda;
+            font-size: 13px;
+            font-weight: bold;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.8); /* 文字陰影 */
+        }
+
+        /* 滑鼠移上去的特效 */
+        .back-to-top:hover .daohui-dog-img {
+            transform: scale(1.1) rotate(-5deg); /* 放大並歪頭 */
+        }
+        .back-to-top:hover span {
+            color: #ffffff; /* 文字變白 */
         }
 
         @media (max-width: 768px) {
@@ -420,13 +412,14 @@
                 text-align: left; 
             }
             .back-to-top {
-                bottom: 20px;
+                bottom: 15px;
                 right: 15px;
-                padding: 6px 10px;
-                font-size: 11px;
             }
             .daohui-dog-img {
-                width: 40px;
+                width: 50px; /* 手機版稍微縮小一點 */
+            }
+            .back-to-top span {
+                font-size: 11px;
             }
         }
     </style>
@@ -539,8 +532,7 @@
     </div> 
 
     <div id="backToTop" class="back-to-top" onclick="scrollToTop()">
-        <img src="daohui.jpg" alt="島輝" class="daohui-dog-img">
-        <svg class="back-to-top-arrow" viewBox="0 0 24 24"><path d="M12 4l-8 8h6v8h4v-8h6z"/></svg>
+        <img src="daohui.png" alt="島輝" class="daohui-dog-img">
         <span>回到最頂端</span>
     </div>
 
