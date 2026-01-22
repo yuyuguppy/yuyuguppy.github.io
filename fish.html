@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>魚隻專區｜宇魚水族</title>
     <style>
-        /* --- 全域設定：深海風格 (與首頁一致) --- */
+        /* --- 全域設定：深海風格 --- */
         body { 
             background: radial-gradient(circle at 50% 10%, #1a3c5e 0%, #03101f 100%);
             color: #f0f4f8; 
@@ -16,6 +16,7 @@
             overflow-x: hidden; 
             display: flex;
             flex-direction: column;
+            position: relative;
         }
 
         /* 背景氣泡動畫 */
@@ -27,17 +28,34 @@
             background: radial-gradient(circle at 70% 30%, rgba(255, 255, 255, 0.4), rgba(255, 255, 255, 0) 60%);
             border: 1px solid rgba(255, 255, 255, 0.15); animation: rise infinite linear;
         }
-        /* (氣泡參數省略，與首頁相同，保持視覺一致) */
         .bg-bubbles li:nth-child(1) { left: 10%; width: 40px; height: 40px; animation-duration: 12s; }
         .bg-bubbles li:nth-child(2) { left: 20%; width: 20px; height: 20px; animation-duration: 18s; animation-delay: 2s; }
         .bg-bubbles li:nth-child(3) { left: 70%; width: 50px; height: 50px; animation-duration: 15s; animation-delay: 1s; }
+        .bg-bubbles li:nth-child(4) { left: 40%; width: 30px; height: 30px; animation-duration: 10s; animation-delay: 0s; }
+        .bg-bubbles li:nth-child(5) { left: 85%; width: 20px; height: 20px; animation-duration: 20s; animation-delay: 3s; }
         @keyframes rise {
             0% { transform: translateY(0); opacity: 0; }
             10% { opacity: 0.8; }
             100% { transform: translateY(-120vh); opacity: 0; }
         }
 
-        /* --- 頂部導航 --- */
+        /* --- 1. 置頂公告欄樣式 --- */
+        .yuyu-announcement-bar {
+            background-color: #ffe100; 
+            color: #000000;            
+            text-align: center;
+            padding: 12px 10px;
+            font-size: 15px;
+            font-weight: 700;
+            width: 100%;
+            z-index: 10001; /* 確保在最上層 */
+            box-sizing: border-box;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+            line-height: 1.5;
+            position: relative;
+        }
+
+        /* --- 2. 頂部導航 (Logo + 購物車) --- */
         .top-nav {
             background: rgba(16, 42, 67, 0.9);
             padding: 15px 20px;
@@ -46,14 +64,13 @@
             align-items: center;
             border-bottom: 1px solid #334e68;
             position: sticky;
-            top: 0;
-            z-index: 100;
+            top: 0; /* 黏在頂部，但在公告欄下面 */
+            z-index: 10000;
             backdrop-filter: blur(5px);
         }
         .logo-area { display: flex; align-items: center; gap: 10px; font-weight: bold; font-size: 20px; color: #64ffda; text-decoration: none; }
         .logo-img { width: 40px; height: 40px; border-radius: 50%; border: 2px solid #64ffda; }
         
-        /* 購物車按鈕 */
         .cart-btn {
             position: relative;
             background: #64ffda;
@@ -105,7 +122,7 @@
             border: 1px solid rgba(255, 255, 255, 0.1);
             height: fit-content;
             position: sticky;
-            top: 90px;
+            top: 90px; /* 配合 sticky nav 的高度 */
         }
         .category-btn {
             display: block;
@@ -190,7 +207,7 @@
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
             background: rgba(0,0,0,0.8);
-            z-index: 1000;
+            z-index: 20000; /* 比所有東西都高 */
             justify-content: center;
             align-items: center;
         }
@@ -225,8 +242,58 @@
         .btn-checkout { background: #64ffda; color: #000; }
         .btn-checkout:hover { background: #ffe100; }
 
+        /* --- 3. 島輝回到頂部按鈕 (無框懸浮版) --- */
+        .back-to-top {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: none; 
+            border: none;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            cursor: pointer;
+            z-index: 9999;
+            opacity: 0; 
+            visibility: hidden;
+            transition: all 0.4s ease;
+        }
+
+        .back-to-top.show {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .daohui-dog-img {
+            width: 60px; height: auto;
+            border-radius: 8px;
+            border: 2px solid #64ffda; 
+            box-shadow: 0 4px 10px rgba(0,0,0,0.6);
+            transition: transform 0.3s ease;
+        }
+
+        .back-to-top span {
+            margin-top: 5px;
+            color: #64ffda;
+            font-size: 13px;
+            font-weight: bold;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.8);
+        }
+
+        .back-to-top:hover .daohui-dog-img {
+            transform: scale(1.1) rotate(-5deg);
+        }
+        .back-to-top:hover span {
+            color: #ffffff;
+        }
+
         /* 手機版 RWD */
         @media (max-width: 768px) {
+            .yuyu-announcement-bar {
+                font-size: 13px; text-align: left;
+            }
             .layout-container { flex-direction: column; padding: 0 10px; }
             .sidebar { 
                 width: 100%; 
@@ -234,7 +301,8 @@
                 overflow-x: auto; 
                 padding: 10px; 
                 gap: 10px;
-                top: 70px; /* 手機版導航欄高度 */
+                top: 60px; /* 手機版 Sticky 位置微調 */
+                z-index: 90;
             }
             .category-btn { width: auto; white-space: nowrap; margin-bottom: 0; padding: 8px 15px; }
             .products-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
@@ -242,6 +310,11 @@
             .p-info { padding: 10px; }
             .p-name { font-size: 14px; }
             .p-price { font-size: 16px; }
+            
+            /* 島輝按鈕手機版調整 */
+            .back-to-top { bottom: 15px; right: 15px; }
+            .daohui-dog-img { width: 50px; }
+            .back-to-top span { font-size: 11px; }
         }
     </style>
 </head>
@@ -249,6 +322,10 @@
     <ul class="bg-bubbles">
         <li></li><li></li><li></li><li></li><li></li>
     </ul>
+
+    <div class="yuyu-announcement-bar">
+        🚀 活體訂單2000元免運、常溫賣場660免運、冷凍賣場990免運，最新消息都在IG:@yuyu_guppy_
+    </div>
 
     <nav class="top-nav">
         <a href="index.html" class="logo-area">
@@ -299,6 +376,11 @@
         </div>
     </div>
 
+    <div id="backToTop" class="back-to-top" onclick="scrollToTop()">
+        <img src="daohui.png" alt="島輝" class="daohui-dog-img">
+        <span>回到最頂端</span>
+    </div>
+
     <script>
         // --- 1. 商品資料庫 (請在這裡新增您的魚) ---
         const products = [
@@ -340,7 +422,6 @@
             }
 
             filtered.forEach(p => {
-                // 如果圖片讀不到，顯示預設圖
                 const imgSrc = p.img ? p.img : 'logo.jpg';
                 
                 const html = `
@@ -359,17 +440,14 @@
 
         // 切換分類
         function filterProducts(cat, btn) {
-            // 更新按鈕樣式
             document.querySelectorAll('.category-btn').forEach(b => b.classList.remove('active'));
             btn.classList.add('active');
             
-            // 更新標題
             const titles = {
                 'all': '📌 全部商品', 'guppy': '🐟 孔雀魚專區', 'molly': '🐠 茉莉魚專區',
                 'shrimp': '🦐 米蝦專區', 'bottom': '🐡 底棲魚專區', 'addon': '🥫 加購專區'
             };
             titleDom.innerText = titles[cat];
-
             renderProducts(cat);
         }
 
@@ -384,7 +462,6 @@
                 cart.push({ ...product, qty: 1 });
             }
             updateCartUI();
-            // 簡單提示
             const btn = event.target;
             const originalText = btn.innerText;
             btn.innerText = "✅ 已加入";
@@ -392,11 +469,9 @@
         }
 
         function updateCartUI() {
-            // 更新紅點數字
             const totalCount = cart.reduce((sum, item) => sum + item.qty, 0);
             document.getElementById('cartCount').innerText = totalCount;
 
-            // 更新購物車列表
             const cartItemsContainer = document.getElementById('cartItems');
             const cartTotalContainer = document.getElementById('cartTotal');
             
@@ -430,7 +505,7 @@
         function changeQty(index, delta) {
             cart[index].qty += delta;
             if (cart[index].qty <= 0) {
-                cart.splice(index, 1); // 數量為0移除
+                cart.splice(index, 1);
             }
             updateCartUI();
         }
@@ -460,12 +535,26 @@
 
             message += `------------------\n總金額：NT$ ${total}\n\n請協助確認訂單，謝謝！`;
 
-            // 這裡會開啟 LINE 傳送訊息 (請確保網址正確)
-            // 如果是在電腦版，會開啟 LINE 網頁版或應用程式
-            // 手機版會直接跳轉 LINE App
             const lineUrl = `https://line.me/R/msg/text/?${encodeURIComponent(message)}`;
-            
             window.open(lineUrl, '_blank');
+        }
+
+        // --- 5. 島輝回到頂部功能 ---
+        const backToTopBtn = document.getElementById('backToTop');
+        
+        window.onscroll = function() {
+            if (document.body.scrollTop > 300 || document.documentElement.scrollTop > 300) {
+                backToTopBtn.classList.add('show');
+            } else {
+                backToTopBtn.classList.remove('show');
+            }
+        };
+
+        function scrollToTop() {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
         }
 
         // 初始化
