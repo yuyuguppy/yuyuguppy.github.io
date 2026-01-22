@@ -223,7 +223,7 @@
         @keyframes fadein { from {bottom: 0; opacity: 0;} to {bottom: 80px; opacity: 1;} }
         @keyframes fadeout { from {bottom: 80px; opacity: 1;} to {bottom: 0; opacity: 0;} }
 
-        /* --- 🔥 宇魚專屬：自訂確認視窗 (解決字體大小與複製問題) --- */
+        /* --- 🔥 宇魚專屬：自訂確認視窗 (宇哥親自坐鎮版) --- */
         #orderConfirmModal {
             display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: rgba(0,0,0,0.9); z-index: 30000; justify-content: center; align-items: center;
@@ -236,10 +236,22 @@
         .confirm-title { font-size: 24px; color: #64ffda; font-weight: bold; margin-bottom: 20px; }
         .confirm-msg { color: #fff; font-size: 16px; line-height: 1.6; margin-bottom: 25px; }
         .confirm-highlight { color: #ffe100; font-weight: bold; font-size: 20px; display: block; margin-top: 10px; }
+        
+        /* 宇哥承諾區塊 (加大加粗) */
+        .yuge-promise {
+            color: #ffe100; /* 亮黃色 */
+            font-size: 22px; /* 加大 */
+            font-weight: bold; /* 加粗 */
+            margin-top: 20px;
+            display: block;
+            line-height: 1.5;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.5);
+        }
+
         .confirm-btn {
             background: #64ffda; color: #000; border: none; padding: 15px 30px;
             border-radius: 30px; font-size: 18px; font-weight: bold; cursor: pointer; width: 100%;
-            transition: transform 0.2s;
+            transition: transform 0.2s; margin-top: 20px;
         }
         .confirm-btn:hover { transform: scale(1.05); background: #ffe100; }
         .confirm-cancel {
@@ -382,8 +394,9 @@
                 點擊下方按鈕將跳轉至 LINE<br>
                 <span class="confirm-highlight">請直接【貼上】並【傳送】即可！</span>
                 <br>
-                <span style="color:#64ffda; font-size:14px; margin-top:15px; display:block;">
-                    ✨ 宇哥會親自在 LINE 中提供<br>後續配送進度，請期待收魚喔！ ✨
+                <span class="yuge-promise">
+                    ✨ 宇哥會在 LINE 上親自等您！<br>
+                    確認配送進度，請期待收魚喔！ ✨
                 </span>
             </div>
             <button class="confirm-btn" onclick="finalSubmit()">🚀 前往 LINE 傳送訂單</button>
@@ -415,12 +428,12 @@
         const SHIPPING_COST = 200;
         const FREE_SHIPPING_THRESHOLD = 2000;
         let currentCategory = 'all';
-        let pendingOrderMessage = ""; // 暫存訂單訊息
+        let pendingOrderMessage = ""; 
 
         window.onload = function() {
             init();
             loadCustomerData();
-            toggleBankInfo(); // 初始化時檢查一次付款方式
+            toggleBankInfo(); 
         };
 
         function init() {
@@ -743,10 +756,10 @@
             if (note) message += `備註：${note}\n`;
             message += `\n麻煩確認訂單，謝謝！`;
 
-            // 存入全域變數，供下一步使用
+            // 存入全域變數
             pendingOrderMessage = message;
 
-            // 顯示自訂確認視窗
+            // 顯示確認視窗
             document.getElementById('orderConfirmModal').style.display = 'flex';
         }
 
@@ -755,14 +768,13 @@
             const lineID = "@118rfvyo"; 
             const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
 
-            // 🔥 關鍵：在這裡強制覆蓋剪貼簿 🔥
+            // 🔥 強制覆蓋剪貼簿 🔥
             navigator.clipboard.writeText(pendingOrderMessage).then(() => {
                 console.log("訂單複製成功");
             }).catch(err => {
                 console.error("複製失敗", err);
             });
 
-            // 跳轉邏輯
             let lineUrl = "";
             if (isMobile) {
                 lineUrl = `https://line.me/R/oaMessage/${lineID}/?${encodeURIComponent(pendingOrderMessage)}`;
@@ -770,10 +782,8 @@
                 lineUrl = `https://line.me/R/ti/p/${lineID}`;
             }
             
-            // 延遲一點點跳轉，確保複製動作完成
             setTimeout(() => {
                 window.location.href = lineUrl;
-                // 清理
                 cart = [];
                 updateCartUI();
                 closeCart();
