@@ -39,7 +39,7 @@
             100% { transform: translateY(-120vh); opacity: 0; }
         }
 
-        /* --- 1. 置頂公告欄樣式 --- */
+        /* 公告欄 */
         .yuyu-announcement-bar {
             background-color: #ffe100; 
             color: #000000;            
@@ -48,14 +48,14 @@
             font-size: 15px;
             font-weight: 700;
             width: 100%;
-            z-index: 10001; /* 確保在最上層 */
+            z-index: 10001; 
             box-sizing: border-box;
             box-shadow: 0 2px 8px rgba(0,0,0,0.3);
             line-height: 1.5;
             position: relative;
         }
 
-        /* --- 2. 頂部導航 (Logo + 購物車) --- */
+        /* 頂部導航 */
         .top-nav {
             background: rgba(16, 42, 67, 0.9);
             padding: 15px 20px;
@@ -64,7 +64,7 @@
             align-items: center;
             border-bottom: 1px solid #334e68;
             position: sticky;
-            top: 0; /* 黏在頂部，但在公告欄下面 */
+            top: 0; 
             z-index: 10000;
             backdrop-filter: blur(5px);
         }
@@ -100,7 +100,7 @@
             right: -8px;
         }
 
-        /* --- 主要佈局 (左側選單 + 右側商品) --- */
+        /* 佈局 */
         .layout-container {
             display: flex;
             max-width: 1200px;
@@ -111,7 +111,6 @@
             gap: 20px;
         }
 
-        /* 左側選單 */
         .sidebar {
             width: 200px;
             flex-shrink: 0;
@@ -122,7 +121,7 @@
             border: 1px solid rgba(255, 255, 255, 0.1);
             height: fit-content;
             position: sticky;
-            top: 90px; /* 配合 sticky nav 的高度 */
+            top: 90px; 
         }
         .category-btn {
             display: block;
@@ -145,10 +144,7 @@
             font-weight: bold;
         }
 
-        /* 右側商品區 */
-        .product-area {
-            flex-grow: 1;
-        }
+        .product-area { flex-grow: 1; }
         .section-title {
             font-size: 24px;
             font-weight: bold;
@@ -164,7 +160,6 @@
             gap: 20px;
         }
 
-        /* 商品卡片 */
         .product-card {
             background: rgba(255, 255, 255, 0.05);
             border: 1px solid rgba(255, 255, 255, 0.1);
@@ -201,13 +196,13 @@
         }
         .add-btn:hover { background: #64ffda; color: #000; font-weight: bold; }
 
-        /* --- 購物車彈跳視窗 (Modal) --- */
+        /* --- 購物車 Modal --- */
         .cart-modal {
-            display: none; /* 預設隱藏 */
+            display: none; 
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
             background: rgba(0,0,0,0.8);
-            z-index: 20000; /* 比所有東西都高 */
+            z-index: 20000;
             justify-content: center;
             align-items: center;
         }
@@ -219,7 +214,7 @@
             padding: 20px;
             border: 2px solid #64ffda;
             box-shadow: 0 0 30px rgba(100, 255, 218, 0.3);
-            max-height: 80vh;
+            max-height: 90vh;
             display: flex;
             flex-direction: column;
         }
@@ -227,6 +222,11 @@
         .cart-title { font-size: 20px; font-weight: bold; color: #64ffda; }
         .close-cart { cursor: pointer; font-size: 24px; color: #888; }
         
+        /* 購物車步驟切換 */
+        .step-container { display: none; flex-direction: column; height: 100%; overflow: hidden; }
+        .step-container.active { display: flex; }
+
+        /* 步驟1: 列表 */
         .cart-items { flex-grow: 1; overflow-y: auto; margin-bottom: 15px; }
         .cart-item { display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-bottom: 1px solid rgba(255,255,255,0.1); }
         .ci-name { font-size: 15px; color: #fff; }
@@ -234,94 +234,84 @@
         .ci-btn { background: #334e68; border: none; color: white; width: 25px; height: 25px; border-radius: 5px; cursor: pointer; }
         .ci-qty { min-width: 20px; text-align: center; }
 
-        .cart-footer { border-top: 1px solid #334e68; padding-top: 15px; }
-        .total-price { font-size: 18px; text-align: right; margin-bottom: 15px; color: #ffe100; font-weight: bold; }
+        /* 價格計算區 */
+        .price-summary {
+            background: rgba(0,0,0,0.2);
+            padding: 10px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+        }
+        .summary-row { display: flex; justify-content: space-between; margin-bottom: 5px; font-size: 14px; color: #ccc; }
+        .summary-row.final { border-top: 1px solid #555; padding-top: 8px; margin-top: 8px; font-size: 18px; color: #ffe100; font-weight: bold; }
+        
+        /* 免運提示條 */
+        .free-shipping-alert {
+            background: rgba(255, 59, 48, 0.15);
+            color: #ff4d4d;
+            border: 1px solid #ff4d4d;
+            padding: 8px;
+            text-align: center;
+            border-radius: 5px;
+            font-size: 13px;
+            margin-bottom: 10px;
+        }
+        .free-shipping-success {
+            background: rgba(100, 255, 218, 0.15);
+            color: #64ffda;
+            border: 1px solid #64ffda;
+        }
+
+        /* 步驟2: 表單 */
+        .form-group { margin-bottom: 15px; }
+        .form-label { display: block; margin-bottom: 5px; color: #64ffda; font-size: 14px; }
+        .form-input { 
+            width: 100%; padding: 10px; border-radius: 5px; 
+            border: 1px solid #334e68; background: #03101f; color: white; 
+            box-sizing: border-box;
+        }
+        .form-input:focus { outline: none; border-color: #64ffda; }
+        textarea.form-input { resize: vertical; height: 80px; }
+
+        .cart-footer { margin-top: auto; }
         .cart-actions { display: flex; gap: 10px; }
         .action-btn { flex: 1; padding: 12px; border-radius: 8px; border: none; cursor: pointer; font-weight: bold; font-size: 16px; }
-        .btn-continue { background: #334e68; color: #fff; }
-        .btn-checkout { background: #64ffda; color: #000; }
-        .btn-checkout:hover { background: #ffe100; }
+        .btn-back { background: #334e68; color: #fff; }
+        .btn-next { background: #64ffda; color: #000; }
+        .btn-next:hover { background: #ffe100; }
 
-        /* --- 3. 島輝回到頂部按鈕 (無框懸浮版) --- */
+        /* 無框島輝 */
         .back-to-top {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            background: none; 
-            border: none;
-            padding: 0;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            cursor: pointer;
-            z-index: 9999;
-            opacity: 0; 
-            visibility: hidden;
-            transition: all 0.4s ease;
+            position: fixed; bottom: 20px; right: 20px;
+            background: none; border: none; padding: 0;
+            display: flex; flex-direction: column; align-items: center;
+            cursor: pointer; z-index: 9999;
+            opacity: 0; visibility: hidden; transition: all 0.4s ease;
         }
-
-        .back-to-top.show {
-            opacity: 1;
-            visibility: visible;
-            transform: translateY(0);
-        }
-
+        .back-to-top.show { opacity: 1; visibility: visible; transform: translateY(0); }
         .daohui-dog-img {
-            width: 60px; height: auto;
-            border-radius: 8px;
-            border: 2px solid #64ffda; 
-            box-shadow: 0 4px 10px rgba(0,0,0,0.6);
-            transition: transform 0.3s ease;
+            width: 60px; height: auto; border-radius: 8px; border: 2px solid #64ffda; 
+            box-shadow: 0 4px 10px rgba(0,0,0,0.6); transition: transform 0.3s ease;
         }
+        .back-to-top span { margin-top: 5px; color: #64ffda; font-size: 13px; font-weight: bold; text-shadow: 0 2px 4px rgba(0,0,0,0.8); }
+        .back-to-top:hover .daohui-dog-img { transform: scale(1.1) rotate(-5deg); }
+        .back-to-top:hover span { color: #ffffff; }
 
-        .back-to-top span {
-            margin-top: 5px;
-            color: #64ffda;
-            font-size: 13px;
-            font-weight: bold;
-            text-shadow: 0 2px 4px rgba(0,0,0,0.8);
-        }
-
-        .back-to-top:hover .daohui-dog-img {
-            transform: scale(1.1) rotate(-5deg);
-        }
-        .back-to-top:hover span {
-            color: #ffffff;
-        }
-
-        /* 手機版 RWD */
         @media (max-width: 768px) {
-            .yuyu-announcement-bar {
-                font-size: 13px; text-align: left;
-            }
+            .yuyu-announcement-bar { font-size: 13px; text-align: left; }
             .layout-container { flex-direction: column; padding: 0 10px; }
             .sidebar { 
-                width: 100%; 
-                display: flex; 
-                overflow-x: auto; 
-                padding: 10px; 
-                gap: 10px;
-                top: 60px; /* 手機版 Sticky 位置微調 */
-                z-index: 90;
+                width: 100%; display: flex; overflow-x: auto; 
+                padding: 10px; gap: 10px; top: 60px; z-index: 90;
             }
             .category-btn { width: auto; white-space: nowrap; margin-bottom: 0; padding: 8px 15px; }
             .products-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
-            .p-img { height: 140px; }
-            .p-info { padding: 10px; }
-            .p-name { font-size: 14px; }
-            .p-price { font-size: 16px; }
-            
-            /* 島輝按鈕手機版調整 */
             .back-to-top { bottom: 15px; right: 15px; }
             .daohui-dog-img { width: 50px; }
-            .back-to-top span { font-size: 11px; }
         }
     </style>
 </head>
 <body>
-    <ul class="bg-bubbles">
-        <li></li><li></li><li></li><li></li><li></li>
-    </ul>
+    <ul class="bg-bubbles"><li></li><li></li><li></li><li></li><li></li></ul>
 
     <div class="yuyu-announcement-bar">
         🚀 活體訂單2000元免運、常溫賣場660免運、冷凍賣場990免運，最新消息都在IG:@yuyu_guppy_
@@ -358,19 +348,70 @@
     <div class="cart-modal" id="cartModal">
         <div class="cart-content">
             <div class="cart-header">
-                <div class="cart-title">🛒 您的購物車</div>
+                <div class="cart-title" id="cartTitle">🛒 您的購物車</div>
                 <div class="close-cart" onclick="closeCart()">✕</div>
             </div>
             
-            <div class="cart-items" id="cartItems">
-                <div style="text-align:center; color:#888; padding:20px;">購物車還是空的喔！</div>
+            <div class="step-container active" id="step1">
+                <div class="cart-items" id="cartItems"></div>
+                
+                <div id="priceSummaryArea">
+                    <div id="shippingAlert" class="free-shipping-alert">
+                        還差 <b id="diffAmount">0</b> 元即享免運優惠！
+                    </div>
+                    <div class="price-summary">
+                        <div class="summary-row">
+                            <span>小計</span>
+                            <span>NT$ <span id="subTotal">0</span></span>
+                        </div>
+                        <div class="summary-row">
+                            <span>黑貓運費</span>
+                            <span id="shippingFeeDisplay">NT$ 200</span>
+                        </div>
+                        <div class="summary-row final">
+                            <span>總金額</span>
+                            <span>NT$ <span id="finalTotal">0</span></span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="cart-footer">
+                    <div class="cart-actions">
+                        <button class="action-btn btn-back" onclick="closeCart()">繼續選購</button>
+                        <button class="action-btn btn-next" onclick="goToStep2()">下一步：填寫資料 ➤</button>
+                    </div>
+                </div>
             </div>
 
-            <div class="cart-footer">
-                <div class="total-price">總金額：NT$ <span id="cartTotal">0</span></div>
-                <div class="cart-actions">
-                    <button class="action-btn btn-continue" onclick="closeCart()">繼續選購</button>
-                    <button class="action-btn btn-checkout" onclick="checkout()">馬上結帳 ➤</button>
+            <div class="step-container" id="step2">
+                <div style="flex-grow: 1; overflow-y: auto; padding: 5px;">
+                    <div style="margin-bottom: 20px; font-size: 14px; color: #ccc;">
+                        請填寫收件資訊，送出後將跳轉至 LINE 確認訂單。
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">收件人姓名 <span style="color:red">*</span></label>
+                        <input type="text" id="custName" class="form-input" placeholder="請輸入姓名">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">聯絡電話 <span style="color:red">*</span></label>
+                        <input type="tel" id="custPhone" class="form-input" placeholder="09xxxxxxxx">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">收件地址 <span style="color:red">*</span></label>
+                        <input type="text" id="custAddr" class="form-input" placeholder="縣市/區域/街道巷弄">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">訂單備註</label>
+                        <textarea id="custNote" class="form-input" placeholder="例如：管理室代收、指定時段..."></textarea>
+                    </div>
+                </div>
+
+                <div class="cart-footer">
+                    <div class="cart-actions">
+                        <button class="action-btn btn-back" onclick="goToStep1()">❮ 返回確認</button>
+                        <button class="action-btn btn-next" onclick="submitOrder()">送出訂單 (LINE) ➤</button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -382,39 +423,32 @@
     </div>
 
     <script>
-        // --- 1. 商品資料庫 (請在這裡新增您的魚) ---
+        // --- 商品資料庫 ---
         const products = [
-            // 孔雀魚
             { id: 'g1', name: '全紅白子 (一對)', price: 350, category: 'guppy', img: 'fish1.jpg' },
             { id: 'g2', name: '藍草尾 (一對)', price: 450, category: 'guppy', img: 'fish2.jpg' },
             { id: 'g3', name: '莫斯科藍 (一對)', price: 400, category: 'guppy', img: 'fish3.jpg' },
-            // 茉莉
             { id: 'm1', name: '黑球茉莉 (5隻)', price: 100, category: 'molly', img: 'molly1.jpg' },
             { id: 'm2', name: '銀球茉莉 (5隻)', price: 100, category: 'molly', img: 'molly2.jpg' },
-            // 米蝦
             { id: 's1', name: '極火蝦 (10隻)', price: 200, category: 'shrimp', img: 'shrimp1.jpg' },
             { id: 's2', name: '夢幻藍絲絨 (10隻)', price: 250, category: 'shrimp', img: 'shrimp2.jpg' },
-            // 底棲
             { id: 'b1', name: '熊貓鼠 (一隻)', price: 50, category: 'bottom', img: 'bottom1.jpg' },
             { id: 'b2', name: '小精靈 (一隻)', price: 40, category: 'bottom', img: 'bottom2.jpg' },
-            // 加購
             { id: 'a1', name: '孔雀魚專用飼料', price: 150, category: 'addon', img: 'feed.jpg' },
             { id: 'a2', name: '隔離盒', price: 120, category: 'addon', img: 'box.jpg' },
         ];
 
-        // 購物車陣列
         let cart = [];
+        const SHIPPING_COST = 200;
+        const FREE_SHIPPING_THRESHOLD = 2000;
 
-        // --- 2. 顯示商品功能 ---
+        // 渲染商品
         const container = document.getElementById('productContainer');
         const titleDom = document.getElementById('sectionTitle');
 
         function renderProducts(filterCategory) {
             container.innerHTML = '';
-            
-            const filtered = filterCategory === 'all' 
-                ? products 
-                : products.filter(p => p.category === filterCategory);
+            const filtered = filterCategory === 'all' ? products : products.filter(p => p.category === filterCategory);
 
             if(filtered.length === 0) {
                 container.innerHTML = '<div style="color:#888; grid-column:1/-1; text-align:center;">此分類目前尚無商品</div>';
@@ -423,7 +457,6 @@
 
             filtered.forEach(p => {
                 const imgSrc = p.img ? p.img : 'logo.jpg';
-                
                 const html = `
                     <div class="product-card">
                         <img src="${imgSrc}" class="p-img" alt="${p.name}" onerror="this.src='logo.jpg'">
@@ -438,30 +471,21 @@
             });
         }
 
-        // 切換分類
         function filterProducts(cat, btn) {
             document.querySelectorAll('.category-btn').forEach(b => b.classList.remove('active'));
             btn.classList.add('active');
-            
-            const titles = {
-                'all': '📌 全部商品', 'guppy': '🐟 孔雀魚專區', 'molly': '🐠 茉莉魚專區',
-                'shrimp': '🦐 米蝦專區', 'bottom': '🐡 底棲魚專區', 'addon': '🥫 加購專區'
-            };
+            const titles = { 'all': '📌 全部商品', 'guppy': '🐟 孔雀魚專區', 'molly': '🐠 茉莉魚專區', 'shrimp': '🦐 米蝦專區', 'bottom': '🐡 底棲魚專區', 'addon': '🥫 加購專區' };
             titleDom.innerText = titles[cat];
             renderProducts(cat);
         }
 
-        // --- 3. 購物車功能 ---
+        // 購物車邏輯
         function addToCart(pid) {
             const product = products.find(p => p.id === pid);
             const existItem = cart.find(c => c.id === pid);
-
-            if (existItem) {
-                existItem.qty++;
-            } else {
-                cart.push({ ...product, qty: 1 });
-            }
+            if (existItem) { existItem.qty++; } else { cart.push({ ...product, qty: 1 }); }
             updateCartUI();
+            
             const btn = event.target;
             const originalText = btn.innerText;
             btn.innerText = "✅ 已加入";
@@ -473,19 +497,22 @@
             document.getElementById('cartCount').innerText = totalCount;
 
             const cartItemsContainer = document.getElementById('cartItems');
-            const cartTotalContainer = document.getElementById('cartTotal');
             
             if (cart.length === 0) {
                 cartItemsContainer.innerHTML = '<div style="text-align:center; color:#aaa; padding:20px;">您的購物車是空的 🛒</div>';
-                cartTotalContainer.innerText = '0';
+                document.getElementById('priceSummaryArea').style.display = 'none'; // 隱藏價格計算
+                document.querySelector('.btn-next').style.display = 'none'; // 隱藏下一步
                 return;
+            } else {
+                document.getElementById('priceSummaryArea').style.display = 'block';
+                document.querySelector('.btn-next').style.display = 'block';
             }
 
             let html = '';
-            let totalAmount = 0;
+            let subtotal = 0;
 
             cart.forEach((item, index) => {
-                totalAmount += item.price * item.qty;
+                subtotal += item.price * item.qty;
                 html += `
                     <div class="cart-item">
                         <div class="ci-name">${item.name}<br><small style="color:#64ffda">NT$ ${item.price}</small></div>
@@ -497,51 +524,111 @@
                     </div>
                 `;
             });
-
             cartItemsContainer.innerHTML = html;
-            cartTotalContainer.innerText = totalAmount;
+
+            // --- 運費與總金額計算邏輯 ---
+            const isFreeShipping = subtotal >= FREE_SHIPPING_THRESHOLD;
+            const finalShipping = isFreeShipping ? 0 : SHIPPING_COST;
+            const finalTotal = subtotal + finalShipping;
+
+            // 更新數字
+            document.getElementById('subTotal').innerText = subtotal;
+            document.getElementById('finalTotal').innerText = finalTotal;
+
+            // 更新運費顯示文字
+            const shippingDisplay = document.getElementById('shippingFeeDisplay');
+            if (isFreeShipping) {
+                shippingDisplay.innerHTML = `<span style="text-decoration:line-through; color:#888; margin-right:5px;">NT$ ${SHIPPING_COST}</span> <span style="color:#64ffda">NT$ 0 (免運)</span>`;
+            } else {
+                shippingDisplay.innerHTML = `NT$ ${SHIPPING_COST}`;
+            }
+
+            // 更新湊免運提示條
+            const alertBox = document.getElementById('shippingAlert');
+            if (isFreeShipping) {
+                alertBox.className = 'free-shipping-alert free-shipping-success';
+                alertBox.innerHTML = '🎉 恭喜！您已符合免運資格！';
+            } else {
+                const diff = FREE_SHIPPING_THRESHOLD - subtotal;
+                alertBox.className = 'free-shipping-alert';
+                alertBox.innerHTML = `還差 <b style="font-size:16px;">${diff}</b> 元即享黑貓免運優惠！`;
+            }
         }
 
         function changeQty(index, delta) {
             cart[index].qty += delta;
-            if (cart[index].qty <= 0) {
-                cart.splice(index, 1);
-            }
+            if (cart[index].qty <= 0) cart.splice(index, 1);
             updateCartUI();
         }
 
+        // Modal 操作
         function openCart() {
             document.getElementById('cartModal').style.display = 'flex';
+            goToStep1(); // 每次打開都回到第一步
         }
-
         function closeCart() {
             document.getElementById('cartModal').style.display = 'none';
         }
 
-        // --- 4. 結帳功能 (跳轉 LINE) ---
-        function checkout() {
-            if (cart.length === 0) {
-                alert('購物車是空的喔！');
+        // 步驟切換
+        function goToStep2() {
+            if (cart.length === 0) return;
+            document.getElementById('step1').classList.remove('active');
+            document.getElementById('step2').classList.add('active');
+            document.getElementById('cartTitle').innerText = '📝 填寫收件資料';
+        }
+        function goToStep1() {
+            document.getElementById('step2').classList.remove('active');
+            document.getElementById('step1').classList.add('active');
+            document.getElementById('cartTitle').innerText = '🛒 您的購物車';
+        }
+
+        // 送出訂單 (產生 LINE 訊息)
+        function submitOrder() {
+            // 取得欄位資料
+            const name = document.getElementById('custName').value.trim();
+            const phone = document.getElementById('custPhone').value.trim();
+            const addr = document.getElementById('custAddr').value.trim();
+            const note = document.getElementById('custNote').value.trim();
+
+            if (!name || !phone || !addr) {
+                alert('請完整填寫姓名、電話與地址喔！');
                 return;
             }
 
-            let message = "嗨宇哥！我要訂購以下商品：\n------------------\n";
-            let total = 0;
+            // 計算最終金額
+            let subtotal = cart.reduce((sum, item) => sum + item.price * item.qty, 0);
+            const isFreeShipping = subtotal >= FREE_SHIPPING_THRESHOLD;
+            const shippingFee = isFreeShipping ? 0 : SHIPPING_COST;
+            const finalTotal = subtotal + shippingFee;
 
+            // 組合訊息
+            let message = `嗨宇哥！我要下單：\n`;
+            message += `------------------\n`;
             cart.forEach(item => {
                 message += `${item.name} x ${item.qty} = ${item.price * item.qty}\n`;
-                total += item.price * item.qty;
             });
-
-            message += `------------------\n總金額：NT$ ${total}\n\n請協助確認訂單，謝謝！`;
+            message += `------------------\n`;
+            message += `商品小計：${subtotal}\n`;
+            message += `黑貓運費：${shippingFee} ${isFreeShipping ? '(達標免運)' : ''}\n`;
+            message += `💰 總金額：${finalTotal}\n`;
+            message += `------------------\n`;
+            message += `【收件資訊】\n`;
+            message += `姓名：${name}\n`;
+            message += `電話：${phone}\n`;
+            message += `地址：${addr}\n`;
+            if (note) message += `備註：${note}\n`;
+            message += `\n麻煩確認訂單並給我匯款帳號，謝謝！`;
 
             const lineUrl = `https://line.me/R/msg/text/?${encodeURIComponent(message)}`;
             window.open(lineUrl, '_blank');
+            
+            // 這裡可以選擇是否要清空購物車
+            // cart = []; updateCartUI(); closeCart();
         }
 
-        // --- 5. 島輝回到頂部功能 ---
+        // 回到頂部與島輝
         const backToTopBtn = document.getElementById('backToTop');
-        
         window.onscroll = function() {
             if (document.body.scrollTop > 300 || document.documentElement.scrollTop > 300) {
                 backToTopBtn.classList.add('show');
@@ -549,17 +636,12 @@
                 backToTopBtn.classList.remove('show');
             }
         };
-
         function scrollToTop() {
-            window.scrollTo({
-                top: 0,
-                behavior: 'smooth'
-            });
+            window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
         // 初始化
         renderProducts('all');
-
     </script>
 </body>
 </html>
