@@ -677,7 +677,7 @@
             }
         }
 
-        // --- 送出訂單 (官方帳號專用版) ---
+        // --- 送出訂單 (PC/Mobile 自動判斷 + 文案優化) ---
         function submitOrder() {
             const name = document.getElementById('custName').value.trim();
             const phone = document.getElementById('custPhone').value.trim();
@@ -716,17 +716,31 @@
             if (note) message += `備註：${note}\n`;
             message += `\n麻煩確認訂單，謝謝！`;
 
-            // --- 宇哥官方帳號設定 ---
             const lineID = "@118rfvyo"; 
 
-            // 文案優化：簡單直白
-            if(confirm(`訂單金額：${finalTotal}元\n\n系統已幫您複製訂單內容！📋\n\n按下「確定」後會打開 LINE，\n請直接在對話框【貼上】並【傳送】給我即可！`)) {
-                
+            // 判斷是否為手機裝置
+            const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+
+            // 文案：傻瓜教學版
+            const alertMsg = `訂單金額：${finalTotal}元\n\n系統已幫您複製訂單內容！📋\n\n按下「確定」後會打開 LINE，\n請直接在對話框【貼上】並【傳送】給我即可！`;
+
+            if(confirm(alertMsg)) {
+                // 1. 複製到剪貼簿 (PC/Mobile 都做)
                 navigator.clipboard.writeText(message).then(() => {}).catch(err => {});
 
-                const lineUrl = `https://line.me/R/oaMessage/${lineID}/?${encodeURIComponent(message)}`;
+                // 2. 根據裝置決定跳轉網址
+                let lineUrl = "";
+                if (isMobile) {
+                    // 手機：嘗試自動帶入文字 (oaMessage)
+                    lineUrl = `https://line.me/R/oaMessage/${lineID}/?${encodeURIComponent(message)}`;
+                } else {
+                    // 電腦：打開官方帳號加入/聊天頁面 (讓客人自己貼上)
+                    lineUrl = `https://line.me/R/ti/p/${lineID}`;
+                }
+                
                 window.location.href = lineUrl; 
                 
+                // 3. 清理
                 cart = [];
                 updateCartUI();
                 closeCart();
