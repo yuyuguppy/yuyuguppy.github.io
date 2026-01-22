@@ -316,299 +316,335 @@
     </div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.2/papaparse.min.js"></script>
-    <script>
-        // ==========================================
-        //  宇哥請注意！這裡設定您的 Google 試算表 ID
-        // ==========================================
-        const googleSheetID = "1a0w_rwgHkmewRXDZ1nG1Tiito3qaK9huNO7xzOmc0BI"; 
-        // ==========================================
+// ==========================================
+    //  宇哥請注意！這裡設定您的 Google 試算表 ID
+    // ==========================================
+    const googleSheetID = "1a0w_rwgHkmewRXDZ1nG1Tiito3qaK9huNO7xzOmc0BI"; 
+    // ==========================================
 
-        let products = []; // 從雲端抓資料
-        let cart = [];
-        const SHIPPING_COST = 200;
-        const FREE_SHIPPING_THRESHOLD = 2000;
-        let currentCategory = 'all';
+    // 匯款帳號設定 (請改成您的)
+    const BANK_INFO = {
+        code: "822 (中國信託)",
+        account: "1234-5678-9012" // 改成您的帳號
+    };
 
-        function init() {
-            if (googleSheetID) {
-                document.getElementById('loading').style.display = 'block';
-                const url = `https://docs.google.com/spreadsheets/d/${googleSheetID}/export?format=csv`;
-                
-                Papa.parse(url, {
-                    download: true,
-                    header: true,
-                    complete: function(results) {
-                        const sheetData = results.data;
-                        const validData = sheetData.filter(item => item.id && item.name);
-                        
-                        if (validData.length > 0) {
-                            products = validData.map(item => ({
-                                id: item.id,
-                                name: item.name,
-                                price: parseInt(item.price) || 0,
-                                category: item.category ? item.category.trim() : 'guppy',
-                                stock: parseInt(item.stock) || 0,
-                                img: item.img ? item.img.trim() : '',
-                                tag: item.tag ? item.tag.trim() : '' // 新增標籤
-                            }));
-                        }
-                        document.getElementById('loading').style.display = 'none';
-                        renderProducts('all');
-                    },
-                    error: function(err) {
-                        console.error("讀取失敗", err);
-                        document.getElementById('loading').innerHTML = "⚠️ 讀取失敗<br>請確認試算表已發布";
+    let products = [];
+    let cart = [];
+    const SHIPPING_COST = 200;
+    const FREE_SHIPPING_THRESHOLD = 2000;
+    let currentCategory = 'all';
+
+    // 頁面載入時，自動填入客人上次的資料
+    window.onload = function() {
+        init();
+        loadCustomerData(); // 載入記憶
+    };
+
+    function init() {
+        if (googleSheetID) {
+            document.getElementById('loading').style.display = 'block';
+            const url = `https://docs.google.com/spreadsheets/d/${googleSheetID}/export?format=csv`;
+            
+            Papa.parse(url, {
+                download: true,
+                header: true,
+                complete: function(results) {
+                    const sheetData = results.data;
+                    const validData = sheetData.filter(item => item.id && item.name);
+                    
+                    if (validData.length > 0) {
+                        products = validData.map(item => ({
+                            id: item.id,
+                            name: item.name,
+                            price: parseInt(item.price) || 0,
+                            category: item.category ? item.category.trim() : 'guppy',
+                            stock: parseInt(item.stock) || 0,
+                            img: item.img ? item.img.trim() : '',
+                            tag: item.tag ? item.tag.trim() : ''
+                        }));
                     }
-                });
-            }
-        }
-
-        const container = document.getElementById('productContainer');
-        const titleDom = document.getElementById('sectionTitle');
-
-        function renderProducts(filterCategory) {
-            currentCategory = filterCategory;
-            container.innerHTML = '';
-            
-            // 處理搜尋與分類
-            const searchTerm = document.querySelector('.search-input').value.toLowerCase();
-            let filtered = products.filter(p => {
-                const matchCat = filterCategory === 'all' || p.category === filterCategory;
-                const matchSearch = p.name.toLowerCase().includes(searchTerm);
-                return matchCat && matchSearch;
-            });
-
-            if(filtered.length === 0) {
-                container.innerHTML = '<div style="color:#888; grid-column:1/-1; text-align:center; padding:20px;">找不到相關商品 🦐</div>';
-                return;
-            }
-
-            filtered.forEach(p => {
-                const imgSrc = p.img ? p.img : 'logo.jpg';
-                const isSoldOut = p.stock <= 0;
-                
-                // 標籤邏輯
-                let tagHtml = '';
-                if (p.tag === 'HOT') tagHtml = '<div class="p-tag tag-hot">熱銷 🔥</div>';
-                else if (p.tag === 'NEW') tagHtml = '<div class="p-tag tag-new">新品 ✨</div>';
-                else if (p.tag === 'SALE') tagHtml = '<div class="p-tag tag-sale">特價 💰</div>';
-
-                let btnHtml = '';
-                if (isSoldOut) {
-                    btnHtml = `<button class="add-btn disabled">已售完</button>`;
-                } else {
-                    // 新增：卡片上的數量控制器
-                    btnHtml = `
-                        <div class="qty-control">
-                            <button class="qty-btn" onclick="updateCardQty('${p.id}', -1)">-</button>
-                            <input type="number" id="qty-input-${p.id}" class="qty-input" value="1" min="1" max="${p.stock}" readonly>
-                            <button class="qty-btn" onclick="updateCardQty('${p.id}', 1)">+</button>
-                        </div>
-                        <button class="add-btn" onclick="addToCart('${p.id}')">加入購物車</button>
-                    `;
+                    document.getElementById('loading').style.display = 'none';
+                    renderProducts('all');
+                },
+                error: function(err) {
+                    console.error("讀取失敗", err);
+                    document.getElementById('loading').innerHTML = "⚠️ 讀取失敗<br>請確認試算表已發布";
                 }
-
-                const html = `
-                    <div class="product-card">
-                        ${tagHtml}
-                        <div class="p-img-box">
-                            <img src="${imgSrc}" class="p-img" alt="${p.name}" onerror="this.src='logo.jpg'">
-                            ${isSoldOut ? '<div class="sold-out-mask">SOLD OUT</div>' : ''}
-                        </div>
-                        <div class="p-info">
-                            <div class="p-name">${p.name}</div>
-                            <div class="p-price">NT$ ${p.price}</div>
-                            <div style="font-size:12px; color:#888; margin-bottom:5px;">庫存：${p.stock}</div>
-                            ${btnHtml}
-                        </div>
-                    </div>
-                `;
-                container.innerHTML += html;
             });
         }
+    }
 
-        function filterProducts(cat, btn) {
-            document.querySelectorAll('.category-btn').forEach(b => b.classList.remove('active'));
-            btn.classList.add('active');
-            const titles = { 'all': '📌 全部商品', 'guppy': '🐟 孔雀魚專區', 'molly': '🐠 茉莉魚專區', 'shrimp': '🦐 米蝦專區', 'bottom': '🐡 底棲魚專區', 'addon': '🥫 加購專區' };
-            titleDom.innerText = titles[cat];
+    const container = document.getElementById('productContainer');
+    const titleDom = document.getElementById('sectionTitle');
+
+    function renderProducts(filterCategory) {
+        currentCategory = filterCategory;
+        container.innerHTML = '';
+        
+        const searchTerm = document.querySelector('.search-input').value.toLowerCase();
+        let filtered = products.filter(p => {
+            const matchCat = filterCategory === 'all' || p.category === filterCategory;
+            const matchSearch = p.name.toLowerCase().includes(searchTerm);
+            return matchCat && matchSearch;
+        });
+
+        if(filtered.length === 0) {
+            container.innerHTML = '<div style="color:#888; grid-column:1/-1; text-align:center; padding:20px;">找不到相關商品 🦐</div>';
+            return;
+        }
+
+        filtered.forEach(p => {
+            const imgSrc = p.img ? p.img : 'logo.jpg';
+            const isSoldOut = p.stock <= 0;
             
-            // 清空搜尋
-            document.querySelector('.search-input').value = '';
-            renderProducts(cat);
-        }
+            let tagHtml = '';
+            if (p.tag === 'HOT') tagHtml = '<div class="p-tag tag-hot">熱銷 🔥</div>';
+            else if (p.tag === 'NEW') tagHtml = '<div class="p-tag tag-new">新品 ✨</div>';
+            else if (p.tag === 'SALE') tagHtml = '<div class="p-tag tag-sale">特價 💰</div>';
 
-        function searchProducts(val) {
-            renderProducts(currentCategory);
-        }
-
-        // --- 卡片上的數量增減 (新功能) ---
-        function updateCardQty(pid, delta) {
-            const input = document.getElementById(`qty-input-${pid}`);
-            const product = products.find(p => p.id === pid);
-            let currentVal = parseInt(input.value);
-            let newVal = currentVal + delta;
-
-            if (newVal < 1) newVal = 1;
-            if (newVal > product.stock) {
-                showToast(`庫存只剩 ${product.stock} 喔！`);
-                newVal = product.stock;
-            }
-            input.value = newVal;
-        }
-
-        // --- 購物車 ---
-        function addToCart(pid) {
-            const product = products.find(p => p.id === pid);
-            if (product.stock <= 0) return;
-
-            // 取得使用者選擇的數量
-            const qtyInput = document.getElementById(`qty-input-${pid}`);
-            const addQty = parseInt(qtyInput.value);
-
-            const existItem = cart.find(c => c.id === pid);
-            if (existItem) { 
-                if (existItem.qty + addQty <= product.stock) {
-                    existItem.qty += addQty;
-                    showToast(`已增加 ${addQty} 個 ${product.name} 🛒`);
-                } else {
-                    showToast("購物車數量超過庫存囉！");
-                    return;
-                }
-            } else { 
-                cart.push({ ...product, qty: addQty }); 
-                showToast(`✅ 已加入購物車`);
-            }
-            updateCartUI();
-            
-            // 重置數量為 1
-            qtyInput.value = 1;
-        }
-
-        function showToast(msg) {
-            const toast = document.getElementById("toast");
-            toast.innerText = msg;
-            toast.className = "show";
-            setTimeout(function(){ toast.className = toast.className.replace("show", ""); }, 2000);
-        }
-
-        function updateCartUI() {
-            const totalCount = cart.reduce((sum, item) => sum + item.qty, 0);
-            document.getElementById('cartCount').innerText = totalCount;
-
-            const cartItemsContainer = document.getElementById('cartItems');
-            
-            if (cart.length === 0) {
-                cartItemsContainer.innerHTML = '<div style="text-align:center; color:#aaa; padding:20px;">您的購物車是空的 🛒</div>';
-                document.getElementById('priceSummaryArea').style.display = 'none';
-                document.querySelector('.btn-next').style.display = 'none';
-                return;
+            let mediaHtml = '';
+            if (imgSrc.toLowerCase().endsWith('.mp4') || imgSrc.toLowerCase().endsWith('.webm')) {
+                mediaHtml = `<video src="${imgSrc}" class="p-img" autoplay loop muted playsinline></video>`;
             } else {
-                document.getElementById('priceSummaryArea').style.display = 'block';
-                document.querySelector('.btn-next').style.display = 'block';
+                mediaHtml = `<img src="${imgSrc}" class="p-img" alt="${p.name}" onerror="this.src='logo.jpg'">`;
             }
 
-            let html = '';
-            let subtotal = 0;
-
-            cart.forEach((item, index) => {
-                subtotal += item.price * item.qty;
-                html += `
-                    <div class="cart-item">
-                        <div class="ci-name">${item.name}<br><small style="color:#64ffda">NT$ ${item.price}</small></div>
-                        <div class="ci-controls">
-                            <button class="ci-btn" onclick="changeQty(${index}, -1)">-</button>
-                            <span class="ci-qty">${item.qty}</span>
-                            <button class="ci-btn" onclick="changeQty(${index}, 1)">+</button>
-                        </div>
+            let btnHtml = '';
+            if (isSoldOut) {
+                btnHtml = `<button class="add-btn disabled">已售完</button>`;
+            } else {
+                btnHtml = `
+                    <div class="qty-control">
+                        <button class="qty-btn" onclick="updateCardQty('${p.id}', -1)">-</button>
+                        <input type="number" id="qty-input-${p.id}" class="qty-input" value="1" min="1" max="${p.stock}" readonly>
+                        <button class="qty-btn" onclick="updateCardQty('${p.id}', 1)">+</button>
                     </div>
+                    <button class="add-btn" onclick="addToCart('${p.id}')">加入購物車</button>
                 `;
-            });
-            cartItemsContainer.innerHTML = html;
-
-            const isFreeShipping = subtotal >= FREE_SHIPPING_THRESHOLD;
-            const finalShipping = isFreeShipping ? 0 : SHIPPING_COST;
-            const finalTotal = subtotal + finalShipping;
-
-            document.getElementById('subTotal').innerText = subtotal;
-            document.getElementById('finalTotal').innerText = finalTotal;
-
-            const shippingDisplay = document.getElementById('shippingFeeDisplay');
-            if (isFreeShipping) {
-                shippingDisplay.innerHTML = `<span style="text-decoration:line-through; color:#888; margin-right:5px;">NT$ ${SHIPPING_COST}</span> <span style="color:#64ffda">NT$ 0 (免運)</span>`;
-            } else {
-                shippingDisplay.innerHTML = `NT$ ${SHIPPING_COST}`;
             }
 
-            const alertBox = document.getElementById('shippingAlert');
-            if (isFreeShipping) {
-                alertBox.className = 'free-shipping-alert free-shipping-success';
-                alertBox.innerHTML = '🎉 恭喜！您已符合免運資格！';
-            } else {
-                const diff = FREE_SHIPPING_THRESHOLD - subtotal;
-                alertBox.className = 'free-shipping-alert';
-                alertBox.innerHTML = `還差 <b style="font-size:16px;">${diff}</b> 元即享黑貓免運優惠！`;
-            }
-        }
+            const html = `
+                <div class="product-card">
+                    ${tagHtml}
+                    <div class="p-img-box">
+                        ${mediaHtml}
+                        ${isSoldOut ? '<div class="sold-out-mask">SOLD OUT</div>' : ''}
+                    </div>
+                    <div class="p-info">
+                        <div class="p-name">${p.name}</div>
+                        <div class="p-price">NT$ ${p.price}</div>
+                        <div style="font-size:12px; color:#888; margin-bottom:5px;">庫存：${p.stock}</div>
+                        ${btnHtml}
+                    </div>
+                </div>
+            `;
+            container.innerHTML += html;
+        });
+    }
 
-        function changeQty(index, delta) {
-            const item = cart[index];
-            const product = products.find(p => p.id === item.id);
-            if (delta > 0 && item.qty >= product.stock) {
-                showToast("老闆說庫存只剩這些了～");
+    function filterProducts(cat, btn) {
+        document.querySelectorAll('.category-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        const titles = { 'all': '📌 全部商品', 'guppy': '🐟 孔雀魚專區', 'molly': '🐠 茉莉魚專區', 'shrimp': '🦐 米蝦專區', 'bottom': '🐡 底棲魚專區', 'addon': '🥫 加購專區' };
+        titleDom.innerText = titles[cat];
+        document.querySelector('.search-input').value = '';
+        renderProducts(cat);
+    }
+
+    function searchProducts(val) { renderProducts(currentCategory); }
+
+    function updateCardQty(pid, delta) {
+        const input = document.getElementById(`qty-input-${pid}`);
+        const product = products.find(p => p.id === pid);
+        let currentVal = parseInt(input.value);
+        let newVal = currentVal + delta;
+        if (newVal < 1) newVal = 1;
+        if (newVal > product.stock) { showToast(`庫存只剩 ${product.stock} 喔！`); newVal = product.stock; }
+        input.value = newVal;
+    }
+
+    // --- 購物車 ---
+    function addToCart(pid) {
+        const product = products.find(p => p.id === pid);
+        if (product.stock <= 0) return;
+        const qtyInput = document.getElementById(`qty-input-${pid}`);
+        const addQty = parseInt(qtyInput.value);
+        const existItem = cart.find(c => c.id === pid);
+        
+        if (existItem) { 
+            if (existItem.qty + addQty <= product.stock) {
+                existItem.qty += addQty;
+                showToast(`已增加 ${addQty} 個 ${product.name} 🛒`);
+            } else {
+                showToast("購物車數量超過庫存囉！");
                 return;
             }
-            item.qty += delta;
-            if (item.qty <= 0) cart.splice(index, 1);
-            updateCartUI();
+        } else { 
+            cart.push({ ...product, qty: addQty }); 
+            showToast(`✅ 已加入購物車`);
+        }
+        updateCartUI();
+        qtyInput.value = 1;
+    }
+
+    function showToast(msg) {
+        const toast = document.getElementById("toast");
+        toast.innerText = msg;
+        toast.className = "show";
+        setTimeout(function(){ toast.className = toast.className.replace("show", ""); }, 2000);
+    }
+
+    function updateCartUI() {
+        const totalCount = cart.reduce((sum, item) => sum + item.qty, 0);
+        document.getElementById('cartCount').innerText = totalCount;
+        const cartItemsContainer = document.getElementById('cartItems');
+        
+        if (cart.length === 0) {
+            cartItemsContainer.innerHTML = '<div style="text-align:center; color:#aaa; padding:20px;">您的購物車是空的 🛒</div>';
+            document.getElementById('priceSummaryArea').style.display = 'none';
+            document.querySelector('.btn-next').style.display = 'none';
+            return;
+        } else {
+            document.getElementById('priceSummaryArea').style.display = 'block';
+            document.querySelector('.btn-next').style.display = 'block';
         }
 
-        // Modal 操作
-        function openCart() { document.getElementById('cartModal').style.display = 'flex'; goToStep1(); }
-        function closeCart() { document.getElementById('cartModal').style.display = 'none'; }
-        function goToStep2() { if (cart.length === 0) return; document.getElementById('step1').classList.remove('active'); document.getElementById('step2').classList.add('active'); document.getElementById('cartTitle').innerText = '📝 填寫收件資料'; }
-        function goToStep1() { document.getElementById('step2').classList.remove('active'); document.getElementById('step1').classList.add('active'); document.getElementById('cartTitle').innerText = '🛒 您的購物車'; }
+        let html = '';
+        let subtotal = 0;
+        cart.forEach((item, index) => {
+            subtotal += item.price * item.qty;
+            html += `
+                <div class="cart-item">
+                    <div class="ci-name">${item.name}<br><small style="color:#64ffda">NT$ ${item.price}</small></div>
+                    <div class="ci-controls">
+                        <button class="ci-btn" onclick="changeQty(${index}, -1)">-</button>
+                        <span class="ci-qty">${item.qty}</span>
+                        <button class="ci-btn" onclick="changeQty(${index}, 1)">+</button>
+                    </div>
+                </div>
+            `;
+        });
+        cartItemsContainer.innerHTML = html;
 
-        // 送出訂單
-        function submitOrder() {
-            const name = document.getElementById('custName').value.trim();
-            const phone = document.getElementById('custPhone').value.trim();
-            const addr = document.getElementById('custAddr').value.trim();
-            const note = document.getElementById('custNote').value.trim();
-            const payment = document.getElementById('paymentMethod').value;
+        const isFreeShipping = subtotal >= FREE_SHIPPING_THRESHOLD;
+        const finalShipping = isFreeShipping ? 0 : SHIPPING_COST;
+        const finalTotal = subtotal + finalShipping;
 
-            if (!name || !phone || !addr) { alert('請完整填寫姓名、電話與地址喔！'); return; }
+        document.getElementById('subTotal').innerText = subtotal;
+        document.getElementById('finalTotal').innerText = finalTotal;
 
-            const paymentText = payment === 'atm' ? '🏧 銀行匯款' : '🚚 貨到付款';
-            let subtotal = cart.reduce((sum, item) => sum + item.price * item.qty, 0);
-            const isFreeShipping = subtotal >= FREE_SHIPPING_THRESHOLD;
-            const shippingFee = isFreeShipping ? 0 : SHIPPING_COST;
-            const finalTotal = subtotal + shippingFee;
+        const shippingDisplay = document.getElementById('shippingFeeDisplay');
+        if (isFreeShipping) {
+            shippingDisplay.innerHTML = `<span style="text-decoration:line-through; color:#888; margin-right:5px;">NT$ ${SHIPPING_COST}</span> <span style="color:#64ffda">NT$ 0 (免運)</span>`;
+        } else {
+            shippingDisplay.innerHTML = `NT$ ${SHIPPING_COST}`;
+        }
 
-            let message = `嗨宇哥！我要下單：\n------------------\n`;
-            cart.forEach(item => { message += `${item.name} x ${item.qty} = ${item.price * item.qty}\n`; });
-            message += `------------------\n`;
-            message += `商品小計：${subtotal}\n`;
-            message += `黑貓運費：${shippingFee} ${isFreeShipping ? '(達標免運)' : ''}\n`;
-            message += `💰 總金額：${finalTotal}\n`;
-            message += `------------------\n`;
-            message += `【付款方式】：${paymentText}\n`;
-            message += `【收件資訊】\n姓名：${name}\n電話：${phone}\n地址：${addr}\n`;
-            if (note) message += `備註：${note}\n`;
-            message += `\n麻煩確認訂單，謝謝！`;
+        const alertBox = document.getElementById('shippingAlert');
+        if (isFreeShipping) {
+            alertBox.className = 'free-shipping-alert free-shipping-success';
+            alertBox.innerHTML = '🎉 恭喜！您已符合免運資格！';
+        } else {
+            const diff = FREE_SHIPPING_THRESHOLD - subtotal;
+            alertBox.className = 'free-shipping-alert';
+            alertBox.innerHTML = `還差 <b style="font-size:16px;">${diff}</b> 元即享黑貓免運優惠！`;
+        }
+    }
 
+    function changeQty(index, delta) {
+        const item = cart[index];
+        const product = products.find(p => p.id === item.id);
+        if (delta > 0 && item.qty >= product.stock) {
+            showToast("老闆說庫存只剩這些了～");
+            return;
+        }
+        item.qty += delta;
+        if (item.qty <= 0) cart.splice(index, 1);
+        updateCartUI();
+    }
+
+    // --- Modal 操作 ---
+    function openCart() { document.getElementById('cartModal').style.display = 'flex'; goToStep1(); }
+    function closeCart() { document.getElementById('cartModal').style.display = 'none'; }
+    function goToStep2() { if (cart.length === 0) return; document.getElementById('step1').classList.remove('active'); document.getElementById('step2').classList.add('active'); document.getElementById('cartTitle').innerText = '📝 填寫收件資料'; }
+    function goToStep1() { document.getElementById('step2').classList.remove('active'); document.getElementById('step1').classList.add('active'); document.getElementById('cartTitle').innerText = '🛒 您的購物車'; }
+
+    // --- 🔥 關鍵優化：自動記憶客戶資料 ---
+    // 儲存資料
+    function saveCustomerData() {
+        const data = {
+            name: document.getElementById('custName').value,
+            phone: document.getElementById('custPhone').value,
+            addr: document.getElementById('custAddr').value
+        };
+        localStorage.setItem('yuyu_customer', JSON.stringify(data));
+    }
+    // 讀取資料
+    function loadCustomerData() {
+        const saved = localStorage.getItem('yuyu_customer');
+        if (saved) {
+            const data = JSON.parse(saved);
+            if(data.name) document.getElementById('custName').value = data.name;
+            if(data.phone) document.getElementById('custPhone').value = data.phone;
+            if(data.addr) document.getElementById('custAddr').value = data.addr;
+        }
+    }
+
+    // --- 送出訂單 ---
+    function submitOrder() {
+        const name = document.getElementById('custName').value.trim();
+        const phone = document.getElementById('custPhone').value.trim();
+        const addr = document.getElementById('custAddr').value.trim();
+        const note = document.getElementById('custNote').value.trim();
+        const payment = document.getElementById('paymentMethod').value;
+
+        if (!name || !phone || !addr) { alert('請完整填寫姓名、電話與地址喔！'); return; }
+
+        // 1. 記憶客戶資料 (下次不用填)
+        saveCustomerData();
+
+        const paymentText = payment === 'atm' ? '🏧 銀行匯款' : '🚚 貨到付款';
+        let subtotal = cart.reduce((sum, item) => sum + item.price * item.qty, 0);
+        const isFreeShipping = subtotal >= FREE_SHIPPING_THRESHOLD;
+        const shippingFee = isFreeShipping ? 0 : SHIPPING_COST;
+        const finalTotal = subtotal + shippingFee;
+
+        let message = `嗨宇哥！我要下單：\n------------------\n`;
+        cart.forEach(item => { message += `${item.name} x ${item.qty} = ${item.price * item.qty}\n`; });
+        message += `------------------\n`;
+        message += `商品小計：${subtotal}\n`;
+        message += `黑貓運費：${shippingFee} ${isFreeShipping ? '(達標免運)' : ''}\n`;
+        message += `💰 總金額：${finalTotal}\n`;
+        message += `------------------\n`;
+        message += `【付款方式】：${paymentText}\n`;
+        
+        // 如果是匯款，多加一行提示
+        if (payment === 'atm') {
+            message += `(請提供匯款帳號)\n`;
+        }
+        
+        message += `【收件資訊】\n姓名：${name}\n電話：${phone}\n地址：${addr}\n`;
+        if (note) message += `備註：${note}\n`;
+        message += `\n請確認訂單，謝謝！`;
+
+        // 2. 顯示最後確認 (讓客人知道會跳轉 LINE)
+        if(confirm(`訂單已生成！\n總金額：${finalTotal}元\n\n按下「確定」後將跳轉至 LINE，請按下傳送鍵即可完成訂購！`)) {
             const lineUrl = `https://line.me/R/msg/text/?${encodeURIComponent(message)}`;
             window.open(lineUrl, '_blank');
+            
+            // 3. 清空購物車並關閉 (讓體驗像真的結帳完成)
+            cart = [];
+            updateCartUI();
+            closeCart();
+            showToast("訂單已送出，請至 LINE 確認！");
         }
+    }
 
-        const backToTopBtn = document.getElementById('backToTop');
-        window.onscroll = function() {
-            if (document.body.scrollTop > 300 || document.documentElement.scrollTop > 300) { backToTopBtn.classList.add('show'); } else { backToTopBtn.classList.remove('show'); }
-        };
-        function scrollToTop() { window.scrollTo({ top: 0, behavior: 'smooth' }); }
-
-        // 啟動
-        init();
-    </script>
+    const backToTopBtn = document.getElementById('backToTop');
+    window.onscroll = function() {
+        if (document.body.scrollTop > 300 || document.documentElement.scrollTop > 300) { backToTopBtn.classList.add('show'); } else { backToTopBtn.classList.remove('show'); }
+    };
+    function scrollToTop() { window.scrollTo({ top: 0, behavior: 'smooth' }); }
+</script>
 </body>
 </html>
