@@ -3,428 +3,474 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>宇魚水族｜孔雀魚專賣店</title>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
+    <title>魚隻專區｜宇魚水族</title>
     <style>
+        /* --- 全域設定：深海風格 (與首頁一致) --- */
         body { 
-            background-color: #f5f5f5; /* 類似蝦霸的淺灰底 */
-            color: #333; 
-            font-family: 'Noto Sans TC', sans-serif; 
+            background: radial-gradient(circle at 50% 10%, #1a3c5e 0%, #03101f 100%);
+            color: #f0f4f8; 
+            font-family: "Microsoft JhengHei", sans-serif; 
             margin: 0;
             padding: 0;
             min-height: 100vh;
             overflow-x: hidden; 
             display: flex;
             flex-direction: column;
-            align-items: center;
-            position: relative;
         }
 
-        /* 頂部公告欄 */
-        .yuyu-announcement-bar {
-            background-color: #ffe100; 
-            color: #000;            
-            text-align: center;
-            padding: 10px;
-            font-size: 14px;
-            font-weight: 700;
-            width: 100%;
-            z-index: 1000;
+        /* 背景氣泡動畫 */
+        .bg-bubbles {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; overflow: hidden; pointer-events: none;
+        }
+        .bg-bubbles li {
+            position: absolute; list-style: none; display: block; bottom: -150px; border-radius: 50%;
+            background: radial-gradient(circle at 70% 30%, rgba(255, 255, 255, 0.4), rgba(255, 255, 255, 0) 60%);
+            border: 1px solid rgba(255, 255, 255, 0.15); animation: rise infinite linear;
+        }
+        /* (氣泡參數省略，與首頁相同，保持視覺一致) */
+        .bg-bubbles li:nth-child(1) { left: 10%; width: 40px; height: 40px; animation-duration: 12s; }
+        .bg-bubbles li:nth-child(2) { left: 20%; width: 20px; height: 20px; animation-duration: 18s; animation-delay: 2s; }
+        .bg-bubbles li:nth-child(3) { left: 70%; width: 50px; height: 50px; animation-duration: 15s; animation-delay: 1s; }
+        @keyframes rise {
+            0% { transform: translateY(0); opacity: 0; }
+            10% { opacity: 0.8; }
+            100% { transform: translateY(-120vh); opacity: 0; }
         }
 
-        .main-container {
-            width: 100%;
-            max-width: 1200px; /* 像一般電商網站的寬度 */
-            padding: 20px;
-            box-sizing: border-box;
+        /* --- 頂部導航 --- */
+        .top-nav {
+            background: rgba(16, 42, 67, 0.9);
+            padding: 15px 20px;
             display: flex;
-            flex-direction: column;
+            justify-content: space-between;
             align-items: center;
+            border-bottom: 1px solid #334e68;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            backdrop-filter: blur(5px);
+        }
+        .logo-area { display: flex; align-items: center; gap: 10px; font-weight: bold; font-size: 20px; color: #64ffda; text-decoration: none; }
+        .logo-img { width: 40px; height: 40px; border-radius: 50%; border: 2px solid #64ffda; }
+        
+        /* 購物車按鈕 */
+        .cart-btn {
+            position: relative;
+            background: #64ffda;
+            color: #03101f;
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-weight: bold;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            transition: transform 0.2s;
+        }
+        .cart-btn:hover { transform: scale(1.05); }
+        .cart-count {
+            background: #ff3b30;
+            color: white;
+            font-size: 12px;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: absolute;
+            top: -8px;
+            right: -8px;
         }
 
-        /* LOGO 與 標題 */
-        .header-area {
-            text-align: center;
-            margin-bottom: 30px;
+        /* --- 主要佈局 (左側選單 + 右側商品) --- */
+        .layout-container {
+            display: flex;
+            max-width: 1200px;
             width: 100%;
-            background: #fff;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            margin: 20px auto;
+            padding: 0 20px;
+            box-sizing: border-box;
+            gap: 20px;
         }
-        .avatar { 
-            width: 100px; 
-            height: 100px; 
-            border-radius: 50%; 
-            border: 4px solid #64ffda; 
-            object-fit: cover;
-        }
-        h1 { margin: 10px 0 5px; color: #0d253f; }
-        .description { color: #666; font-size: 14px; margin-bottom: 10px; }
 
-        /* --- 仿蝦霸 商品展示區塊 Start --- */
-        .product-section-title {
+        /* 左側選單 */
+        .sidebar {
+            width: 200px;
+            flex-shrink: 0;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(5px);
+            border-radius: 10px;
+            padding: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            height: fit-content;
+            position: sticky;
+            top: 90px;
+        }
+        .category-btn {
+            display: block;
+            width: 100%;
+            padding: 12px 15px;
+            margin-bottom: 8px;
+            background: transparent;
+            border: 1px solid rgba(100, 255, 218, 0.3);
+            color: #f0f4f8;
+            text-align: left;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 15px;
+        }
+        .category-btn:hover, .category-btn.active {
+            background: rgba(100, 255, 218, 0.2);
+            border-color: #64ffda;
+            color: #64ffda;
+            font-weight: bold;
+        }
+
+        /* 右側商品區 */
+        .product-area {
+            flex-grow: 1;
+        }
+        .section-title {
             font-size: 24px;
             font-weight: bold;
-            color: #0d253f;
-            margin: 30px 0 20px;
-            position: relative;
-            padding-left: 15px;
-            align-self: flex-start; /* 標題靠左 */
-            width: 100%;
+            color: #64ffda;
+            margin-bottom: 20px;
+            padding-left: 10px;
+            border-left: 4px solid #ffe100;
         }
-        .product-section-title::before {
-            content: '';
-            position: absolute;
-            left: 0;
-            top: 5px;
-            bottom: 5px;
-            width: 5px;
-            background: #64ffda; /* 宇魚綠 */
-            border-radius: 2px;
-        }
-
-        /* 商品網格系統 */
-        .product-grid {
+        
+        .products-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); /* 自動排版，最小280px */
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
             gap: 20px;
-            width: 100%;
         }
 
         /* 商品卡片 */
         .product-card {
-            background: #fff;
-            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
             overflow: hidden;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
-            transition: transform 0.2s, box-shadow 0.2s;
-            position: relative;
+            transition: transform 0.3s;
             display: flex;
             flex-direction: column;
         }
         .product-card:hover {
             transform: translateY(-5px);
-            box-shadow: 0 8px 20px rgba(0,0,0,0.12);
+            border-color: #64ffda;
+            box-shadow: 0 5px 15px rgba(100, 255, 218, 0.2);
         }
+        .p-img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            background: #000;
+        }
+        .p-info { padding: 15px; flex-grow: 1; display: flex; flex-direction: column; }
+        .p-name { font-size: 16px; font-weight: bold; margin-bottom: 5px; color: #fff; }
+        .p-price { color: #ffe100; font-size: 18px; font-weight: bold; margin-bottom: 10px; }
+        .add-btn {
+            margin-top: auto;
+            background: transparent;
+            border: 1px solid #64ffda;
+            color: #64ffda;
+            padding: 8px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: 0.3s;
+            width: 100%;
+        }
+        .add-btn:hover { background: #64ffda; color: #000; font-weight: bold; }
 
-        /* 商品圖片區 */
-        .product-img-box {
-            width: 100%;
-            padding-top: 100%; /* 製作 1:1 正方形容器 */
-            position: relative;
-            background: #f9f9f9;
-        }
-        .product-img {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            object-fit: cover; /* 填滿不變形 */
-        }
-        
-        /* 售完遮罩 */
-        .sold-out-overlay {
-            position: absolute;
-            top: 0; left: 0; right: 0; bottom: 0;
-            background: rgba(0,0,0,0.6);
-            display: flex;
-            align-items: center;
+        /* --- 購物車彈跳視窗 (Modal) --- */
+        .cart-modal {
+            display: none; /* 預設隱藏 */
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.8);
+            z-index: 1000;
             justify-content: center;
-            color: white;
-            font-weight: bold;
-            font-size: 20px;
-            z-index: 2;
-            opacity: 0;
-            pointer-events: none;
+            align-items: center;
         }
-        .product-card.sold-out .sold-out-overlay { opacity: 1; }
-        .product-card.sold-out .product-img { filter: grayscale(100%); } /* 售完變黑白 */
-
-        /* 商品資訊區 */
-        .product-info {
-            padding: 15px;
-            flex-grow: 1;
+        .cart-content {
+            background: #0d253f;
+            width: 90%;
+            max-width: 500px;
+            border-radius: 15px;
+            padding: 20px;
+            border: 2px solid #64ffda;
+            box-shadow: 0 0 30px rgba(100, 255, 218, 0.3);
+            max-height: 80vh;
             display: flex;
             flex-direction: column;
-            justify-content: space-between;
         }
-        .product-name {
-            font-size: 16px;
-            font-weight: 700;
-            color: #333;
-            margin-bottom: 8px;
-            line-height: 1.4;
-            /* 超過兩行省略 */
-            display: -webkit-box;
-            -webkit-line-clamp: 2;
-            -webkit-box-orient: vertical;
-            overflow: hidden;
-        }
-        .product-stock {
-            font-size: 12px;
-            color: #888;
-            margin-bottom: 10px;
-        }
-        .product-price-row {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-top: auto; /* 推到底部 */
-        }
-        .product-price {
-            color: #e53935; /* 價格紅 */
-            font-size: 18px;
-            font-weight: bold;
-        }
-        .product-btn {
-            background: #0d253f;
-            color: #fff;
-            padding: 6px 15px;
-            border-radius: 4px;
-            text-decoration: none;
-            font-size: 13px;
-            transition: background 0.2s;
-        }
-        .product-btn:hover { background: #64ffda; color: #0d253f; font-weight: bold; }
-        .product-card.sold-out .product-btn {
-            background: #ccc;
-            pointer-events: none;
-            cursor: not-allowed;
-            content: '補貨中';
-        }
-        /* --- 仿蝦霸 商品展示區塊 End --- */
+        .cart-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; border-bottom: 1px solid #334e68; padding-bottom: 10px; }
+        .cart-title { font-size: 20px; font-weight: bold; color: #64ffda; }
+        .close-cart { cursor: pointer; font-size: 24px; color: #888; }
+        
+        .cart-items { flex-grow: 1; overflow-y: auto; margin-bottom: 15px; }
+        .cart-item { display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-bottom: 1px solid rgba(255,255,255,0.1); }
+        .ci-name { font-size: 15px; color: #fff; }
+        .ci-controls { display: flex; align-items: center; gap: 10px; }
+        .ci-btn { background: #334e68; border: none; color: white; width: 25px; height: 25px; border-radius: 5px; cursor: pointer; }
+        .ci-qty { min-width: 20px; text-align: center; }
 
-        /* 社群與其他連結 (原本的風格保留，但排版優化) */
-        .quick-links {
-            display: flex;
-            gap: 15px;
-            margin: 30px 0;
-            flex-wrap: wrap;
-            justify-content: center;
-        }
-        .btn-style-2 {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            padding: 10px 20px;
-            background: white;
-            border: 1px solid #ddd;
-            border-radius: 30px;
-            text-decoration: none;
-            color: #555;
-            font-weight: 500;
-            transition: all 0.3s;
-        }
-        .btn-style-2:hover {
-            border-color: #64ffda;
-            color: #0d253f;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-        }
+        .cart-footer { border-top: 1px solid #334e68; padding-top: 15px; }
+        .total-price { font-size: 18px; text-align: right; margin-bottom: 15px; color: #ffe100; font-weight: bold; }
+        .cart-actions { display: flex; gap: 10px; }
+        .action-btn { flex: 1; padding: 12px; border-radius: 8px; border: none; cursor: pointer; font-weight: bold; font-size: 16px; }
+        .btn-continue { background: #334e68; color: #fff; }
+        .btn-checkout { background: #64ffda; color: #000; }
+        .btn-checkout:hover { background: #ffe100; }
 
-        /* LINE 卡片 */
-        .line-community-card {
-            width: 100%;
-            max-width: 400px;
-            background: #fff;
-            border-radius: 12px;
-            padding: 20px;
-            text-align: center;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
-            margin-top: 20px;
-            border: 1px solid #eee;
-        }
-        .line-btn {
-            display: inline-block;
-            background-color: #06C755;
-            color: white;
-            padding: 10px 30px;
-            border-radius: 50px;
-            text-decoration: none;
-            font-weight: bold;
-            margin-top: 10px;
-        }
-
-        /* 浮動島輝按鈕 */
-        .back-to-top {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            background: none; border: none; padding: 0;
-            display: flex; flex-direction: column; align-items: center;
-            cursor: pointer; z-index: 9999;
-            opacity: 0; visibility: hidden; transition: all 0.4s ease;
-        }
-        .back-to-top.show { opacity: 1; visibility: visible; transform: translateY(0); }
-        .daohui-dog-img {
-            width: 60px; height: auto; border-radius: 8px;
-            border: 2px solid #64ffda; 
-            box-shadow: 0 4px 10px rgba(0,0,0,0.4);
-            transition: transform 0.3s ease;
-        }
-        .back-to-top span {
-            margin-top: 5px; color: #0d253f; font-size: 13px; font-weight: bold;
-            text-shadow: 0 0 5px white; /* 淺色背景改用白色光暈 */
-        }
-        .back-to-top:hover .daohui-dog-img { transform: scale(1.1) rotate(-5deg); }
-
-        /* 手機版調整 */
+        /* 手機版 RWD */
         @media (max-width: 768px) {
-            .product-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; } /* 手機改兩欄 */
-            .product-info { padding: 10px; }
-            .product-name { font-size: 14px; }
-            .product-price { font-size: 16px; }
-            .product-btn { padding: 4px 8px; font-size: 12px; }
+            .layout-container { flex-direction: column; padding: 0 10px; }
+            .sidebar { 
+                width: 100%; 
+                display: flex; 
+                overflow-x: auto; 
+                padding: 10px; 
+                gap: 10px;
+                top: 70px; /* 手機版導航欄高度 */
+            }
+            .category-btn { width: auto; white-space: nowrap; margin-bottom: 0; padding: 8px 15px; }
+            .products-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+            .p-img { height: 140px; }
+            .p-info { padding: 10px; }
+            .p-name { font-size: 14px; }
+            .p-price { font-size: 16px; }
         }
     </style>
 </head>
 <body>
+    <ul class="bg-bubbles">
+        <li></li><li></li><li></li><li></li><li></li>
+    </ul>
 
-    <div class="yuyu-announcement-bar">
-        🚀 活體訂單2000元免運、常溫賣場660免運、冷凍賣場990免運，最新消息都在IG:@yuyu_guppy_
+    <nav class="top-nav">
+        <a href="index.html" class="logo-area">
+            <img src="logo.jpg" alt="宇魚" class="logo-img">
+            <span>宇魚水族</span>
+        </a>
+        <div class="cart-btn" onclick="openCart()">
+            🛒 購物車
+            <span class="cart-count" id="cartCount">0</span>
+        </div>
+    </nav>
+
+    <div class="layout-container">
+        <aside class="sidebar">
+            <button class="category-btn active" onclick="filterProducts('all', this)">📌 全部商品</button>
+            <button class="category-btn" onclick="filterProducts('guppy', this)">🐟 孔雀魚</button>
+            <button class="category-btn" onclick="filterProducts('molly', this)">🐠 茉莉魚</button>
+            <button class="category-btn" onclick="filterProducts('shrimp', this)">🦐 米蝦</button>
+            <button class="category-btn" onclick="filterProducts('bottom', this)">🐡 底棲魚</button>
+            <button class="category-btn" onclick="filterProducts('addon', this)">🥫 加購區</button>
+        </aside>
+
+        <main class="product-area">
+            <div class="section-title" id="sectionTitle">全部商品</div>
+            <div class="products-grid" id="productContainer">
+                </div>
+        </main>
     </div>
 
-    <div class="main-container">
-        
-        <div class="header-area">
-            <img src="logo.jpg" alt="宇魚水族" class="avatar">
-            <h1>宇魚水族</h1>
-            <p class="description">把養魚變簡單 · 找回單純的快樂</p>
+    <div class="cart-modal" id="cartModal">
+        <div class="cart-content">
+            <div class="cart-header">
+                <div class="cart-title">🛒 您的購物車</div>
+                <div class="close-cart" onclick="closeCart()">✕</div>
+            </div>
             
-            <div class="quick-links">
-                <a href="https://myship.7-11.com.tw/general/detail/GM2312087898760" target="_blank" class="btn-style-2">🛒 常溫周邊賣場</a>
-                <a href="https://myship.7-11.com.tw/general/detail/GM2404054052893" target="_blank" class="btn-style-2">❄️ 冷凍飼料賣場</a>
-                <a href="https://www.facebook.com/yuyuguppy" target="_blank" class="btn-style-2">💬 私訊粉專</a>
+            <div class="cart-items" id="cartItems">
+                <div style="text-align:center; color:#888; padding:20px;">購物車還是空的喔！</div>
+            </div>
+
+            <div class="cart-footer">
+                <div class="total-price">總金額：NT$ <span id="cartTotal">0</span></div>
+                <div class="cart-actions">
+                    <button class="action-btn btn-continue" onclick="closeCart()">繼續選購</button>
+                    <button class="action-btn btn-checkout" onclick="checkout()">馬上結帳 ➤</button>
+                </div>
             </div>
         </div>
-
-        <div class="product-section-title">🐟 精選孔雀魚 / 活體專區</div>
-        <div class="product-grid" id="fish-grid">
-            </div>
-
-        <div class="line-community-card">
-            <div style="font-weight:bold; color:#06C755; margin-bottom:10px; font-size:18px;">
-                加入 LINE 社群
-            </div>
-            <div style="color:#666; font-size:14px; margin-bottom:15px;">
-                宇&柏&魚友一起討論養魚大小事
-            </div>
-            <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://line.me/ti/g2/XODlP6o062essYHGk1dWKzToeRPb7RfMM9QvPA" alt="QR Code" style="width:120px; display:block; margin:0 auto 15px;">
-            <a href="https://line.me/ti/g2/XODlP6o062essYHGk1dWKzToeRPb7RfMM9QvPA" target="_blank" class="line-btn">點擊加入討論</a>
-        </div>
-
-        <div style="margin-top: 40px; color: #888; font-size: 13px;">
-            宇魚伴游第 <span id="days-count" style="color:#0d253f; font-weight:bold;">0</span> 個日子
-        </div>
-
-    </div>
-
-    <div id="backToTop" class="back-to-top" onclick="scrollToTop()">
-        <img src="daohui.png" alt="島輝" class="daohui-dog-img">
-        <span>回到最頂端</span>
     </div>
 
     <script>
-        // --------------- 這裡就是您的商品庫存管理區 ---------------
-        // 修改這裡的資料，網頁上的商品就會變！
-        // 格式：
-        // name: "商品名稱",
-        // price: 價格,
-        // stock: 庫存數量 (填 0 就會顯示售完),
-        // image: "圖片檔名 (例如 fish1.jpg)",
-        // link: "賣貨便的商品網址 (如果沒有就填私訊連結)"
-
+        // --- 1. 商品資料庫 (請在這裡新增您的魚) ---
         const products = [
-            {
-                name: "全紅白子 (一對)",
-                price: 350,
-                stock: 5,  // 有庫存
-                image: "fish1.jpg", // 請記得放照片進資料夾，若無照片可用 'logo.jpg' 暫代
-                link: "https://myship.7-11.com.tw/..." 
-            },
-            {
-                name: "莫斯科藍 (一對)",
-                price: 450,
-                stock: 0,  // 庫存 0，會顯示售完
-                image: "fish2.jpg",
-                link: "https://www.facebook.com/yuyuguppy"
-            },
-            {
-                name: "極火蝦 (10隻一組)",
-                price: 200,
-                stock: 10,
-                image: "shrimp.jpg",
-                link: "https://myship.7-11.com.tw/..."
-            },
-            {
-                name: "藍草尾 (一對)",
-                price: 500,
-                stock: 2,
-                image: "fish3.jpg",
-                link: "https://myship.7-11.com.tw/..."
-            },
-             {
-                name: "丹頂紅尾 (一對)",
-                price: 300,
-                stock: 8,
-                image: "fish4.jpg",
-                link: "https://myship.7-11.com.tw/..."
-            }
+            // 孔雀魚
+            { id: 'g1', name: '全紅白子 (一對)', price: 350, category: 'guppy', img: 'fish1.jpg' },
+            { id: 'g2', name: '藍草尾 (一對)', price: 450, category: 'guppy', img: 'fish2.jpg' },
+            { id: 'g3', name: '莫斯科藍 (一對)', price: 400, category: 'guppy', img: 'fish3.jpg' },
+            // 茉莉
+            { id: 'm1', name: '黑球茉莉 (5隻)', price: 100, category: 'molly', img: 'molly1.jpg' },
+            { id: 'm2', name: '銀球茉莉 (5隻)', price: 100, category: 'molly', img: 'molly2.jpg' },
+            // 米蝦
+            { id: 's1', name: '極火蝦 (10隻)', price: 200, category: 'shrimp', img: 'shrimp1.jpg' },
+            { id: 's2', name: '夢幻藍絲絨 (10隻)', price: 250, category: 'shrimp', img: 'shrimp2.jpg' },
+            // 底棲
+            { id: 'b1', name: '熊貓鼠 (一隻)', price: 50, category: 'bottom', img: 'bottom1.jpg' },
+            { id: 'b2', name: '小精靈 (一隻)', price: 40, category: 'bottom', img: 'bottom2.jpg' },
+            // 加購
+            { id: 'a1', name: '孔雀魚專用飼料', price: 150, category: 'addon', img: 'feed.jpg' },
+            { id: 'a2', name: '隔離盒', price: 120, category: 'addon', img: 'box.jpg' },
         ];
-        // --------------------------------------------------------
 
-        // 程式自動產生卡片 (宇哥您不用動這裡)
-        const grid = document.getElementById('fish-grid');
+        // 購物車陣列
+        let cart = [];
 
-        products.forEach(product => {
-            const isSoldOut = product.stock <= 0;
-            const btnText = isSoldOut ? "補貨中" : "立即購買";
-            const btnLink = isSoldOut ? "javascript:void(0)" : product.link;
+        // --- 2. 顯示商品功能 ---
+        const container = document.getElementById('productContainer');
+        const titleDom = document.getElementById('sectionTitle');
+
+        function renderProducts(filterCategory) {
+            container.innerHTML = '';
             
-            // 如果圖片讀取失敗，預設顯示 logo.jpg
-            const imgSource = product.image ? product.image : 'logo.jpg';
+            const filtered = filterCategory === 'all' 
+                ? products 
+                : products.filter(p => p.category === filterCategory);
 
-            const html = `
-                <div class="product-card ${isSoldOut ? 'sold-out' : ''}">
-                    <div class="product-img-box">
-                        <img src="${imgSource}" class="product-img" alt="${product.name}" onerror="this.src='logo.jpg'">
-                        <div class="sold-out-overlay">售完</div>
-                    </div>
-                    <div class="product-info">
-                        <div>
-                            <div class="product-name">${product.name}</div>
-                            <div class="product-stock">庫存：${product.stock} 組</div>
-                        </div>
-                        <div class="product-price-row">
-                            <div class="product-price">NT$ ${product.price}</div>
-                            <a href="${btnLink}" target="_blank" class="product-btn">${btnText}</a>
-                        </div>
-                    </div>
-                </div>
-            `;
-            grid.innerHTML += html;
-        });
-
-        // 天數計算
-        const startDate = new Date('2023-10-01');
-        const today = new Date();
-        const daysDiff = Math.floor((today - startDate) / (1000 * 60 * 60 * 24));
-        document.getElementById('days-count').innerText = daysDiff;
-
-        // 回到頂部
-        const backToTopBtn = document.getElementById('backToTop');
-        window.onscroll = function() {
-            if (document.body.scrollTop > 300 || document.documentElement.scrollTop > 300) {
-                backToTopBtn.classList.add('show');
-            } else {
-                backToTopBtn.classList.remove('show');
+            if(filtered.length === 0) {
+                container.innerHTML = '<div style="color:#888; grid-column:1/-1; text-align:center;">此分類目前尚無商品</div>';
+                return;
             }
-        };
-        function scrollToTop() {
-            window.scrollTo({ top: 0, behavior: 'smooth' });
+
+            filtered.forEach(p => {
+                // 如果圖片讀不到，顯示預設圖
+                const imgSrc = p.img ? p.img : 'logo.jpg';
+                
+                const html = `
+                    <div class="product-card">
+                        <img src="${imgSrc}" class="p-img" alt="${p.name}" onerror="this.src='logo.jpg'">
+                        <div class="p-info">
+                            <div class="p-name">${p.name}</div>
+                            <div class="p-price">NT$ ${p.price}</div>
+                            <button class="add-btn" onclick="addToCart('${p.id}')">＋ 加入購物車</button>
+                        </div>
+                    </div>
+                `;
+                container.innerHTML += html;
+            });
         }
+
+        // 切換分類
+        function filterProducts(cat, btn) {
+            // 更新按鈕樣式
+            document.querySelectorAll('.category-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            
+            // 更新標題
+            const titles = {
+                'all': '📌 全部商品', 'guppy': '🐟 孔雀魚專區', 'molly': '🐠 茉莉魚專區',
+                'shrimp': '🦐 米蝦專區', 'bottom': '🐡 底棲魚專區', 'addon': '🥫 加購專區'
+            };
+            titleDom.innerText = titles[cat];
+
+            renderProducts(cat);
+        }
+
+        // --- 3. 購物車功能 ---
+        function addToCart(pid) {
+            const product = products.find(p => p.id === pid);
+            const existItem = cart.find(c => c.id === pid);
+
+            if (existItem) {
+                existItem.qty++;
+            } else {
+                cart.push({ ...product, qty: 1 });
+            }
+            updateCartUI();
+            // 簡單提示
+            const btn = event.target;
+            const originalText = btn.innerText;
+            btn.innerText = "✅ 已加入";
+            setTimeout(() => btn.innerText = originalText, 1000);
+        }
+
+        function updateCartUI() {
+            // 更新紅點數字
+            const totalCount = cart.reduce((sum, item) => sum + item.qty, 0);
+            document.getElementById('cartCount').innerText = totalCount;
+
+            // 更新購物車列表
+            const cartItemsContainer = document.getElementById('cartItems');
+            const cartTotalContainer = document.getElementById('cartTotal');
+            
+            if (cart.length === 0) {
+                cartItemsContainer.innerHTML = '<div style="text-align:center; color:#aaa; padding:20px;">您的購物車是空的 🛒</div>';
+                cartTotalContainer.innerText = '0';
+                return;
+            }
+
+            let html = '';
+            let totalAmount = 0;
+
+            cart.forEach((item, index) => {
+                totalAmount += item.price * item.qty;
+                html += `
+                    <div class="cart-item">
+                        <div class="ci-name">${item.name}<br><small style="color:#64ffda">NT$ ${item.price}</small></div>
+                        <div class="ci-controls">
+                            <button class="ci-btn" onclick="changeQty(${index}, -1)">-</button>
+                            <span class="ci-qty">${item.qty}</span>
+                            <button class="ci-btn" onclick="changeQty(${index}, 1)">+</button>
+                        </div>
+                    </div>
+                `;
+            });
+
+            cartItemsContainer.innerHTML = html;
+            cartTotalContainer.innerText = totalAmount;
+        }
+
+        function changeQty(index, delta) {
+            cart[index].qty += delta;
+            if (cart[index].qty <= 0) {
+                cart.splice(index, 1); // 數量為0移除
+            }
+            updateCartUI();
+        }
+
+        function openCart() {
+            document.getElementById('cartModal').style.display = 'flex';
+        }
+
+        function closeCart() {
+            document.getElementById('cartModal').style.display = 'none';
+        }
+
+        // --- 4. 結帳功能 (跳轉 LINE) ---
+        function checkout() {
+            if (cart.length === 0) {
+                alert('購物車是空的喔！');
+                return;
+            }
+
+            let message = "嗨宇哥！我要訂購以下商品：\n------------------\n";
+            let total = 0;
+
+            cart.forEach(item => {
+                message += `${item.name} x ${item.qty} = ${item.price * item.qty}\n`;
+                total += item.price * item.qty;
+            });
+
+            message += `------------------\n總金額：NT$ ${total}\n\n請協助確認訂單，謝謝！`;
+
+            // 這裡會開啟 LINE 傳送訊息 (請確保網址正確)
+            // 如果是在電腦版，會開啟 LINE 網頁版或應用程式
+            // 手機版會直接跳轉 LINE App
+            const lineUrl = `https://line.me/R/msg/text/?${encodeURIComponent(message)}`;
+            
+            window.open(lineUrl, '_blank');
+        }
+
+        // 初始化
+        renderProducts('all');
+
     </script>
 </body>
 </html>
