@@ -182,29 +182,47 @@
         .form-input:focus, .form-select:focus { outline: none; border-color: #64ffda; }
         textarea.form-input { resize: vertical; height: 80px; }
 
-        /* --- 銀行資訊區塊 (宇哥指定：超醒目版) --- */
+        /* --- 銀行資訊區塊 (宇哥指定：手機版強制變色) --- */
         #bankInfoArea {
             display: none; 
-            background: #000000; 
-            border: 3px solid #ffe100; 
+            background: #000000 !important; /* 強制黑底 */
+            border: 3px solid #ffe100 !important; /* 強制黃框 */
             padding: 25px; 
             border-radius: 12px; 
             margin-bottom: 20px; 
             text-align: center;
             box-shadow: 0 0 15px rgba(255, 225, 0, 0.3);
         }
-        .bank-title { color: #fff; font-size: 20px; margin-bottom: 10px; font-weight: bold; }
+        .bank-title { 
+            color: #fff !important; /* 強制白標題 */
+            font-size: 20px; 
+            margin-bottom: 10px; 
+            font-weight: bold; 
+        }
         .bank-number {
-            color: #ffe100; font-size: 32px; font-weight: 900; 
-            font-family: Consolas, monospace; display: block; margin: 5px 0 20px 0;
-            letter-spacing: 2px; text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+            color: #ffe100 !important; /* 強制黃數字 */
+            font-size: 32px; 
+            font-weight: 900; 
+            font-family: Consolas, monospace; 
+            display: block; 
+            margin: 5px 0 20px 0;
+            letter-spacing: 2px; 
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
         }
         .copy-btn {
-            background: #ffe100; color: #000; border: none; padding: 10px 30px;
-            border-radius: 30px; font-size: 16px; font-weight: bold; cursor: pointer; 
-            display: inline-block; transition: transform 0.2s; box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+            background: #ffe100 !important; /* 強制黃按鈕 */
+            color: #000 !important; /* 強制黑字 */
+            border: none; 
+            padding: 10px 30px;
+            border-radius: 30px; 
+            font-size: 16px; 
+            font-weight: bold; 
+            cursor: pointer; 
+            display: inline-block; 
+            transition: transform 0.2s; 
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
         }
-        .copy-btn:hover { transform: scale(1.05); background: #fff; }
+        .copy-btn:hover { transform: scale(1.05); background: #fff !important; }
 
         .cart-footer { margin-top: auto; }
         .cart-actions { display: flex; gap: 10px; }
@@ -223,7 +241,7 @@
         @keyframes fadein { from {bottom: 0; opacity: 0;} to {bottom: 80px; opacity: 1;} }
         @keyframes fadeout { from {bottom: 80px; opacity: 1;} to {bottom: 0; opacity: 0;} }
 
-        /* --- 🔥 宇魚專屬：自訂確認視窗 (宇哥親自坐鎮版 - 排版優化) --- */
+        /* --- 🔥 宇魚專屬：自訂確認視窗 (黑貓貨單版) --- */
         #orderConfirmModal {
             display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: rgba(0,0,0,0.9); z-index: 30000; justify-content: center; align-items: center;
@@ -236,16 +254,15 @@
         .confirm-title { font-size: 24px; color: #64ffda; font-weight: bold; margin-bottom: 20px; }
         .confirm-msg { color: #fff; font-size: 16px; line-height: 1.6; margin-bottom: 25px; }
         
-        /* 重點提示 */
         .confirm-highlight { 
             color: #ffe100; font-weight: bold; font-size: 20px; 
             display: block; margin-top: 10px; 
         }
         
-        /* 🔥 宇哥承諾卡片設計 🔥 */
+        /* 🔥 宇哥承諾區塊 (黑貓貨單版) 🔥 */
         .yuge-promise-box {
-            background: rgba(255, 225, 0, 0.1); /* 淡淡的黃色背景 */
-            border: 1px solid #ffe100; /* 金色邊框 */
+            background: rgba(255, 225, 0, 0.1);
+            border: 1px solid #ffe100;
             border-radius: 10px;
             padding: 15px;
             margin-top: 20px;
@@ -258,10 +275,10 @@
             margin-bottom: 5px;
         }
         .yuge-text {
-            color: #ffe100; /* 亮黃色 */
-            font-size: 20px; /* 大字體 */
+            color: #ffe100;
+            font-size: 19px; /* 字體稍作調整以容納兩行 */
             font-weight: bold; 
-            line-height: 1.4;
+            line-height: 1.5;
             text-shadow: 1px 1px 2px rgba(0,0,0,0.8);
         }
 
@@ -414,8 +431,8 @@
                 <div class="yuge-promise-box">
                     <span class="yuge-avatar">👨‍✈️</span>
                     <div class="yuge-text">
-                        宇哥會在 LINE 上親自等您！<br>
-                        確認配送進度，請期待收魚喔！
+                        宇哥會在LINE上親自為您提供黑貓貨單<br>
+                        ✨ 確認配送進度！敬請期待收魚喔！ ✨
                     </div>
                 </div>
                 </div>
