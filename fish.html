@@ -182,7 +182,7 @@
         .form-input:focus, .form-select:focus { outline: none; border-color: #64ffda; }
         textarea.form-input { resize: vertical; height: 80px; }
 
-        /* --- 銀行資訊區塊 (視覺優化版) --- */
+        /* --- 銀行資訊區塊 (高對比醒目版) --- */
         #bankInfoArea {
             display: none; 
             background: rgba(0, 0, 0, 0.6); 
@@ -417,7 +417,7 @@
                                 stock: parseInt(item.stock) || 0,
                                 img: item.img ? item.img.trim() : '',
                                 tag: item.tag ? item.tag.trim() : '',
-                                origin_price: parseInt(item.origin_price) || 0 // 新增：讀取原價
+                                origin_price: parseInt(item.origin_price) || 0
                             }));
                         }
                         document.getElementById('loading').style.display = 'none';
@@ -466,7 +466,7 @@
                     mediaHtml = `<img src="${imgSrc}" class="p-img" alt="${p.name}" onerror="this.src='logo.jpg'">`;
                 }
 
-                // --- 價格顯示邏輯 (原價劃線) ---
+                // 價格顯示邏輯 (原價劃線)
                 let priceHtml = '';
                 if (p.tag === 'SALE' && p.origin_price > p.price) {
                     priceHtml = `
@@ -719,7 +719,8 @@
             // --- 宇哥官方帳號設定 ---
             const lineID = "@118rfvyo"; 
 
-            if(confirm(`訂單金額：${finalTotal}元\n\n按下確定後，系統將自動開啟 LINE 官方帳號。\n\n⚠️ 如果文字沒有自動出現，請在對話框「長按貼上」即可！`)) {
+            // 文案優化：簡單直白
+            if(confirm(`訂單金額：${finalTotal}元\n\n系統已幫您複製訂單內容！📋\n\n按下「確定」後會打開 LINE，\n請直接在對話框【貼上】並【傳送】給我即可！`)) {
                 
                 navigator.clipboard.writeText(message).then(() => {}).catch(err => {});
 
