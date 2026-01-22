@@ -460,29 +460,28 @@
         const SHIPPING_COST = 200;
         const FREE_SHIPPING_THRESHOLD = 2000;
 
-        // --- 核心：讀取資料 ---
+// --- 核心：讀取資料 (備用方案：使用 export 網址) ---
         function init() {
             if (googleSheetID) {
                 document.getElementById('loading').style.display = 'block';
-                const url = `https://docs.google.com/spreadsheets/d/${googleSheetID}/gviz/tq?tqx=out:csv`;
+                // 修改：換成 export?format=csv 這種更直接的網址
+                const url = `https://docs.google.com/spreadsheets/d/${googleSheetID}/export?format=csv`;
                 
                 Papa.parse(url, {
                     download: true,
                     header: true,
                     complete: function(results) {
-                        // 將讀取到的資料轉存到 products 變數
                         const sheetData = results.data;
-                        // 簡單過濾掉空行
                         const validData = sheetData.filter(item => item.id && item.name);
                         
                         if (validData.length > 0) {
                             products = validData.map(item => ({
                                 id: item.id,
                                 name: item.name,
-                                price: parseInt(item.price),
-                                category: item.category,
-                                stock: parseInt(item.stock),
-                                img: item.img
+                                price: parseInt(item.price) || 0, // 防止價格空白爆掉
+                                category: item.category ? item.category.trim() : 'guppy', // 防止分類空白
+                                stock: parseInt(item.stock) || 0,
+                                img: item.img ? item.img.trim() : ''
                             }));
                         }
                         
@@ -491,8 +490,8 @@
                     },
                     error: function(err) {
                         console.error("試算表讀取失敗", err);
-                        document.getElementById('loading').innerText = "雲端連線失敗，載入備用資料";
-                        setTimeout(() => { document.getElementById('loading').style.display = 'none'; renderProducts('all'); }, 2000);
+                        document.getElementById('loading').innerHTML = "載入失敗，請確認<br>1. 檔案 -> 共用 -> 發布到網路<br>2. 格式選 CSV";
+                        // 失敗時不載入預設資料，讓您知道真的錯了，方便除錯
                     }
                 });
             } else {
