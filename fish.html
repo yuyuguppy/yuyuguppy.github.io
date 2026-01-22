@@ -268,15 +268,24 @@
             margin-top: 20px;
             text-align: center;
             box-shadow: 0 0 10px rgba(255, 225, 0, 0.1);
+            display: flex; /* 使用 flex 排版確保對齊 */
+            flex-direction: column;
+            align-items: center;
         }
-        .yuge-avatar {
-            font-size: 40px;
-            display: block;
-            margin-bottom: 5px;
+        /* 宇哥真人頭像設定 */
+        .yuge-avatar-img {
+            width: 70px;
+            height: 70px;
+            border-radius: 50%; /* 圓形切割 */
+            border: 3px solid #ffe100; /* 金色邊框 */
+            object-fit: cover; /* 確保照片不變形 */
+            margin-bottom: 10px;
+            background-color: #fff; /* 照片背景底色 */
         }
+        
         .yuge-text {
             color: #ffe100;
-            font-size: 19px; /* 字體稍作調整以容納兩行 */
+            font-size: 19px; 
             font-weight: bold; 
             line-height: 1.5;
             text-shadow: 1px 1px 2px rgba(0,0,0,0.8);
@@ -429,7 +438,7 @@
                 <span class="confirm-highlight">請直接【貼上】並【傳送】即可！</span>
                 
                 <div class="yuge-promise-box">
-                    <span class="yuge-avatar">👨‍✈️</span>
+                    <img src="boss.png" class="yuge-avatar-img" alt="宇哥" onerror="this.src='logo.jpg'">
                     <div class="yuge-text">
                         宇哥會在LINE上親自為您提供黑貓貨單<br>
                         ✨ 確認配送進度！敬請期待收魚喔！ ✨
