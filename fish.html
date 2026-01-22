@@ -3,6 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="format-detection" content="telephone=no">
+    
     <title>魚隻專區｜宇魚水族</title>
     <style>
         /* --- 全域設定：深海風格 --- */
@@ -209,6 +211,13 @@
             letter-spacing: 2px; 
             text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
         }
+        /* 🔥 關鍵修正：強制覆蓋手機瀏覽器的連結顏色 🔥 */
+        .bank-number a {
+            color: #ffe100 !important;
+            text-decoration: none !important;
+            pointer-events: none; /* 讓它變回純文字，不能點擊 */
+        }
+
         .copy-btn {
             background: #ffe100 !important; /* 強制黃按鈕 */
             color: #000 !important; /* 強制黑字 */
@@ -274,12 +283,10 @@
         }
         /* 宇哥真人頭像設定 (無框版) */
         .yuge-avatar-img {
-            width: auto;      /* 自動寬度，保持比例 */
-            height: 100px;    /* 設定高度，讓它大一點 */
-            /* 移除圓角和邊框 */
-            object-fit: contain; /* 確保完整顯示整張照片，不裁切 */
+            width: auto;      
+            height: 100px;    
+            object-fit: contain; 
             margin-bottom: 10px;
-            /* 移除背景色 */
             display: block;
         }
         
