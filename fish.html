@@ -113,7 +113,16 @@
 
         .p-info { padding: 15px; flex-grow: 1; display: flex; flex-direction: column; }
         .p-name { font-size: 16px; font-weight: bold; margin-bottom: 5px; color: #fff; }
-        .p-price { color: #ffe100; font-size: 18px; font-weight: bold; margin-bottom: 10px; }
+        
+        /* 價格顯示區塊 (支援原價劃線) */
+        .p-price-area { margin-bottom: 10px; }
+        .p-price-origin {
+            text-decoration: line-through; /* 劃線 */
+            text-decoration-color: #ff4d4d; /* 紅色線 */
+            text-decoration-thickness: 2px;
+            color: #aaa; font-size: 14px; margin-right: 5px;
+        }
+        .p-price-current { color: #ffe100; font-size: 18px; font-weight: bold; }
 
         /* 數量選擇器 */
         .qty-control {
@@ -173,17 +182,44 @@
         .form-input:focus, .form-select:focus { outline: none; border-color: #64ffda; }
         textarea.form-input { resize: vertical; height: 80px; }
 
-        /* 銀行資訊區塊 (預設隱藏) */
+        /* --- 銀行資訊區塊 (視覺優化版) --- */
         #bankInfoArea {
-            display: none; background: rgba(100, 255, 218, 0.1); border: 1px solid #64ffda;
-            padding: 15px; border-radius: 8px; margin-bottom: 15px; text-align: center;
+            display: none; 
+            background: rgba(0, 0, 0, 0.6); 
+            border: 2px solid #ffe100; 
+            padding: 20px; 
+            border-radius: 10px; 
+            margin-bottom: 20px; 
+            text-align: center;
         }
-        .bank-text { color: #fff; font-size: 14px; margin-bottom: 10px; line-height: 1.6; }
+        .bank-title {
+            color: #ccc; 
+            font-size: 18px; 
+            margin-bottom: 5px; 
+            font-weight: bold;
+        }
+        .bank-number {
+            color: #ffe100; 
+            font-size: 26px; 
+            font-weight: bold; 
+            font-family: monospace; 
+            display: block; 
+            margin: 5px 0 15px 0;
+            letter-spacing: 1px;
+        }
         .copy-btn {
-            background: #334e68; color: #fff; border: none; padding: 5px 15px;
-            border-radius: 15px; font-size: 12px; cursor: pointer; display: inline-block;
+            background: #64ffda; 
+            color: #000; 
+            border: none; 
+            padding: 8px 20px;
+            border-radius: 20px; 
+            font-size: 15px; 
+            font-weight: bold;
+            cursor: pointer; 
+            display: inline-block;
+            transition: transform 0.2s;
         }
-        .copy-btn:hover { background: #64ffda; color: #000; }
+        .copy-btn:hover { transform: scale(1.05); background: #fff; }
 
         .cart-footer { margin-top: auto; }
         .cart-actions { display: flex; gap: 10px; }
@@ -309,10 +345,8 @@
                     </div>
 
                     <div id="bankInfoArea" style="display: block;">
-                        <div class="bank-text">
-                            013 國泰世華銀行<br>
-                            帳號：<span id="bankAccount">206506221657</span>
-                        </div>
+                        <div class="bank-title">🏦 013 國泰世華</div>
+                        <span class="bank-number" id="bankAccount">206506221657</span>
                         <button class="copy-btn" onclick="copyBankAccount()">📋 點我複製帳號</button>
                     </div>
 
@@ -382,7 +416,8 @@
                                 category: item.category ? item.category.trim() : 'guppy',
                                 stock: parseInt(item.stock) || 0,
                                 img: item.img ? item.img.trim() : '',
-                                tag: item.tag ? item.tag.trim() : ''
+                                tag: item.tag ? item.tag.trim() : '',
+                                origin_price: parseInt(item.origin_price) || 0 // 新增：讀取原價
                             }));
                         }
                         document.getElementById('loading').style.display = 'none';
@@ -431,6 +466,19 @@
                     mediaHtml = `<img src="${imgSrc}" class="p-img" alt="${p.name}" onerror="this.src='logo.jpg'">`;
                 }
 
+                // --- 價格顯示邏輯 (原價劃線) ---
+                let priceHtml = '';
+                if (p.tag === 'SALE' && p.origin_price > p.price) {
+                    priceHtml = `
+                        <div class="p-price-area">
+                            <span class="p-price-origin">NT$ ${p.origin_price}</span>
+                            <span class="p-price-current">NT$ ${p.price}</span>
+                        </div>
+                    `;
+                } else {
+                    priceHtml = `<div class="p-price-area"><span class="p-price-current">NT$ ${p.price}</span></div>`;
+                }
+
                 let btnHtml = '';
                 if (isSoldOut) {
                     btnHtml = `<button class="add-btn disabled">已售完</button>`;
@@ -454,7 +502,7 @@
                         </div>
                         <div class="p-info">
                             <div class="p-name">${p.name}</div>
-                            <div class="p-price">NT$ ${p.price}</div>
+                            ${priceHtml}
                             <div style="font-size:12px; color:#888; margin-bottom:5px;">庫存：${p.stock}</div>
                             ${btnHtml}
                         </div>
@@ -673,14 +721,11 @@
 
             if(confirm(`訂單金額：${finalTotal}元\n\n按下確定後，系統將自動開啟 LINE 官方帳號。\n\n⚠️ 如果文字沒有自動出現，請在對話框「長按貼上」即可！`)) {
                 
-                // 1. 保險起見，先複製到剪貼簿
                 navigator.clipboard.writeText(message).then(() => {}).catch(err => {});
 
-                // 2. 開啟官方帳號連結
                 const lineUrl = `https://line.me/R/oaMessage/${lineID}/?${encodeURIComponent(message)}`;
                 window.location.href = lineUrl; 
                 
-                // 3. 清理
                 cart = [];
                 updateCartUI();
                 closeCart();
