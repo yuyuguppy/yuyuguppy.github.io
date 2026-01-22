@@ -268,19 +268,19 @@
             margin-top: 20px;
             text-align: center;
             box-shadow: 0 0 10px rgba(255, 225, 0, 0.1);
-            display: flex; /* 使用 flex 排版確保對齊 */
+            display: flex;
             flex-direction: column;
             align-items: center;
         }
-        /* 宇哥真人頭像設定 */
+        /* 宇哥真人頭像設定 (無框版) */
         .yuge-avatar-img {
-            width: 70px;
-            height: 70px;
-            border-radius: 50%; /* 圓形切割 */
-            border: 3px solid #ffe100; /* 金色邊框 */
-            object-fit: cover; /* 確保照片不變形 */
+            width: auto;      /* 自動寬度，保持比例 */
+            height: 100px;    /* 設定高度，讓它大一點 */
+            /* 移除圓角和邊框 */
+            object-fit: contain; /* 確保完整顯示整張照片，不裁切 */
             margin-bottom: 10px;
-            background-color: #fff; /* 照片背景底色 */
+            /* 移除背景色 */
+            display: block;
         }
         
         .yuge-text {
@@ -440,7 +440,7 @@
                 <div class="yuge-promise-box">
                     <img src="boss.png" class="yuge-avatar-img" alt="宇哥" onerror="this.src='logo.jpg'">
                     <div class="yuge-text">
-                        宇魚會在LINE上親自為您提供黑貓貨單<br>
+                        宇哥會在LINE上親自為您提供黑貓貨單<br>
                         ✨ 確認配送進度！敬請期待收魚喔！ ✨
                     </div>
                 </div>
