@@ -185,42 +185,24 @@
         /* --- 銀行資訊區塊 (宇哥指定：超醒目版) --- */
         #bankInfoArea {
             display: none; 
-            background: #000000; /* 全黑背景 */
-            border: 3px solid #ffe100; /* 加粗黃框 */
+            background: #000000; 
+            border: 3px solid #ffe100; 
             padding: 25px; 
             border-radius: 12px; 
             margin-bottom: 20px; 
             text-align: center;
             box-shadow: 0 0 15px rgba(255, 225, 0, 0.3);
         }
-        .bank-title {
-            color: #fff; 
-            font-size: 20px; 
-            margin-bottom: 10px; 
-            font-weight: bold;
-        }
+        .bank-title { color: #fff; font-size: 20px; margin-bottom: 10px; font-weight: bold; }
         .bank-number {
-            color: #ffe100; /* 亮黃色超大數字 */
-            font-size: 32px; 
-            font-weight: 900; 
-            font-family: Consolas, monospace; 
-            display: block; 
-            margin: 5px 0 20px 0;
-            letter-spacing: 2px;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+            color: #ffe100; font-size: 32px; font-weight: 900; 
+            font-family: Consolas, monospace; display: block; margin: 5px 0 20px 0;
+            letter-spacing: 2px; text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
         }
         .copy-btn {
-            background: #ffe100; 
-            color: #000; 
-            border: none; 
-            padding: 10px 30px;
-            border-radius: 30px; 
-            font-size: 16px; 
-            font-weight: bold;
-            cursor: pointer; 
-            display: inline-block;
-            transition: transform 0.2s;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+            background: #ffe100; color: #000; border: none; padding: 10px 30px;
+            border-radius: 30px; font-size: 16px; font-weight: bold; cursor: pointer; 
+            display: inline-block; transition: transform 0.2s; box-shadow: 0 4px 10px rgba(0,0,0,0.3);
         }
         .copy-btn:hover { transform: scale(1.05); background: #fff; }
 
@@ -240,6 +222,30 @@
         #toast.show { visibility: visible; animation: fadein 0.5s, fadeout 0.5s 1.5s; }
         @keyframes fadein { from {bottom: 0; opacity: 0;} to {bottom: 80px; opacity: 1;} }
         @keyframes fadeout { from {bottom: 80px; opacity: 1;} to {bottom: 0; opacity: 0;} }
+
+        /* --- 🔥 宇魚專屬：自訂確認視窗 (解決字體大小與複製問題) --- */
+        #orderConfirmModal {
+            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.9); z-index: 30000; justify-content: center; align-items: center;
+        }
+        .confirm-content {
+            background: #0d253f; border: 2px solid #64ffda; border-radius: 15px;
+            padding: 30px; width: 90%; max-width: 400px; text-align: center;
+            box-shadow: 0 0 30px rgba(100, 255, 218, 0.5);
+        }
+        .confirm-title { font-size: 24px; color: #64ffda; font-weight: bold; margin-bottom: 20px; }
+        .confirm-msg { color: #fff; font-size: 16px; line-height: 1.6; margin-bottom: 25px; }
+        .confirm-highlight { color: #ffe100; font-weight: bold; font-size: 20px; display: block; margin-top: 10px; }
+        .confirm-btn {
+            background: #64ffda; color: #000; border: none; padding: 15px 30px;
+            border-radius: 30px; font-size: 18px; font-weight: bold; cursor: pointer; width: 100%;
+            transition: transform 0.2s;
+        }
+        .confirm-btn:hover { transform: scale(1.05); background: #ffe100; }
+        .confirm-cancel {
+            background: transparent; color: #888; border: none; margin-top: 15px; 
+            cursor: pointer; text-decoration: underline;
+        }
 
         /* 無框島輝 */
         .back-to-top { position: fixed; bottom: 20px; right: 20px; background: none; border: none; padding: 0; display: flex; flex-direction: column; align-items: center; cursor: pointer; z-index: 9999; opacity: 0; visibility: hidden; transition: all 0.4s ease; }
@@ -361,10 +367,27 @@
                 <div class="cart-footer">
                     <div class="cart-actions">
                         <button class="action-btn btn-back" onclick="goToStep1()">❮ 返回確認</button>
-                        <button class="action-btn btn-next" onclick="submitOrder()">送出訂單 (LINE) ➤</button>
+                        <button class="action-btn btn-next" onclick="prepareOrder()">送出訂單 (LINE) ➤</button>
                     </div>
                 </div>
             </div>
+        </div>
+    </div>
+
+    <div id="orderConfirmModal">
+        <div class="confirm-content">
+            <div class="confirm-title">🎉 訂單準備好了！</div>
+            <div class="confirm-msg">
+                系統已幫您自動複製訂單內容 📋<br><br>
+                點擊下方按鈕將跳轉至 LINE<br>
+                <span class="confirm-highlight">請直接【貼上】並【傳送】即可！</span>
+                <br>
+                <span style="color:#64ffda; font-size:14px; margin-top:15px; display:block;">
+                    ✨ 宇哥會親自在 LINE 中提供<br>後續配送進度，請期待收魚喔！ ✨
+                </span>
+            </div>
+            <button class="confirm-btn" onclick="finalSubmit()">🚀 前往 LINE 傳送訂單</button>
+            <button class="confirm-cancel" onclick="closeConfirmModal()">再檢查一下</button>
         </div>
     </div>
 
@@ -392,6 +415,7 @@
         const SHIPPING_COST = 200;
         const FREE_SHIPPING_THRESHOLD = 2000;
         let currentCategory = 'all';
+        let pendingOrderMessage = ""; // 暫存訂單訊息
 
         window.onload = function() {
             init();
@@ -680,8 +704,8 @@
             }
         }
 
-        // --- 送出訂單 (PC/Mobile 自動判斷 + 文案優化 + 宇哥親自配送) ---
-        function submitOrder() {
+        // --- 準備訂單 (第一階段：生成文字) ---
+        function prepareOrder() {
             const name = document.getElementById('custName').value.trim();
             const phone = document.getElementById('custPhone').value.trim();
             const addr = document.getElementById('custAddr').value.trim();
@@ -719,32 +743,46 @@
             if (note) message += `備註：${note}\n`;
             message += `\n麻煩確認訂單，謝謝！`;
 
-            const lineID = "@118rfvyo"; 
+            // 存入全域變數，供下一步使用
+            pendingOrderMessage = message;
 
-            // 判斷是否為手機裝置
+            // 顯示自訂確認視窗
+            document.getElementById('orderConfirmModal').style.display = 'flex';
+        }
+
+        // --- 最終送出 (第二階段：強制複製 + 跳轉) ---
+        function finalSubmit() {
+            const lineID = "@118rfvyo"; 
             const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
 
-            // 🔥 宇哥指定：增加真人客服期待感文案 🔥
-            const alertMsg = `訂單金額：${finalTotal}元\n\n系統已幫您複製訂單內容！📋\n\n按下「確定」後會打開 LINE，\n請直接在對話框【貼上】並【傳送】給我即可！\n\n✨ 宇哥會親自在 LINE 中跟您確認配送進度，請期待收魚喔！ ✨`;
+            // 🔥 關鍵：在這裡強制覆蓋剪貼簿 🔥
+            navigator.clipboard.writeText(pendingOrderMessage).then(() => {
+                console.log("訂單複製成功");
+            }).catch(err => {
+                console.error("複製失敗", err);
+            });
 
-            if(confirm(alertMsg)) {
-                
-                navigator.clipboard.writeText(message).then(() => {}).catch(err => {});
-
-                // 2. 根據裝置決定跳轉網址
-                let lineUrl = "";
-                if (isMobile) {
-                    lineUrl = `https://line.me/R/oaMessage/${lineID}/?${encodeURIComponent(message)}`;
-                } else {
-                    lineUrl = `https://line.me/R/ti/p/${lineID}`;
-                }
-                
-                window.location.href = lineUrl; 
-                
+            // 跳轉邏輯
+            let lineUrl = "";
+            if (isMobile) {
+                lineUrl = `https://line.me/R/oaMessage/${lineID}/?${encodeURIComponent(pendingOrderMessage)}`;
+            } else {
+                lineUrl = `https://line.me/R/ti/p/${lineID}`;
+            }
+            
+            // 延遲一點點跳轉，確保複製動作完成
+            setTimeout(() => {
+                window.location.href = lineUrl;
+                // 清理
                 cart = [];
                 updateCartUI();
                 closeCart();
-            }
+                closeConfirmModal();
+            }, 300);
+        }
+
+        function closeConfirmModal() {
+            document.getElementById('orderConfirmModal').style.display = 'none';
         }
 
         const backToTopBtn = document.getElementById('backToTop');
