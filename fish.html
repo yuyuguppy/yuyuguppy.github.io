@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>魚隻專區｜宇魚水族</title>
     <style>
-        /* --- 全域設定 --- */
+        /* --- 全域設定：深海風格 --- */
         body { 
             background: radial-gradient(circle at 50% 10%, #1a3c5e 0%, #03101f 100%);
             color: #f0f4f8; 
@@ -14,7 +14,7 @@
             display: flex; flex-direction: column; position: relative;
         }
 
-        /* 背景氣泡 */
+        /* 背景氣泡動畫 */
         .bg-bubbles { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; overflow: hidden; pointer-events: none; }
         .bg-bubbles li {
             position: absolute; list-style: none; display: block; bottom: -150px; border-radius: 50%;
@@ -39,7 +39,7 @@
             box-shadow: 0 2px 8px rgba(0,0,0,0.3); line-height: 1.5;
         }
 
-        /* 導航 */
+        /* 導航列 */
         .top-nav {
             background: rgba(16, 42, 67, 0.9); padding: 15px 20px; display: flex; justify-content: space-between; align-items: center;
             border-bottom: 1px solid #334e68; position: sticky; top: 0; z-index: 10000; backdrop-filter: blur(5px);
@@ -57,9 +57,10 @@
             display: flex; align-items: center; justify-content: center; position: absolute; top: -8px; right: -8px;
         }
 
-        /* 佈局 */
+        /* 佈局容器 */
         .layout-container { display: flex; max-width: 1200px; width: 100%; margin: 20px auto; padding: 0 20px; box-sizing: border-box; gap: 20px; }
 
+        /* 左側選單 */
         .sidebar {
             width: 200px; flex-shrink: 0; background: rgba(16, 42, 67, 0.6); backdrop-filter: blur(5px);
             border-radius: 10px; padding: 15px; border: 1px solid rgba(100, 255, 218, 0.2);
@@ -132,6 +133,7 @@
         }
         .qty-input::-webkit-outer-spin-button, .qty-input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
 
+        /* 加入購物車按鈕 */
         .add-btn {
             background: #64ffda; border: none; color: #000;
             padding: 10px; border-radius: 5px; cursor: pointer; transition: 0.3s; width: 100%; font-weight: bold;
@@ -627,7 +629,7 @@
             }
         }
 
-        // --- 送出訂單 ---
+        // --- 送出訂單 (官方帳號專用版) ---
         function submitOrder() {
             const name = document.getElementById('custName').value.trim();
             const phone = document.getElementById('custPhone').value.trim();
@@ -635,7 +637,10 @@
             const note = document.getElementById('custNote').value.trim();
             const payment = document.getElementById('paymentMethod').value;
 
-            if (!name || !phone || !addr) { alert('請完整填寫姓名、電話與地址喔！'); return; }
+            if (!name || !phone || !addr) { 
+                alert('請完整填寫姓名、電話與地址喔！'); 
+                return; 
+            }
 
             saveCustomerData();
 
@@ -654,24 +659,31 @@
             message += `------------------\n`;
             message += `【付款方式】：${paymentText}\n`;
             
-            // 如果是 ATM，在 LINE 訊息裡也備註一下帳號，方便客人查看
             if (payment === 'atm') {
                 message += `(匯款帳號：${BANK_CODE} ${BANK_ACC})\n`;
-                message += `(請查收匯款，謝謝！)\n`;
+                message += `(我匯款後會再通知您查收！)\n`;
             }
             
             message += `【收件資訊】\n姓名：${name}\n電話：${phone}\n地址：${addr}\n`;
             if (note) message += `備註：${note}\n`;
-            message += `\n請確認訂單，謝謝！`;
+            message += `\n麻煩確認訂單，謝謝！`;
 
-            if(confirm(`訂單已生成！\n總金額：${finalTotal}元\n\n按下「確定」後將跳轉至 LINE，請按下傳送鍵即可完成訂購！`)) {
-                const lineUrl = `https://line.me/R/msg/text/?${encodeURIComponent(message)}`;
-                window.open(lineUrl, '_blank');
+            // --- 宇哥官方帳號設定 ---
+            const lineID = "@118rfvyo"; 
+
+            if(confirm(`訂單金額：${finalTotal}元\n\n按下確定後，系統將自動開啟 LINE 官方帳號。\n\n⚠️ 如果文字沒有自動出現，請在對話框「長按貼上」即可！`)) {
                 
+                // 1. 保險起見，先複製到剪貼簿
+                navigator.clipboard.writeText(message).then(() => {}).catch(err => {});
+
+                // 2. 開啟官方帳號連結
+                const lineUrl = `https://line.me/R/oaMessage/${lineID}/?${encodeURIComponent(message)}`;
+                window.location.href = lineUrl; 
+                
+                // 3. 清理
                 cart = [];
                 updateCartUI();
                 closeCart();
-                showToast("訂單已送出，請至 LINE 確認！");
             }
         }
 
