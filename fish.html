@@ -182,42 +182,45 @@
         .form-input:focus, .form-select:focus { outline: none; border-color: #64ffda; }
         textarea.form-input { resize: vertical; height: 80px; }
 
-        /* --- 銀行資訊區塊 (高對比醒目版) --- */
+        /* --- 銀行資訊區塊 (宇哥指定：超醒目版) --- */
         #bankInfoArea {
             display: none; 
-            background: rgba(0, 0, 0, 0.6); 
-            border: 2px solid #ffe100; 
-            padding: 20px; 
-            border-radius: 10px; 
+            background: #000000; /* 全黑背景 */
+            border: 3px solid #ffe100; /* 加粗黃框 */
+            padding: 25px; 
+            border-radius: 12px; 
             margin-bottom: 20px; 
             text-align: center;
+            box-shadow: 0 0 15px rgba(255, 225, 0, 0.3);
         }
         .bank-title {
-            color: #ccc; 
-            font-size: 18px; 
-            margin-bottom: 5px; 
+            color: #fff; 
+            font-size: 20px; 
+            margin-bottom: 10px; 
             font-weight: bold;
         }
         .bank-number {
-            color: #ffe100; 
-            font-size: 26px; 
-            font-weight: bold; 
-            font-family: monospace; 
+            color: #ffe100; /* 亮黃色超大數字 */
+            font-size: 32px; 
+            font-weight: 900; 
+            font-family: Consolas, monospace; 
             display: block; 
-            margin: 5px 0 15px 0;
-            letter-spacing: 1px;
+            margin: 5px 0 20px 0;
+            letter-spacing: 2px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
         }
         .copy-btn {
-            background: #64ffda; 
+            background: #ffe100; 
             color: #000; 
             border: none; 
-            padding: 8px 20px;
-            border-radius: 20px; 
-            font-size: 15px; 
+            padding: 10px 30px;
+            border-radius: 30px; 
+            font-size: 16px; 
             font-weight: bold;
             cursor: pointer; 
             display: inline-block;
             transition: transform 0.2s;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
         }
         .copy-btn:hover { transform: scale(1.05); background: #fff; }
 
@@ -345,7 +348,7 @@
                     </div>
 
                     <div id="bankInfoArea" style="display: block;">
-                        <div class="bank-title">🏦 013 國泰世華</div>
+                        <div class="bank-title">🏦 013 國泰世華銀行</div>
                         <span class="bank-number" id="bankAccount">206506221657</span>
                         <button class="copy-btn" onclick="copyBankAccount()">📋 點我複製帳號</button>
                     </div>
@@ -677,7 +680,7 @@
             }
         }
 
-        // --- 送出訂單 (PC/Mobile 自動判斷 + 文案優化) ---
+        // --- 送出訂單 (PC/Mobile 自動判斷 + 文案優化 + 宇哥親自配送) ---
         function submitOrder() {
             const name = document.getElementById('custName').value.trim();
             const phone = document.getElementById('custPhone').value.trim();
@@ -721,26 +724,23 @@
             // 判斷是否為手機裝置
             const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
 
-            // 文案：傻瓜教學版
-            const alertMsg = `訂單金額：${finalTotal}元\n\n系統已幫您複製訂單內容！📋\n\n按下「確定」後會打開 LINE，\n請直接在對話框【貼上】並【傳送】給我即可！`;
+            // 🔥 宇哥指定：增加真人客服期待感文案 🔥
+            const alertMsg = `訂單金額：${finalTotal}元\n\n系統已幫您複製訂單內容！📋\n\n按下「確定」後會打開 LINE，\n請直接在對話框【貼上】並【傳送】給我即可！\n\n✨ 宇哥會親自在 LINE 中跟您確認配送進度，請期待收魚喔！ ✨`;
 
             if(confirm(alertMsg)) {
-                // 1. 複製到剪貼簿 (PC/Mobile 都做)
+                
                 navigator.clipboard.writeText(message).then(() => {}).catch(err => {});
 
                 // 2. 根據裝置決定跳轉網址
                 let lineUrl = "";
                 if (isMobile) {
-                    // 手機：嘗試自動帶入文字 (oaMessage)
                     lineUrl = `https://line.me/R/oaMessage/${lineID}/?${encodeURIComponent(message)}`;
                 } else {
-                    // 電腦：打開官方帳號加入/聊天頁面 (讓客人自己貼上)
                     lineUrl = `https://line.me/R/ti/p/${lineID}`;
                 }
                 
                 window.location.href = lineUrl; 
                 
-                // 3. 清理
                 cart = [];
                 updateCartUI();
                 closeCart();
