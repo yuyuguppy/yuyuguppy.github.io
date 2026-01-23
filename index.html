@@ -74,7 +74,7 @@
 
         .yuyu-announcement-bar {
             background-color: #ffe100; 
-            color: #000000;            
+            color: #000000;           
             text-align: center;
             padding: 12px 10px;
             font-size: 15px;
@@ -175,6 +175,48 @@
         .highlight { color: #ffbc00; font-weight: bold; }
         p { color: #bcccdc; line-height: 1.6; }
 
+        /* --- 🏆 獲獎經歷區塊 (新加入) --- */
+        .awards-section {
+            width: 100%;
+            max-width: 480px;
+            margin-bottom: 20px; /* 保持在評價上方 */
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.3); /* 稍微深一點的背景以突顯金牌 */
+            border-radius: 16px;
+            border: 1px solid rgba(197, 160, 89, 0.3); /* 淡金色邊框 */
+            box-sizing: border-box;
+        }
+        .awards-title {
+            font-size: 18px;
+            color: #C5A059; /* 金色標題 */
+            margin-bottom: 15px;
+            font-weight: bold;
+            text-align: center;
+            letter-spacing: 1px;
+            text-shadow: 0 0 10px rgba(197, 160, 89, 0.5);
+        }
+        .awards-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr); /* 手機版並排顯示 */
+            gap: 10px;
+        }
+        .award-item {
+            background: rgba(197, 160, 89, 0.1);
+            border: 1px solid #C5A059;
+            border-radius: 8px;
+            padding: 10px;
+            text-align: center;
+            font-size: 13px;
+            color: #fff;
+            transition: transform 0.2s;
+        }
+        .award-item:hover {
+            transform: translateY(-2px);
+            background: rgba(197, 160, 89, 0.2);
+        }
+        .award-icon { font-size: 20px; display: block; margin-bottom: 5px; }
+
+        /* --- 評價區塊 (名稱已修改) --- */
         .reviews-section {
             width: 100%;
             max-width: 480px;
@@ -465,8 +507,22 @@
             <p class="highlight">✈️ 3/14 - 3/18 泰國考察店休</p>
         </div>
 
+        <div class="awards-section">
+            <div class="awards-title">🏆 宇哥獲獎經歷</div>
+            <div class="awards-grid">
+                <div class="award-item"><span class="award-icon">🥇</span>2025 世界孔雀魚大賽 冠軍</div>
+                <div class="award-item"><span class="award-icon">🥇</span>2024 台灣觀賞魚博覽會 金牌</div>
+                <div class="award-item"><span class="award-icon">🥈</span>2024 亞太水族造景 銀牌</div>
+                <div class="award-item"><span class="award-icon">🥉</span>2023 全國優質孔雀魚 銅牌</div>
+                <div class="award-item"><span class="award-icon">🏅</span>2023 日本古比魚協會 特別賞</div>
+                <div class="award-item"><span class="award-icon">🏅</span>2022 台灣國際盃 人氣獎</div>
+                <div class="award-item"><span class="award-icon">🏅</span>2022 高雄水族展 優選</div>
+                <div class="award-item"><span class="award-icon">🏅</span>2021 孔雀魚推廣協會 榮譽會員</div>
+            </div>
+        </div>
+
         <div class="reviews-section">
-            <div class="title">⭐️ 顧客五星好評中 ⭐️</div>
+            <div class="title">⭐️ 顧客真實經驗分享 ⭐️</div>
             <div class="danmaku-lane lane-1">
                 <span class="danmaku-item">孔雀魚種類齊全健康度好，老闆會挑選自己喜歡的品系去繁殖育種！</span>
                 <span class="danmaku-item">鬥魚漂亮又健康！老闆親切解釋，還會針對魚缸問題做建議，專業！</span>
@@ -567,4 +623,3 @@
     </script>
 </body>
 </html>
-
