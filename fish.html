@@ -13,42 +13,69 @@
             font-family: "Microsoft JhengHei", sans-serif; 
             margin: 0; padding: 0; min-height: 100vh; overflow-x: hidden; 
             display: flex; flex-direction: column; position: relative;
-            /* 為了避開固定的公告欄 */
-            padding-top: 45px; 
+            /* 為了避開雙層固定欄位 (45px + 50px = 95px) */
+            padding-top: 95px; 
         }
 
-        /* --- 公告欄 (固定置頂) --- */
+        /* --- 1. 黃色公告欄 (固定置頂 - 第一層) --- */
         .yuyu-announcement-bar {
-            background-color: #ffe100; color: #000; text-align: center; padding: 12px 10px;
-            font-size: 15px; font-weight: 700; width: 100%; 
-            position: fixed; top: 0; left: 0; z-index: 12000;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.3); line-height: 1.5;
-            box-sizing: border-box; height: auto; min-height: 45px;
+            background-color: #ffe100; color: #000; text-align: center; 
+            padding: 0 10px;
+            font-size: 14px; font-weight: 700; width: 100%; 
+            position: fixed; top: 0; left: 0;
+            z-index: 12000; /* 最上層 */
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2); 
+            height: 45px; box-sizing: border-box;
+            display: flex; align-items: center; justify-content: center;
+            white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
         }
 
-        /* --- 漢堡選單按鈕 (Side Nav Trigger) --- */
-        .hamburger-btn {
-            position: fixed; 
-            top: 55px; /* 初始位置：公告欄高度 + 間距 */
-            left: 20px; 
+        /* --- 2. 手機版專用導覽列 (固定在黃條下面 - 第二層) --- */
+        .mobile-sticky-header {
+            position: fixed;
+            top: 45px; /* 緊接在黃色公告欄下面 */
+            left: 0;
+            width: 100%;
+            height: 50px;
+            background-color: #03101f; /* 深藍底色 */
+            border-bottom: 1px solid #334e68;
             z-index: 11000;
-            background: rgba(3, 16, 31, 0.6); /* 加點底色防看不見 */
-            padding: 5px; border-radius: 5px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between; /* 左右撐開 */
+            padding: 0 15px;
+            box-sizing: border-box;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+        }
+
+        /* 海苔條按鈕 (漢堡) */
+        .hamburger-btn {
+            background: transparent;
             border: none; cursor: pointer;
             display: flex; flex-direction: column; gap: 5px;
-            transition: top 0.3s ease-in-out; /* 滑動動畫 */
+            padding: 5px;
         }
-        .hamburger-btn.nav-hide {
-            top: -60px; /* 隱藏時往上縮 */
-        }
-        .bar { width: 30px; height: 3px; background-color: #64ffda; border-radius: 3px; transition: 0.3s; }
+        .bar { width: 25px; height: 3px; background-color: #64ffda; border-radius: 3px; transition: 0.3s; }
         
-        /* 側邊欄容器 */
+        /* 手機版標題 */
+        .mobile-header-title {
+            color: #64ffda; font-weight: bold; font-size: 18px;
+        }
+
+        /* 手機版購物車按鈕 (整合在 Header 內) */
+        .mobile-cart-btn {
+            background: #64ffda; color: #000; 
+            font-weight: bold; padding: 5px 12px; 
+            border-radius: 20px; font-size: 14px;
+            cursor: pointer; display: flex; align-items: center; gap: 5px;
+        }
+
+        /* --- 側邊選單 (Sidenav) --- */
         .sidenav {
-            height: 100%; width: 0; position: fixed; z-index: 13000; /* 比公告欄高 */
-            top: 0; left: 0; background-color: rgba(3, 16, 31, 0.95);
+            height: 100%; width: 0; position: fixed; z-index: 13000; 
+            top: 0; left: 0; background-color: rgba(3, 16, 31, 0.98);
             overflow-x: hidden; transition: 0.4s; padding-top: 60px;
-            backdrop-filter: blur(10px); border-right: 1px solid #64ffda;
+            border-right: 1px solid #64ffda;
         }
         .sidenav a, .dropdown-btn {
             padding: 15px 30px; text-decoration: none; font-size: 18px;
@@ -62,13 +89,19 @@
             position: absolute; top: 10px; right: 20px; font-size: 36px; margin-left: 50px; border: none;
         }
 
+        /* --- 遮罩層 (點擊外部收合用) --- */
+        .menu-overlay {
+            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background-color: rgba(0, 0, 0, 0.7); 
+            z-index: 12500; backdrop-filter: blur(2px);
+        }
+
         /* 下拉選單 */
         .dropdown-container {
             display: none; background-color: rgba(0,0,0,0.3); padding-left: 20px;
         }
         .dropdown-container a { font-size: 16px; color: #bcccdc; }
         .dropdown-container a:hover { color: #64ffda; }
-        
         .fa-caret-down { float: right; padding-right: 8px; }
 
         /* --- 條款 Modal --- */
@@ -113,7 +146,7 @@
             background: rgba(16, 42, 67, 0.9); padding: 15px 20px; display: flex; justify-content: space-between; align-items: center;
             border-bottom: 1px solid #334e68; position: sticky; top: 45px; z-index: 10000; backdrop-filter: blur(5px);
         }
-        .logo-area { display: flex; align-items: center; gap: 10px; font-weight: bold; font-size: 20px; color: #64ffda; text-decoration: none; margin-left: 40px; /* 為了閃避漢堡按鈕 */ }
+        .logo-area { display: flex; align-items: center; gap: 10px; font-weight: bold; font-size: 20px; color: #64ffda; text-decoration: none; margin-left: 40px; }
         .logo-img { width: 40px; height: 40px; border-radius: 50%; border: 2px solid #64ffda; }
         
         .cart-btn {
@@ -183,12 +216,10 @@
         .p-info { padding: 15px; flex-grow: 1; display: flex; flex-direction: column; }
         .p-name { font-size: 16px; font-weight: bold; margin-bottom: 5px; color: #fff; }
         
-        /* 價格顯示區塊 (支援原價劃線) */
+        /* 價格顯示區塊 */
         .p-price-area { margin-bottom: 10px; }
         .p-price-origin {
-            text-decoration: line-through; /* 劃線 */
-            text-decoration-color: #ff4d4d; /* 紅色線 */
-            text-decoration-thickness: 2px;
+            text-decoration: line-through; text-decoration-color: #ff4d4d; text-decoration-thickness: 2px;
             color: #aaa; font-size: 14px; margin-right: 5px;
         }
         .p-price-current { color: #ffe100; font-size: 18px; font-weight: bold; }
@@ -251,52 +282,24 @@
         .form-input:focus, .form-select:focus { outline: none; border-color: #64ffda; }
         textarea.form-input { resize: vertical; height: 80px; }
 
-        /* --- 銀行資訊區塊 (宇哥指定：手機版強制變色) --- */
+        /* --- 銀行資訊區塊 --- */
         #bankInfoArea {
             display: none; 
-            background: #000000 !important; /* 強制黑底 */
-            border: 3px solid #ffe100 !important; /* 強制黃框 */
-            padding: 25px; 
-            border-radius: 12px; 
-            margin-bottom: 20px; 
-            text-align: center;
+            background: #000000 !important; border: 3px solid #ffe100 !important; 
+            padding: 25px; border-radius: 12px; margin-bottom: 20px; text-align: center;
             box-shadow: 0 0 15px rgba(255, 225, 0, 0.3);
         }
-        .bank-title { 
-            color: #fff !important; /* 強制白標題 */
-            font-size: 20px; 
-            margin-bottom: 10px; 
-            font-weight: bold; 
-        }
+        .bank-title { color: #fff !important; font-size: 20px; margin-bottom: 10px; font-weight: bold; }
         .bank-number {
-            color: #ffe100 !important; /* 強制黃數字 */
-            font-size: 32px; 
-            font-weight: 900; 
-            font-family: Consolas, monospace; 
-            display: block; 
-            margin: 5px 0 20px 0;
-            letter-spacing: 2px; 
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+            color: #ffe100 !important; font-size: 32px; font-weight: 900; font-family: Consolas, monospace; 
+            display: block; margin: 5px 0 20px 0; letter-spacing: 2px; text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
         }
-        /* 🔥 關鍵修正：強制覆蓋手機瀏覽器的連結顏色 🔥 */
-        .bank-number a {
-            color: #ffe100 !important;
-            text-decoration: none !important;
-            pointer-events: none; /* 讓它變回純文字，不能點擊 */
-        }
+        .bank-number a { color: #ffe100 !important; text-decoration: none !important; pointer-events: none; }
 
         .copy-btn {
-            background: #ffe100 !important; /* 強制黃按鈕 */
-            color: #000 !important; /* 強制黑字 */
-            border: none; 
-            padding: 10px 30px;
-            border-radius: 30px; 
-            font-size: 16px; 
-            font-weight: bold; 
-            cursor: pointer; 
-            display: inline-block; 
-            transition: transform 0.2s; 
-            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+            background: #ffe100 !important; color: #000 !important; border: none; padding: 10px 30px;
+            border-radius: 30px; font-size: 16px; font-weight: bold; cursor: pointer; 
+            display: inline-block; transition: transform 0.2s; box-shadow: 0 4px 10px rgba(0,0,0,0.3);
         }
         .copy-btn:hover { transform: scale(1.05); background: #fff !important; }
 
@@ -307,7 +310,7 @@
         .btn-next { background: #64ffda; color: #000; }
         .btn-next:hover { background: #ffe100; }
 
-        /* 提示框美化 (Toast) */
+        /* 提示框 (Toast) */
         #toast {
             visibility: hidden; min-width: 250px; background-color: rgba(0,0,0,0.9); border: 1px solid #64ffda;
             color: #fff; text-align: center; border-radius: 50px; padding: 16px; position: fixed; z-index: 20001;
@@ -317,7 +320,7 @@
         @keyframes fadein { from {bottom: 0; opacity: 0;} to {bottom: 80px; opacity: 1;} }
         @keyframes fadeout { from {bottom: 80px; opacity: 1;} to {bottom: 0; opacity: 0;} }
 
-        /* --- 🔥 宇魚專屬：自訂確認視窗 (黑貓貨單版) --- */
+        /* --- 訂單確認 Modal --- */
         #orderConfirmModal {
             display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: rgba(0,0,0,0.9); z-index: 30000; justify-content: center; align-items: center;
@@ -331,39 +334,16 @@
         .confirm-msg { color: #fff; font-size: 16px; line-height: 1.6; margin-bottom: 25px; }
         
         .confirm-highlight { 
-            color: #ffe100; font-weight: bold; font-size: 20px; 
-            display: block; margin-top: 10px; 
+            color: #ffe100; font-weight: bold; font-size: 20px; display: block; margin-top: 10px; 
         }
         
-        /* 🔥 宇哥承諾區塊 (黑貓貨單版) 🔥 */
         .yuge-promise-box {
-            background: rgba(255, 225, 0, 0.1);
-            border: 1px solid #ffe100;
-            border-radius: 10px;
-            padding: 15px;
-            margin-top: 20px;
-            text-align: center;
-            box-shadow: 0 0 10px rgba(255, 225, 0, 0.1);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
+            background: rgba(255, 225, 0, 0.1); border: 1px solid #ffe100; border-radius: 10px;
+            padding: 15px; margin-top: 20px; text-align: center;
+            box-shadow: 0 0 10px rgba(255, 225, 0, 0.1); display: flex; flex-direction: column; align-items: center;
         }
-        /* 宇哥真人頭像設定 (無框版) */
-        .yuge-avatar-img {
-            width: auto;       
-            height: 100px;     
-            object-fit: contain; 
-            margin-bottom: 10px;
-            display: block;
-        }
-        
-        .yuge-text {
-            color: #ffe100;
-            font-size: 19px; 
-            font-weight: bold; 
-            line-height: 1.5;
-            text-shadow: 1px 1px 2px rgba(0,0,0,0.8);
-        }
+        .yuge-avatar-img { width: auto; height: 100px; object-fit: contain; margin-bottom: 10px; display: block; }
+        .yuge-text { color: #ffe100; font-size: 19px; font-weight: bold; line-height: 1.5; text-shadow: 1px 1px 2px rgba(0,0,0,0.8); }
 
         .confirm-btn {
             background: #64ffda; color: #000; border: none; padding: 15px 30px;
@@ -376,28 +356,30 @@
             cursor: pointer; text-decoration: underline;
         }
 
-        /* 無框島輝 */
+        /* 無框島輝 (回到頂部) */
         .back-to-top { position: fixed; bottom: 20px; right: 20px; background: none; border: none; padding: 0; display: flex; flex-direction: column; align-items: center; cursor: pointer; z-index: 9999; opacity: 0; visibility: hidden; transition: all 0.4s ease; }
         .back-to-top.show { opacity: 1; visibility: visible; transform: translateY(0); }
-        .daohui-dog-img { width: 60px; height: auto; border-radius: 8px; border: 2px solid #64ffda; box-shadow: 0 4px 10px rgba(0,0,0,0.6); transition: transform 0.3s ease; }
+        .daohui-dog-img { width: 60px; height: auto; border-radius: 8px; border: 2px solid #64ffda; box-shadow: 0 4px 10px rgba(0,0,0,0.6); }
         .back-to-top span { margin-top: 5px; color: #64ffda; font-size: 13px; font-weight: bold; text-shadow: 0 2px 4px rgba(0,0,0,0.8); }
-        .back-to-top:hover .daohui-dog-img { transform: scale(1.1) rotate(-5deg); }
-        .back-to-top:hover span { color: #ffffff; }
+
+        /* 島輝擺頭動畫 */
+        @keyframes wag { 0% { transform: rotate(0deg); } 25% { transform: rotate(-10deg); } 50% { transform: rotate(10deg); } 75% { transform: rotate(-5deg); } 100% { transform: rotate(0deg); } }
+        .back-to-top:hover .daohui-dog-img, .back-to-top:active .daohui-dog-img { animation: wag 0.5s ease-in-out infinite; }
 
         /* 手機版 RWD 修正 */
         @media (max-width: 768px) {
-            .yuyu-announcement-bar { font-size: 13px; text-align: left; }
+            .yuyu-announcement-bar { font-size: 13px; white-space: normal; padding: 5px; height: auto; min-height: 45px; }
             .layout-container { flex-direction: column; padding: 0 10px; }
             
-            /* 側邊欄改為橫向滑動 */
+            /* 側邊分類改為橫向滑動，並黏在第二層導覽列下方 */
             .sidebar { 
                 width: 100%; display: flex; overflow-x: auto; padding: 10px; gap: 10px; 
-                position: sticky; top: 45px; /* 黏在公告欄下面 */
+                position: sticky; top: 95px; /* 45(黃) + 50(藍) = 95px */
                 z-index: 90; background: rgba(3, 16, 31, 0.95);
             }
             .category-btn { width: auto; white-space: nowrap; margin-bottom: 0; padding: 8px 15px; }
             
-            /* 隱藏桌面版 top-nav，改用我們剛剛做的自動收合漢堡 */
+            /* 隱藏桌面版 top-nav */
             .top-nav { display: none; }
             
             .area-header { flex-direction: column; align-items: flex-start; gap: 10px; }
@@ -412,16 +394,22 @@
     <ul class="bg-bubbles"><li></li><li></li><li></li><li></li><li></li></ul>
 
     <div class="yuyu-announcement-bar">
-        🚀 活體訂單2000元免運、常溫賣場660免運、冷凍賣場990免運，最新消息都在IG:@yuyu_guppy_
+        🚀 活體訂單2000元免運、常溫賣場660免運、冷凍賣場990免運
     </div>
 
-    <button class="hamburger-btn" onclick="openNav()">
-        <div class="bar"></div><div class="bar"></div><div class="bar"></div>
-    </button>
-    
-    <div class="hamburger-btn" style="left: auto; right: 20px; flex-direction: row; background: #64ffda; color: #000; font-weight: bold; padding: 8px 12px;" onclick="openCart()">
-        🛒 <span id="mobileCartCount">0</span>
+    <div class="mobile-sticky-header">
+        <button class="hamburger-btn" onclick="openNav()">
+            <div class="bar"></div><div class="bar"></div><div class="bar"></div>
+        </button>
+        <div class="mobile-header-title">
+            宇魚水族
+        </div>
+        <div class="mobile-cart-btn" onclick="openCart()">
+            🛒 <span id="mobileCartCount">0</span>
+        </div>
     </div>
+
+    <div id="menuOverlay" class="menu-overlay" onclick="closeNav()"></div>
 
     <div id="mySidenav" class="sidenav">
         <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">×</a>
@@ -604,8 +592,6 @@
         //  設定
         // ==========================================
         const googleSheetID = "1a0w_rwgHkmewRXDZ1nG1Tiito3qaK9huNO7xzOmc0BI"; 
-        
-        // 匯款資訊 (用在 LINE 訊息裡)
         const BANK_CODE = "013 (國泰世華)";
         const BANK_ACC = "206506221657";
         // ==========================================
@@ -622,18 +608,15 @@
             loadCustomerData();
             toggleBankInfo(); 
             
-            // 處理 URL 參數 (例如從首頁推薦區點進來)
             const urlParams = new URLSearchParams(window.location.search);
             const categoryParam = urlParams.get('cat');
             if (categoryParam) {
-                // 稍微延遲一下，確保資料讀取完畢
                 setTimeout(() => {
-                    // 找到對應的按鈕並模擬點擊
                     const targetBtn = document.querySelector(`.category-btn[onclick*="'${categoryParam}'"]`);
                     if (targetBtn) {
                         targetBtn.click();
                     }
-                }, 1000); // 延遲 1 秒給 Google Sheet 讀取時間
+                }, 1000); 
             }
         };
 
@@ -707,7 +690,6 @@
                     mediaHtml = `<img src="${imgSrc}" class="p-img" alt="${p.name}" onerror="this.src='logo.jpg'">`;
                 }
 
-                // 價格顯示邏輯 (原價劃線)
                 let priceHtml = '';
                 if (p.tag === 'SALE' && p.origin_price > p.price) {
                     priceHtml = `
@@ -811,8 +793,7 @@
         function updateCartUI() {
             const totalCount = cart.reduce((sum, item) => sum + item.qty, 0);
             document.getElementById('cartCount').innerText = totalCount;
-            // 同步手機版購物車數量
-            document.getElementById('mobileCartCount').innerText = totalCount;
+            document.getElementById('mobileCartCount').innerText = totalCount; // 同步手機版
             
             const cartItemsContainer = document.getElementById('cartItems');
             
@@ -896,7 +877,6 @@
             }
         }
 
-        // 複製帳號功能
         function copyBankAccount() {
             navigator.clipboard.writeText(BANK_ACC).then(() => {
                 showToast("✅ 帳號已複製！");
@@ -905,7 +885,6 @@
             });
         }
 
-        // --- 客戶資料記憶 ---
         function saveCustomerData() {
             const data = {
                 name: document.getElementById('custName').value,
@@ -924,7 +903,6 @@
             }
         }
 
-        // --- 準備訂單 (第一階段：生成文字) ---
         function prepareOrder() {
             const name = document.getElementById('custName').value.trim();
             const phone = document.getElementById('custPhone').value.trim();
@@ -963,19 +941,14 @@
             if (note) message += `備註：${note}\n`;
             message += `\n麻煩確認訂單，謝謝！`;
 
-            // 存入全域變數
             pendingOrderMessage = message;
-
-            // 顯示確認視窗
             document.getElementById('orderConfirmModal').style.display = 'flex';
         }
 
-        // --- 最終送出 (第二階段：強制複製 + 跳轉) ---
         function finalSubmit() {
             const lineID = "@118rfvyo"; 
             const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
 
-            // 🔥 強制覆蓋剪貼簿 🔥
             navigator.clipboard.writeText(pendingOrderMessage).then(() => {
                 console.log("訂單複製成功");
             }).catch(err => {
@@ -1002,24 +975,14 @@
             document.getElementById('orderConfirmModal').style.display = 'none';
         }
 
-        // 漢堡選單與 Modal 邏輯
+        // --- 漢堡選單開關邏輯 (含遮罩層) ---
         function openNav() {
             document.getElementById("mySidenav").style.width = "280px";
+            document.getElementById("menuOverlay").style.display = "block";
         }
         function closeNav() {
             document.getElementById("mySidenav").style.width = "0";
-        }
-        function openTerms() {
-            document.getElementById("termsModal").style.display = "block";
-            closeNav();
-        }
-        function closeTerms() {
-            document.getElementById("termsModal").style.display = "none";
-        }
-        window.onclick = function(event) {
-            if (event.target == document.getElementById("termsModal")) {
-                closeTerms();
-            }
+            document.getElementById("menuOverlay").style.display = "none";
         }
 
         // 下拉選單邏輯
@@ -1036,36 +999,30 @@
             });
         }
 
-        // --- 滾動偵測：回到頂部 + 海苔條自動收合 ---
-        const backToTopBtn = document.getElementById('backToTop');
-        const menuBtns = document.querySelectorAll('.hamburger-btn'); // 包含選單和購物車按鈕
-        let lastScrollTop = 0;
-        const navHideThreshold = 50; 
+        function openTerms() {
+            document.getElementById("termsModal").style.display = "block";
+            closeNav();
+        }
+        function closeTerms() {
+            document.getElementById("termsModal").style.display = "none";
+        }
+        window.onclick = function(event) {
+            if (event.target == document.getElementById("termsModal")) {
+                closeTerms();
+            }
+        }
 
+        // --- 滾動偵測：只有回到頂部，移除海苔條自動收合 ---
+        const backToTopBtn = document.getElementById('backToTop');
+        
         window.addEventListener('scroll', function() {
             let currentScroll = window.pageYOffset || document.documentElement.scrollTop;
-            
-            // 1. 滑動自動收合側邊欄
-            if (document.getElementById("mySidenav").style.width === "280px") {
-                closeNav();
-            }
 
-            // 2. 回到頂部按鈕
-            if (currentScroll > 300) { backToTopBtn.classList.add('show'); } 
-            else { backToTopBtn.classList.remove('show'); }
-
-            // 3. 手機版海苔條自動收合
-            if (window.innerWidth < 768) {
-                if (currentScroll < 0) currentScroll = 0; 
-                
-                // 往下滑(大於門檻) -> 隱藏
-                if (currentScroll > lastScrollTop && currentScroll > navHideThreshold) {
-                    menuBtns.forEach(btn => btn.classList.add('nav-hide'));
-                } else {
-                    // 往上滑 -> 顯示
-                    menuBtns.forEach(btn => btn.classList.remove('nav-hide'));
-                }
-                lastScrollTop = currentScroll;
+            // 回到頂部按鈕 (島輝)
+            if (currentScroll > 300) {
+                backToTopBtn.classList.add('show');
+            } else {
+                backToTopBtn.classList.remove('show');
             }
         });
 
