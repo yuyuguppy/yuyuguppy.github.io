@@ -15,7 +15,7 @@
             overflow-x: hidden; 
             display: flex; flex-direction: column; align-items: center; 
             position: relative;
-            /* 為了避開雙層固定欄位 (45px + 50px = 95px) */
+            /* 預設 padding-top 給手機版雙層 Header 用 (45+50=95) */
             padding-top: 95px; 
         }
 
@@ -42,43 +42,34 @@
             background-color: #03101f; /* 深藍底色 */
             border-bottom: 1px solid #334e68;
             z-index: 11000;
-            display: flex;
+            display: flex; /* 預設顯示 (手機版) */
             align-items: center;
-            justify-content: space-between; /* 左右撐開：左邊放選單+字，右邊放LOGO */
+            justify-content: space-between; 
             padding: 0 15px;
             box-sizing: border-box;
             box-shadow: 0 4px 10px rgba(0,0,0,0.3);
         }
 
-        /* 左側群組 (漢堡+標題) */
-        .header-left-group {
-            display: flex;
-            align-items: center;
-            gap: 15px; /* 按鈕跟文字的距離 */
-        }
-
-        /* 海苔條按鈕 (漢堡) */
-        .hamburger-btn {
-            background: transparent;
-            border: none; cursor: pointer;
-            display: flex; flex-direction: column; gap: 5px;
-            padding: 5px;
-        }
+        .header-left-group { display: flex; align-items: center; gap: 15px; }
+        .hamburger-btn { background: transparent; border: none; cursor: pointer; display: flex; flex-direction: column; gap: 5px; padding: 5px; }
         .bar { width: 25px; height: 3px; background-color: #64ffda; border-radius: 3px; transition: 0.3s; }
-        
-        /* 手機版標題 */
-        .mobile-header-title {
-            color: #64ffda; font-weight: bold; font-size: 18px;
-        }
+        .mobile-header-title { color: #64ffda; font-weight: bold; font-size: 18px; }
+        .header-mark-img { height: 40px; width: auto; object-fit: contain; margin-right: 0; }
 
-        /* 🔥 右側 MARK LOGO 設定 🔥 */
-        .header-mark-img {
-            height: 40px; /* 高度限制，確保不撐破導覽列 */
-            width: auto;
-            object-fit: contain;
-            /* 如果需要稍微調整位置，可以改這裡 */
-            margin-right: 0; 
+        /* --- 3. 桌面版 Top Nav (預設隱藏，大螢幕才顯示) --- */
+        .top-nav {
+            display: none; /* 預設隱藏，避免手機版出現雙重導覽 */
+            background: rgba(16, 42, 67, 0.9); padding: 15px 20px; justify-content: space-between; align-items: center;
+            border-bottom: 1px solid #334e68; position: sticky; top: 45px; z-index: 10000; backdrop-filter: blur(5px);
+            width: 100%; box-sizing: border-box;
         }
+        .logo-area { display: flex; align-items: center; gap: 10px; font-weight: bold; font-size: 20px; color: #64ffda; text-decoration: none; margin-left: 40px; }
+        .logo-img { width: 40px; height: 40px; border-radius: 50%; border: 2px solid #64ffda; }
+        .cart-btn {
+            position: relative; background: #64ffda; color: #03101f; padding: 8px 15px; border-radius: 20px;
+            font-weight: bold; cursor: pointer; display: flex; align-items: center; gap: 5px; transition: transform 0.2s;
+        }
+        .cart-btn:hover { transform: scale(1.05); }
 
         /* --- 側邊選單 (Sidenav) --- */
         .sidenav {
@@ -99,17 +90,14 @@
             position: absolute; top: 10px; right: 20px; font-size: 36px; margin-left: 50px; border: none;
         }
 
-        /* --- 遮罩層 (點擊外部收合用) --- */
+        /* --- 遮罩層 --- */
         .menu-overlay {
             display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background-color: rgba(0, 0, 0, 0.7); 
             z-index: 12500; backdrop-filter: blur(2px);
         }
 
-        /* 下拉選單 */
-        .dropdown-container {
-            display: none; background-color: rgba(0,0,0,0.3); padding-left: 20px;
-        }
+        .dropdown-container { display: none; background-color: rgba(0,0,0,0.3); padding-left: 20px; }
         .dropdown-container a { font-size: 16px; color: #bcccdc; }
         .dropdown-container a:hover { color: #64ffda; }
         .fa-caret-down { float: right; padding-right: 8px; }
@@ -133,7 +121,7 @@
         .terms-body p { font-size: 14px; color: #ddd; margin-bottom: 10px; text-align: justify; }
         .terms-highlight { color: #ff4d4d; font-weight: bold; }
 
-        /* 背景氣泡動畫 */
+        /* 背景氣泡 */
         .bg-bubbles { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; overflow: hidden; pointer-events: none; }
         .bg-bubbles li {
             position: absolute; list-style: none; display: block; bottom: -150px; border-radius: 50%;
@@ -149,24 +137,6 @@
             0% { transform: translateY(0); opacity: 0; }
             10% { opacity: 0.8; }
             100% { transform: translateY(-120vh); opacity: 0; }
-        }
-
-        /* 導航列 (桌面版 Top Nav - 手機版隱藏) */
-        .top-nav {
-            background: rgba(16, 42, 67, 0.9); padding: 15px 20px; display: flex; justify-content: space-between; align-items: center;
-            border-bottom: 1px solid #334e68; position: sticky; top: 45px; z-index: 10000; backdrop-filter: blur(5px);
-        }
-        .logo-area { display: flex; align-items: center; gap: 10px; font-weight: bold; font-size: 20px; color: #64ffda; text-decoration: none; margin-left: 40px; }
-        .logo-img { width: 40px; height: 40px; border-radius: 50%; border: 2px solid #64ffda; }
-        
-        .cart-btn {
-            position: relative; background: #64ffda; color: #03101f; padding: 8px 15px; border-radius: 20px;
-            font-weight: bold; cursor: pointer; display: flex; align-items: center; gap: 5px; transition: transform 0.2s;
-        }
-        .cart-btn:hover { transform: scale(1.05); }
-        .cart-count {
-            background: #ff3b30; color: white; font-size: 12px; width: 20px; height: 20px; border-radius: 50%;
-            display: flex; align-items: center; justify-content: center; position: absolute; top: -8px; right: -8px;
         }
 
         /* 佈局容器 */
@@ -235,10 +205,19 @@
         @keyframes wag { 0% { transform: rotate(0deg); } 25% { transform: rotate(-10deg); } 50% { transform: rotate(10deg); } 75% { transform: rotate(-5deg); } 100% { transform: rotate(0deg); } }
         .back-to-top:hover .daohui-dog-img, .back-to-top:active .daohui-dog-img { animation: wag 0.5s ease-in-out infinite; }
 
+        /* --- 桌面版 (大於 768px) --- */
+        @media (min-width: 769px) {
+            .mobile-sticky-header { display: none; } /* 隱藏手機版導覽 */
+            .top-nav { display: flex; } /* 顯示桌面版導覽 */
+            .yuyu-announcement-bar { padding: 12px 10px; height: auto; } /* 桌面版公告欄恢復正常 padding */
+            body { padding-top: 100px; } /* 桌面版 padding (視 Header 高度而定) */
+        }
+
+        /* --- 手機版 (小於等於 768px) --- */
         @media (max-width: 768px) {
             .yuyu-announcement-bar { font-size: 13px; white-space: normal; padding: 5px; height: auto; min-height: 45px; }
             .daohui-dog-img { width: 50px; }
-            .top-nav { display: none; } /* 隱藏桌面版導航 */
+            .top-nav { display: none !important; } /* 強制隱藏桌面版導航 */
         }
     </style>
 </head>
