@@ -13,19 +13,39 @@
             font-family: "Microsoft JhengHei", sans-serif; 
             margin: 0; padding: 0; min-height: 100vh; overflow-x: hidden; 
             display: flex; flex-direction: column; position: relative;
+            /* 為了避開固定的公告欄 */
+            padding-top: 45px; 
         }
 
-        /* --- 漢堡選單 (Side Nav) --- */
+        /* --- 公告欄 (固定置頂) --- */
+        .yuyu-announcement-bar {
+            background-color: #ffe100; color: #000; text-align: center; padding: 12px 10px;
+            font-size: 15px; font-weight: 700; width: 100%; 
+            position: fixed; top: 0; left: 0; z-index: 12000;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.3); line-height: 1.5;
+            box-sizing: border-box; height: auto; min-height: 45px;
+        }
+
+        /* --- 漢堡選單按鈕 (Side Nav Trigger) --- */
         .hamburger-btn {
-            position: fixed; top: 15px; left: 20px; z-index: 11000;
-            background: transparent; border: none; cursor: pointer;
+            position: fixed; 
+            top: 55px; /* 初始位置：公告欄高度 + 間距 */
+            left: 20px; 
+            z-index: 11000;
+            background: rgba(3, 16, 31, 0.6); /* 加點底色防看不見 */
+            padding: 5px; border-radius: 5px;
+            border: none; cursor: pointer;
             display: flex; flex-direction: column; gap: 5px;
+            transition: top 0.3s ease-in-out; /* 滑動動畫 */
+        }
+        .hamburger-btn.nav-hide {
+            top: -60px; /* 隱藏時往上縮 */
         }
         .bar { width: 30px; height: 3px; background-color: #64ffda; border-radius: 3px; transition: 0.3s; }
         
         /* 側邊欄容器 */
         .sidenav {
-            height: 100%; width: 0; position: fixed; z-index: 10500;
+            height: 100%; width: 0; position: fixed; z-index: 13000; /* 比公告欄高 */
             top: 0; left: 0; background-color: rgba(3, 16, 31, 0.95);
             overflow-x: hidden; transition: 0.4s; padding-top: 60px;
             backdrop-filter: blur(10px); border-right: 1px solid #64ffda;
@@ -88,17 +108,10 @@
             100% { transform: translateY(-120vh); opacity: 0; }
         }
 
-        /* 公告欄 */
-        .yuyu-announcement-bar {
-            background-color: #ffe100; color: #000; text-align: center; padding: 12px 10px;
-            font-size: 15px; font-weight: 700; width: 100%; z-index: 10001; position: relative;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.3); line-height: 1.5;
-        }
-
-        /* 導航列 */
+        /* 導航列 (桌面版 Top Nav) */
         .top-nav {
             background: rgba(16, 42, 67, 0.9); padding: 15px 20px; display: flex; justify-content: space-between; align-items: center;
-            border-bottom: 1px solid #334e68; position: sticky; top: 0; z-index: 10000; backdrop-filter: blur(5px);
+            border-bottom: 1px solid #334e68; position: sticky; top: 45px; z-index: 10000; backdrop-filter: blur(5px);
         }
         .logo-area { display: flex; align-items: center; gap: 10px; font-weight: bold; font-size: 20px; color: #64ffda; text-decoration: none; margin-left: 40px; /* 為了閃避漢堡按鈕 */ }
         .logo-img { width: 40px; height: 40px; border-radius: 50%; border: 2px solid #64ffda; }
@@ -120,7 +133,7 @@
         .sidebar {
             width: 200px; flex-shrink: 0; background: rgba(16, 42, 67, 0.6); backdrop-filter: blur(5px);
             border-radius: 10px; padding: 15px; border: 1px solid rgba(100, 255, 218, 0.2);
-            height: fit-content; position: sticky; top: 90px;
+            height: fit-content; position: sticky; top: 120px; /* 桌面版黏性定位 */
         }
         .category-btn {
             display: block; width: 100%; padding: 12px 15px; margin-bottom: 8px; background: transparent;
@@ -337,8 +350,8 @@
         }
         /* 宇哥真人頭像設定 (無框版) */
         .yuge-avatar-img {
-            width: auto;      
-            height: 100px;    
+            width: auto;       
+            height: 100px;     
             object-fit: contain; 
             margin-bottom: 10px;
             display: block;
@@ -371,11 +384,22 @@
         .back-to-top:hover .daohui-dog-img { transform: scale(1.1) rotate(-5deg); }
         .back-to-top:hover span { color: #ffffff; }
 
+        /* 手機版 RWD 修正 */
         @media (max-width: 768px) {
             .yuyu-announcement-bar { font-size: 13px; text-align: left; }
             .layout-container { flex-direction: column; padding: 0 10px; }
-            .sidebar { width: 100%; display: flex; overflow-x: auto; padding: 10px; gap: 10px; top: 60px; z-index: 90; }
+            
+            /* 側邊欄改為橫向滑動 */
+            .sidebar { 
+                width: 100%; display: flex; overflow-x: auto; padding: 10px; gap: 10px; 
+                position: sticky; top: 45px; /* 黏在公告欄下面 */
+                z-index: 90; background: rgba(3, 16, 31, 0.95);
+            }
             .category-btn { width: auto; white-space: nowrap; margin-bottom: 0; padding: 8px 15px; }
+            
+            /* 隱藏桌面版 top-nav，改用我們剛剛做的自動收合漢堡 */
+            .top-nav { display: none; }
+            
             .area-header { flex-direction: column; align-items: flex-start; gap: 10px; }
             .search-box { max-width: 100%; }
             .products-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
@@ -387,9 +411,17 @@
 <body>
     <ul class="bg-bubbles"><li></li><li></li><li></li><li></li><li></li></ul>
 
+    <div class="yuyu-announcement-bar">
+        🚀 活體訂單2000元免運、常溫賣場660免運、冷凍賣場990免運，最新消息都在IG:@yuyu_guppy_
+    </div>
+
     <button class="hamburger-btn" onclick="openNav()">
         <div class="bar"></div><div class="bar"></div><div class="bar"></div>
     </button>
+    
+    <div class="hamburger-btn" style="left: auto; right: 20px; flex-direction: row; background: #64ffda; color: #000; font-weight: bold; padding: 8px 12px;" onclick="openCart()">
+        🛒 <span id="mobileCartCount">0</span>
+    </div>
 
     <div id="mySidenav" class="sidenav">
         <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">×</a>
@@ -437,10 +469,6 @@
                 <p>若您選擇貨到付款，請務必留意收件電話。若無故未取貨導致商品退回（造成活體死亡或耗損），本賣場將把您列入<span class="terms-highlight">黑名單</span>拒絕往來，並保留法律追訴權，依據民法請求損害賠償（包含運費、包材費及商品損失）。</p>
             </div>
         </div>
-    </div>
-
-    <div class="yuyu-announcement-bar">
-        🚀 活體訂單2000元免運、常溫賣場660免運、冷凍賣場990免運，最新消息都在IG:@yuyu_guppy_
     </div>
 
     <nav class="top-nav">
@@ -783,6 +811,9 @@
         function updateCartUI() {
             const totalCount = cart.reduce((sum, item) => sum + item.qty, 0);
             document.getElementById('cartCount').innerText = totalCount;
+            // 同步手機版購物車數量
+            document.getElementById('mobileCartCount').innerText = totalCount;
+            
             const cartItemsContainer = document.getElementById('cartItems');
             
             if (cart.length === 0) {
@@ -1005,15 +1036,39 @@
             });
         }
 
+        // --- 滾動偵測：回到頂部 + 海苔條自動收合 ---
         const backToTopBtn = document.getElementById('backToTop');
-        window.onscroll = function() {
-            // 滑動自動收合側邊欄
+        const menuBtns = document.querySelectorAll('.hamburger-btn'); // 包含選單和購物車按鈕
+        let lastScrollTop = 0;
+        const navHideThreshold = 50; 
+
+        window.addEventListener('scroll', function() {
+            let currentScroll = window.pageYOffset || document.documentElement.scrollTop;
+            
+            // 1. 滑動自動收合側邊欄
             if (document.getElementById("mySidenav").style.width === "280px") {
                 closeNav();
             }
 
-            if (document.body.scrollTop > 300 || document.documentElement.scrollTop > 300) { backToTopBtn.classList.add('show'); } else { backToTopBtn.classList.remove('show'); }
-        };
+            // 2. 回到頂部按鈕
+            if (currentScroll > 300) { backToTopBtn.classList.add('show'); } 
+            else { backToTopBtn.classList.remove('show'); }
+
+            // 3. 手機版海苔條自動收合
+            if (window.innerWidth < 768) {
+                if (currentScroll < 0) currentScroll = 0; 
+                
+                // 往下滑(大於門檻) -> 隱藏
+                if (currentScroll > lastScrollTop && currentScroll > navHideThreshold) {
+                    menuBtns.forEach(btn => btn.classList.add('nav-hide'));
+                } else {
+                    // 往上滑 -> 顯示
+                    menuBtns.forEach(btn => btn.classList.remove('nav-hide'));
+                }
+                lastScrollTop = currentScroll;
+            }
+        });
+
         function scrollToTop() { window.scrollTo({ top: 0, behavior: 'smooth' }); }
     </script>
 </body>
