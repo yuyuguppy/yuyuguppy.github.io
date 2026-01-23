@@ -51,7 +51,6 @@
         .dropdown-container a { font-size: 16px; color: #bcccdc; }
         .dropdown-container a:hover { color: #64ffda; }
         
-        /* 箭頭指示 */
         .fa-caret-down { float: right; padding-right: 8px; }
 
         /* --- 條款 Modal --- */
@@ -69,8 +68,9 @@
         .terms-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #334e68; padding-bottom: 10px; margin-bottom: 15px; }
         .terms-title { font-size: 22px; color: #ffe100; font-weight: bold; }
         .close-terms { color: #aaa; font-size: 28px; font-weight: bold; cursor: pointer; }
-        .terms-body h3 { color: #64ffda; margin-top: 15px; font-size: 18px; }
-        .terms-body p { font-size: 14px; color: #ddd; margin-bottom: 10px; }
+        .terms-body h3 { color: #64ffda; margin-top: 20px; font-size: 18px; border-left: 3px solid #ffe100; padding-left: 10px; }
+        .terms-body p { font-size: 14px; color: #ddd; margin-bottom: 10px; text-align: justify; }
+        .terms-highlight { color: #ff4d4d; font-weight: bold; }
 
         /* --- 背景氣泡 --- */
         .bg-bubbles { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; overflow: hidden; pointer-events: none; }
@@ -102,34 +102,18 @@
         h1 { font-size: 26px; margin: 10px 0; letter-spacing: 1px; text-shadow: 0 0 10px rgba(100, 255, 218, 0.3); }
         .description { text-align: center; color: #aebccf; margin-bottom: 30px; font-size: 15px; }
 
-        /* --- 新增：新手入門推薦區塊 --- */
-        .beginner-section {
-            width: 100%; max-width: 480px; margin-bottom: 30px;
-        }
-        .section-header {
-            text-align: center; color: #ffe100; font-size: 20px; font-weight: bold; 
-            margin-bottom: 15px; border-bottom: 2px solid #ffe100; display: inline-block; padding-bottom: 5px;
-        }
-        .beginner-grid {
-            display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px;
-        }
-        .beginner-card {
-            background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(100, 255, 218, 0.3);
-            border-radius: 12px; padding: 10px; text-align: center; text-decoration: none;
-            color: #fff; transition: transform 0.2s; display: flex; flex-direction: column; align-items: center;
-        }
+        /* 新手入門推薦 */
+        .beginner-section { width: 100%; max-width: 480px; margin-bottom: 30px; }
+        .section-header { text-align: center; color: #ffe100; font-size: 20px; font-weight: bold; margin-bottom: 15px; border-bottom: 2px solid #ffe100; display: inline-block; padding-bottom: 5px; }
+        .beginner-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
+        .beginner-card { background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(100, 255, 218, 0.3); border-radius: 12px; padding: 10px; text-align: center; text-decoration: none; color: #fff; transition: transform 0.2s; display: flex; flex-direction: column; align-items: center; }
         .beginner-card:hover { transform: translateY(-3px); background: rgba(100, 255, 218, 0.2); }
         .bg-fish-icon { font-size: 30px; margin-bottom: 5px; display: block; }
         .bg-fish-name { font-weight: bold; font-size: 15px; color: #64ffda; }
         .bg-fish-desc { font-size: 12px; color: #ccc; margin-top: 3px; }
 
-        /* 原有連結樣式 */
-        .link-card { 
-            width: 100%; max-width: 380px; background: rgba(100, 255, 218, 0.05); 
-            border: 1px solid rgba(100, 255, 218, 0.6); border-radius: 10px; padding: 16px; 
-            margin-bottom: 16px; text-decoration: none; color: #64ffda; font-weight: bold;
-            text-align: center; display: block; box-sizing: border-box;
-        }
+        /* 連結卡片 */
+        .link-card { width: 100%; max-width: 380px; background: rgba(100, 255, 218, 0.05); border: 1px solid rgba(100, 255, 218, 0.6); border-radius: 10px; padding: 16px; margin-bottom: 16px; text-decoration: none; color: #64ffda; font-weight: bold; text-align: center; display: block; box-sizing: border-box; }
         .link-card:hover { background: rgba(100, 255, 218, 0.15); }
 
         /* 店家資訊 */
@@ -156,12 +140,10 @@
         .danmaku-lane.lane-4 { top: 200px; animation-duration: 60s; }
         @keyframes scroll-loop { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
 
-        /* 社群 ICON */
+        /* 社群與 LINE */
         .social-icons-container { display: flex; justify-content: center; gap: 25px; margin-top: 30px; margin-bottom: 10px; }
         .social-link { width: 50px; height: 50px; border-radius: 50%; background: rgba(100, 255, 218, 0.1); border: 1px solid rgba(100, 255, 218, 0.4); display: flex; align-items: center; justify-content: center; }
         .social-link svg { width: 24px; height: 24px; fill: #64ffda; }
-
-        /* LINE 社群卡 */
         .line-community-card { width: 100%; max-width: 380px; background: rgba(6, 199, 85, 0.1); border: 1px solid rgba(6, 199, 85, 0.5); border-radius: 16px; padding: 20px; margin-top: 30px; text-align: center; box-sizing: border-box; }
         .line-title { color: #06C755; font-size: 18px; font-weight: bold; margin-bottom: 15px; display: flex; justify-content: center; gap: 8px; align-items: center; }
         .qr-code-img { width: 150px; height: 150px; }
@@ -170,7 +152,7 @@
         .counter-section { margin-top: 30px; margin-bottom: 40px; text-align: center; color: #9fb3c8; font-size: 16px; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 20px; width: 100%; max-width: 380px; }
         #days-count { color: #64ffda; font-size: 28px; font-weight: bold; margin: 0 8px; }
 
-        /* 銀行帳號防呆 (手機版) */
+        /* 手機銀行帳號防呆 */
         #bankInfoArea { background: #000000 !important; border: 3px solid #ffe100 !important; }
         .bank-title { color: #fff !important; }
         .bank-number { color: #ffe100 !important; }
@@ -197,9 +179,7 @@
     </button>
 
     <div id="mySidenav" class="sidenav">
-        <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
-        
-        <a href="index.html">🏠 回到首頁</a>
+        <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">×</a>
         
         <button class="dropdown-btn">🐠 活體專區 
             <i class="fa-caret-down">▼</i>
@@ -215,32 +195,33 @@
         <a href="https://myship.7-11.com.tw/general/detail/GM2404054052893" target="_blank">❄️ 冷凍豐年蝦</a>
         
         <a href="#" onclick="openTerms()">📜 條款與細則</a>
-        
         <a href="https://www.facebook.com/yuyuguppy" target="_blank">💬 聯絡我們</a>
+        
+        <a href="index.html" style="margin-top: 20px; border-top: 1px solid rgba(255,255,255,0.2);">🏠 回到首頁</a>
     </div>
 
     <div id="termsModal" class="terms-modal">
         <div class="terms-content">
             <div class="terms-header">
                 <span class="terms-title">📜 宇魚水族 條款與細則</span>
-                <span class="close-terms" onclick="closeTerms()">&times;</span>
+                <span class="close-terms" onclick="closeTerms()">×</span>
             </div>
             <div class="terms-body">
-                <h3>1. 活體無七天鑑賞期</h3>
-                <p>根據消保法規定，活體動物（魚蝦）屬於易腐敗商品，不適用於網購七天鑑賞期退貨規定。請在下單前確認您已準備好飼養環境。</p>
+                <h3>1. 活體不適用退換貨</h3>
+                <p>活體動物（魚蝦）屬於易腐敗商品，根據消保法規定，不適用於網購七天鑑賞期。除運送過程死亡（DOA）外，活體售出後概不接受退換貨，請在下單前確認您已準備好飼養環境。</p>
 
                 <h3>2. 配送風險與責任</h3>
-                <p>我們堅持使用黑貓宅急便寄送，並採用專業純氧包裝。若發生運送延遲導致的損失，由宇魚水族與宅配公司協調處理，保障您的權益。</p>
+                <p>我們堅持採用專業純氧包裝。若發生運送延遲或意外導致的損失，<span class="terms-highlight">由宇魚水族全權處理</span>，保障您的權益，請您放心。</p>
 
-                <h3>3. 死魚包賠政策 (DOA)</h3>
+                <h3>3. 死魚包賠政策</h3>
                 <p>為了確保責任歸屬，請您配合以下事項：</p>
                 <p>✅ <strong>開箱請務必「全程錄影」</strong>：從未拆封箱子開始錄影，直到檢查魚隻狀態。</p>
                 <p>✅ <strong>魚隻未拆袋</strong>：若發現魚隻死亡，請勿拆開塑膠袋，直接拍攝袋內死魚狀況。</p>
                 <p>✅ <strong>立即回報</strong>：請於收件後 1 小時內，將影片與照片傳至 LINE 官方帳號。</p>
-                <p>若符合以上條件，我們將依死魚數量退款或於下次購物時補寄（運費由買家負擔或雙方協議）。</p>
+                <p>若符合以上條件，我們將依死魚數量退款 <span class="terms-highlight">（不含運費）</span>，或於下次購物時補寄。</p>
 
-                <h3>4. 運費說明</h3>
-                <p>活體宅配運費一律 200 元（含包材費用）。訂單滿 2000 元即享免運優惠。若因個人因素（如：無人收件、電話未接）導致配送失敗而造成魚隻死亡，恕不賠償。</p>
+                <h3>4. 運費與貨到付款規範</h3>
+                <p>若您選擇貨到付款，請務必留意收件電話。若無故未取貨導致商品退回（造成活體死亡或耗損），本賣場將把您列入<span class="terms-highlight">黑名單</span>拒絕往來，並保留法律追訴權，依據民法請求損害賠償（包含運費、包材費及商品損失）。</p>
             </div>
         </div>
     </div>
@@ -451,17 +432,28 @@
             }
         }
 
-        // 回到頂部邏輯
+        // 回到頂部邏輯 + 自動收合側邊欄
         const backToTopBtn = document.getElementById('backToTop');
+        
         window.onscroll = function() {
+            // 滑動時自動收合側邊欄
+            if (document.getElementById("mySidenav").style.width === "280px") {
+                closeNav();
+            }
+
+            // 滑動超過 300px 就顯示島輝
             if (document.body.scrollTop > 300 || document.documentElement.scrollTop > 300) {
                 backToTopBtn.classList.add('show');
             } else {
                 backToTopBtn.classList.remove('show');
             }
         };
+
         function scrollToTop() {
-            window.scrollTo({ top: 0, behavior: 'smooth' });
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
         }
     </script>
 </body>
