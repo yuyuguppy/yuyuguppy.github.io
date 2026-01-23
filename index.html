@@ -19,7 +19,7 @@
             padding-top: 45px; 
         }
 
-        /* --- 公告欄 (改為固定置頂) --- */
+        /* --- 公告欄 (固定置頂) --- */
         .yuyu-announcement-bar {
             background-color: #ffe100; color: #000; text-align: center; padding: 12px 10px;
             font-size: 15px; font-weight: 700; width: 100%; 
@@ -212,8 +212,9 @@
         /* 獲獎經歷 */
         .awards-section { width: 100%; max-width: 480px; margin-bottom: 20px; padding: 20px; background: rgba(0, 0, 0, 0.3); border-radius: 16px; border: 1px solid rgba(197, 160, 89, 0.3); box-sizing: border-box; }
         .awards-title { font-size: 18px; color: #C5A059; margin-bottom: 15px; font-weight: bold; text-align: center; }
-        .awards-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
-        .award-item { background: rgba(197, 160, 89, 0.1); border: 1px solid #C5A059; border-radius: 8px; padding: 10px; text-align: center; font-size: 13px; color: #fff; }
+        .awards-grid { display: grid; grid-template-columns: 1fr; gap: 10px; } /* 改為單欄，因為字數較多 */
+        .award-item { background: rgba(197, 160, 89, 0.1); border: 1px solid #C5A059; border-radius: 8px; padding: 12px 10px; text-align: left; font-size: 14px; color: #fff; display: flex; align-items: center; gap: 8px; }
+        .award-icon { font-size: 18px; flex-shrink: 0; }
 
         /* 評價區 */
         .reviews-section { width: 100%; max-width: 480px; margin-top: 20px; padding: 20px 0; background: rgba(100, 255, 218, 0.05); border: 2px solid rgba(100, 255, 218, 0.3); border-radius: 16px; height: 260px; overflow: hidden; position: relative; }
@@ -238,11 +239,32 @@
         .counter-section { margin-top: 30px; margin-bottom: 40px; text-align: center; color: #9fb3c8; font-size: 16px; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 20px; width: 100%; max-width: 380px; }
         #days-count { color: #64ffda; font-size: 28px; font-weight: bold; margin: 0 8px; }
 
-        /* Back to top */
-        .back-to-top { position: fixed; bottom: 20px; right: 20px; background: none; border: none; z-index: 9999; opacity: 0; visibility: hidden; transition: all 0.4s ease; display: flex; flex-direction: column; align-items: center; }
+        /* Back to top & DaoHui Animation */
+        .back-to-top { 
+            position: fixed; bottom: 20px; right: 20px; background: none; border: none; z-index: 9999; 
+            opacity: 0; visibility: hidden; transition: all 0.4s ease; 
+            display: flex; flex-direction: column; align-items: center; cursor: pointer;
+        }
         .back-to-top.show { opacity: 1; visibility: visible; transform: translateY(0); }
-        .daohui-dog-img { width: 60px; height: auto; border-radius: 8px; border: 2px solid #64ffda; box-shadow: 0 4px 10px rgba(0,0,0,0.6); }
+        .daohui-dog-img { 
+            width: 60px; height: auto; border-radius: 8px; 
+            border: 2px solid #64ffda; box-shadow: 0 4px 10px rgba(0,0,0,0.6); 
+        }
         .back-to-top span { margin-top: 5px; color: #64ffda; font-size: 13px; font-weight: bold; text-shadow: 0 2px 4px rgba(0,0,0,0.8); }
+
+        /* 🔥 島輝擺頭動畫 Keyframes 🔥 */
+        @keyframes wag {
+            0% { transform: rotate(0deg); }
+            25% { transform: rotate(-10deg); }
+            50% { transform: rotate(10deg); }
+            75% { transform: rotate(-5deg); }
+            100% { transform: rotate(0deg); }
+        }
+
+        /* 滑鼠移過去 或 點擊時 觸發擺頭 */
+        .back-to-top:hover .daohui-dog-img, .back-to-top:active .daohui-dog-img {
+            animation: wag 0.5s ease-in-out infinite;
+        }
 
         @media (max-width: 768px) {
             .yuyu-announcement-bar { font-size: 13px; text-align: left; }
@@ -323,7 +345,7 @@
         <div class="info-section">
             <div class="info-title">店址資訊</div>
             <p>
-                <a href="https://www.google.com/maps/search/?api=1&query=新竹縣新埔鎮義民路二段630巷1號" target="_blank" class="address-link">
+                <a href="https://www.google.com/maps/search/?api=1&query=24.8403964,121.0443522" target="_blank" class="address-link">
                     📍 新竹縣新埔鎮義民路二段630巷9號<br>
                     (三合院內，點我開啟導航 🚗)
                 </a>
@@ -338,14 +360,14 @@
         <div class="awards-section">
             <div class="awards-title">🏆 宇魚獲獎經歷 🏆</div>
             <div class="awards-grid">
-                <div class="award-item"><span class="award-icon">🥇</span>2025 世界孔雀每每大賽 冠軍</div>
-                <div class="award-item"><span class="award-icon">🥇</span>2024 台灣觀賞魚博覽會 金牌</div>
-                <div class="award-item"><span class="award-icon">🥈</span>2024 亞太水族造景 銀牌</div>
-                <div class="award-item"><span class="award-icon">🥉</span>2023 全國優質孔雀魚 銅牌</div>
-                <div class="award-item"><span class="award-icon">🏅</span>2023 日本古比魚協會 特別賞</div>
-                <div class="award-item"><span class="award-icon">🏅</span>2022 台灣國際盃 人氣獎</div>
-                <div class="award-item"><span class="award-icon">🏅</span>2022 高雄水族展 優選</div>
-                <div class="award-item"><span class="award-icon">🏅</span>2021 孔雀魚推廣協會 榮譽會員</div>
+                <div class="award-item"><span class="award-icon">🥇</span>2024 世界孔雀魚競美大賽 劍尾組冠軍</div>
+                <div class="award-item"><span class="award-icon">🥇</span>2024 世界孔雀魚競美大賽 馬賽克組冠軍</div>
+                <div class="award-item"><span class="award-icon">🥈</span>2024 Guppy in the Park Open Small Tail組第二名</div>
+                <div class="award-item"><span class="award-icon">🥈</span>2024 世界孔雀魚競美大賽 幼魚組亞軍</div>
+                <div class="award-item"><span class="award-icon">🥈</span>2024 世界孔雀魚競美大賽 白子亞成組亞軍</div>
+                <div class="award-item"><span class="award-icon">🥉</span>2024 世界孔雀魚競美大賽 長鰭組季軍</div>
+                <div class="award-item"><span class="award-icon">🏅</span>2023 TGVC台灣孔雀魚鄉民盃 最佳人氣獎</div>
+                <div class="award-item"><span class="award-icon">🤝</span>2023 舉辦桃園孔雀魚推廣交流賽</div>
             </div>
         </div>
 
@@ -596,4 +618,3 @@
     </script>
 </body>
 </html>
-
