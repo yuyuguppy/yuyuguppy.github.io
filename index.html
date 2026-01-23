@@ -15,46 +15,65 @@
             overflow-x: hidden; 
             display: flex; flex-direction: column; align-items: center; 
             position: relative;
-            /* 為了避開固定的公告欄，身體往下推 */
-            padding-top: 45px; 
+            /* 為了避開固定的公告欄(45px) + 手機導覽列(50px) = 95px */
+            padding-top: 95px; 
         }
 
-        /* --- 公告欄 (固定置頂) --- */
+        /* --- 1. 黃色公告欄 (固定置頂 - 第一層) --- */
         .yuyu-announcement-bar {
-            background-color: #ffe100; color: #000; text-align: center; padding: 12px 10px;
-            font-size: 15px; font-weight: 700; width: 100%; 
-            position: fixed; /* 改為固定 */
-            top: 0; left: 0;
-            z-index: 12000; /* 確保在最上層 */
-            box-shadow: 0 2px 8px rgba(0,0,0,0.3); line-height: 1.5;
-            height: auto; min-height: 45px; box-sizing: border-box;
+            background-color: #ffe100; color: #000; text-align: center; 
+            padding: 0 10px; /* 移除上下 padding，改用 flex 置中 */
+            font-size: 14px; font-weight: 700; width: 100%; 
+            position: fixed; top: 0; left: 0;
+            z-index: 12000; /* 最上層 */
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2); 
+            height: 45px; /* 固定高度 */
+            box-sizing: border-box;
+            display: flex; align-items: center; justify-content: center; /* 垂直水平置中 */
+            white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
         }
 
-        /* --- 漢堡選單 (Side Nav) --- */
+        /* --- 2. 手機版專用導覽列 (固定在黃條下面 - 第二層) --- */
+        .mobile-sticky-header {
+            position: fixed;
+            top: 45px; /* 緊接在黃色公告欄下面 */
+            left: 0;
+            width: 100%;
+            height: 50px;
+            background-color: #03101f; /* 深藍底色，避免透明造成重疊 */
+            border-bottom: 1px solid #334e68;
+            z-index: 11000;
+            display: flex;
+            align-items: center;
+            padding: 0 15px;
+            box-sizing: border-box;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+        }
+
+        /* 海苔條按鈕 (漢堡) */
         .hamburger-btn {
-            position: fixed; 
-            top: 55px; /* 初始位置：公告欄高度 + 間距 */
-            left: 20px; z-index: 11000;
-            background: rgba(3, 16, 31, 0.6); /* 加一點底色比較清楚 */
-            padding: 5px;
-            border-radius: 5px;
+            background: transparent;
             border: none; cursor: pointer;
             display: flex; flex-direction: column; gap: 5px;
-            transition: top 0.3s ease-in-out; /* 滑動動畫 */
+            padding: 5px;
         }
-        /* 自動收合時用的 class */
-        .hamburger-btn.nav-hide {
-            top: -60px; /* 往上藏起來 */
+        .bar { width: 25px; height: 3px; background-color: #64ffda; border-radius: 3px; transition: 0.3s; }
+        
+        /* 手機版標題 (放在導覽列中間) */
+        .mobile-header-title {
+            color: #64ffda;
+            font-weight: bold;
+            font-size: 18px;
+            margin-left: 15px;
+            flex-grow: 1; /* 佔據剩餘空間 */
         }
 
-        .bar { width: 30px; height: 3px; background-color: #64ffda; border-radius: 3px; transition: 0.3s; }
-        
-        /* 側邊欄容器 */
+        /* --- 側邊選單 (Sidenav) --- */
         .sidenav {
-            height: 100%; width: 0; position: fixed; z-index: 13000; /* 比公告欄更高 */
-            top: 0; left: 0; background-color: rgba(3, 16, 31, 0.95);
+            height: 100%; width: 0; position: fixed; z-index: 13000; /* 比所有 Header 高 */
+            top: 0; left: 0; background-color: rgba(3, 16, 31, 0.98);
             overflow-x: hidden; transition: 0.4s; padding-top: 60px;
-            backdrop-filter: blur(10px); border-right: 1px solid #64ffda;
+            border-right: 1px solid #64ffda;
         }
         .sidenav a, .dropdown-btn {
             padding: 15px 30px; text-decoration: none; font-size: 18px;
@@ -68,13 +87,21 @@
             position: absolute; top: 10px; right: 20px; font-size: 36px; margin-left: 50px; border: none;
         }
 
+        /* --- 遮罩層 (點擊外部收合用) --- */
+        .menu-overlay {
+            display: none; /* 預設隱藏 */
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background-color: rgba(0, 0, 0, 0.7); /* 半透明黑 */
+            z-index: 12500; /* 在 Header 之上，在 Sidenav 之下 */
+            backdrop-filter: blur(2px);
+        }
+
         /* 下拉選單 */
         .dropdown-container {
             display: none; background-color: rgba(0,0,0,0.3); padding-left: 20px;
         }
         .dropdown-container a { font-size: 16px; color: #bcccdc; }
         .dropdown-container a:hover { color: #64ffda; }
-        
         .fa-caret-down { float: right; padding-right: 8px; }
 
         /* --- 條款 Modal --- */
@@ -121,102 +148,36 @@
         h1 { font-size: 26px; margin: 10px 0; letter-spacing: 1px; text-shadow: 0 0 10px rgba(100, 255, 218, 0.3); }
         .description { text-align: center; color: #aebccf; margin-bottom: 30px; font-size: 15px; }
 
-        /* --- 🔥 宇哥指定：橫向滑動推薦區 (蝦霸風格) 🔥 --- */
-        .beginner-section {
-            width: 100%;
-            max-width: 480px; 
-            margin: 30px 0; /* 上下留白 */
-            overflow: hidden; /* 隱藏溢出 */
-        }
-        .section-header {
-            text-align: left; /* 靠左對齊比較像現代電商 */
-            color: #ffe100; 
-            font-size: 18px; 
-            font-weight: bold; 
-            margin-bottom: 15px; 
-            padding-left: 5px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-        /* 橫向滑動容器 */
-        .beginner-scroll-container {
-            display: flex;
-            gap: 15px; /* 卡片間距 */
-            overflow-x: auto; /* 開啟橫向捲動 */
-            padding-bottom: 5px; 
-            padding-left: 5px; 
-            padding-right: 5px;
-            scroll-snap-type: x mandatory; /* 滑動時會有吸附效果 */
-            scroll-behavior: smooth;
-            -webkit-overflow-scrolling: touch; /* 讓 iPhone 滑動更順暢 */
-            scrollbar-width: none; /* Firefox 隱藏捲軸 */
-        }
-        /* 隱藏捲軸 (美觀) */
+        /* 橫向滑動推薦區 */
+        .beginner-section { width: 100%; max-width: 480px; margin: 30px 0; overflow: hidden; }
+        .section-header { text-align: left; color: #ffe100; font-size: 18px; font-weight: bold; margin-bottom: 15px; padding-left: 5px; display: flex; align-items: center; gap: 8px; }
+        .beginner-scroll-container { display: flex; gap: 15px; overflow-x: auto; padding-bottom: 5px; padding-left: 5px; padding-right: 5px; scroll-snap-type: x mandatory; scroll-behavior: smooth; -webkit-overflow-scrolling: touch; scrollbar-width: none; }
         .beginner-scroll-container::-webkit-scrollbar { display: none; }
-
-        .beginner-card {
-            min-width: 130px; /* 固定寬度，確保不會被擠壓 */
-            flex-shrink: 0; /* 禁止縮小 */
-            scroll-snap-align: center; /* 吸附對齊中心 */
-            background: rgba(16, 42, 67, 0.8); /* 深色背景 */
-            border: 1px solid #64ffda; /* 螢光綠邊框 */
-            border-radius: 12px; 
-            padding: 15px 10px; 
-            text-align: center; 
-            text-decoration: none; 
-            color: #fff; 
-            transition: transform 0.2s; 
-            display: flex; 
-            flex-direction: column; 
-            align-items: center;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
-        }
+        .beginner-card { min-width: 130px; flex-shrink: 0; scroll-snap-align: center; background: rgba(16, 42, 67, 0.8); border: 1px solid #64ffda; border-radius: 12px; padding: 15px 10px; text-align: center; text-decoration: none; color: #fff; transition: transform 0.2s; display: flex; flex-direction: column; align-items: center; box-shadow: 0 4px 10px rgba(0,0,0,0.3); }
         .beginner-card:hover { transform: translateY(-5px); background: rgba(100, 255, 218, 0.15); }
-        
         .bg-fish-icon { font-size: 35px; margin-bottom: 8px; display: block; filter: drop-shadow(0 0 5px rgba(255,255,255,0.5)); }
         .bg-fish-name { font-weight: bold; font-size: 15px; color: #64ffda; margin-bottom: 4px; }
         .bg-fish-desc { font-size: 11px; color: #ccc; }
 
-        /* 新增：滑動圓點點樣式 */
-        .slider-dots {
-            display: flex;
-            justify-content: center;
-            margin-top: 15px;
-            gap: 8px;
-        }
-        .dot {
-            width: 8px; height: 8px;
-            background-color: rgba(255, 255, 255, 0.3);
-            border-radius: 50%;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-        .dot.active {
-            background-color: #FA8072; /* 鮭魚紅高亮 */
-            width: 24px; /* 變長條 */
-            border-radius: 4px;
-        }
+        .slider-dots { display: flex; justify-content: center; margin-top: 15px; gap: 8px; }
+        .dot { width: 8px; height: 8px; background-color: rgba(255, 255, 255, 0.3); border-radius: 50%; cursor: pointer; transition: all 0.3s; }
+        .dot.active { background-color: #FA8072; width: 24px; border-radius: 4px; }
 
-        /* 連結卡片 */
         .link-card { width: 100%; max-width: 380px; background: rgba(100, 255, 218, 0.05); border: 1px solid rgba(100, 255, 218, 0.6); border-radius: 10px; padding: 16px; margin-bottom: 16px; text-decoration: none; color: #64ffda; font-weight: bold; text-align: center; display: block; box-sizing: border-box; }
         .link-card:hover { background: rgba(100, 255, 218, 0.15); }
 
-        /* 店家資訊 */
         .info-section { width: 100%; max-width: 380px; background: rgba(16, 42, 67, 0.75); border-radius: 12px; padding: 24px; margin-top: 20px; border: 1px solid rgba(51, 78, 104, 0.8); margin-bottom: 30px; }
         .info-title { color: #f0f4f8; font-weight: bold; margin-bottom: 12px; font-size: 18px; border-left: 4px solid #64ffda; padding-left: 10px; }
         .address-link { color: #64ffda; text-decoration: none; font-weight: bold; }
         .highlight { color: #ffbc00; font-weight: bold; }
         p { color: #bcccdc; line-height: 1.6; }
 
-        /* 獲獎經歷 */
         .awards-section { width: 100%; max-width: 480px; margin-bottom: 20px; padding: 20px; background: rgba(0, 0, 0, 0.3); border-radius: 16px; border: 1px solid rgba(197, 160, 89, 0.3); box-sizing: border-box; }
         .awards-title { font-size: 18px; color: #C5A059; margin-bottom: 15px; font-weight: bold; text-align: center; }
-        .awards-grid { display: grid; grid-template-columns: 1fr; gap: 10px; } /* 改為單欄，因為字數較多 */
+        .awards-grid { display: grid; grid-template-columns: 1fr; gap: 10px; }
         .award-item { background: rgba(197, 160, 89, 0.1); border: 1px solid #C5A059; border-radius: 8px; padding: 12px 10px; text-align: left; font-size: 14px; color: #fff; display: flex; align-items: center; gap: 8px; }
         .award-icon { font-size: 18px; flex-shrink: 0; }
 
-        /* 評價區 */
         .reviews-section { width: 100%; max-width: 480px; margin-top: 20px; padding: 20px 0; background: rgba(100, 255, 218, 0.05); border: 2px solid rgba(100, 255, 218, 0.3); border-radius: 16px; height: 260px; overflow: hidden; position: relative; }
         .reviews-section .title { font-size: 18px; color: #64ffda; margin-bottom: 15px; font-weight: bold; text-align: center; }
         .danmaku-lane { display: flex; position: absolute; left: 0; white-space: nowrap; animation: scroll-loop linear infinite; }
@@ -227,7 +188,6 @@
         .danmaku-lane.lane-4 { top: 200px; animation-duration: 60s; }
         @keyframes scroll-loop { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
 
-        /* 社群與 LINE */
         .social-icons-container { display: flex; justify-content: center; gap: 25px; margin-top: 30px; margin-bottom: 10px; }
         .social-link { width: 50px; height: 50px; border-radius: 50%; background: rgba(100, 255, 218, 0.1); border: 1px solid rgba(100, 255, 218, 0.4); display: flex; align-items: center; justify-content: center; }
         .social-link svg { width: 24px; height: 24px; fill: #64ffda; }
@@ -239,35 +199,17 @@
         .counter-section { margin-top: 30px; margin-bottom: 40px; text-align: center; color: #9fb3c8; font-size: 16px; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 20px; width: 100%; max-width: 380px; }
         #days-count { color: #64ffda; font-size: 28px; font-weight: bold; margin: 0 8px; }
 
-        /* Back to top & DaoHui Animation */
-        .back-to-top { 
-            position: fixed; bottom: 20px; right: 20px; background: none; border: none; z-index: 9999; 
-            opacity: 0; visibility: hidden; transition: all 0.4s ease; 
-            display: flex; flex-direction: column; align-items: center; cursor: pointer;
-        }
+        .back-to-top { position: fixed; bottom: 20px; right: 20px; background: none; border: none; z-index: 9999; opacity: 0; visibility: hidden; transition: all 0.4s ease; display: flex; flex-direction: column; align-items: center; cursor: pointer; }
         .back-to-top.show { opacity: 1; visibility: visible; transform: translateY(0); }
-        .daohui-dog-img { 
-            width: 60px; height: auto; border-radius: 8px; 
-            border: 2px solid #64ffda; box-shadow: 0 4px 10px rgba(0,0,0,0.6); 
-        }
+        .daohui-dog-img { width: 60px; height: auto; border-radius: 8px; border: 2px solid #64ffda; box-shadow: 0 4px 10px rgba(0,0,0,0.6); }
         .back-to-top span { margin-top: 5px; color: #64ffda; font-size: 13px; font-weight: bold; text-shadow: 0 2px 4px rgba(0,0,0,0.8); }
 
-        /* 🔥 島輝擺頭動畫 Keyframes 🔥 */
-        @keyframes wag {
-            0% { transform: rotate(0deg); }
-            25% { transform: rotate(-10deg); }
-            50% { transform: rotate(10deg); }
-            75% { transform: rotate(-5deg); }
-            100% { transform: rotate(0deg); }
-        }
-
-        /* 滑鼠移過去 或 點擊時 觸發擺頭 */
-        .back-to-top:hover .daohui-dog-img, .back-to-top:active .daohui-dog-img {
-            animation: wag 0.5s ease-in-out infinite;
-        }
+        @keyframes wag { 0% { transform: rotate(0deg); } 25% { transform: rotate(-10deg); } 50% { transform: rotate(10deg); } 75% { transform: rotate(-5deg); } 100% { transform: rotate(0deg); } }
+        .back-to-top:hover .daohui-dog-img, .back-to-top:active .daohui-dog-img { animation: wag 0.5s ease-in-out infinite; }
 
         @media (max-width: 768px) {
-            .yuyu-announcement-bar { font-size: 13px; text-align: left; }
+            .yuyu-announcement-bar { font-size: 13px; white-space: normal; padding: 5px; height: auto; min-height: 45px; }
+            /* 萬一公告欄變成兩行，導覽列也不會被蓋住，因為我們在 JS 裡沒有寫死高度，但 CSS 預設 body padding 足夠 */
             .daohui-dog-img { width: 50px; }
         }
     </style>
@@ -276,12 +218,19 @@
     <ul class="bg-bubbles"><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li></ul>
 
     <div class="yuyu-announcement-bar">
-        🚀 活體訂單2000元免運、常溫賣場660免運、冷凍賣場990免運，最新消息都在IG:@yuyu_guppy_
+        🚀 活體訂單2000元免運、常溫賣場660免運、冷凍賣場990免運
     </div>
 
-    <button class="hamburger-btn" onclick="openNav()">
-        <div class="bar"></div><div class="bar"></div><div class="bar"></div>
-    </button>
+    <div class="mobile-sticky-header">
+        <button class="hamburger-btn" onclick="openNav()">
+            <div class="bar"></div><div class="bar"></div><div class="bar"></div>
+        </button>
+        <div class="mobile-header-title">
+            宇魚水族
+        </div>
+    </div>
+
+    <div id="menuOverlay" class="menu-overlay" onclick="closeNav()"></div>
 
     <div id="mySidenav" class="sidenav">
         <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">×</a>
@@ -490,12 +439,16 @@
         }
         calculateDays();
 
-        // --- 2. 漢堡選單開關 ---
+        // --- 2. 漢堡選單開關邏輯 (含遮罩層) ---
         function openNav() {
             document.getElementById("mySidenav").style.width = "280px";
+            // 顯示遮罩層
+            document.getElementById("menuOverlay").style.display = "block";
         }
         function closeNav() {
             document.getElementById("mySidenav").style.width = "0";
+            // 隱藏遮罩層
+            document.getElementById("menuOverlay").style.display = "none";
         }
 
         // --- 3. 下拉選單 ---
@@ -515,12 +468,11 @@
         // --- 4. 條款 Modal ---
         function openTerms() {
             document.getElementById("termsModal").style.display = "block";
-            closeNav(); // 打開條款時關閉側邊欄
+            closeNav(); 
         }
         function closeTerms() {
             document.getElementById("termsModal").style.display = "none";
         }
-        // 點擊視窗外部關閉 Modal
         window.onclick = function(event) {
             var modal = document.getElementById("termsModal");
             if (event.target == modal) {
@@ -528,39 +480,17 @@
             }
         }
 
-        // --- 5. 滾動偵測：回到頂部 + 海苔條自動收合 ---
+        // --- 5. 滾動偵測：只有回到頂部，移除海苔條自動收合 ---
         const backToTopBtn = document.getElementById('backToTop');
-        const menuBtn = document.querySelector('.hamburger-btn'); // 你的漢堡按鈕 class
-        let lastScrollTop = 0;
-        const navHideThreshold = 50; // 門檻值
-
+        
         window.addEventListener('scroll', function() {
             let currentScroll = window.pageYOffset || document.documentElement.scrollTop;
-            
-            // A. 滑動時自動收合側邊欄 (原本的功能)
-            if (document.getElementById("mySidenav").style.width === "280px") {
-                closeNav();
-            }
 
-            // B. 回到頂部按鈕 (島輝)
+            // 回到頂部按鈕 (島輝)
             if (currentScroll > 300) {
                 backToTopBtn.classList.add('show');
             } else {
                 backToTopBtn.classList.remove('show');
-            }
-
-            // C. 手機版海苔條自動收合 (新增的功能)
-            if (window.innerWidth < 768) { // 只在手機版執行
-                if (currentScroll < 0) currentScroll = 0; // 防呆
-                
-                // 往下滑(大於門檻) -> 隱藏
-                if (currentScroll > lastScrollTop && currentScroll > navHideThreshold) {
-                    menuBtn.classList.add('nav-hide');
-                } else {
-                    // 往上滑 -> 顯示
-                    menuBtn.classList.remove('nav-hide');
-                }
-                lastScrollTop = currentScroll;
             }
         });
 
@@ -581,11 +511,9 @@
             cards.forEach((card, index) => {
                 const dot = document.createElement('div');
                 dot.classList.add('dot');
-                if (index === 0) dot.classList.add('active'); // 第一個預設啟用
+                if (index === 0) dot.classList.add('active'); 
                 
-                // 點擊點點，滑動到對應卡片
                 dot.addEventListener('click', () => {
-                    // 計算卡片相對於容器的位置
                     const scrollAmount = card.offsetLeft - slider.offsetLeft;
                     slider.scrollTo({
                         left: scrollAmount,
@@ -597,16 +525,13 @@
 
             // 監聽滑動事件，更新點點狀態
             slider.addEventListener('scroll', () => {
-                // 找出目前畫面中心的 scroll 位置
                 const scrollCenter = slider.scrollLeft + (slider.offsetWidth / 2);
 
                 cards.forEach((card, index) => {
                     const cardLeft = card.offsetLeft - slider.offsetLeft;
                     const cardRight = cardLeft + card.offsetWidth;
 
-                    // 如果卡片的中心在畫面中心範圍內
                     if (cardLeft <= scrollCenter && cardRight > scrollCenter) {
-                        // 更新點點樣式
                         document.querySelectorAll('.dot').forEach(d => d.classList.remove('active'));
                         if(dotsContainer.children[index]) {
                             dotsContainer.children[index].classList.add('active');
