@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="format-detection" content="telephone=no">
-    
     <title>魚隻專區｜宇魚水族</title>
     <style>
         /* --- 全域設定：深海風格 --- */
@@ -15,6 +14,61 @@
             margin: 0; padding: 0; min-height: 100vh; overflow-x: hidden; 
             display: flex; flex-direction: column; position: relative;
         }
+
+        /* --- 漢堡選單 (Side Nav) --- */
+        .hamburger-btn {
+            position: fixed; top: 15px; left: 20px; z-index: 11000;
+            background: transparent; border: none; cursor: pointer;
+            display: flex; flex-direction: column; gap: 5px;
+        }
+        .bar { width: 30px; height: 3px; background-color: #64ffda; border-radius: 3px; transition: 0.3s; }
+        
+        /* 側邊欄容器 */
+        .sidenav {
+            height: 100%; width: 0; position: fixed; z-index: 10500;
+            top: 0; left: 0; background-color: rgba(3, 16, 31, 0.95);
+            overflow-x: hidden; transition: 0.4s; padding-top: 60px;
+            backdrop-filter: blur(10px); border-right: 1px solid #64ffda;
+        }
+        .sidenav a, .dropdown-btn {
+            padding: 15px 30px; text-decoration: none; font-size: 18px;
+            color: #f0f4f8; display: block; transition: 0.3s;
+            border-bottom: 1px solid rgba(255,255,255,0.05); cursor: pointer;
+            background: none; border-left: none; border-right: none; border-top: none;
+            width: 100%; text-align: left; font-family: inherit;
+        }
+        .sidenav a:hover, .dropdown-btn:hover { color: #ffe100; background: rgba(255,255,255,0.05); }
+        .sidenav .closebtn {
+            position: absolute; top: 10px; right: 20px; font-size: 36px; margin-left: 50px; border: none;
+        }
+
+        /* 下拉選單 */
+        .dropdown-container {
+            display: none; background-color: rgba(0,0,0,0.3); padding-left: 20px;
+        }
+        .dropdown-container a { font-size: 16px; color: #bcccdc; }
+        .dropdown-container a:hover { color: #64ffda; }
+        
+        .fa-caret-down { float: right; padding-right: 8px; }
+
+        /* --- 條款 Modal --- */
+        .terms-modal {
+            display: none; position: fixed; z-index: 20000; left: 0; top: 0;
+            width: 100%; height: 100%; overflow: auto; 
+            background-color: rgba(0,0,0,0.8);
+        }
+        .terms-content {
+            background-color: #0d253f; margin: 10% auto; padding: 20px;
+            border: 2px solid #64ffda; width: 85%; max-width: 600px;
+            border-radius: 10px; color: #fff; line-height: 1.8;
+            max-height: 70vh; overflow-y: auto;
+        }
+        .terms-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #334e68; padding-bottom: 10px; margin-bottom: 15px; }
+        .terms-title { font-size: 22px; color: #ffe100; font-weight: bold; }
+        .close-terms { color: #aaa; font-size: 28px; font-weight: bold; cursor: pointer; }
+        .terms-body h3 { color: #64ffda; margin-top: 20px; font-size: 18px; border-left: 3px solid #ffe100; padding-left: 10px; }
+        .terms-body p { font-size: 14px; color: #ddd; margin-bottom: 10px; text-align: justify; }
+        .terms-highlight { color: #ff4d4d; font-weight: bold; }
 
         /* 背景氣泡動畫 */
         .bg-bubbles { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; overflow: hidden; pointer-events: none; }
@@ -46,7 +100,7 @@
             background: rgba(16, 42, 67, 0.9); padding: 15px 20px; display: flex; justify-content: space-between; align-items: center;
             border-bottom: 1px solid #334e68; position: sticky; top: 0; z-index: 10000; backdrop-filter: blur(5px);
         }
-        .logo-area { display: flex; align-items: center; gap: 10px; font-weight: bold; font-size: 20px; color: #64ffda; text-decoration: none; }
+        .logo-area { display: flex; align-items: center; gap: 10px; font-weight: bold; font-size: 20px; color: #64ffda; text-decoration: none; margin-left: 40px; /* 為了閃避漢堡按鈕 */ }
         .logo-img { width: 40px; height: 40px; border-radius: 50%; border: 2px solid #64ffda; }
         
         .cart-btn {
@@ -333,6 +387,58 @@
 <body>
     <ul class="bg-bubbles"><li></li><li></li><li></li><li></li><li></li></ul>
 
+    <button class="hamburger-btn" onclick="openNav()">
+        <div class="bar"></div><div class="bar"></div><div class="bar"></div>
+    </button>
+
+    <div id="mySidenav" class="sidenav">
+        <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">×</a>
+        
+        <button class="dropdown-btn">🐠 活體專區 
+            <i class="fa-caret-down">▼</i>
+        </button>
+        <div class="dropdown-container">
+            <a href="#" onclick="filterProducts('guppy', this)">🔹 孔雀魚</a>
+            <a href="#" onclick="filterProducts('molly', this)">🔹 茉莉魚</a>
+            <a href="#" onclick="filterProducts('shrimp', this)">🔹 米蝦專區</a>
+            <a href="#" onclick="filterProducts('bottom', this)">🔹 底棲魚專區</a>
+        </div>
+
+        <a href="https://myship.7-11.com.tw/general/detail/GM2312087898760" target="_blank">🛒 硬體與飼料</a>
+        <a href="https://myship.7-11.com.tw/general/detail/GM2404054052893" target="_blank">❄️ 冷凍豐年蝦</a>
+        
+        <a href="#" onclick="openTerms()">📜 條款與細則</a>
+        <a href="https://www.facebook.com/yuyuguppy" target="_blank">💬 聯絡我們</a>
+        
+        <a href="index.html" style="margin-top: 20px; border-top: 1px solid rgba(255,255,255,0.2);">🏠 回到首頁</a>
+    </div>
+
+    <div id="termsModal" class="terms-modal">
+        <div class="terms-content">
+            <div class="terms-header">
+                <span class="terms-title">📜 宇魚水族 條款與細則</span>
+                <span class="close-terms" onclick="closeTerms()">×</span>
+            </div>
+            <div class="terms-body">
+                <h3>1. 活體不適用退換貨</h3>
+                <p>活體動物（魚蝦）屬於易腐敗商品，根據消保法規定，不適用於網購七天鑑賞期。除運送過程死亡（DOA）外，活體售出後概不接受退換貨，請在下單前確認您已準備好飼養環境。</p>
+
+                <h3>2. 配送風險與責任</h3>
+                <p>我們堅持採用專業純氧包裝。若發生運送延遲或意外導致的損失，<span class="terms-highlight">由宇魚水族全權處理</span>，保障您的權益，請您放心。</p>
+
+                <h3>3. 死魚包賠政策</h3>
+                <p>為了確保責任歸屬，請您配合以下事項：</p>
+                <p>✅ <strong>開箱請務必「全程錄影」</strong>：從未拆封箱子開始錄影，直到檢查魚隻狀態。</p>
+                <p>✅ <strong>魚隻未拆袋</strong>：若發現魚隻死亡，請勿拆開塑膠袋，直接拍攝袋內死魚狀況。</p>
+                <p>✅ <strong>立即回報</strong>：請於收件後 1 小時內，將影片與照片傳至 LINE 官方帳號。</p>
+                <p>若符合以上條件，我們將依死魚數量退款 <span class="terms-highlight">（不含運費）</span>，或於下次購物時補寄。</p>
+
+                <h3>4. 運費與貨到付款規範</h3>
+                <p>若您選擇貨到付款，請務必留意收件電話。若無故未取貨導致商品退回（造成活體死亡或耗損），本賣場將把您列入<span class="terms-highlight">黑名單</span>拒絕往來，並保留法律追訴權，依據民法請求損害賠償（包含運費、包材費及商品損失）。</p>
+            </div>
+        </div>
+    </div>
+
     <div class="yuyu-announcement-bar">
         🚀 活體訂單2000元免運、常溫賣場660免運、冷凍賣場990免運，最新消息都在IG:@yuyu_guppy_
     </div>
@@ -448,7 +554,7 @@
                     <img src="boss.png" class="yuge-avatar-img" alt="宇哥" onerror="this.src='logo.jpg'">
                     <div class="yuge-text">
                         宇哥會在LINE上親自為您提供黑貓貨單<br>
-                        ✨ 確認配送進度！敬請期待收魚喔 ✨
+                        ✨ 確認配送進度！敬請期待收魚喔！ ✨
                     </div>
                 </div>
                 </div>
@@ -487,6 +593,20 @@
             init();
             loadCustomerData();
             toggleBankInfo(); 
+            
+            // 處理 URL 參數 (例如從首頁推薦區點進來)
+            const urlParams = new URLSearchParams(window.location.search);
+            const categoryParam = urlParams.get('cat');
+            if (categoryParam) {
+                // 稍微延遲一下，確保資料讀取完畢
+                setTimeout(() => {
+                    // 找到對應的按鈕並模擬點擊
+                    const targetBtn = document.querySelector(`.category-btn[onclick*="'${categoryParam}'"]`);
+                    if (targetBtn) {
+                        targetBtn.click();
+                    }
+                }, 1000); // 延遲 1 秒給 Google Sheet 讀取時間
+            }
         };
 
         function init() {
@@ -612,6 +732,9 @@
             titleDom.innerText = titles[cat];
             document.querySelector('.search-input').value = '';
             renderProducts(cat);
+            
+            // 手機版：點擊分類後自動關閉側邊欄
+            closeNav();
         }
 
         function searchProducts(val) { renderProducts(currentCategory); }
@@ -848,8 +971,47 @@
             document.getElementById('orderConfirmModal').style.display = 'none';
         }
 
+        // 漢堡選單與 Modal 邏輯
+        function openNav() {
+            document.getElementById("mySidenav").style.width = "280px";
+        }
+        function closeNav() {
+            document.getElementById("mySidenav").style.width = "0";
+        }
+        function openTerms() {
+            document.getElementById("termsModal").style.display = "block";
+            closeNav();
+        }
+        function closeTerms() {
+            document.getElementById("termsModal").style.display = "none";
+        }
+        window.onclick = function(event) {
+            if (event.target == document.getElementById("termsModal")) {
+                closeTerms();
+            }
+        }
+
+        // 下拉選單邏輯
+        var dropdown = document.getElementsByClassName("dropdown-btn");
+        for (var i = 0; i < dropdown.length; i++) {
+            dropdown[i].addEventListener("click", function() {
+                this.classList.toggle("active");
+                var dropdownContent = this.nextElementSibling;
+                if (dropdownContent.style.display === "block") {
+                    dropdownContent.style.display = "none";
+                } else {
+                    dropdownContent.style.display = "block";
+                }
+            });
+        }
+
         const backToTopBtn = document.getElementById('backToTop');
         window.onscroll = function() {
+            // 滑動自動收合側邊欄
+            if (document.getElementById("mySidenav").style.width === "280px") {
+                closeNav();
+            }
+
             if (document.body.scrollTop > 300 || document.documentElement.scrollTop > 300) { backToTopBtn.classList.add('show'); } else { backToTopBtn.classList.remove('show'); }
         };
         function scrollToTop() { window.scrollTo({ top: 0, behavior: 'smooth' }); }
