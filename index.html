@@ -15,39 +15,46 @@
             overflow-x: hidden; 
             display: flex; flex-direction: column; align-items: center; 
             position: relative;
-            /* 為了避開固定的公告欄(45px) + 手機導覽列(50px) = 95px */
+            /* 為了避開雙層固定欄位 (45px + 50px = 95px) */
             padding-top: 95px; 
         }
 
-        /* --- 1. 黃色公告欄 (固定置頂 - 第一層) --- */
+        /* --- 1. 黃色公告欄 (第一層 - 永久固定) --- */
         .yuyu-announcement-bar {
             background-color: #ffe100; color: #000; text-align: center; 
-            padding: 0 10px; /* 移除上下 padding，改用 flex 置中 */
+            padding: 0 10px;
             font-size: 14px; font-weight: 700; width: 100%; 
             position: fixed; top: 0; left: 0;
             z-index: 12000; /* 最上層 */
             box-shadow: 0 2px 5px rgba(0,0,0,0.2); 
-            height: 45px; /* 固定高度 */
-            box-sizing: border-box;
-            display: flex; align-items: center; justify-content: center; /* 垂直水平置中 */
+            height: 45px; box-sizing: border-box;
+            display: flex; align-items: center; justify-content: center;
             white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
         }
 
-        /* --- 2. 手機版專用導覽列 (固定在黃條下面 - 第二層) --- */
+        /* --- 2. 手機版專用導覽列 (第二層 - 永久固定) --- */
         .mobile-sticky-header {
             position: fixed;
             top: 45px; /* 緊接在黃色公告欄下面 */
             left: 0;
             width: 100%;
             height: 50px;
-            background-color: #03101f; /* 深藍底色，避免透明造成重疊 */
+            background-color: #03101f; /* 深藍底色 */
             border-bottom: 1px solid #334e68;
             z-index: 11000;
             display: flex;
             align-items: center;
+            justify-content: space-between; /* 左右撐開：左邊放選單+字，右邊放LOGO */
             padding: 0 15px;
             box-sizing: border-box;
             box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+        }
+
+        /* 左側群組 (漢堡+標題) */
+        .header-left-group {
+            display: flex;
+            align-items: center;
+            gap: 15px; /* 按鈕跟文字的距離 */
         }
 
         /* 海苔條按鈕 (漢堡) */
@@ -59,18 +66,23 @@
         }
         .bar { width: 25px; height: 3px; background-color: #64ffda; border-radius: 3px; transition: 0.3s; }
         
-        /* 手機版標題 (放在導覽列中間) */
+        /* 手機版標題 */
         .mobile-header-title {
-            color: #64ffda;
-            font-weight: bold;
-            font-size: 18px;
-            margin-left: 15px;
-            flex-grow: 1; /* 佔據剩餘空間 */
+            color: #64ffda; font-weight: bold; font-size: 18px;
+        }
+
+        /* 🔥 右側 MARK LOGO 設定 🔥 */
+        .header-mark-img {
+            height: 40px; /* 高度限制，確保不撐破導覽列 */
+            width: auto;
+            object-fit: contain;
+            /* 如果需要稍微調整位置，可以改這裡 */
+            margin-right: 0; 
         }
 
         /* --- 側邊選單 (Sidenav) --- */
         .sidenav {
-            height: 100%; width: 0; position: fixed; z-index: 13000; /* 比所有 Header 高 */
+            height: 100%; width: 0; position: fixed; z-index: 13000; 
             top: 0; left: 0; background-color: rgba(3, 16, 31, 0.98);
             overflow-x: hidden; transition: 0.4s; padding-top: 60px;
             border-right: 1px solid #64ffda;
@@ -89,11 +101,9 @@
 
         /* --- 遮罩層 (點擊外部收合用) --- */
         .menu-overlay {
-            display: none; /* 預設隱藏 */
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background-color: rgba(0, 0, 0, 0.7); /* 半透明黑 */
-            z-index: 12500; /* 在 Header 之上，在 Sidenav 之下 */
-            backdrop-filter: blur(2px);
+            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background-color: rgba(0, 0, 0, 0.7); 
+            z-index: 12500; backdrop-filter: blur(2px);
         }
 
         /* 下拉選單 */
@@ -139,6 +149,24 @@
             0% { transform: translateY(0); opacity: 0; }
             10% { opacity: 0.8; }
             100% { transform: translateY(-120vh); opacity: 0; }
+        }
+
+        /* 導航列 (桌面版 Top Nav - 手機版隱藏) */
+        .top-nav {
+            background: rgba(16, 42, 67, 0.9); padding: 15px 20px; display: flex; justify-content: space-between; align-items: center;
+            border-bottom: 1px solid #334e68; position: sticky; top: 45px; z-index: 10000; backdrop-filter: blur(5px);
+        }
+        .logo-area { display: flex; align-items: center; gap: 10px; font-weight: bold; font-size: 20px; color: #64ffda; text-decoration: none; margin-left: 40px; }
+        .logo-img { width: 40px; height: 40px; border-radius: 50%; border: 2px solid #64ffda; }
+        
+        .cart-btn {
+            position: relative; background: #64ffda; color: #03101f; padding: 8px 15px; border-radius: 20px;
+            font-weight: bold; cursor: pointer; display: flex; align-items: center; gap: 5px; transition: transform 0.2s;
+        }
+        .cart-btn:hover { transform: scale(1.05); }
+        .cart-count {
+            background: #ff3b30; color: white; font-size: 12px; width: 20px; height: 20px; border-radius: 50%;
+            display: flex; align-items: center; justify-content: center; position: absolute; top: -8px; right: -8px;
         }
 
         /* 佈局容器 */
@@ -209,8 +237,8 @@
 
         @media (max-width: 768px) {
             .yuyu-announcement-bar { font-size: 13px; white-space: normal; padding: 5px; height: auto; min-height: 45px; }
-            /* 萬一公告欄變成兩行，導覽列也不會被蓋住，因為我們在 JS 裡沒有寫死高度，但 CSS 預設 body padding 足夠 */
             .daohui-dog-img { width: 50px; }
+            .top-nav { display: none; } /* 隱藏桌面版導航 */
         }
     </style>
 </head>
@@ -222,12 +250,16 @@
     </div>
 
     <div class="mobile-sticky-header">
-        <button class="hamburger-btn" onclick="openNav()">
-            <div class="bar"></div><div class="bar"></div><div class="bar"></div>
-        </button>
-        <div class="mobile-header-title">
-            宇魚水族
+        <div class="header-left-group">
+            <button class="hamburger-btn" onclick="openNav()">
+                <div class="bar"></div><div class="bar"></div><div class="bar"></div>
+            </button>
+            <div class="mobile-header-title">
+                宇魚水族
+            </div>
         </div>
+
+        <img src="mark.png" alt="Logo" class="header-mark-img" onerror="this.style.display='none'">
     </div>
 
     <div id="menuOverlay" class="menu-overlay" onclick="closeNav()"></div>
@@ -251,6 +283,16 @@
         <a href="https://www.facebook.com/yuyuguppy" target="_blank">💬 聯絡我們</a>
         <a href="index.html" style="margin-top: 20px; border-top: 1px solid rgba(255,255,255,0.2);">🏠 回到首頁</a>
     </div>
+
+    <nav class="top-nav">
+        <a href="index.html" class="logo-area">
+            <img src="logo.jpg" alt="宇魚" class="logo-img">
+            <span>宇魚水族</span>
+        </a>
+        <div class="cart-btn" onclick="location.href='fish.html'">
+            🛒 前往購物車
+        </div>
+    </nav>
 
     <div id="termsModal" class="terms-modal">
         <div class="terms-content">
