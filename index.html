@@ -3,476 +3,247 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="format-detection" content="telephone=no">
     <title>宇魚水族｜孔雀魚專賣店</title>
     <style>
+        /* --- 全域設定 --- */
         body { 
-            /* 深海光影背景 */
             background: radial-gradient(circle at 50% 10%, #1a3c5e 0%, #03101f 100%);
             color: #f0f4f8; 
-            font-family: "PingFang TC", "Heiti TC", "Microsoft JhengHei", sans-serif; 
-            margin: 0;
-            padding: 0;
-            min-height: 100vh;
+            font-family: "Microsoft JhengHei", sans-serif; 
+            margin: 0; padding: 0; min-height: 100vh; 
             overflow-x: hidden; 
-            display: flex;
-            flex-direction: column;
-            align-items: center;
+            display: flex; flex-direction: column; align-items: center; 
             position: relative;
         }
 
-        /* --- 背景動態氣泡 Start --- */
-        .bg-bubbles {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 0; 
-            overflow: hidden;
-            pointer-events: none; 
+        /* --- 漢堡選單 (Side Nav) --- */
+        .hamburger-btn {
+            position: fixed; top: 15px; left: 20px; z-index: 11000;
+            background: transparent; border: none; cursor: pointer;
+            display: flex; flex-direction: column; gap: 5px;
         }
-        .bg-bubbles li {
-            position: absolute;
-            list-style: none;
-            display: block;
-            bottom: -150px; 
-            border-radius: 50%;
-            background: radial-gradient(circle at 70% 30%, rgba(255, 255, 255, 0.4), rgba(255, 255, 255, 0) 60%);
-            border: 1px solid rgba(255, 255, 255, 0.15); 
-            box-shadow: inset 0 0 10px rgba(255, 255, 255, 0.05); 
-            animation: rise infinite linear;
-        }
-        /* 氣泡設定 */
-        .bg-bubbles li:nth-child(1) { left: 10%; width: 40px; height: 40px; animation-duration: 12s; animation-delay: 0s; }
-        .bg-bubbles li:nth-child(2) { left: 20%; width: 20px; height: 20px; animation-duration: 18s; animation-delay: 2s; }
-        .bg-bubbles li:nth-child(3) { left: 25%; width: 30px; height: 30px; animation-duration: 14s; animation-delay: 4s; }
-        .bg-bubbles li:nth-child(4) { left: 40%; width: 60px; height: 60px; animation-duration: 16s; animation-delay: 0s; opacity: 0.6; }
-        .bg-bubbles li:nth-child(5) { left: 70%; width: 25px; height: 25px; animation-duration: 10s; animation-delay: 1s; }
-        .bg-bubbles li:nth-child(6) { left: 80%; width: 50px; height: 50px; animation-duration: 20s; animation-delay: 3s; opacity: 0.5; }
-        .bg-bubbles li:nth-child(7) { left: 32%; width: 35px; height: 35px; animation-duration: 15s; animation-delay: 7s; }
-        .bg-bubbles li:nth-child(8) { left: 55%; width: 15px; height: 15px; animation-duration: 25s; animation-delay: 10s; }
-        .bg-bubbles li:nth-child(9) { left: 25%; width: 10px; height: 10px; animation-duration: 18s; animation-delay: 2s; }
-        .bg-bubbles li:nth-child(10) { left: 90%; width: 45px; height: 45px; animation-duration: 17s; animation-delay: 6s; }
-        .bg-bubbles li:nth-child(11) { left: 65%; width: 12px; height: 12px; animation-duration: 9s; animation-delay: 4s; }
-        .bg-bubbles li:nth-child(12) { left: 15%; width: 18px; height: 18px; animation-duration: 13s; animation-delay: 8s; }
-        .bg-bubbles li:nth-child(13) { left: 85%; width: 22px; height: 22px; animation-duration: 11s; animation-delay: 1s; }
-        .bg-bubbles li:nth-child(14) { left: 5%; width: 35px; height: 35px; animation-duration: 22s; animation-delay: 5s; }
-        .bg-bubbles li:nth-child(15) { left: 95%; width: 28px; height: 28px; animation-duration: 19s; animation-delay: 2s; }
-        .bg-bubbles li:nth-child(16) { left: 45%; width: 15px; height: 15px; animation-duration: 15s; animation-delay: 9s; }
-        .bg-bubbles li:nth-child(17) { left: 60%; width: 55px; height: 55px; animation-duration: 24s; animation-delay: 3s; opacity: 0.4; }
-        .bg-bubbles li:nth-child(18) { left: 75%; width: 20px; height: 20px; animation-duration: 16s; animation-delay: 6s; }
-        .bg-bubbles li:nth-child(19) { left: 35%; width: 40px; height: 40px; animation-duration: 21s; animation-delay: 1s; }
-        .bg-bubbles li:nth-child(20) { left: 50%; width: 10px; height: 10px; animation-duration: 12s; animation-delay: 5s; }
-
-        @keyframes rise {
-            0% { transform: translateY(0) rotate(0deg) translateX(0); opacity: 0; }
-            10% { opacity: 0.8; }
-            50% { transform: translateY(-50vh) rotate(180deg) translateX(15px); }
-            100% { transform: translateY(-120vh) rotate(360deg) translateX(-15px); opacity: 0; }
-        }
-        /* --- 背景動態氣泡 End --- */
-
-        .yuyu-announcement-bar {
-            background-color: #ffe100; 
-            color: #000000;           
-            text-align: center;
-            padding: 12px 10px;
-            font-size: 15px;
-            font-weight: 700;
-            width: 100%;
-            z-index: 10000; 
-            box-sizing: border-box;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.3);
-            line-height: 1.5;
-            position: relative;
-        }
-
-        .main-container {
-            width: 100%;
-            padding: 40px 20px; 
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            box-sizing: border-box;
-            max-width: 100%;
-            z-index: 10; 
-            position: relative;
-        }
-
-        .avatar { 
-            width: 110px; 
-            height: 110px; 
-            border-radius: 50%; 
-            border: 3px solid #64ffda; 
-            margin-bottom: 20px;
-            box-shadow: 0 0 25px rgba(100, 255, 218, 0.4); 
-        }
-        h1 { 
-            font-size: 26px; 
-            margin: 10px 0; 
-            letter-spacing: 1px; 
-            text-shadow: 0 0 10px rgba(100, 255, 218, 0.3); 
-        }
+        .bar { width: 30px; height: 3px; background-color: #64ffda; border-radius: 3px; transition: 0.3s; }
         
-        .description { 
-            text-align: center; 
-            color: #aebccf; 
-            margin-bottom: 30px; 
-            line-height: 1.8;
-            font-size: 15px;
-            font-weight: 500;
+        /* 側邊欄容器 */
+        .sidenav {
+            height: 100%; width: 0; position: fixed; z-index: 10500;
+            top: 0; left: 0; background-color: rgba(3, 16, 31, 0.95);
+            overflow-x: hidden; transition: 0.4s; padding-top: 60px;
+            backdrop-filter: blur(10px); border-right: 1px solid #64ffda;
+        }
+        .sidenav a, .dropdown-btn {
+            padding: 15px 30px; text-decoration: none; font-size: 18px;
+            color: #f0f4f8; display: block; transition: 0.3s;
+            border-bottom: 1px solid rgba(255,255,255,0.05); cursor: pointer;
+            background: none; border-left: none; border-right: none; border-top: none;
+            width: 100%; text-align: left; font-family: inherit;
+        }
+        .sidenav a:hover, .dropdown-btn:hover { color: #ffe100; background: rgba(255,255,255,0.05); }
+        .sidenav .closebtn {
+            position: absolute; top: 10px; right: 20px; font-size: 36px; margin-left: 50px; border: none;
         }
 
+        /* 下拉選單 */
+        .dropdown-container {
+            display: none; background-color: rgba(0,0,0,0.3); padding-left: 20px;
+        }
+        .dropdown-container a { font-size: 16px; color: #bcccdc; }
+        .dropdown-container a:hover { color: #64ffda; }
+        
+        /* 箭頭指示 */
+        .fa-caret-down { float: right; padding-right: 8px; }
+
+        /* --- 條款 Modal --- */
+        .terms-modal {
+            display: none; position: fixed; z-index: 20000; left: 0; top: 0;
+            width: 100%; height: 100%; overflow: auto; 
+            background-color: rgba(0,0,0,0.8);
+        }
+        .terms-content {
+            background-color: #0d253f; margin: 10% auto; padding: 20px;
+            border: 2px solid #64ffda; width: 85%; max-width: 600px;
+            border-radius: 10px; color: #fff; line-height: 1.8;
+            max-height: 70vh; overflow-y: auto;
+        }
+        .terms-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #334e68; padding-bottom: 10px; margin-bottom: 15px; }
+        .terms-title { font-size: 22px; color: #ffe100; font-weight: bold; }
+        .close-terms { color: #aaa; font-size: 28px; font-weight: bold; cursor: pointer; }
+        .terms-body h3 { color: #64ffda; margin-top: 15px; font-size: 18px; }
+        .terms-body p { font-size: 14px; color: #ddd; margin-bottom: 10px; }
+
+        /* --- 背景氣泡 --- */
+        .bg-bubbles { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; overflow: hidden; pointer-events: none; }
+        .bg-bubbles li {
+            position: absolute; list-style: none; display: block; bottom: -150px; border-radius: 50%;
+            background: radial-gradient(circle at 70% 30%, rgba(255, 255, 255, 0.4), rgba(255, 255, 255, 0) 60%);
+            border: 1px solid rgba(255, 255, 255, 0.15); animation: rise infinite linear;
+        }
+        .bg-bubbles li:nth-child(1) { left: 10%; width: 40px; height: 40px; animation-duration: 12s; }
+        .bg-bubbles li:nth-child(2) { left: 20%; width: 20px; height: 20px; animation-duration: 18s; animation-delay: 2s; }
+        .bg-bubbles li:nth-child(3) { left: 70%; width: 50px; height: 50px; animation-duration: 15s; animation-delay: 1s; }
+        .bg-bubbles li:nth-child(4) { left: 40%; width: 30px; height: 30px; animation-duration: 10s; animation-delay: 0s; }
+        .bg-bubbles li:nth-child(5) { left: 85%; width: 20px; height: 20px; animation-duration: 20s; animation-delay: 3s; }
+        @keyframes rise {
+            0% { transform: translateY(0); opacity: 0; }
+            10% { opacity: 0.8; }
+            100% { transform: translateY(-120vh); opacity: 0; }
+        }
+
+        /* 公告欄 */
+        .yuyu-announcement-bar {
+            background-color: #ffe100; color: #000; text-align: center; padding: 12px 10px;
+            font-size: 15px; font-weight: 700; width: 100%; z-index: 10000; box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+        }
+
+        .main-container { width: 100%; padding: 40px 20px; display: flex; flex-direction: column; align-items: center; box-sizing: border-box; z-index: 10; }
+
+        .avatar { width: 110px; height: 110px; border-radius: 50%; border: 3px solid #64ffda; margin-bottom: 20px; box-shadow: 0 0 25px rgba(100, 255, 218, 0.4); }
+        h1 { font-size: 26px; margin: 10px 0; letter-spacing: 1px; text-shadow: 0 0 10px rgba(100, 255, 218, 0.3); }
+        .description { text-align: center; color: #aebccf; margin-bottom: 30px; font-size: 15px; }
+
+        /* --- 新增：新手入門推薦區塊 --- */
+        .beginner-section {
+            width: 100%; max-width: 480px; margin-bottom: 30px;
+        }
+        .section-header {
+            text-align: center; color: #ffe100; font-size: 20px; font-weight: bold; 
+            margin-bottom: 15px; border-bottom: 2px solid #ffe100; display: inline-block; padding-bottom: 5px;
+        }
+        .beginner-grid {
+            display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px;
+        }
+        .beginner-card {
+            background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(100, 255, 218, 0.3);
+            border-radius: 12px; padding: 10px; text-align: center; text-decoration: none;
+            color: #fff; transition: transform 0.2s; display: flex; flex-direction: column; align-items: center;
+        }
+        .beginner-card:hover { transform: translateY(-3px); background: rgba(100, 255, 218, 0.2); }
+        .bg-fish-icon { font-size: 30px; margin-bottom: 5px; display: block; }
+        .bg-fish-name { font-weight: bold; font-size: 15px; color: #64ffda; }
+        .bg-fish-desc { font-size: 12px; color: #ccc; margin-top: 3px; }
+
+        /* 原有連結樣式 */
         .link-card { 
-            width: 100%; 
-            max-width: 380px; 
-            background: rgba(100, 255, 218, 0.05); 
-            backdrop-filter: blur(4px); 
-            -webkit-backdrop-filter: blur(4px); 
-            border: 1px solid rgba(100, 255, 218, 0.6); 
-            border-radius: 10px; 
-            padding: 16px; 
-            margin-bottom: 16px; 
-            text-decoration: none; 
-            color: #64ffda; 
-            font-weight: bold;
-            text-shadow: 0 0 8px rgba(100, 255, 218, 0.8); 
-            text-align: center; 
-            transition: all 0.3s ease; 
-            display: block;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); 
-            box-sizing: border-box; 
+            width: 100%; max-width: 380px; background: rgba(100, 255, 218, 0.05); 
+            border: 1px solid rgba(100, 255, 218, 0.6); border-radius: 10px; padding: 16px; 
+            margin-bottom: 16px; text-decoration: none; color: #64ffda; font-weight: bold;
+            text-align: center; display: block; box-sizing: border-box;
         }
-        .link-card:hover { 
-            background: rgba(100, 255, 218, 0.15); 
-            transform: translateY(-3px);
-            box-shadow: 0 0 25px rgba(100, 255, 218, 0.4); 
-        }
+        .link-card:hover { background: rgba(100, 255, 218, 0.15); }
 
-        .info-section { 
-            width: 100%; 
-            max-width: 380px; 
-            background: rgba(16, 42, 67, 0.75); 
-            backdrop-filter: blur(8px); 
-            -webkit-backdrop-filter: blur(8px);
-            border-radius: 12px; 
-            padding: 24px; 
-            margin-top: 20px; 
-            font-size: 16px; 
-            border: 1px solid rgba(51, 78, 104, 0.8);
-            margin-bottom: 30px;
-            box-sizing: border-box;
-        }
-        .info-title { 
-            color: #f0f4f8; 
-            font-weight: bold; 
-            margin-bottom: 12px; 
-            font-size: 18px; 
-            border-left: 4px solid #64ffda; 
-            padding-left: 10px; 
-        }
-        .address-link { color: #64ffda; text-decoration: none; font-weight: bold; text-shadow: 0 0 5px rgba(100, 255, 218, 0.4); }
+        /* 店家資訊 */
+        .info-section { width: 100%; max-width: 380px; background: rgba(16, 42, 67, 0.75); border-radius: 12px; padding: 24px; margin-top: 20px; border: 1px solid rgba(51, 78, 104, 0.8); margin-bottom: 30px; }
+        .info-title { color: #f0f4f8; font-weight: bold; margin-bottom: 12px; font-size: 18px; border-left: 4px solid #64ffda; padding-left: 10px; }
+        .address-link { color: #64ffda; text-decoration: none; font-weight: bold; }
         .highlight { color: #ffbc00; font-weight: bold; }
         p { color: #bcccdc; line-height: 1.6; }
 
-        /* --- 🏆 獲獎經歷區塊 (新加入) --- */
-        .awards-section {
-            width: 100%;
-            max-width: 480px;
-            margin-bottom: 20px; /* 保持在評價上方 */
-            padding: 20px;
-            background: rgba(0, 0, 0, 0.3); /* 稍微深一點的背景以突顯金牌 */
-            border-radius: 16px;
-            border: 1px solid rgba(197, 160, 89, 0.3); /* 淡金色邊框 */
-            box-sizing: border-box;
-        }
-        .awards-title {
-            font-size: 18px;
-            color: #C5A059; /* 金色標題 */
-            margin-bottom: 15px;
-            font-weight: bold;
-            text-align: center;
-            letter-spacing: 1px;
-            text-shadow: 0 0 10px rgba(197, 160, 89, 0.5);
-        }
-        .awards-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr); /* 手機版並排顯示 */
-            gap: 10px;
-        }
-        .award-item {
-            background: rgba(197, 160, 89, 0.1);
-            border: 1px solid #C5A059;
-            border-radius: 8px;
-            padding: 10px;
-            text-align: center;
-            font-size: 13px;
-            color: #fff;
-            transition: transform 0.2s;
-        }
-        .award-item:hover {
-            transform: translateY(-2px);
-            background: rgba(197, 160, 89, 0.2);
-        }
-        .award-icon { font-size: 20px; display: block; margin-bottom: 5px; }
+        /* 獲獎經歷 */
+        .awards-section { width: 100%; max-width: 480px; margin-bottom: 20px; padding: 20px; background: rgba(0, 0, 0, 0.3); border-radius: 16px; border: 1px solid rgba(197, 160, 89, 0.3); box-sizing: border-box; }
+        .awards-title { font-size: 18px; color: #C5A059; margin-bottom: 15px; font-weight: bold; text-align: center; }
+        .awards-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
+        .award-item { background: rgba(197, 160, 89, 0.1); border: 1px solid #C5A059; border-radius: 8px; padding: 10px; text-align: center; font-size: 13px; color: #fff; }
 
-        /* --- 評價區塊 (名稱已修改) --- */
-        .reviews-section {
-            width: 100%;
-            max-width: 480px;
-            margin-top: 20px;
-            padding: 20px 0;
-            background: rgba(100, 255, 218, 0.05); 
-            backdrop-filter: blur(5px);
-            -webkit-backdrop-filter: blur(5px);
-            border: 2px solid rgba(100, 255, 218, 0.3); 
-            box-shadow: 0 0 20px rgba(100, 255, 218, 0.1);
-            border-radius: 16px;
-            position: relative;
-            overflow: hidden; 
-            height: 260px; 
-            box-sizing: border-box;
-        }
-        .reviews-section .title {
-            font-size: 18px;
-            color: #64ffda;
-            margin-bottom: 15px;
-            font-weight: bold;
-            letter-spacing: 1px;
-            text-align: center;
-            text-shadow: 0 0 10px rgba(100, 255, 218, 0.5);
-        }
-        
-        .danmaku-lane {
-            display: flex;
-            width: fit-content;
-            position: absolute;
-            left: 0;
-            white-space: nowrap;
-            animation: scroll-loop linear infinite;
-        }
-
+        /* 評價區 */
+        .reviews-section { width: 100%; max-width: 480px; margin-top: 20px; padding: 20px 0; background: rgba(100, 255, 218, 0.05); border: 2px solid rgba(100, 255, 218, 0.3); border-radius: 16px; height: 260px; overflow: hidden; position: relative; }
+        .reviews-section .title { font-size: 18px; color: #64ffda; margin-bottom: 15px; font-weight: bold; text-align: center; }
+        .danmaku-lane { display: flex; position: absolute; left: 0; white-space: nowrap; animation: scroll-loop linear infinite; }
+        .danmaku-item { font-size: 15px; color: #ffffff; padding: 6px 14px; margin-right: 50px; background: rgba(255, 255, 255, 0.15); border-radius: 20px; border: 1px solid rgba(255, 255, 255, 0.2); }
         .danmaku-lane.lane-1 { top: 50px; animation-duration: 45s; }
         .danmaku-lane.lane-2 { top: 100px; animation-duration: 55s; }
         .danmaku-lane.lane-3 { top: 150px; animation-duration: 50s; }
         .danmaku-lane.lane-4 { top: 200px; animation-duration: 60s; }
+        @keyframes scroll-loop { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
 
-        .danmaku-item {
-            font-size: 15px;
-            color: #ffffff; 
-            padding: 6px 14px;
-            margin-right: 50px;
-            background: rgba(255, 255, 255, 0.15);
-            border-radius: 20px;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            display: inline-block;
-        }
+        /* 社群 ICON */
+        .social-icons-container { display: flex; justify-content: center; gap: 25px; margin-top: 30px; margin-bottom: 10px; }
+        .social-link { width: 50px; height: 50px; border-radius: 50%; background: rgba(100, 255, 218, 0.1); border: 1px solid rgba(100, 255, 218, 0.4); display: flex; align-items: center; justify-content: center; }
+        .social-link svg { width: 24px; height: 24px; fill: #64ffda; }
 
-        @keyframes scroll-loop {
-            0% { transform: translateX(0); }
-            100% { transform: translateX(-50%); }
-        }
+        /* LINE 社群卡 */
+        .line-community-card { width: 100%; max-width: 380px; background: rgba(6, 199, 85, 0.1); border: 1px solid rgba(6, 199, 85, 0.5); border-radius: 16px; padding: 20px; margin-top: 30px; text-align: center; box-sizing: border-box; }
+        .line-title { color: #06C755; font-size: 18px; font-weight: bold; margin-bottom: 15px; display: flex; justify-content: center; gap: 8px; align-items: center; }
+        .qr-code-img { width: 150px; height: 150px; }
+        .line-btn { display: inline-block; background-color: #06C755; color: white; padding: 10px 24px; border-radius: 50px; text-decoration: none; font-weight: bold; margin-top: 10px; }
 
-        .social-icons-container {
-            display: flex;
-            justify-content: center;
-            gap: 25px; 
-            margin-top: 30px;
-            margin-bottom: 10px;
-        }
-        
-        .social-link {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            background: rgba(100, 255, 218, 0.1);
-            border: 1px solid rgba(100, 255, 218, 0.4);
-            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); 
-            text-decoration: none;
-        }
+        .counter-section { margin-top: 30px; margin-bottom: 40px; text-align: center; color: #9fb3c8; font-size: 16px; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 20px; width: 100%; max-width: 380px; }
+        #days-count { color: #64ffda; font-size: 28px; font-weight: bold; margin: 0 8px; }
 
-        .social-link svg {
-            width: 24px;
-            height: 24px;
-            fill: #64ffda; 
-            transition: fill 0.3s ease;
-        }
+        /* 銀行帳號防呆 (手機版) */
+        #bankInfoArea { background: #000000 !important; border: 3px solid #ffe100 !important; }
+        .bank-title { color: #fff !important; }
+        .bank-number { color: #ffe100 !important; }
+        .bank-number a { color: #ffe100 !important; text-decoration: none !important; pointer-events: none; }
+        .copy-btn { background: #ffe100 !important; color: #000 !important; }
 
-        .social-link:hover {
-            background: rgba(100, 255, 218, 0.25);
-            transform: scale(1.15) translateY(-5px); 
-            box-shadow: 0 0 15px rgba(100, 255, 218, 0.6);
-            border-color: #64ffda;
-        }
-        
-        .social-link:hover svg {
-            fill: #ffffff; 
-        }
-
-        /* LINE 社群卡片樣式 */
-        .line-community-card {
-            width: 100%;
-            max-width: 380px;
-            background: rgba(6, 199, 85, 0.1); 
-            backdrop-filter: blur(8px);
-            -webkit-backdrop-filter: blur(8px);
-            border: 1px solid rgba(6, 199, 85, 0.5); 
-            border-radius: 16px;
-            padding: 20px;
-            margin-top: 30px;
-            text-align: center;
-            box-sizing: border-box;
-            transition: transform 0.3s ease;
-        }
-        .line-community-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 0 20px rgba(6, 199, 85, 0.3);
-        }
-        .line-title {
-            color: #06C755; 
-            font-size: 18px;
-            font-weight: bold;
-            margin-bottom: 15px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-        }
-        .qr-code-container {
-            background: white;
-            padding: 10px;
-            border-radius: 10px;
-            display: inline-block;
-            margin-bottom: 15px;
-        }
-        .qr-code-img {
-            width: 150px;
-            height: 150px;
-            display: block;
-        }
-        .line-btn {
-            display: inline-block;
-            background-color: #06C755;
-            color: white;
-            padding: 10px 24px;
-            border-radius: 50px;
-            text-decoration: none;
-            font-weight: bold;
-            font-size: 15px;
-            box-shadow: 0 4px 10px rgba(6, 199, 85, 0.4);
-            transition: all 0.2s ease;
-        }
-        .line-btn:hover {
-            background-color: #05a546;
-            transform: scale(1.05);
-        }
-
-        .counter-section {
-            margin-top: 30px;
-            margin-bottom: 40px;
-            text-align: center;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-            padding-top: 20px;
-            width: 100%;
-            max-width: 380px;
-        }
-        .counter-text {
-            color: #9fb3c8;
-            font-size: 16px;
-            letter-spacing: 1px;
-        }
-        #days-count {
-            color: #64ffda;
-            font-size: 28px;
-            font-weight: bold;
-            margin: 0 8px;
-            text-shadow: 0 0 15px rgba(100, 255, 218, 0.6);
-        }
-
-        /* --- 最終版：島輝無框懸浮按鈕樣式 --- */
-        .back-to-top {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            /* 移除背景和邊框，只保留定位 */
-            background: none; 
-            border: none;
-            padding: 0;
-            /* Flex 排版 */
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            cursor: pointer;
-            z-index: 9999;
-            /* 隱藏機制 */
-            opacity: 0; 
-            visibility: hidden;
-            transition: all 0.4s ease;
-        }
-
-        .back-to-top.show {
-            opacity: 1;
-            visibility: visible;
-            transform: translateY(0);
-        }
-
-        /* 圖片樣式：加大，加陰影，像貼紙一樣 */
-        .daohui-dog-img {
-            width: 60px; /* 加大尺寸 */
-            height: auto;
-            border-radius: 8px; /* 輕微圓角，保留方形構圖 */
-            /* 加上螢光綠細邊框，增加辨識度 */
-            border: 2px solid #64ffda; 
-            /* 加上強烈陰影，製造懸浮感 */
-            box-shadow: 0 4px 10px rgba(0,0,0,0.6);
-            transition: transform 0.3s ease;
-        }
-
-        /* 文字樣式：確保在深色背景清晰可見 */
-        .back-to-top span {
-            margin-top: 5px;
-            color: #64ffda;
-            font-size: 13px;
-            font-weight: bold;
-            text-shadow: 0 2px 4px rgba(0,0,0,0.8); /* 文字陰影 */
-        }
-
-        /* 滑鼠移上去的特效 */
-        .back-to-top:hover .daohui-dog-img {
-            transform: scale(1.1) rotate(-5deg); /* 放大並歪頭 */
-        }
-        .back-to-top:hover span {
-            color: #ffffff; /* 文字變白 */
-        }
+        /* Back to top */
+        .back-to-top { position: fixed; bottom: 20px; right: 20px; background: none; border: none; z-index: 9999; opacity: 0; visibility: hidden; transition: all 0.4s ease; display: flex; flex-direction: column; align-items: center; }
+        .back-to-top.show { opacity: 1; visibility: visible; transform: translateY(0); }
+        .daohui-dog-img { width: 60px; height: auto; border-radius: 8px; border: 2px solid #64ffda; box-shadow: 0 4px 10px rgba(0,0,0,0.6); }
+        .back-to-top span { margin-top: 5px; color: #64ffda; font-size: 13px; font-weight: bold; text-shadow: 0 2px 4px rgba(0,0,0,0.8); }
 
         @media (max-width: 768px) {
-            .yuyu-announcement-bar {
-                font-size: 13px;
-                text-align: left; 
-            }
-            .back-to-top {
-                bottom: 15px;
-                right: 15px;
-            }
-            .daohui-dog-img {
-                width: 50px; /* 手機版稍微縮小一點 */
-            }
-            .back-to-top span {
-                font-size: 11px;
-            }
+            .yuyu-announcement-bar { font-size: 13px; text-align: left; }
+            .daohui-dog-img { width: 50px; }
         }
     </style>
 </head>
 <body>
-    <ul class="bg-bubbles">
-        <li></li><li></li><li></li><li></li><li></li>
-        <li></li><li></li><li></li><li></li><li></li>
-        <li></li><li></li><li></li><li></li><li></li>
-        <li></li><li></li><li></li><li></li><li></li>
-    </ul>
+    <ul class="bg-bubbles"><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li></ul>
+
+    <button class="hamburger-btn" onclick="openNav()">
+        <div class="bar"></div><div class="bar"></div><div class="bar"></div>
+    </button>
+
+    <div id="mySidenav" class="sidenav">
+        <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+        
+        <a href="index.html">🏠 回到首頁</a>
+        
+        <button class="dropdown-btn">🐠 活體專區 
+            <i class="fa-caret-down">▼</i>
+        </button>
+        <div class="dropdown-container">
+            <a href="fish.html?cat=guppy">🔹 孔雀魚</a>
+            <a href="fish.html?cat=molly">🔹 茉莉魚</a>
+            <a href="fish.html?cat=shrimp">🔹 米蝦專區</a>
+            <a href="fish.html?cat=bottom">🔹 底棲魚專區</a>
+        </div>
+
+        <a href="https://myship.7-11.com.tw/general/detail/GM2312087898760" target="_blank">🛒 硬體與飼料</a>
+        <a href="https://myship.7-11.com.tw/general/detail/GM2404054052893" target="_blank">❄️ 冷凍豐年蝦</a>
+        
+        <a href="#" onclick="openTerms()">📜 條款與細則</a>
+        
+        <a href="https://www.facebook.com/yuyuguppy" target="_blank">💬 聯絡我們</a>
+    </div>
+
+    <div id="termsModal" class="terms-modal">
+        <div class="terms-content">
+            <div class="terms-header">
+                <span class="terms-title">📜 宇魚水族 條款與細則</span>
+                <span class="close-terms" onclick="closeTerms()">&times;</span>
+            </div>
+            <div class="terms-body">
+                <h3>1. 活體無七天鑑賞期</h3>
+                <p>根據消保法規定，活體動物（魚蝦）屬於易腐敗商品，不適用於網購七天鑑賞期退貨規定。請在下單前確認您已準備好飼養環境。</p>
+
+                <h3>2. 配送風險與責任</h3>
+                <p>我們堅持使用黑貓宅急便寄送，並採用專業純氧包裝。若發生運送延遲導致的損失，由宇魚水族與宅配公司協調處理，保障您的權益。</p>
+
+                <h3>3. 死魚包賠政策 (DOA)</h3>
+                <p>為了確保責任歸屬，請您配合以下事項：</p>
+                <p>✅ <strong>開箱請務必「全程錄影」</strong>：從未拆封箱子開始錄影，直到檢查魚隻狀態。</p>
+                <p>✅ <strong>魚隻未拆袋</strong>：若發現魚隻死亡，請勿拆開塑膠袋，直接拍攝袋內死魚狀況。</p>
+                <p>✅ <strong>立即回報</strong>：請於收件後 1 小時內，將影片與照片傳至 LINE 官方帳號。</p>
+                <p>若符合以上條件，我們將依死魚數量退款或於下次購物時補寄（運費由買家負擔或雙方協議）。</p>
+
+                <h3>4. 運費說明</h3>
+                <p>活體宅配運費一律 200 元（含包材費用）。訂單滿 2000 元即享免運優惠。若因個人因素（如：無人收件、電話未接）導致配送失敗而造成魚隻死亡，恕不賠償。</p>
+            </div>
+        </div>
+    </div>
 
     <div class="yuyu-announcement-bar">
         🚀 活體訂單2000元免運、常溫賣場660免運、冷凍賣場990免運，最新消息都在IG:@yuyu_guppy_
@@ -488,15 +259,53 @@
             讓水族成為您生活中最療癒的風景
         </div>
 
-        <a href="fish.html" class="link-card">🐠 活體魚隻專區 (孔雀、茉莉)</a>
-        <a href="https://myship.7-11.com.tw/general/detail/GM2312087898760" target="_blank" class="link-card">🛒 水族周邊賣場 (隔離杯、飼料)</a>
-        <a href="https://myship.7-11.com.tw/general/detail/GM2404054052893" target="_blank" class="link-card">❄️ 冷凍飼料賣場 (豐年蝦、赤蟲)</a>
-        <a href="https://www.facebook.com/yuyuguppy" target="_blank" class="link-card">💬 私訊粉專 (詢問各式水族問題)</a>
+        <div class="beginner-section">
+            <div style="text-align:center; margin-bottom:15px;">
+                <div class="section-header">🔥 最推薦的孔雀魚入門選擇</div>
+            </div>
+            <div class="beginner-grid">
+                <a href="fish.html" class="beginner-card">
+                    <span class="bg-fish-icon">🔴</span>
+                    <span class="bg-fish-name">全紅白子</span>
+                    <span class="bg-fish-desc">經典必養，紅火喜氣</span>
+                </a>
+                <a href="fish.html" class="beginner-card">
+                    <span class="bg-fish-icon">🔵</span>
+                    <span class="bg-fish-name">莫斯科藍</span>
+                    <span class="bg-fish-desc">深邃優雅，金屬光澤</span>
+                </a>
+                <a href="fish.html" class="beginner-card">
+                    <span class="bg-fish-icon">🌿</span>
+                    <span class="bg-fish-name">藍草尾</span>
+                    <span class="bg-fish-desc">細緻噴點，清新首選</span>
+                </a>
+                <a href="fish.html" class="beginner-card">
+                    <span class="bg-fish-icon">🟡</span>
+                    <span class="bg-fish-name">黃蕾絲</span>
+                    <span class="bg-fish-desc">華麗紋路，視覺強烈</span>
+                </a>
+                <a href="fish.html" class="beginner-card">
+                    <span class="bg-fish-icon">🐘</span>
+                    <span class="bg-fish-name">大耳馬賽克</span>
+                    <span class="bg-fish-desc">胸鰭巨大，可愛游姿</span>
+                </a>
+                <a href="fish.html" class="beginner-card">
+                    <span class="bg-fish-icon">💎</span>
+                    <span class="bg-fish-name">白金丹頂</span>
+                    <span class="bg-fish-desc">頭頂紅丹，身體亮白</span>
+                </a>
+            </div>
+        </div>
+
+        <a href="fish.html" class="link-card">🐠 魚隻專區 (進入賣場)</a>
+        <a href="https://myship.7-11.com.tw/general/detail/GM2312087898760" target="_blank" class="link-card">🛒 常溫周邊賣場 (隔離杯/飼料)</a>
+        <a href="https://myship.7-11.com.tw/general/detail/GM2404054052893" target="_blank" class="link-card">❄️ 冷凍飼料賣場 (豐年蝦幼蟲)</a>
+        <a href="https://www.facebook.com/yuyuguppy" target="_blank" class="link-card">💬 私訊粉專 (詢問各種水族問題)</a>
 
         <div class="info-section">
             <div class="info-title">店址資訊</div>
             <p>
-                <a href="https://www.google.com/maps/search/?api=1&query=24.8403964,121.0443522" target="_blank" class="address-link">
+                <a href="https://www.google.com/maps/search/?api=1&query=新竹縣新埔鎮義民路二段630巷1號" target="_blank" class="address-link">
                     📍 新竹縣新埔鎮義民路二段630巷9號<br>
                     (三合院內，點我開啟導航 🚗)
                 </a>
@@ -594,6 +403,7 @@
     </div>
 
     <script>
+        // 倒數計時器
         function calculateDays() {
             const startDate = new Date('2023-10-01');
             const today = new Date();
@@ -603,32 +413,56 @@
         }
         calculateDays();
 
+        // 漢堡選單開關邏輯
+        function openNav() {
+            document.getElementById("mySidenav").style.width = "280px";
+        }
+        function closeNav() {
+            document.getElementById("mySidenav").style.width = "0";
+        }
+
+        // 下拉選單邏輯
+        var dropdown = document.getElementsByClassName("dropdown-btn");
+        for (var i = 0; i < dropdown.length; i++) {
+            dropdown[i].addEventListener("click", function() {
+                this.classList.toggle("active");
+                var dropdownContent = this.nextElementSibling;
+                if (dropdownContent.style.display === "block") {
+                    dropdownContent.style.display = "none";
+                } else {
+                    dropdownContent.style.display = "block";
+                }
+            });
+        }
+
+        // 條款 Modal 邏輯
+        function openTerms() {
+            document.getElementById("termsModal").style.display = "block";
+            closeNav(); // 打開條款時關閉側邊欄
+        }
+        function closeTerms() {
+            document.getElementById("termsModal").style.display = "none";
+        }
+        // 點擊視窗外部關閉 Modal
+        window.onclick = function(event) {
+            var modal = document.getElementById("termsModal");
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        }
+
         // 回到頂部邏輯
         const backToTopBtn = document.getElementById('backToTop');
-        
         window.onscroll = function() {
-            // 滑動超過 300px 就顯示島輝
             if (document.body.scrollTop > 300 || document.documentElement.scrollTop > 300) {
                 backToTopBtn.classList.add('show');
             } else {
                 backToTopBtn.classList.remove('show');
             }
         };
-
         function scrollToTop() {
-            window.scrollTo({
-                top: 0,
-                behavior: 'smooth'
-            });
+            window.scrollTo({ top: 0, behavior: 'smooth' });
         }
     </script>
 </body>
 </html>
-
-
-
-
-
-
-
-
