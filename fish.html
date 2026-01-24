@@ -5,6 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="format-detection" content="telephone=no">
     <title>魚隻專區｜宇魚水族</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@500;700&display=swap" rel="stylesheet">
+
     <style>
         /* --- 全域設定：深海風格 --- */
         body { 
@@ -58,9 +63,15 @@
         }
         .bar { width: 25px; height: 3px; background-color: #64ffda; border-radius: 3px; transition: 0.3s; }
         
-        /* 手機版標題 - ✨修正：加入手指游標與點擊範圍 */
+        /* 手機版標題 - ✨修正：改為圓體字型，並加入手指游標 */
         .mobile-header-title {
-            color: #64ffda; font-weight: bold; font-size: 18px;
+            color: #64ffda; 
+            
+            /* ✨ 修改：字體改成可愛圓體 */
+            font-family: 'Zen Maru Gothic', sans-serif;
+            font-weight: 700;
+            font-size: 20px; /* 稍微加大 */
+            
             cursor: pointer; /* 滑鼠移過去變手指 */
             padding: 10px; /* 增加好按的範圍 */
             z-index: 1;
@@ -445,7 +456,6 @@
         <a href="https://myship.7-11.com.tw/general/detail/GM2404054052893" target="_blank">❄️ 冷凍豐年蝦</a>
         
         <a href="#" onclick="openTerms()">📜 條款與細則</a>
-        
         <a href="https://line.me/R/ti/p/@118rfvyo" target="_blank">💬 聯絡我們 (官方LINE)</a>
         
         <a href="index.html" style="margin-top: 20px; border-top: 1px solid rgba(255,255,255,0.2);">🏠 回到首頁</a>
