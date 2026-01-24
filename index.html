@@ -15,36 +15,37 @@
             overflow-x: hidden; 
             display: flex; flex-direction: column; align-items: center; 
             position: relative;
-            /* 為了避開固定的公告欄(45px) + 手機導覽列(50px) = 95px */
+            /* 為了避開雙層固定欄位 (45px + 50px = 95px) */
             padding-top: 95px; 
         }
 
-        /* --- 1. 黃色公告欄 (固定置頂 - 第一層) --- */
+        /* --- 1. 黃色公告欄 (第一層 - 永久固定) --- */
         .yuyu-announcement-bar {
             background-color: #ffe100; color: #000; text-align: center; 
-            padding: 0 10px; /* 移除上下 padding，改用 flex 置中 */
+            padding: 0 10px;
             font-size: 14px; font-weight: 700; width: 100%; 
             position: fixed; top: 0; left: 0;
             z-index: 12000; /* 最上層 */
             box-shadow: 0 2px 5px rgba(0,0,0,0.2); 
-            height: 45px; /* 固定高度 */
-            box-sizing: border-box;
-            display: flex; align-items: center; justify-content: center; /* 垂直水平置中 */
+            height: 45px; box-sizing: border-box;
+            display: flex; align-items: center; justify-content: center;
             white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
         }
 
-        /* --- 2. 手機版專用導覽列 (固定在黃條下面 - 第二層) --- */
+        /* --- 2. 手機版專用導覽列 (第二層 - 永久固定) --- */
         .mobile-sticky-header {
             position: fixed;
             top: 45px; /* 緊接在黃色公告欄下面 */
             left: 0;
             width: 100%;
             height: 50px;
-            background-color: #03101f; /* 深藍底色，避免透明造成重疊 */
+            background-color: #03101f; /* 深藍底色 */
             border-bottom: 1px solid #334e68;
             z-index: 11000;
             display: flex;
             align-items: center;
+            /* 讓漢堡跟Logo分別靠左靠右，標題則是用絕對定位置中 */
+            justify-content: space-between; 
             padding: 0 15px;
             box-sizing: border-box;
             box-shadow: 0 4px 10px rgba(0,0,0,0.3);
@@ -56,21 +57,34 @@
             border: none; cursor: pointer;
             display: flex; flex-direction: column; gap: 5px;
             padding: 5px;
+            z-index: 2; /* 確保在標題之上 */
         }
         .bar { width: 25px; height: 3px; background-color: #64ffda; border-radius: 3px; transition: 0.3s; }
         
-        /* 手機版標題 (放在導覽列中間) */
+        /* 手機版標題 (絕對置中) */
         .mobile-header-title {
-            color: #64ffda;
-            font-weight: bold;
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%); /* 完美的絕對置中 */
+            color: #64ffda; 
+            font-weight: bold; 
             font-size: 18px;
-            margin-left: 15px;
-            flex-grow: 1; /* 佔據剩餘空間 */
+            white-space: nowrap;
+            z-index: 1;
+        }
+
+        /* 🔥 右側 MARK LOGO 設定 🔥 */
+        .header-mark-img {
+            height: 40px; 
+            width: auto;
+            object-fit: contain;
+            z-index: 2;
         }
 
         /* --- 側邊選單 (Sidenav) --- */
         .sidenav {
-            height: 100%; width: 0; position: fixed; z-index: 13000; /* 比所有 Header 高 */
+            height: 100%; width: 0; position: fixed; z-index: 13000; 
             top: 0; left: 0; background-color: rgba(3, 16, 31, 0.98);
             overflow-x: hidden; transition: 0.4s; padding-top: 60px;
             border-right: 1px solid #64ffda;
@@ -89,11 +103,9 @@
 
         /* --- 遮罩層 (點擊外部收合用) --- */
         .menu-overlay {
-            display: none; /* 預設隱藏 */
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background-color: rgba(0, 0, 0, 0.7); /* 半透明黑 */
-            z-index: 12500; /* 在 Header 之上，在 Sidenav 之下 */
-            backdrop-filter: blur(2px);
+            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background-color: rgba(0, 0, 0, 0.7); 
+            z-index: 12500; backdrop-filter: blur(2px);
         }
 
         /* 下拉選單 */
@@ -209,7 +221,6 @@
 
         @media (max-width: 768px) {
             .yuyu-announcement-bar { font-size: 13px; white-space: normal; padding: 5px; height: auto; min-height: 45px; }
-            /* 萬一公告欄變成兩行，導覽列也不會被蓋住，因為我們在 JS 裡沒有寫死高度，但 CSS 預設 body padding 足夠 */
             .daohui-dog-img { width: 50px; }
         }
     </style>
@@ -225,9 +236,12 @@
         <button class="hamburger-btn" onclick="openNav()">
             <div class="bar"></div><div class="bar"></div><div class="bar"></div>
         </button>
+        
         <div class="mobile-header-title">
             宇魚水族
         </div>
+
+        <img src="mark.png" alt="Logo" class="header-mark-img" onerror="this.style.display='none'">
     </div>
 
     <div id="menuOverlay" class="menu-overlay" onclick="closeNav()"></div>
@@ -260,7 +274,7 @@
             </div>
             <div class="terms-body">
                 <h3>1. 活體不適用退換貨</h3>
-                <p>活體動物（魚蝦）屬於易腐敗商品，根據消保法規定，不適用於網購七天鑑賞期。除運送過程死亡（DOA）外，活體售出後概不接受退換貨，請在下單前確認您已準備好飼養環境。</p>
+                <p>活體動物（魚蝦）屬於易腐敗商品，根據消保法規定，不適用於網購七天鑑賞期。除運送過程死亡外，活體售出後概不接受退換貨，請在下單前確認您已準備好飼養環境。</p>
 
                 <h3>2. 配送風險與責任</h3>
                 <p>我們堅持採用專業純氧包裝。若發生運送延遲或意外導致的損失，<span class="terms-highlight">由宇魚水族全權處理</span>，保障您的權益，請您放心。</p>
@@ -268,12 +282,15 @@
                 <h3>3. 死魚包賠政策</h3>
                 <p>為了確保責任歸屬，請您配合以下事項：</p>
                 <p>✅ <strong>開箱請務必「全程錄影」</strong>：從未拆封箱子開始錄影，直到檢查魚隻狀態。</p>
-                <p>✅ <strong>魚隻未拆袋</strong>：若發現魚隻死亡，請勿拆開塑膠袋，直接拍攝袋內死魚狀況。</p>
+                <p>✅ <strong>魚隻未拆袋</strong>：開箱檢查時若發現異狀（如死亡），<span class="terms-highlight" style="font-size: 16px;">請絕對不要拆開塑膠袋</span>，請直接拍攝清楚的「袋內」狀況回報。</p>
                 <p>✅ <strong>立即回報</strong>：請於收件後 1 小時內，將影片與照片傳至 LINE 官方帳號。</p>
-                <p>若符合以上條件，我們將依死魚數量退款 <span class="terms-highlight">（不含運費）</span>，或於下次購物時補寄。</p>
+                <p>若符合以上條件，我們將依死魚數量<span class="terms-highlight">退款</span>（不含運費）。</p>
 
                 <h3>4. 運費與貨到付款規範</h3>
                 <p>若您選擇貨到付款，請務必留意收件電話。若無故未取貨導致商品退回（造成活體死亡或耗損），本賣場將把您列入<span class="terms-highlight">黑名單</span>拒絕往來，並保留法律追訴權，依據民法請求損害賠償（包含運費、包材費及商品損失）。</p>
+
+                <h3 style="border-left: 3px solid #ff4d4d; color: #ff4d4d;">5. 其他聲明</h3>
+                <p>宇魚水族保有本條款最終解釋、修改與終止之權利，如有未盡事宜，將依本賣場最新公告為準。</p>
             </div>
         </div>
     </div>
