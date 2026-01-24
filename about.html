@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>關於宇魚｜三合院裡的水族夢</title>
+    <style>
+        /* --- 沿用首頁的核心風格 --- */
+        body { 
+            background: radial-gradient(circle at 50% 10%, #1a3c5e 0%, #03101f 100%);
+            color: #f0f4f8; 
+            font-family: "Microsoft JhengHei", sans-serif; 
+            margin: 0; padding: 0; min-height: 100vh; 
+            overflow-x: hidden; 
+            display: flex; flex-direction: column; align-items: center; 
+            padding-top: 95px; 
+        }
+
+        /* --- 導覽列與選單 (與首頁一致) --- */
+        .yuyu-announcement-bar {
+            background-color: #ffe100; color: #000; text-align: center; 
+            padding: 0 10px; font-size: 14px; font-weight: 700; width: 100%; 
+            position: fixed; top: 0; left: 0; z-index: 12000; height: 45px; 
+            display: flex; align-items: center; justify-content: center;
+        }
+        .mobile-sticky-header {
+            position: fixed; top: 45px; left: 0; width: 100%; height: 50px;
+            background-color: #03101f; border-bottom: 1px solid #334e68;
+            z-index: 11000; display: flex; align-items: center; justify-content: space-between; 
+            padding: 0 15px; box-sizing: border-box;
+        }
+        .hamburger-btn { background: transparent; border: none; cursor: pointer; padding: 5px; z-index: 2; }
+        .bar { width: 25px; height: 3px; background-color: #64ffda; border-radius: 3px; margin: 5px 0; }
+        .mobile-header-title {
+            position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%);
+            color: #64ffda; font-weight: bold; font-size: 18px;
+        }
+        .sidenav {
+            height: 100%; width: 0; position: fixed; z-index: 13000; 
+            top: 0; left: 0; background-color: rgba(3, 16, 31, 0.98);
+            overflow-x: hidden; transition: 0.4s; padding-top: 60px;
+            border-right: 1px solid #64ffda;
+        }
+        .sidenav a {
+            padding: 15px 30px; text-decoration: none; font-size: 18px; color: #f0f4f8; 
+            display: block; transition: 0.3s; border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+        .sidenav .closebtn { position: absolute; top: 10px; right: 20px; font-size: 36px; border: none; }
+        .menu-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); z-index: 12500; }
+
+        /* --- 關於頁面專屬樣式 (日式簡約風) --- */
+        .story-container {
+            width: 100%; max-width: 600px; padding: 20px 25px; box-sizing: border-box;
+            position: relative;
+        }
+        
+        /* 頁面大標題 */
+        .page-title {
+            text-align: center; margin-bottom: 40px; position: relative;
+        }
+        .page-title h1 {
+            font-size: 28px; letter-spacing: 3px; color: #64ffda; margin-bottom: 10px;
+        }
+        .page-title span {
+            font-size: 14px; color: #8892b0; text-transform: uppercase; letter-spacing: 2px;
+        }
+        .page-title::after {
+            content: ''; display: block; width: 40px; height: 3px; background: #ffe100;
+            margin: 15px auto 0;
+        }
+
+        /* 故事區塊 */
+        .story-section {
+            margin-bottom: 50px; position: relative; padding-left: 20px;
+            border-left: 1px solid rgba(197, 160, 89, 0.3); /* 金色細線 */
+        }
+        
+        /* 段落標題 */
+        .story-heading {
+            font-size: 20px; color: #ffe100; font-weight: bold; margin-bottom: 15px;
+            display: flex; align-items: center;
+        }
+        .story-heading::before {
+            content: ''; width: 8px; height: 8px; background: #64ffda; border-radius: 50%;
+            position: absolute; left: -4.5px; /* 讓點點壓在線上 */
+            box-shadow: 0 0 10px #64ffda;
+        }
+
+        /* 內文 */
+        .story-text {
+            color: #ccd6f6; line-height: 1.8; font-size: 15px; text-align: justify; margin-bottom: 20px;
+        }
+        .story-highlight { color: #64ffda; font-weight: bold; }
+
+        /* 照片容器 (日式留白感) */
+        .photo-frame {
+            width: 100%; margin: 20px 0; border-radius: 4px; overflow: hidden;
+            box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.5);
+            border: 1px solid rgba(100, 255, 218, 0.2);
+            position: relative;
+        }
+        .photo-frame img {
+            width: 100%; height: auto; display: block;
+            transition: transform 0.5s ease;
+        }
+        /* 照片說明文字 */
+        .photo-caption {
+            font-size: 12px; color: #8892b0; text-align: right; margin-top: 5px; font-style: italic;
+        }
+
+        /* 預留給你的照片佔位符 (之後換成 img 標籤) */
+        .img-placeholder {
+            width: 100%; height: 250px; background: rgba(255,255,255,0.05);
+            display: flex; align-items: center; justify-content: center;
+            color: #64ffda; border: 1px dashed #64ffda;
+            flex-direction: column; gap: 10px;
+        }
+
+        /* 底部按鈕 */
+        .cta-button {
+            display: block; width: 200px; margin: 50px auto; padding: 15px 0;
+            text-align: center; background: transparent; border: 2px solid #64ffda;
+            color: #64ffda; font-size: 16px; font-weight: bold; text-decoration: none;
+            border-radius: 50px; transition: all 0.3s;
+        }
+        .cta-button:hover { background: rgba(100, 255, 218, 0.1); letter-spacing: 1px; }
+
+        /* 背景裝飾 (浮動氣泡) - 沿用首頁 */
+        .bg-bubbles { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; overflow: hidden; pointer-events: none; margin: 0; padding: 0;}
+        .bg-bubbles li { position: absolute; list-style: none; display: block; bottom: -150px; border-radius: 50%; background: radial-gradient(circle at 70% 30%, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0) 60%); border: 1px solid rgba(255, 255, 255, 0.1); animation: rise infinite linear; }
+        .bg-bubbles li:nth-child(1) { left: 10%; width: 40px; height: 40px; animation-duration: 12s; }
+        .bg-bubbles li:nth-child(2) { left: 80%; width: 20px; height: 20px; animation-duration: 18s; animation-delay: 2s; }
+        .bg-bubbles li:nth-child(3) { left: 40%; width: 50px; height: 50px; animation-duration: 15s; animation-delay: 1s; }
+        @keyframes rise { 0% { transform: translateY(0); opacity: 0; } 10% { opacity: 0.5; } 100% { transform: translateY(-120vh); opacity: 0; } }
+
+    </style>
+</head>
+<body>
+
+    <ul class="bg-bubbles"><li></li><li></li><li></li></ul>
+
+    <div class="yuyu-announcement-bar">
+        📖 宇魚故事：讓水族成為生活最溫柔的風景
+    </div>
+
+    <div class="mobile-sticky-header">
+        <button class="hamburger-btn" onclick="openNav()">
+            <div class="bar"></div><div class="bar"></div><div class="bar"></div>
+        </button>
+        <div class="mobile-header-title">關於宇魚</div>
+        <img src="mark.png" alt="Logo" style="height: 40px;" onerror="this.style.display='none'">
+    </div>
+
+    <div id="menuOverlay" class="menu-overlay" onclick="closeNav()"></div>
+    <div id="mySidenav" class="sidenav">
+        <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">×</a>
+        <a href="index.html" style="color: #64ffda;">🏠 回到首頁</a>
+        <a href="fish.html">🐠 活體專區</a>
+        <a href="https://myship.7-11.com.tw/general/detail/GM2312087898760" target="_blank">🛒 硬體與飼料</a>
+        <a href="https://www.facebook.com/yuyuguppy" target="_blank">💬 聯絡我們</a>
+    </div>
+
+    <div class="story-container">
+        
+        <div class="page-title">
+            <h1>關於我們</h1>
+            <span>Story of Yu Yu Aquarium</span>
+        </div>
+
+        <div class="story-section">
+            <div class="story-heading">起點：那缸父親不讓碰的魚</div>
+            
+            <div class="photo-frame">
+                <div class="img-placeholder">📷 這裡放：小時候或復古魚缸照</div>
+            </div>
+            
+            <div class="story-text">
+                故事的開始，源自於宇哥小時候家裡那一缸「小孩止步」的魚缸。偏偏越是觸不可及，越是令人著迷。
+                <br><br>
+                直到鄰居送了一缸孔雀魚，那份被壓抑的好奇心終於爆發，從此我們一頭栽進了這個絢麗的活體世界，再也沒有回頭。
+            </div>
+        </div>
+
+        <div class="story-section">
+            <div class="story-heading">三合院裡的秘密基地</div>
+
+            <div class="photo-frame">
+                <div class="img-placeholder">📷 這裡放：三合院魚房照片</div>
+            </div>
+            <div class="photo-caption">位於新埔古樸的三合院，是我們的起點。</div>
+
+            <div class="story-text">
+                宇魚水族是由 <span class="story-highlight">宇哥</span> 與 <span class="story-highlight">柏哥</span> 共同經營的秘密基地。
+                <br><br>
+                座落於新埔古樸的三合院中，這裡沒有城市的喧囂，只有水流的聲音和優游的魚群。我們希望每一位來到這裡的朋友，都能暫時放下生活的重擔，沉浸在這片五彩繽紛的水世界裡。
+            </div>
+        </div>
+
+        <div class="story-section">
+            <div class="story-heading">連結：不只是一家店</div>
+
+            <div class="photo-frame">
+                <div class="img-placeholder">📷 這裡放：中原文創園區活動照</div>
+            </div>
+
+            <div class="story-text">
+                水族不該是孤獨的嗜好。2023年10月，我們在中壢中原文創園區舉辦了一場數千人參與的水族盛會。
+                <br><br>
+                透過孔雀魚比賽、親子闖關與專業講座，我們看到了魚友們眼中的光芒。這讓我們更堅信：我們想做的，是讓更多人看見水族的美好，並連結每一位熱愛生命的你。
+            </div>
+        </div>
+
+        <div class="story-section" style="border-left: none;"> <div class="story-heading">斜槓職人的熱血堅持</div>
+            <div class="story-text">
+                或許你會發現，我們的營業時間有些特別。
+                <br><br>
+                白天，我們是穿梭在園區的工程師與上班族；晚上與週末，則化身為熱血的水族職人。雖然身兼兩職，但正是這份對水族的純粹熱愛，支撐著我們不知疲倦地前行。
+                <br><br>
+                未來，宇魚將繼續深耕，<span class="story-highlight">讓水族不只是一個魚缸，而是一種能讓心靈「深呼吸」的生活風格。</span>
+            </div>
+        </div>
+
+        <a href="fish.html" class="cta-button">挑選你的第一隻魚 &rarr;</a>
+
+    </div>
+
+    <script>
+        /* --- 漢堡選單邏輯 (與首頁相同) --- */
+        function openNav() {
+            document.getElementById("mySidenav").style.width = "280px";
+            document.getElementById("menuOverlay").style.display = "block";
+        }
+        function closeNav() {
+            document.getElementById("mySidenav").style.width = "0";
+            document.getElementById("menuOverlay").style.display = "none";
+        }
+    </script>
+</body>
+</html>
