@@ -44,43 +44,20 @@
             z-index: 11000;
             display: flex;
             align-items: center;
-            /* 讓漢堡跟Logo分別靠左靠右，標題則是用絕對定位置中 */
             justify-content: space-between; 
             padding: 0 15px;
             box-sizing: border-box;
             box-shadow: 0 4px 10px rgba(0,0,0,0.3);
         }
 
-        /* 海苔條按鈕 (漢堡) */
-        .hamburger-btn {
-            background: transparent;
-            border: none; cursor: pointer;
-            display: flex; flex-direction: column; gap: 5px;
-            padding: 5px;
-            z-index: 2; /* 確保在標題之上 */
-        }
+        .header-left-group { display: flex; align-items: center; gap: 15px; }
+        .hamburger-btn { background: transparent; border: none; cursor: pointer; display: flex; flex-direction: column; gap: 5px; padding: 5px; z-index: 2; }
         .bar { width: 25px; height: 3px; background-color: #64ffda; border-radius: 3px; transition: 0.3s; }
-        
-        /* 手機版標題 (絕對置中) */
-        .mobile-header-title {
-            position: absolute;
-            left: 50%;
-            top: 50%;
-            transform: translate(-50%, -50%); /* 完美的絕對置中 */
-            color: #64ffda; 
-            font-weight: bold; 
-            font-size: 18px;
-            white-space: nowrap;
-            z-index: 1;
+        .mobile-header-title { 
+            position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%);
+            color: #64ffda; font-weight: bold; font-size: 18px; white-space: nowrap; z-index: 1;
         }
-
-        /* 🔥 右側 MARK LOGO 設定 🔥 */
-        .header-mark-img {
-            height: 40px; 
-            width: auto;
-            object-fit: contain;
-            z-index: 2;
-        }
+        .header-mark-img { height: 40px; width: auto; object-fit: contain; z-index: 2; }
 
         /* --- 側邊選單 (Sidenav) --- */
         .sidenav {
@@ -101,7 +78,7 @@
             position: absolute; top: 10px; right: 20px; font-size: 36px; margin-left: 50px; border: none;
         }
 
-        /* --- 遮罩層 (點擊外部收合用) --- */
+        /* --- 遮罩層 --- */
         .menu-overlay {
             display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background-color: rgba(0, 0, 0, 0.7); 
@@ -109,9 +86,7 @@
         }
 
         /* 下拉選單 */
-        .dropdown-container {
-            display: none; background-color: rgba(0,0,0,0.3); padding-left: 20px;
-        }
+        .dropdown-container { display: none; background-color: rgba(0,0,0,0.3); padding-left: 20px; }
         .dropdown-container a { font-size: 16px; color: #bcccdc; }
         .dropdown-container a:hover { color: #64ffda; }
         .fa-caret-down { float: right; padding-right: 8px; }
@@ -135,7 +110,7 @@
         .terms-body p { font-size: 14px; color: #ddd; margin-bottom: 10px; text-align: justify; }
         .terms-highlight { color: #ff4d4d; font-weight: bold; }
 
-        /* 背景氣泡動畫 */
+        /* 背景氣泡 */
         .bg-bubbles { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; overflow: hidden; pointer-events: none; }
         .bg-bubbles li {
             position: absolute; list-style: none; display: block; bottom: -150px; border-radius: 50%;
@@ -219,9 +194,19 @@
         @keyframes wag { 0% { transform: rotate(0deg); } 25% { transform: rotate(-10deg); } 50% { transform: rotate(10deg); } 75% { transform: rotate(-5deg); } 100% { transform: rotate(0deg); } }
         .back-to-top:hover .daohui-dog-img, .back-to-top:active .daohui-dog-img { animation: wag 0.5s ease-in-out infinite; }
 
+        /* --- 桌面版 (大於 768px) --- */
+        @media (min-width: 769px) {
+            .mobile-sticky-header { display: none; } /* 隱藏手機版導覽 */
+            .top-nav { display: flex; } /* 顯示桌面版導覽 */
+            .yuyu-announcement-bar { padding: 12px 10px; height: auto; } /* 桌面版公告欄恢復正常 padding */
+            body { padding-top: 100px; } /* 桌面版 padding */
+        }
+
+        /* --- 手機版 (小於等於 768px) --- */
         @media (max-width: 768px) {
             .yuyu-announcement-bar { font-size: 13px; white-space: normal; padding: 5px; height: auto; min-height: 45px; }
             .daohui-dog-img { width: 50px; }
+            .top-nav { display: none !important; } /* 強制隱藏桌面版導航 */
         }
     </style>
 </head>
@@ -233,9 +218,11 @@
     </div>
 
     <div class="mobile-sticky-header">
-        <button class="hamburger-btn" onclick="openNav()">
-            <div class="bar"></div><div class="bar"></div><div class="bar"></div>
-        </button>
+        <div class="header-left-group">
+            <button class="hamburger-btn" onclick="openNav()">
+                <div class="bar"></div><div class="bar"></div><div class="bar"></div>
+            </button>
+        </div>
         
         <div class="mobile-header-title">
             宇魚水族
@@ -265,6 +252,16 @@
         <a href="https://www.facebook.com/yuyuguppy" target="_blank">💬 聯絡我們</a>
         <a href="index.html" style="margin-top: 20px; border-top: 1px solid rgba(255,255,255,0.2);">🏠 回到首頁</a>
     </div>
+
+    <nav class="top-nav">
+        <a href="index.html" class="logo-area">
+            <img src="logo.jpg" alt="宇魚" class="logo-img">
+            <span>宇魚水族</span>
+        </a>
+        <div class="cart-btn" onclick="location.href='fish.html'">
+            🛒 前往購物車
+        </div>
+    </nav>
 
     <div id="termsModal" class="terms-modal">
         <div class="terms-content">
