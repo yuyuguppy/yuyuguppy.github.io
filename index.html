@@ -135,21 +135,47 @@
         .terms-body p { font-size: 14px; color: #ddd; margin-bottom: 10px; text-align: justify; }
         .terms-highlight { color: #ff4d4d; font-weight: bold; }
 
-        /* 背景氣泡動畫 */
-        .bg-bubbles { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; overflow: hidden; pointer-events: none; }
-        .bg-bubbles li {
-            position: absolute; list-style: none; display: block; bottom: -150px; border-radius: 50%;
-            background: radial-gradient(circle at 70% 30%, rgba(255, 255, 255, 0.4), rgba(255, 255, 255, 0) 60%);
-            border: 1px solid rgba(255, 255, 255, 0.15); animation: rise infinite linear;
+        /* --- 背景氣泡動畫 (電腦版修復與加量版) --- */
+        .bg-bubbles { 
+            position: fixed; 
+            top: 0; 
+            left: 0; 
+            width: 100%; 
+            height: 100%; 
+            /* 關鍵修改：原本是 -1，改成 0，讓它浮在背景色上面，但文字下面 */
+            z-index: 0; 
+            overflow: hidden; 
+            pointer-events: none; /* 確保點擊穿透，不會擋到按鈕 */
         }
+        .bg-bubbles li {
+            position: absolute; 
+            list-style: none; 
+            display: block; 
+            bottom: -150px; 
+            border-radius: 50%;
+            /* 泡泡顏色：稍微調亮一點，讓在深色背景更明顯 */
+            background: radial-gradient(circle at 70% 30%, rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0) 70%);
+            border: 1px solid rgba(255, 255, 255, 0.15); 
+            animation: rise infinite linear;
+        }
+
+        /* 1-5 顆 (原本的) */
         .bg-bubbles li:nth-child(1) { left: 10%; width: 40px; height: 40px; animation-duration: 12s; }
         .bg-bubbles li:nth-child(2) { left: 20%; width: 20px; height: 20px; animation-duration: 18s; animation-delay: 2s; }
         .bg-bubbles li:nth-child(3) { left: 70%; width: 50px; height: 50px; animation-duration: 15s; animation-delay: 1s; }
         .bg-bubbles li:nth-child(4) { left: 40%; width: 30px; height: 30px; animation-duration: 10s; animation-delay: 0s; }
         .bg-bubbles li:nth-child(5) { left: 85%; width: 20px; height: 20px; animation-duration: 20s; animation-delay: 3s; }
+
+        /* 6-10 顆 (✨新增的：填滿電腦版的空隙) */
+        .bg-bubbles li:nth-child(6) { left: 5%; width: 60px; height: 60px; animation-duration: 25s; animation-delay: 5s; }
+        .bg-bubbles li:nth-child(7) { left: 95%; width: 35px; height: 35px; animation-duration: 14s; animation-delay: 8s; }
+        .bg-bubbles li:nth-child(8) { left: 55%; width: 15px; height: 15px; animation-duration: 19s; animation-delay: 4s; }
+        .bg-bubbles li:nth-child(9) { left: 25%; width: 45px; height: 45px; animation-duration: 16s; animation-delay: 6s; }
+        .bg-bubbles li:nth-child(10) { left: 60%; width: 25px; height: 25px; animation-duration: 22s; animation-delay: 2s; }
+
         @keyframes rise {
             0% { transform: translateY(0); opacity: 0; }
-            10% { opacity: 0.8; }
+            10% { opacity: 0.6; } /* 讓它出現得快一點 */
             100% { transform: translateY(-120vh); opacity: 0; }
         }
 
@@ -561,5 +587,6 @@
     </script>
 </body>
 </html>
+
 
 
