@@ -44,7 +44,6 @@
             z-index: 11000;
             display: flex;
             align-items: center;
-            /* 讓漢堡跟Logo分別靠左靠右，標題則是用絕對定位置中 */
             justify-content: space-between; 
             padding: 0 15px;
             box-sizing: border-box;
@@ -57,11 +56,11 @@
             border: none; cursor: pointer;
             display: flex; flex-direction: column; gap: 5px;
             padding: 5px;
-            z-index: 2; /* 確保在標題之上 */
+            z-index: 2; 
         }
         .bar { width: 25px; height: 3px; background-color: #64ffda; border-radius: 3px; transition: 0.3s; }
         
-        /* 手機版標題 (絕對置中) */
+        /* 手機版標題 (絕對置中) + ✨修正1：加入指標手勢與點擊區域 */
         .mobile-header-title {
             position: absolute;
             left: 50%;
@@ -72,6 +71,8 @@
             font-size: 18px;
             white-space: nowrap;
             z-index: 1;
+            cursor: pointer; /* 讓滑鼠移上去變手指 */
+            padding: 10px; /* 增加點擊範圍，比較好按 */
         }
 
         /* 🔥 右側 MARK LOGO 設定 🔥 */
@@ -86,7 +87,9 @@
         .sidenav {
             height: 100%; width: 0; position: fixed; z-index: 13000; 
             top: 0; left: 0; background-color: rgba(3, 16, 31, 0.98);
-            overflow-x: hidden; transition: 0.4s; padding-top: 60px;
+            overflow-x: hidden; transition: 0.4s; 
+            /* ✨修正2：減少上方留白，消除空白區 */
+            padding-top: 50px; 
             border-right: 1px solid #64ffda;
         }
         .sidenav a, .dropdown-btn {
@@ -97,8 +100,17 @@
             width: 100%; text-align: left; font-family: inherit;
         }
         .sidenav a:hover, .dropdown-btn:hover { color: #ffe100; background: rgba(255,255,255,0.05); }
+        
+        /* ✨修正2：調整關閉按鈕位置，避免擋到下面連結 */
         .sidenav .closebtn {
-            position: absolute; top: 10px; right: 20px; font-size: 36px; margin-left: 50px; border: none;
+            position: absolute; 
+            top: 5px; /* 往上移 */
+            right: 15px; 
+            font-size: 36px; 
+            margin-left: 0; 
+            border: none;
+            z-index: 13001; /* 確保 X 在最上層 */
+            padding: 0 10px; /* 增加 X 的點擊範圍 */
         }
 
         /* --- 遮罩層 (點擊外部收合用) --- */
@@ -135,38 +147,22 @@
         .terms-body p { font-size: 14px; color: #ddd; margin-bottom: 10px; text-align: justify; }
         .terms-highlight { color: #ff4d4d; font-weight: bold; }
 
-        /* --- 背景氣泡動畫 (電腦版修復與加量版) --- */
+        /* --- 背景氣泡動畫 --- */
         .bg-bubbles { 
-            position: fixed; 
-            top: 0; 
-            left: 0; 
-            width: 100%; 
-            height: 100%; 
-            /* 關鍵修改：原本是 -1，改成 0，讓它浮在背景色上面，但文字下面 */
-            z-index: 0; 
-            overflow: hidden; 
-            pointer-events: none; /* 確保點擊穿透，不會擋到按鈕 */
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
+            z-index: 0; overflow: hidden; pointer-events: none; 
         }
         .bg-bubbles li {
-            position: absolute; 
-            list-style: none; 
-            display: block; 
-            bottom: -150px; 
-            border-radius: 50%;
-            /* 泡泡顏色：稍微調亮一點，讓在深色背景更明顯 */
+            position: absolute; list-style: none; display: block; bottom: -150px; border-radius: 50%;
             background: radial-gradient(circle at 70% 30%, rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0) 70%);
-            border: 1px solid rgba(255, 255, 255, 0.15); 
-            animation: rise infinite linear;
+            border: 1px solid rgba(255, 255, 255, 0.15); animation: rise infinite linear;
         }
-
-        /* 1-5 顆 (原本的) */
+        /* 1-10 顆泡泡設定 */
         .bg-bubbles li:nth-child(1) { left: 10%; width: 40px; height: 40px; animation-duration: 12s; }
         .bg-bubbles li:nth-child(2) { left: 20%; width: 20px; height: 20px; animation-duration: 18s; animation-delay: 2s; }
         .bg-bubbles li:nth-child(3) { left: 70%; width: 50px; height: 50px; animation-duration: 15s; animation-delay: 1s; }
         .bg-bubbles li:nth-child(4) { left: 40%; width: 30px; height: 30px; animation-duration: 10s; animation-delay: 0s; }
         .bg-bubbles li:nth-child(5) { left: 85%; width: 20px; height: 20px; animation-duration: 20s; animation-delay: 3s; }
-
-        /* 6-10 顆 (✨新增的：填滿電腦版的空隙) */
         .bg-bubbles li:nth-child(6) { left: 5%; width: 60px; height: 60px; animation-duration: 25s; animation-delay: 5s; }
         .bg-bubbles li:nth-child(7) { left: 95%; width: 35px; height: 35px; animation-duration: 14s; animation-delay: 8s; }
         .bg-bubbles li:nth-child(8) { left: 55%; width: 15px; height: 15px; animation-duration: 19s; animation-delay: 4s; }
@@ -175,7 +171,7 @@
 
         @keyframes rise {
             0% { transform: translateY(0); opacity: 0; }
-            10% { opacity: 0.6; } /* 讓它出現得快一點 */
+            10% { opacity: 0.6; } 
             100% { transform: translateY(-120vh); opacity: 0; }
         }
 
@@ -263,7 +259,7 @@
             <div class="bar"></div><div class="bar"></div><div class="bar"></div>
         </button>
         
-        <div class="mobile-header-title">
+        <div class="mobile-header-title" onclick="window.location.href='index.html'">
             宇魚水族
         </div>
 
@@ -276,6 +272,7 @@
         <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">×</a>
         
         <a href="about.html">📖 關於宇魚</a>
+        
         <button class="dropdown-btn">🐠 活體專區 
             <i class="fa-caret-down">▼</i>
         </button>
