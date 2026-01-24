@@ -10,10 +10,11 @@
     <link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@400;700&display=swap" rel="stylesheet">
 
     <style>
-        /* --- 1. 整體設定：明亮可愛風 --- */
+        /* --- 1. 全域設定：深海風格 + 圓體字 --- */
         body { 
-            background: linear-gradient(180deg, #e0f7fa 0%, #ffffff 100%);
-            color: #445566; 
+            /* 背景改成跟首頁一樣的深海藍 */
+            background: radial-gradient(circle at 50% 10%, #1a3c5e 0%, #03101f 100%);
+            color: #f0f4f8; /* 字體改淺色 */
             font-family: 'Zen Maru Gothic', "Microsoft JhengHei", sans-serif; 
             margin: 0; padding: 0; min-height: 100vh; 
             overflow-x: hidden; 
@@ -27,61 +28,58 @@
             padding: 0 10px; font-size: 14px; font-weight: 700; width: 100%; 
             position: fixed; top: 0; left: 0; z-index: 12000; height: 45px; 
             display: flex; align-items: center; justify-content: center;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-            white-space: nowrap; overflow: hidden; text-overflow: ellipsis; /* 避免文字太長爆版 */
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
         }
 
+        /* 手機版導覽列 - 改回深藍底 */
         .mobile-sticky-header {
             position: fixed; top: 45px; left: 0; width: 100%; height: 50px;
-            background-color: #ffffff; 
-            border-bottom: 2px dashed #a0d8ef; 
+            background-color: #03101f; /* 深藍底 */
+            border-bottom: 1px solid #334e68; 
             z-index: 11000; display: flex; align-items: center; justify-content: space-between; 
             padding: 0 15px; box-sizing: border-box;
-            box-shadow: 0 4px 10px rgba(160, 216, 239, 0.3);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
         }
 
         .hamburger-btn { background: transparent; border: none; cursor: pointer; padding: 5px; z-index: 2; }
-        .bar { width: 25px; height: 4px; background-color: #55c2da; border-radius: 10px; margin: 4px 0; } 
+        .bar { width: 25px; height: 3px; background-color: #64ffda; border-radius: 3px; transition: 0.3s; }
         
-        /* 標題設定：加入可點擊的手指游標 */
+        /* 標題設定 */
         .mobile-header-title {
             position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%);
-            color: #55c2da; 
-            font-weight: bold; font-size: 20px;
+            color: #64ffda; 
+            font-weight: 700; font-size: 20px;
             letter-spacing: 1px;
-            cursor: pointer; /* 讓滑鼠變手指 */
-            padding: 10px;   /* 增加點擊範圍 */
-            z-index: 1;
+            cursor: pointer; padding: 10px; z-index: 1;
         }
 
-        /* 側邊選單 */
+        /* 側邊選單 - 改回深色底 */
         .sidenav {
             height: 100%; width: 0; position: fixed; z-index: 13000; 
-            top: 0; left: 0; background-color: #ffffff; 
+            top: 0; left: 0; background-color: rgba(3, 16, 31, 0.98); /* 深藍半透明 */
             overflow-x: hidden; transition: 0.4s; 
-            padding-top: 50px; /* 修正留白，避免上方有死角 */
-            border-right: 3px solid #ffe100;
-            box-shadow: 5px 0 15px rgba(0,0,0,0.1);
+            padding-top: 50px; 
+            border-right: 1px solid #64ffda;
         }
         .sidenav a {
             padding: 15px 30px; text-decoration: none; font-size: 18px; 
-            color: #556677; 
+            color: #f0f4f8; /* 淺色字 */
             font-weight: bold;
             display: block; transition: 0.3s; 
-            border-bottom: 1px dashed #ddd;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
         }
-        .sidenav a:hover { background-color: #e0f7fa; color: #00acc1; }
+        .sidenav a:hover { color: #ffe100; background: rgba(255,255,255,0.05); }
         
-        /* 調整關閉按鈕位置 */
         .sidenav .closebtn { 
             position: absolute; top: 5px; right: 15px; 
-            font-size: 36px; border: none; color: #aaa; 
+            font-size: 36px; border: none; color: #fff; 
             padding: 0 10px;
         }
         
-        .menu-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(255, 255, 255, 0.8); z-index: 12500; backdrop-filter: blur(3px); }
+        .menu-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.7); z-index: 12500; backdrop-filter: blur(2px); }
 
-        /* --- 3. 關於頁面專屬樣式 --- */
+        /* --- 3. 關於頁面專屬樣式 (深色拍立得風) --- */
         .story-container {
             width: 100%; max-width: 600px; padding: 20px 25px; box-sizing: border-box;
             position: relative;
@@ -93,59 +91,62 @@
         .title-badge {
             display: inline-block;
             background: #ffe100;
-            color: #333;
+            color: #000;
             padding: 8px 25px;
             border-radius: 50px; 
             font-weight: bold;
             font-size: 16px;
-            box-shadow: 3px 3px 0px rgba(0,0,0,0.1);
+            box-shadow: 0 0 10px rgba(255, 225, 0, 0.3);
             transform: rotate(-2deg); 
             margin-bottom: 15px;
         }
         .main-headline {
-            font-size: 26px; color: #00838f; font-weight: 700;
-            line-height: 1.4;
+            font-size: 26px; color: #64ffda; font-weight: 700;
+            line-height: 1.4; text-shadow: 0 0 10px rgba(100, 255, 218, 0.2);
         }
 
+        /* 故事區塊 - 改為半透明深色卡片 */
         .story-card {
-            background: #fff;
+            background: rgba(255, 255, 255, 0.05); /* 極淡的白色半透明 */
+            border: 1px solid rgba(100, 255, 218, 0.2); /* 淡綠色邊框 */
             border-radius: 20px;
             padding: 25px;
             margin-bottom: 30px;
-            box-shadow: 0 10px 25px rgba(160, 216, 239, 0.4); 
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3); 
             position: relative;
-            border: 2px solid #fff;
+            backdrop-filter: blur(5px); /* 毛玻璃效果 */
         }
 
+        /* 紙膠帶 */
         .tape {
             position: absolute; width: 80px; height: 25px;
-            background-color: rgba(255, 235, 59, 0.7);
+            background-color: rgba(255, 235, 59, 0.8);
             top: -10px; left: 50%; transform: translateX(-50%) rotate(-3deg);
             z-index: 5;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            box-shadow: 0 2px 5px rgba(0,0,0,0.3);
         }
 
+        /* 標題與內文 */
         .story-heading {
-            font-size: 20px; color: #ff8a65; 
+            font-size: 22px; color: #ffe100; /* 黃色標題在深底很清楚 */
             font-weight: bold; margin-bottom: 15px;
             text-align: center;
         }
         .story-text {
             line-height: 1.9; font-size: 16px; text-align: justify; 
-            color: #5d6d7e;
+            color: #dbe4ef; /* 淺灰藍色文字 */
         }
         .story-highlight { 
-            color: #00acc1; font-weight: bold; 
-            background: linear-gradient(180deg, transparent 70%, #b2ebf2 70%); 
+            color: #64ffda; font-weight: bold; /* 亮綠色重點 */
         }
 
+        /* 照片樣式：拍立得風格 (維持白色底框，對比強烈) */
         .photo-frame {
             background: #fff;
             padding: 10px 10px 30px 10px; 
-            box-shadow: 2px 5px 15px rgba(0,0,0,0.15);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.5);
             transform: rotate(2deg); 
             margin: 20px 0;
-            border: 1px solid #eee;
             transition: transform 0.3s;
         }
         .photo-frame:hover { transform: rotate(0deg) scale(1.02); } 
@@ -160,23 +161,45 @@
             border-radius: 4px; font-weight: bold;
         }
 
+        /* 底部按鈕 */
         .cta-button {
             display: block; width: 220px; margin: 40px auto 60px; padding: 15px 0;
             text-align: center; 
-            background-color: #4dd0e1; color: white;
+            background: transparent; border: 2px solid #64ffda;
+            color: #64ffda;
             font-size: 18px; font-weight: bold; text-decoration: none;
             border-radius: 50px; 
-            box-shadow: 0 5px 0 #0097a7; 
             transition: all 0.2s;
         }
-        .cta-button:active {
-            transform: translateY(5px); 
-            box-shadow: 0 0 0 #0097a7;
+        .cta-button:hover {
+            background: rgba(100, 255, 218, 0.1);
+            transform: translateY(-3px);
+        }
+        .cta-button:active { transform: translateY(0); }
+
+        /* 背景漂浮泡泡 (改回深海版) */
+        .bg-bubbles { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; overflow: hidden; pointer-events: none; }
+        .bg-bubbles li {
+            position: absolute; list-style: none; display: block; bottom: -150px; border-radius: 50%;
+            background: radial-gradient(circle at 70% 30%, rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0) 70%);
+            border: 1px solid rgba(255, 255, 255, 0.15); animation: rise infinite linear;
+        }
+        .bg-bubbles li:nth-child(1) { left: 10%; width: 40px; height: 40px; animation-duration: 12s; }
+        .bg-bubbles li:nth-child(2) { left: 20%; width: 20px; height: 20px; animation-duration: 18s; animation-delay: 2s; }
+        .bg-bubbles li:nth-child(3) { left: 70%; width: 50px; height: 50px; animation-duration: 15s; animation-delay: 1s; }
+        .bg-bubbles li:nth-child(4) { left: 40%; width: 30px; height: 30px; animation-duration: 10s; animation-delay: 0s; }
+        .bg-bubbles li:nth-child(5) { left: 85%; width: 20px; height: 20px; animation-duration: 20s; animation-delay: 3s; }
+        @keyframes rise { 
+            0% { transform: translateY(0); opacity: 0; } 
+            10% { opacity: 0.6; } 
+            100% { transform: translateY(-120vh); opacity: 0; } 
         }
 
     </style>
 </head>
 <body>
+
+    <ul class="bg-bubbles"><li></li><li></li><li></li><li></li><li></li></ul>
 
     <div class="yuyu-announcement-bar">
         🚀 活體訂單2000元免運、常溫賣場660免運、冷凍賣場990免運
@@ -207,7 +230,8 @@
         </div>
 
         <div class="story-card">
-            <div class="tape"></div> <div class="story-heading">🌱 那缸父親不讓碰的魚</div>
+            <div class="tape"></div> 
+            <div class="story-heading">🌱 那缸父親不讓碰的魚</div>
             
             <div class="photo-frame">
                 <div class="img-placeholder">📷 這裡放：小時候/復古魚缸照</div>
