@@ -115,7 +115,7 @@
         }
         .story-highlight { color: #64ffda; font-weight: bold; }
 
-        /* 單張拍立得 (垂直排列用) */
+        /* 單張拍立得 */
         .photo-frame {
             background: #fff; padding: 10px 10px 30px 10px; 
             box-shadow: 0 5px 15px rgba(0,0,0,0.5);
@@ -125,50 +125,42 @@
         .photo-frame img { width: 100%; height: auto; display: block; border-radius: 2px; }
         .story-card:nth-child(even) .photo-frame { transform: rotate(-2deg); }
 
-        /* ✨ 新增：橫向滑動相簿樣式 */
+        /* 橫向滑動相簿樣式 */
         .gallery-scroll-container {
             display: flex;
             gap: 15px;
             overflow-x: auto;
-            padding: 10px 5px 25px 5px; /* 下方留空間給陰影 */
+            padding: 10px 5px 25px 5px; 
             scroll-snap-type: x mandatory;
             -webkit-overflow-scrolling: touch;
-            margin: 10px -15px 20px -15px; /* 讓它往左右撐開一點 */
-            padding-left: 15px; /* 左側留白 */
+            margin: 10px -15px 20px -15px;
+            padding-left: 15px; 
         }
-        .gallery-scroll-container::-webkit-scrollbar { display: none; } /* 隱藏卷軸 */
+        .gallery-scroll-container::-webkit-scrollbar { display: none; }
 
         .gallery-item {
-            min-width: 200px; /* 照片寬度 */
+            min-width: 220px; /* 照片寬度 */
             flex-shrink: 0;
             scroll-snap-align: center;
             background: #fff;
-            padding: 8px 8px 25px 8px; /* 拍立得留白 */
+            padding: 8px 8px 30px 8px; /* 拍立得留白 */
             box-shadow: 0 5px 15px rgba(0,0,0,0.5);
             border-radius: 2px;
             transform: rotate(0deg);
             transition: transform 0.3s;
         }
-        /* 讓排列的照片稍微左右歪斜，更活潑 */
         .gallery-item:nth-child(odd) { transform: rotate(-1.5deg); }
         .gallery-item:nth-child(even) { transform: rotate(1.5deg); }
 
         .gallery-img-box {
             width: 100%;
-            height: 150px; /* 固定高度，保持整齊 */
+            height: 160px; /* 固定高度 */
             background: #f0f4f8;
             display: flex; align-items: center; justify-content: center;
-            color: #8899a6; border: 2px dashed #cbd5e0;
+            color: #8899a6; border: 1px solid #ddd;
             overflow: hidden;
         }
         .gallery-img-box img { width: 100%; height: 100%; object-fit: cover; }
-
-        .img-placeholder {
-            width: 100%; height: 200px; background: #f0f4f8;
-            display: flex; align-items: center; justify-content: center;
-            color: #8899a6; border: 2px dashed #cbd5e0;
-            border-radius: 4px; font-weight: bold;
-        }
 
         .cta-button {
             display: block; width: 220px; margin: 40px auto 60px; padding: 15px 0;
@@ -179,28 +171,9 @@
         .cta-button:hover { background: rgba(100, 255, 218, 0.1); transform: translateY(-3px); }
         .cta-button:active { transform: translateY(0); }
 
-        .bg-bubbles { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; overflow: hidden; pointer-events: none; }
-        .bg-bubbles li {
-            position: absolute; list-style: none; display: block; bottom: -150px; border-radius: 50%;
-            background: radial-gradient(circle at 70% 30%, rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0) 70%);
-            border: 1px solid rgba(255, 255, 255, 0.15); animation: rise infinite linear;
-        }
-        .bg-bubbles li:nth-child(1) { left: 10%; width: 40px; height: 40px; animation-duration: 12s; }
-        .bg-bubbles li:nth-child(2) { left: 20%; width: 20px; height: 20px; animation-duration: 18s; animation-delay: 2s; }
-        .bg-bubbles li:nth-child(3) { left: 70%; width: 50px; height: 50px; animation-duration: 15s; animation-delay: 1s; }
-        .bg-bubbles li:nth-child(4) { left: 40%; width: 30px; height: 30px; animation-duration: 10s; animation-delay: 0s; }
-        .bg-bubbles li:nth-child(5) { left: 85%; width: 20px; height: 20px; animation-duration: 20s; animation-delay: 3s; }
-        @keyframes rise { 
-            0% { transform: translateY(0); opacity: 0; } 
-            10% { opacity: 0.6; } 
-            100% { transform: translateY(-120vh); opacity: 0; } 
-        }
-
     </style>
 </head>
 <body>
-
-    <ul class="bg-bubbles"><li></li><li></li><li></li><li></li><li></li></ul>
 
     <div class="yuyu-announcement-bar">
         🚀 活體訂單2000元免運、常溫賣場660免運、冷凍賣場990免運
@@ -235,7 +208,7 @@
             <div class="story-heading">🌱 那缸父親不讓碰的魚</div>
             
             <div class="photo-frame">
-                <div class="img-placeholder">📷 這裡放：小時候/復古魚缸照</div>
+                <img src="story-1.jpg" alt="小時候的回憶" onerror="this.style.display='none'; this.parentNode.innerHTML='<div style=\'padding:20px; color:#aaa; text-align:center\'>📷 請上傳 story-1.jpg</div>'">
             </div>
             
             <div class="story-text">
@@ -250,7 +223,7 @@
             <div class="story-heading">🏡 三合院裡的秘密基地</div>
 
             <div class="photo-frame">
-                <div class="img-placeholder">📷 這裡放：三合院魚房照片</div>
+                <img src="story-2.jpg" alt="三合院基地" onerror="this.style.display='none'; this.parentNode.innerHTML='<div style=\'padding:20px; color:#aaa; text-align:center\'>📷 請上傳 story-2.jpg</div>'">
             </div>
 
             <div class="story-text">
@@ -267,22 +240,22 @@
             <div class="gallery-scroll-container">
                 <div class="gallery-item">
                     <div class="gallery-img-box">
-                        <div class="img-placeholder">活動照 1</div>
+                        <img src="event-1.jpg" alt="活動照1" onerror="this.style.display='none';">
                     </div>
                 </div>
                 <div class="gallery-item">
                     <div class="gallery-img-box">
-                        <div class="img-placeholder">活動照 2</div>
+                        <img src="event-2.jpg" alt="活動照2" onerror="this.style.display='none';">
                     </div>
                 </div>
                 <div class="gallery-item">
                     <div class="gallery-img-box">
-                        <div class="img-placeholder">活動照 3</div>
+                        <img src="event-3.jpg" alt="活動照3" onerror="this.style.display='none';">
                     </div>
                 </div>
                 <div class="gallery-item">
                     <div class="gallery-img-box">
-                        <div class="img-placeholder">活動照 4</div>
+                        <img src="event-4.jpg" alt="活動照4" onerror="this.style.display='none';">
                     </div>
                 </div>
             </div>
