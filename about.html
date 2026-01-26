@@ -115,7 +115,7 @@
         }
         .story-highlight { color: #64ffda; font-weight: bold; }
 
-        /* 單張拍立得 (垂直排列用) */
+        /* 單張拍立得 */
         .photo-frame {
             background: #fff; padding: 10px 10px 30px 10px; 
             box-shadow: 0 5px 15px rgba(0,0,0,0.5);
@@ -125,35 +125,41 @@
         .photo-frame img { width: 100%; height: auto; display: block; border-radius: 2px; }
         .story-card:nth-child(even) .photo-frame { transform: rotate(-2deg); }
 
-        /* ✨ 橫向滑動相簿樣式 (含定位點) */
+        /* ✨ 橫向滑動相簿樣式 (修正版) */
         .gallery-scroll-container {
             display: flex;
-            gap: 15px;
+            gap: 15px; /* 照片間距 */
             overflow-x: auto;
-            padding: 10px 5px 25px 5px; 
-            scroll-snap-type: x mandatory; /* 關鍵：強制定位 */
+            padding: 10px 20px 25px 20px; 
+            scroll-snap-type: x mandatory; 
             -webkit-overflow-scrolling: touch;
-            margin: 10px -15px 5px -15px;
-            padding-left: 15px; 
-            padding-right: 15px;
+            margin: 10px -25px 5px -25px; /* 撐開到邊緣 */
+            
+            /* 隱藏卷軸 */
+            scrollbar-width: none; /* Firefox */
         }
-        .gallery-scroll-container::-webkit-scrollbar { display: none; }
+        .gallery-scroll-container::-webkit-scrollbar { display: none; } /* Chrome/Safari */
 
         .gallery-item {
-            min-width: 100%; /* 讓每張照片佔滿寬度，像輪播圖 */
+            /* ✨ 關鍵修改：縮小寬度，讓下一張露出來 */
+            min-width: 75%; 
+            max-width: 280px; /* 限制最大寬度，避免電腦版太大 */
+            
             flex-shrink: 0;
-            scroll-snap-align: center; /* 關鍵：定位點 */
+            scroll-snap-align: center; /* 停在中間 */
             background: #fff;
             padding: 8px 8px 30px 8px; 
             box-shadow: 0 5px 15px rgba(0,0,0,0.5);
             border-radius: 4px;
             transform: rotate(0deg);
             transition: transform 0.3s;
-            box-sizing: border-box; /* 確保 padding 不會撐爆寬度 */
+            cursor: pointer; /* 讓鼠標變成手指，暗示可點擊 */
         }
-        /* 微微歪斜增加拍立得感 */
-        .gallery-item:nth-child(odd) { transform: rotate(-1deg); }
-        .gallery-item:nth-child(even) { transform: rotate(1deg); }
+        
+        .gallery-item:nth-child(odd) { transform: rotate(-1.5deg); }
+        .gallery-item:nth-child(even) { transform: rotate(1.5deg); }
+        /* 點擊或滑鼠移過去時，稍微放大並轉正 */
+        .gallery-item:hover, .gallery-item:active { transform: rotate(0deg) scale(1.02); z-index: 10; }
 
         .gallery-img-box {
             width: 100%;
@@ -165,7 +171,6 @@
         }
         .gallery-img-box img { width: 100%; height: 100%; object-fit: cover; }
 
-        /* ✨ 圓點點導航樣式 (跟首頁一樣) */
         .slider-dots { display: flex; justify-content: center; margin-top: 10px; margin-bottom: 10px; gap: 8px; }
         .dot { width: 8px; height: 8px; background-color: rgba(255, 255, 255, 0.3); border-radius: 50%; cursor: pointer; transition: all 0.3s; }
         .dot.active { background-color: #64ffda; width: 24px; border-radius: 4px; }
@@ -327,30 +332,33 @@
             document.getElementById("menuOverlay").style.display = "none";
         }
 
-        /* --- 相簿圓點點邏輯 (自動生成 + 點擊跳轉) --- */
+        /* --- 相簿邏輯 (點擊照片也能跳轉) --- */
         document.addEventListener("DOMContentLoaded", function() {
             const slider = document.getElementById('galleryScroll');
             const dotsContainer = document.getElementById('galleryDots');
             const cards = slider.querySelectorAll('.gallery-item');
 
-            // 1. 根據照片數量自動產生圓點
+            // 1. 產生圓點 & 綁定點擊事件
             cards.forEach((card, index) => {
                 const dot = document.createElement('div');
                 dot.classList.add('dot');
-                if (index === 0) dot.classList.add('active'); // 第一顆預設亮起
+                if (index === 0) dot.classList.add('active'); 
                 
                 // 點擊圓點跳轉
                 dot.addEventListener('click', () => {
-                    const scrollAmount = card.offsetLeft - slider.offsetLeft;
-                    slider.scrollTo({
-                        left: scrollAmount,
-                        behavior: 'smooth'
-                    });
+                    const scrollAmount = card.offsetLeft - slider.offsetLeft - (slider.offsetWidth / 2) + (card.offsetWidth / 2);
+                    slider.scrollTo({ left: scrollAmount, behavior: 'smooth' });
                 });
                 dotsContainer.appendChild(dot);
+
+                // ✨ 新增：點擊照片本身也能跳轉並置中
+                card.addEventListener('click', () => {
+                    const scrollAmount = card.offsetLeft - slider.offsetLeft - (slider.offsetWidth / 2) + (card.offsetWidth / 2);
+                    slider.scrollTo({ left: scrollAmount, behavior: 'smooth' });
+                });
             });
 
-            // 2. 監聽滑動事件，自動切換亮起的圓點
+            // 2. 監聽滑動，更新圓點
             slider.addEventListener('scroll', () => {
                 const scrollCenter = slider.scrollLeft + (slider.offsetWidth / 2);
 
@@ -358,7 +366,6 @@
                     const cardLeft = card.offsetLeft - slider.offsetLeft;
                     const cardRight = cardLeft + card.offsetWidth;
 
-                    // 如果滑動中心點在這張卡片範圍內，這張卡片就是 active
                     if (cardLeft <= scrollCenter && cardRight > scrollCenter) {
                         document.querySelectorAll('.dot').forEach(d => d.classList.remove('active'));
                         if(dotsContainer.children[index]) {
