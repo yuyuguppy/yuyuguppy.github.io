@@ -924,14 +924,39 @@
             }
             dotsContainer.innerHTML = dotsHtml;
 
-            // 4. 監聽滑動更新圓點
+            // 4. 監聽滑動更新圓點 (修正版)
             galleryDiv.onscroll = function() {
-                const index = Math.round(galleryDiv.scrollLeft / galleryDiv.offsetWidth);
+                // 找出第一張圖片元素，獲取它的實際寬度
+                const firstImg = galleryDiv.querySelector('img, video');
+                if (!firstImg) return;
+
+                // 計算每張圖的總寬度 (寬度 + 右邊距)
+                // clientWidth 是圖片本身寬度，我們手動加上 CSS 設定的 margin-right
+                // 注意：如果 CSS 改了 margin，這裡的 10 (px) 也要跟著微調，或者用更進階的寫法抓取
+                // 但為了簡單起見，我們直接抓取圖片元素的 offsetLeft 差值會更準確
+                
+                // 更穩定的算法：直接找「目前中心點最接近哪一張圖」
+                const centerPoint = galleryDiv.scrollLeft + (galleryDiv.offsetWidth / 2);
+                
+                // 找出所有的圖片/影片元素
+                const allMedia = galleryDiv.querySelectorAll('img, video');
+                let activeIndex = 0;
+
+                allMedia.forEach((media, index) => {
+                    const mediaLeft = media.offsetLeft;
+                    const mediaRight = mediaLeft + media.offsetWidth;
+
+                    // 如果中心點落在這張圖的範圍內，它就是主角
+                    if (centerPoint >= mediaLeft && centerPoint <= mediaRight) {
+                        activeIndex = index;
+                    }
+                });
+
+                // 更新圓點樣式
                 const dots = document.querySelectorAll('.pd-dot');
                 dots.forEach(d => d.classList.remove('active'));
-                if(dots[index]) dots[index].classList.add('active');
+                if(dots[activeIndex]) dots[activeIndex].classList.add('active');
             };
-
             // 5. 設定文字內容
             document.getElementById('pdIntro').innerHTML = extraData.intro || "目前沒有詳細介紹，歡迎私訊詢問！";
             const defaultNotice = "1. 活體運送風險由本賣場承擔。<br>2. 請務必詳閱收魚對水流程。<br>3. 下缸前請確認水質數據正常。";
@@ -955,10 +980,20 @@
             document.getElementById('productDetailModal').style.display = 'flex';
         }
 
-        // 點擊圓點滾動
+       // 點擊圓點滾動 (修正版)
         function scrollToGallery(index) {
             const galleryDiv = document.getElementById('pdGallery');
-            galleryDiv.scrollTo({ left: galleryDiv.offsetWidth * index, behavior: 'smooth' });
+            const allMedia = galleryDiv.querySelectorAll('img, video');
+            
+            if (allMedia[index]) {
+                // 直接滑動到該圖片的左邊界，並扣掉一點點 padding 讓它置中或靠左
+                // 這裡我們直接用 scrollLeft = offsetLeft - paddingLeft
+                // 假設 CSS padding-left 是 20px
+                galleryDiv.scrollTo({ 
+                    left: allMedia[index].offsetLeft - 20, 
+                    behavior: 'smooth' 
+                });
+            }
         }
 
         function closeProductDetail() {
