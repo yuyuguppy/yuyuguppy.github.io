@@ -10,11 +10,10 @@
     <link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@400;700&display=swap" rel="stylesheet">
 
     <style>
-        /* --- 1. 全域設定：深海風格 + 圓體字 --- */
+        /* --- 1. 全域設定 --- */
         body { 
-            /* 背景改成跟首頁一樣的深海藍 */
             background: radial-gradient(circle at 50% 10%, #1a3c5e 0%, #03101f 100%);
-            color: #f0f4f8; /* 字體改淺色 */
+            color: #f0f4f8; 
             font-family: 'Zen Maru Gothic', "Microsoft JhengHei", sans-serif; 
             margin: 0; padding: 0; min-height: 100vh; 
             overflow-x: hidden; 
@@ -32,10 +31,9 @@
             white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
         }
 
-        /* 手機版導覽列 - 改回深藍底 */
         .mobile-sticky-header {
             position: fixed; top: 45px; left: 0; width: 100%; height: 50px;
-            background-color: #03101f; /* 深藍底 */
+            background-color: #03101f; 
             border-bottom: 1px solid #334e68; 
             z-index: 11000; display: flex; align-items: center; justify-content: space-between; 
             padding: 0 15px; box-sizing: border-box;
@@ -45,7 +43,6 @@
         .hamburger-btn { background: transparent; border: none; cursor: pointer; padding: 5px; z-index: 2; }
         .bar { width: 25px; height: 3px; background-color: #64ffda; border-radius: 3px; transition: 0.3s; }
         
-        /* 標題設定 */
         .mobile-header-title {
             position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%);
             color: #64ffda; 
@@ -54,105 +51,117 @@
             cursor: pointer; padding: 10px; z-index: 1;
         }
 
-        /* 側邊選單 - 改回深色底 */
         .sidenav {
             height: 100%; width: 0; position: fixed; z-index: 13000; 
-            top: 0; left: 0; background-color: rgba(3, 16, 31, 0.98); /* 深藍半透明 */
+            top: 0; left: 0; background-color: rgba(3, 16, 31, 0.98); 
             overflow-x: hidden; transition: 0.4s; 
             padding-top: 50px; 
             border-right: 1px solid #64ffda;
         }
         .sidenav a {
             padding: 15px 30px; text-decoration: none; font-size: 18px; 
-            color: #f0f4f8; /* 淺色字 */
+            color: #f0f4f8; 
             font-weight: bold;
             display: block; transition: 0.3s; 
             border-bottom: 1px solid rgba(255,255,255,0.05);
         }
         .sidenav a:hover { color: #ffe100; background: rgba(255,255,255,0.05); }
-        
         .sidenav .closebtn { 
             position: absolute; top: 5px; right: 15px; 
-            font-size: 36px; border: none; color: #fff; 
-            padding: 0 10px;
+            font-size: 36px; border: none; color: #fff; padding: 0 10px;
         }
-        
         .menu-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.7); z-index: 12500; backdrop-filter: blur(2px); }
 
-        /* --- 3. 關於頁面專屬樣式 (深色拍立得風) --- */
+        /* --- 3. 關於頁面樣式 --- */
         .story-container {
             width: 100%; max-width: 600px; padding: 20px 25px; box-sizing: border-box;
             position: relative;
         }
         
-        .page-header {
-            text-align: center; margin-bottom: 40px; margin-top: 20px;
-        }
+        .page-header { text-align: center; margin-bottom: 40px; margin-top: 20px; }
         .title-badge {
-            display: inline-block;
-            background: #ffe100;
-            color: #000;
-            padding: 8px 25px;
-            border-radius: 50px; 
-            font-weight: bold;
-            font-size: 16px;
+            display: inline-block; background: #ffe100; color: #000;
+            padding: 8px 25px; border-radius: 50px; 
+            font-weight: bold; font-size: 16px;
             box-shadow: 0 0 10px rgba(255, 225, 0, 0.3);
-            transform: rotate(-2deg); 
-            margin-bottom: 15px;
+            transform: rotate(-2deg); margin-bottom: 15px;
         }
         .main-headline {
             font-size: 26px; color: #64ffda; font-weight: 700;
             line-height: 1.4; text-shadow: 0 0 10px rgba(100, 255, 218, 0.2);
         }
 
-        /* 故事區塊 - 改為半透明深色卡片 */
         .story-card {
-            background: rgba(255, 255, 255, 0.05); /* 極淡的白色半透明 */
-            border: 1px solid rgba(100, 255, 218, 0.2); /* 淡綠色邊框 */
-            border-radius: 20px;
-            padding: 25px;
-            margin-bottom: 30px;
+            background: rgba(255, 255, 255, 0.05); 
+            border: 1px solid rgba(100, 255, 218, 0.2); 
+            border-radius: 20px; padding: 25px; margin-bottom: 30px;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3); 
-            position: relative;
-            backdrop-filter: blur(5px); /* 毛玻璃效果 */
+            position: relative; backdrop-filter: blur(5px);
         }
 
-        /* 紙膠帶 */
         .tape {
             position: absolute; width: 80px; height: 25px;
             background-color: rgba(255, 235, 59, 0.8);
             top: -10px; left: 50%; transform: translateX(-50%) rotate(-3deg);
-            z-index: 5;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+            z-index: 5; box-shadow: 0 2px 5px rgba(0,0,0,0.3);
         }
 
-        /* 標題與內文 */
         .story-heading {
-            font-size: 22px; color: #ffe100; /* 黃色標題在深底很清楚 */
-            font-weight: bold; margin-bottom: 15px;
-            text-align: center;
+            font-size: 22px; color: #ffe100; 
+            font-weight: bold; margin-bottom: 15px; text-align: center;
         }
         .story-text {
-            line-height: 1.9; font-size: 16px; text-align: justify; 
-            color: #dbe4ef; /* 淺灰藍色文字 */
+            line-height: 1.9; font-size: 16px; text-align: justify; color: #dbe4ef;
         }
-        .story-highlight { 
-            color: #64ffda; font-weight: bold; /* 亮綠色重點 */
-        }
+        .story-highlight { color: #64ffda; font-weight: bold; }
 
-        /* 照片樣式：拍立得風格 (維持白色底框，對比強烈) */
+        /* 單張拍立得 (垂直排列用) */
         .photo-frame {
-            background: #fff;
-            padding: 10px 10px 30px 10px; 
+            background: #fff; padding: 10px 10px 30px 10px; 
             box-shadow: 0 5px 15px rgba(0,0,0,0.5);
-            transform: rotate(2deg); 
-            margin: 20px 0;
-            transition: transform 0.3s;
+            transform: rotate(2deg); margin: 20px 0; transition: transform 0.3s;
         }
         .photo-frame:hover { transform: rotate(0deg) scale(1.02); } 
         .photo-frame img { width: 100%; height: auto; display: block; border-radius: 2px; }
-        
         .story-card:nth-child(even) .photo-frame { transform: rotate(-2deg); }
+
+        /* ✨ 新增：橫向滑動相簿樣式 */
+        .gallery-scroll-container {
+            display: flex;
+            gap: 15px;
+            overflow-x: auto;
+            padding: 10px 5px 25px 5px; /* 下方留空間給陰影 */
+            scroll-snap-type: x mandatory;
+            -webkit-overflow-scrolling: touch;
+            margin: 10px -15px 20px -15px; /* 讓它往左右撐開一點 */
+            padding-left: 15px; /* 左側留白 */
+        }
+        .gallery-scroll-container::-webkit-scrollbar { display: none; } /* 隱藏卷軸 */
+
+        .gallery-item {
+            min-width: 200px; /* 照片寬度 */
+            flex-shrink: 0;
+            scroll-snap-align: center;
+            background: #fff;
+            padding: 8px 8px 25px 8px; /* 拍立得留白 */
+            box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+            border-radius: 2px;
+            transform: rotate(0deg);
+            transition: transform 0.3s;
+        }
+        /* 讓排列的照片稍微左右歪斜，更活潑 */
+        .gallery-item:nth-child(odd) { transform: rotate(-1.5deg); }
+        .gallery-item:nth-child(even) { transform: rotate(1.5deg); }
+
+        .gallery-img-box {
+            width: 100%;
+            height: 150px; /* 固定高度，保持整齊 */
+            background: #f0f4f8;
+            display: flex; align-items: center; justify-content: center;
+            color: #8899a6; border: 2px dashed #cbd5e0;
+            overflow: hidden;
+        }
+        .gallery-img-box img { width: 100%; height: 100%; object-fit: cover; }
 
         .img-placeholder {
             width: 100%; height: 200px; background: #f0f4f8;
@@ -161,23 +170,15 @@
             border-radius: 4px; font-weight: bold;
         }
 
-        /* 底部按鈕 */
         .cta-button {
             display: block; width: 220px; margin: 40px auto 60px; padding: 15px 0;
-            text-align: center; 
-            background: transparent; border: 2px solid #64ffda;
-            color: #64ffda;
-            font-size: 18px; font-weight: bold; text-decoration: none;
-            border-radius: 50px; 
-            transition: all 0.2s;
+            text-align: center; background: transparent; border: 2px solid #64ffda;
+            color: #64ffda; font-size: 18px; font-weight: bold; text-decoration: none;
+            border-radius: 50px; transition: all 0.2s;
         }
-        .cta-button:hover {
-            background: rgba(100, 255, 218, 0.1);
-            transform: translateY(-3px);
-        }
+        .cta-button:hover { background: rgba(100, 255, 218, 0.1); transform: translateY(-3px); }
         .cta-button:active { transform: translateY(0); }
 
-        /* 背景漂浮泡泡 (改回深海版) */
         .bg-bubbles { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; overflow: hidden; pointer-events: none; }
         .bg-bubbles li {
             position: absolute; list-style: none; display: block; bottom: -150px; border-radius: 50%;
@@ -263,8 +264,27 @@
             <div class="tape" style="background-color: rgba(255, 171, 145, 0.7);"></div>
             <div class="story-heading">✨ 不只是一家店</div>
 
-            <div class="photo-frame">
-                <div class="img-placeholder">📷 這裡放：活動大合照</div>
+            <div class="gallery-scroll-container">
+                <div class="gallery-item">
+                    <div class="gallery-img-box">
+                        <div class="img-placeholder">活動照 1</div>
+                    </div>
+                </div>
+                <div class="gallery-item">
+                    <div class="gallery-img-box">
+                        <div class="img-placeholder">活動照 2</div>
+                    </div>
+                </div>
+                <div class="gallery-item">
+                    <div class="gallery-img-box">
+                        <div class="img-placeholder">活動照 3</div>
+                    </div>
+                </div>
+                <div class="gallery-item">
+                    <div class="gallery-img-box">
+                        <div class="img-placeholder">活動照 4</div>
+                    </div>
+                </div>
             </div>
 
             <div class="story-text">
