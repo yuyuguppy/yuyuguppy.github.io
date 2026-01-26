@@ -342,7 +342,25 @@
         .back-to-top:hover .daohui-dog-img, .back-to-top:active .daohui-dog-img { animation: wag 0.5s ease-in-out infinite; }
 
         @media (max-width: 768px) {
-            .yuyu-announcement-bar { font-size: 13px; white-space: normal; padding: 5px; height: auto; min-height: 45px; }
+            
+            /* ✨ 修正重點：強制黃條單行顯示，太長可左右滑動，高度鎖死 45px */
+            .yuyu-announcement-bar { 
+                font-size: 13px; 
+                white-space: nowrap;       /* 強制文字不換行 */
+                overflow-x: auto;          /* 允許左右滑動 */
+                padding: 0 10px;           /* 左右留點空隙 */
+                height: 45px;              /* 固定高度 */
+                min-height: 45px;          /* 鎖死高度，避免被撐開 */
+                line-height: 45px;         /* 讓文字垂直置中 */
+                display: block;            /* 確保區塊特性 */
+                
+                /* 隱藏滑動條 (看起來比較乾淨) */
+                -webkit-overflow-scrolling: touch;
+                scrollbar-width: none;
+            }
+            .yuyu-announcement-bar::-webkit-scrollbar { display: none; }
+
+            /* 以下維持原設定 */
             .layout-container { flex-direction: column; padding: 0 10px; }
             .sidebar { 
                 width: 100%; display: flex; overflow-x: auto; padding: 10px; gap: 10px; 
