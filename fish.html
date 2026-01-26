@@ -162,13 +162,25 @@
         .search-icon { position: absolute; right: 10px; top: 50%; transform: translateY(-50%); color: #64ffda; pointer-events: none; }
 
         .products-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 20px; }
+        
+        /* 商品卡片優化 - 支援點擊 */
         .product-card {
             background: rgba(16, 42, 67, 0.4); border: 1px solid rgba(100, 255, 218, 0.2); border-radius: 10px;
-            overflow: hidden; transition: transform 0.3s; display: flex; flex-direction: column; backdrop-filter: blur(4px); position: relative;
+            overflow: hidden; transition: transform 0.3s; display: flex; flex-direction: column; 
+            backdrop-filter: blur(4px); position: relative;
+            cursor: pointer; /* 讓滑鼠變手指，表示可點擊 */
         }
         .product-card:hover { transform: translateY(-5px); border-color: #64ffda; box-shadow: 0 5px 15px rgba(100, 255, 218, 0.2); }
-        .p-img-box { width: 100%; height: 200px; background: rgba(0,0,0,0.3); position: relative; }
-        .p-img { width: 100%; height: 100%; object-fit: cover; }
+        .p-img-box { width: 100%; height: 200px; background: rgba(0,0,0,0.3); position: relative; overflow: hidden;}
+        
+        /* 圖片與影片切換的樣式 */
+        .p-img, .p-video-hover { 
+            width: 100%; height: 100%; object-fit: cover; 
+            position: absolute; top: 0; left: 0; transition: opacity 0.3s;
+        }
+        .p-video-hover { opacity: 0; z-index: 1; } /* 預設影片隱藏 */
+        .p-img-box:hover .p-video-hover { opacity: 1; } /* 滑鼠移過去顯示影片 */
+
         .sold-out-mask {
             position: absolute; top:0; left:0; width:100%; height:100%; background: rgba(0,0,0,0.7);
             color: white; font-weight: bold; font-size: 20px; display: flex; align-items: center; justify-content: center; z-index: 2;
@@ -235,7 +247,7 @@
         .free-shipping-alert { background: rgba(255, 59, 48, 0.15); color: #ff4d4d; border: 1px solid #ff4d4d; padding: 8px; text-align: center; border-radius: 5px; font-size: 13px; margin-bottom: 10px; }
         .free-shipping-success { background: rgba(100, 255, 218, 0.15); color: #64ffda; border: 1px solid #64ffda; }
 
-        /* ✨ 優惠碼區塊 ✨ */
+        /* 優惠碼區塊 */
         .promo-section {
             display: flex; gap: 10px; margin-bottom: 15px; background: rgba(255,255,255,0.05); padding: 10px; border-radius: 8px;
         }
@@ -345,6 +357,52 @@
             .back-to-top { bottom: 15px; right: 15px; }
             .daohui-dog-img { width: 50px; }
         }
+
+        /* ✨✨✨ 新增：產品詳細 Modal 樣式 ✨✨✨ */
+        #productDetailModal {
+            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.9); z-index: 25000; justify-content: center; align-items: center;
+        }
+        .pd-content {
+            background: #0d253f; width: 90%; max-width: 600px; border-radius: 15px; padding: 0;
+            border: 2px solid #64ffda; box-shadow: 0 0 30px rgba(100, 255, 218, 0.3);
+            max-height: 90vh; display: flex; flex-direction: column; overflow: hidden;
+        }
+        .pd-header {
+            padding: 15px; border-bottom: 1px solid #334e68; display: flex; justify-content: space-between; align-items: center; background: #03101f;
+        }
+        .pd-title { font-size: 20px; font-weight: bold; color: #64ffda; }
+        .pd-close { cursor: pointer; font-size: 28px; color: #aaa; }
+        
+        .pd-body { flex-grow: 1; overflow-y: auto; padding: 20px; }
+        
+        /* 彈窗內的相簿 */
+        .pd-gallery {
+            display: flex; gap: 10px; overflow-x: auto; padding-bottom: 10px; margin-bottom: 20px;
+            scroll-snap-type: x mandatory;
+        }
+        .pd-gallery::-webkit-scrollbar { height: 6px; }
+        .pd-gallery::-webkit-scrollbar-thumb { background: #64ffda; border-radius: 3px; }
+        .pd-gallery img {
+            height: 250px; min-width: 100%; object-fit: contain; background: #000;
+            border-radius: 8px; scroll-snap-align: center;
+        }
+
+        .pd-section-title {
+            color: #ffe100; font-size: 18px; font-weight: bold; margin-bottom: 8px; border-left: 4px solid #64ffda; padding-left: 10px;
+        }
+        .pd-text { color: #dbe4ef; font-size: 15px; line-height: 1.6; margin-bottom: 20px; }
+        .pd-warning { color: #ff9999; font-size: 14px; background: rgba(255,0,0,0.1); padding: 10px; border-radius: 8px; border: 1px solid #ff4d4d; margin-bottom: 20px; }
+
+        .pd-footer {
+            padding: 15px; border-top: 1px solid #334e68; background: #03101f; text-align: center;
+        }
+        .pd-add-btn {
+            background: #64ffda; color: #000; border: none; padding: 12px 30px; border-radius: 30px;
+            font-size: 18px; font-weight: bold; cursor: pointer; width: 100%; transition: 0.2s;
+        }
+        .pd-add-btn:hover { background: #ffe100; transform: scale(1.02); }
+
     </style>
 </head>
 <body>
@@ -448,6 +506,31 @@
         </main>
     </div>
 
+    <div id="productDetailModal">
+        <div class="pd-content">
+            <div class="pd-header">
+                <div class="pd-title" id="pdTitle">商品名稱</div>
+                <div class="pd-close" onclick="closeProductDetail()">✕</div>
+            </div>
+            <div class="pd-body">
+                <div class="pd-gallery" id="pdGallery">
+                    </div>
+                
+                <div class="pd-section-title">🐟 魚隻介紹</div>
+                <div class="pd-text" id="pdIntro">這裡會顯示魚隻的詳細介紹...</div>
+
+                <div class="pd-section-title">⚠️ 注意事項</div>
+                <div class="pd-warning" id="pdNotice">
+                    1. 活體運送風險由本賣場承擔。<br>
+                    2. 請務必詳閱收魚對水流程。
+                </div>
+            </div>
+            <div class="pd-footer">
+                <button class="pd-add-btn" id="pdAddBtn" onclick="">加入購物車</button>
+            </div>
+        </div>
+    </div>
+
     <div class="cart-modal" id="cartModal">
         <div class="cart-content">
             <div class="cart-header">
@@ -547,13 +630,9 @@
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.2/papaparse.min.js"></script>
     <script>
-        // ==========================================
-        //  設定
-        // ==========================================
         const googleSheetID = "1a0w_rwgHkmewRXDZ1nG1Tiito3qaK9huNO7xzOmc0BI"; 
         const BANK_CODE = "013 (國泰世華)";
         const BANK_ACC = "206506221657";
-        // ==========================================
 
         let products = [];
         let cart = [];
@@ -561,10 +640,25 @@
         const FREE_SHIPPING_THRESHOLD = 2000;
         let currentCategory = 'all';
         let pendingOrderMessage = ""; 
-        
-        // ✨ 新增：優惠碼變數
         let currentDiscount = 0;
         let currentPromoCode = "";
+
+        // ✨✨✨ 魚隻詳細資料庫 (請在此擴充) ✨✨✨
+        // 格式：'ID': { hoverMedia: '影片或GIF連結', gallery: ['圖1','圖2'...], intro: '介紹文', notice: '注意事項' }
+        const fishDetails = {
+            'A01': {
+                hoverMedia: 'https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjEx.../giphy.gif', // 範例：放你的GIF連結
+                gallery: [
+                    'https://via.placeholder.com/600x400/ff0000/fff?text=Detail+1', // 範例：放更多照片連結
+                    'https://via.placeholder.com/600x400/00ff00/fff?text=Detail+2',
+                    'https://via.placeholder.com/600x400/0000ff/fff?text=Detail+3'
+                ],
+                intro: '這是一隻非常漂亮的孔雀魚，尾巴很大，顏色鮮豔。<br>個性溫和，適合新手飼養。',
+                notice: '1. 入缸請務必對溫對水。<br>2. 建議水溫 24-26 度。<br>3. 避免與攻擊性強的魚混養。'
+            },
+            // 如果你還有其他魚，可以繼續往下加...
+            // 'A02': { ... }
+        };
 
         window.onload = function() {
             init();
@@ -576,9 +670,7 @@
             if (categoryParam) {
                 setTimeout(() => {
                     const targetBtn = document.querySelector(`.category-btn[onclick*="'${categoryParam}'"]`);
-                    if (targetBtn) {
-                        targetBtn.click();
-                    }
+                    if (targetBtn) { targetBtn.click(); }
                 }, 1000); 
             }
         };
@@ -589,8 +681,7 @@
                 const url = `https://docs.google.com/spreadsheets/d/${googleSheetID}/export?format=csv`;
                 
                 Papa.parse(url, {
-                    download: true,
-                    header: true,
+                    download: true, header: true,
                     complete: function(results) {
                         const sheetData = results.data;
                         const validData = sheetData.filter(item => item.id && item.name);
@@ -641,26 +732,31 @@
                 const imgSrc = p.img ? p.img : 'logo.jpg';
                 const isSoldOut = p.stock <= 0;
                 
+                // ✨ 檢查有沒有動圖資料
+                const extraData = fishDetails[p.id] || {};
+                const hoverMediaSrc = extraData.hoverMedia || ''; // 如果沒有就留空
+
                 let tagHtml = '';
                 if (p.tag === 'HOT') tagHtml = '<div class="p-tag tag-hot">熱銷 🔥</div>';
                 else if (p.tag === 'NEW') tagHtml = '<div class="p-tag tag-new">新品 ✨</div>';
                 else if (p.tag === 'SALE') tagHtml = '<div class="p-tag tag-sale">特價 💰</div>';
 
                 let mediaHtml = '';
-                if (imgSrc.toLowerCase().endsWith('.mp4') || imgSrc.toLowerCase().endsWith('.webm')) {
-                    mediaHtml = `<video src="${imgSrc}" class="p-img" autoplay loop muted playsinline></video>`;
-                } else {
-                    mediaHtml = `<img src="${imgSrc}" class="p-img" alt="${p.name}" onerror="this.src='logo.jpg'">`;
+                // 預設靜態圖
+                mediaHtml += `<img src="${imgSrc}" class="p-img" alt="${p.name}" onerror="this.src='logo.jpg'">`;
+                
+                // 如果有動圖，加入 hover 層
+                if (hoverMediaSrc) {
+                    if (hoverMediaSrc.endsWith('.mp4') || hoverMediaSrc.endsWith('.webm')) {
+                        mediaHtml += `<video src="${hoverMediaSrc}" class="p-video-hover" autoplay loop muted playsinline></video>`;
+                    } else {
+                        mediaHtml += `<img src="${hoverMediaSrc}" class="p-video-hover">`;
+                    }
                 }
 
                 let priceHtml = '';
                 if (p.tag === 'SALE' && p.origin_price > p.price) {
-                    priceHtml = `
-                        <div class="p-price-area">
-                            <span class="p-price-origin">NT$ ${p.origin_price}</span>
-                            <span class="p-price-current">NT$ ${p.price}</span>
-                        </div>
-                    `;
+                    priceHtml = `<div class="p-price-area"><span class="p-price-origin">NT$ ${p.origin_price}</span><span class="p-price-current">NT$ ${p.price}</span></div>`;
                 } else {
                     priceHtml = `<div class="p-price-area"><span class="p-price-current">NT$ ${p.price}</span></div>`;
                 }
@@ -669,18 +765,20 @@
                 if (isSoldOut) {
                     btnHtml = `<button class="add-btn disabled">已售完</button>`;
                 } else {
+                    // 加入購物車按鈕不觸發 Modal，需阻止冒泡
                     btnHtml = `
-                        <div class="qty-control">
+                        <div class="qty-control" onclick="event.stopPropagation()">
                             <button class="qty-btn" onclick="updateCardQty('${p.id}', -1)">-</button>
                             <input type="number" id="qty-input-${p.id}" class="qty-input" value="1" min="1" max="${p.stock}" readonly>
                             <button class="qty-btn" onclick="updateCardQty('${p.id}', 1)">+</button>
                         </div>
-                        <button class="add-btn" onclick="addToCart('${p.id}')">加入購物車</button>
+                        <button class="add-btn" onclick="event.stopPropagation(); addToCart('${p.id}')">加入購物車</button>
                     `;
                 }
 
+                // ✨ 在 product-card 加上 onclick 事件
                 const html = `
-                    <div class="product-card">
+                    <div class="product-card" onclick="openProductDetail('${p.id}')">
                         ${tagHtml}
                         <div class="p-img-box">
                             ${mediaHtml}
@@ -696,6 +794,57 @@
                 `;
                 container.innerHTML += html;
             });
+        }
+
+        // ✨✨✨ 產品詳細頁邏輯 ✨✨✨
+        function openProductDetail(pid) {
+            const product = products.find(p => p.id === pid);
+            if (!product) return;
+
+            const extraData = fishDetails[pid] || {}; // 獲取額外資料，沒有就空物件
+
+            // 1. 設定標題
+            document.getElementById('pdTitle').innerText = product.name;
+
+            // 2. 設定相簿 (預設圖 + 額外相簿)
+            const galleryDiv = document.getElementById('pdGallery');
+            let galleryHtml = `<img src="${product.img}" onerror="this.src='logo.jpg'">`; // 第一張放主圖
+            
+            if (extraData.gallery && extraData.gallery.length > 0) {
+                extraData.gallery.forEach(imgUrl => {
+                    galleryHtml += `<img src="${imgUrl}">`;
+                });
+            }
+            galleryDiv.innerHTML = galleryHtml;
+
+            // 3. 設定介紹與注意事項
+            document.getElementById('pdIntro').innerHTML = extraData.intro || "目前沒有詳細介紹，歡迎私訊詢問！";
+            
+            // 如果有自定義注意事項就用，沒有就用預設
+            const defaultNotice = "1. 活體運送風險由本賣場承擔。<br>2. 請務必詳閱收魚對水流程。<br>3. 下缸前請確認水質數據正常。";
+            document.getElementById('pdNotice').innerHTML = extraData.notice || defaultNotice;
+
+            // 4. 設定底部加入購物車按鈕
+            const addBtn = document.getElementById('pdAddBtn');
+            if (product.stock <= 0) {
+                addBtn.innerText = "已售完";
+                addBtn.disabled = true;
+                addBtn.style.background = "#555";
+            } else {
+                addBtn.innerText = `加入購物車 (NT$ ${product.price})`;
+                addBtn.disabled = false;
+                addBtn.style.background = "#64ffda";
+                addBtn.onclick = function() {
+                    addToCart(pid);
+                    closeProductDetail(); // 加入後關閉視窗
+                };
+            }
+
+            document.getElementById('productDetailModal').style.display = 'flex';
+        }
+
+        function closeProductDetail() {
+            document.getElementById('productDetailModal').style.display = 'none';
         }
 
         function filterProducts(cat, btn) {
@@ -723,8 +872,13 @@
         function addToCart(pid) {
             const product = products.find(p => p.id === pid);
             if (product.stock <= 0) return;
-            const qtyInput = document.getElementById(`qty-input-${pid}`);
-            const addQty = parseInt(qtyInput.value);
+            // 如果是從列表加，抓列表的數量；如果是從詳細頁加，預設加1
+            let addQty = 1;
+            const listInput = document.getElementById(`qty-input-${pid}`);
+            if (listInput) {
+                addQty = parseInt(listInput.value);
+            }
+
             const existItem = cart.find(c => c.id === pid);
             
             if (existItem) { 
@@ -740,7 +894,7 @@
                 showToast(`✅ 已加入購物車`);
             }
             updateCartUI();
-            qtyInput.value = 1;
+            if (listInput) listInput.value = 1; // 重置列表數量
         }
 
         function showToast(msg) {
@@ -750,13 +904,11 @@
             setTimeout(function(){ toast.className = toast.className.replace("show", ""); }, 2000);
         }
 
-        // ✨ 新增：套用優惠碼邏輯
         function applyPromoCode() {
             const inputCode = document.getElementById('promoCodeInput').value.trim();
             const messageDiv = document.getElementById('promoMessage');
             let subtotal = cart.reduce((sum, item) => sum + item.price * item.qty, 0);
 
-            // 修改這裡：設定優惠碼為 yuyu1380，門檻 1380
             if (inputCode === "yuyu1380") {
                 if (subtotal >= 1380) {
                     currentDiscount = 100;
@@ -776,7 +928,7 @@
                 currentPromoCode = "";
                 messageDiv.innerHTML = "<span class='promo-error'>❌ 無效的優惠碼</span>";
             }
-            updateCartUI(); // 重新計算總金額
+            updateCartUI(); 
         }
 
         function updateCartUI() {
@@ -813,20 +965,17 @@
             });
             cartItemsContainer.innerHTML = html;
 
-            // ✨ 如果金額變動導致不滿額，自動取消優惠碼
             if (currentPromoCode === "yuyu1380" && subtotal < 1380) {
                 currentDiscount = 0;
-                // 不清空輸入框，但提示未達標
                 document.getElementById('promoMessage').innerHTML = "<span class='promo-error'>⚠️ 金額未達標，優惠碼已失效</span>";
             }
 
             const isFreeShipping = subtotal >= FREE_SHIPPING_THRESHOLD;
             const finalShipping = isFreeShipping ? 0 : SHIPPING_COST;
-            const finalTotal = subtotal + finalShipping - currentDiscount; // ✨ 扣除優惠
+            const finalTotal = subtotal + finalShipping - currentDiscount; 
 
             document.getElementById('subTotal').innerText = subtotal;
             
-            // ✨ 顯示或隱藏折扣欄位
             const discountRow = document.getElementById('discountRow');
             const discountValue = document.getElementById('discountValue');
             if (currentDiscount > 0) {
@@ -836,7 +985,7 @@
                 discountRow.style.display = 'none';
             }
 
-            document.getElementById('finalTotal').innerText = finalTotal > 0 ? finalTotal : 0; // 避免負數
+            document.getElementById('finalTotal').innerText = finalTotal > 0 ? finalTotal : 0; 
 
             const shippingDisplay = document.getElementById('shippingFeeDisplay');
             if (isFreeShipping) {
@@ -927,14 +1076,13 @@
             let subtotal = cart.reduce((sum, item) => sum + item.price * item.qty, 0);
             const isFreeShipping = subtotal >= FREE_SHIPPING_THRESHOLD;
             const shippingFee = isFreeShipping ? 0 : SHIPPING_COST;
-            const finalTotal = subtotal + shippingFee - currentDiscount; // ✨ 扣除優惠
+            const finalTotal = subtotal + shippingFee - currentDiscount; 
 
             let message = `嗨宇哥！我要下單：\n------------------\n`;
             cart.forEach(item => { message += `${item.name} x ${item.qty} = ${item.price * item.qty}\n`; });
             message += `------------------\n`;
             message += `商品小計：${subtotal}\n`;
             
-            // ✨ 在 LINE 訊息中加入優惠碼備註
             if (currentDiscount > 0) {
                 message += `🎉 優惠碼折抵 (${currentPromoCode})：-${currentDiscount}\n`;
             }
@@ -977,7 +1125,7 @@
             setTimeout(() => {
                 window.location.href = lineUrl;
                 cart = [];
-                currentDiscount = 0; // 重置優惠
+                currentDiscount = 0; 
                 currentPromoCode = "";
                 updateCartUI();
                 closeCart();
@@ -1038,7 +1186,3 @@
     </script>
 </body>
 </html>
-
----
-
-
