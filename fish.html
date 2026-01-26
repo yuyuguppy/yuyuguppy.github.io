@@ -8,76 +8,50 @@
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@400;700&display=swap" rel="stylesheet">
 
     <style>
-        /* --- 全域設定：深海風格 --- */
+        /* --- 全域設定 --- */
         body { 
             background: radial-gradient(circle at 50% 10%, #1a3c5e 0%, #03101f 100%);
             color: #f0f4f8; 
             font-family: "Microsoft JhengHei", sans-serif; 
             margin: 0; padding: 0; min-height: 100vh; overflow-x: hidden; 
             display: flex; flex-direction: column; position: relative;
-            /* 為了避開雙層固定欄位 (45px + 50px = 95px) */
             padding-top: 95px; 
         }
 
-        /* --- 1. 黃色公告欄 (固定置頂 - 第一層) --- */
+        /* --- 1. 黃色公告欄 --- */
         .yuyu-announcement-bar {
             background-color: #ffe100; color: #000; text-align: center; 
-            padding: 0 10px;
-            font-size: 14px; font-weight: 700; width: 100%; 
-            position: fixed; top: 0; left: 0;
-            z-index: 12000; /* 最上層 */
-            box-shadow: 0 2px 5px rgba(0,0,0,0.2); 
-            height: 45px; box-sizing: border-box;
+            padding: 0 10px; font-size: 14px; font-weight: 700; width: 100%; 
+            position: fixed; top: 0; left: 0; z-index: 12000; height: 45px; 
             display: flex; align-items: center; justify-content: center;
             white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
         }
 
-        /* --- 2. 手機版專用導覽列 (固定在黃條下面 - 第二層) --- */
+        /* --- 2. 手機版專用導覽列 --- */
         .mobile-sticky-header {
-            position: fixed;
-            top: 45px; /* 緊接在黃色公告欄下面 */
-            left: 0;
-            width: 100%;
-            height: 50px;
-            background-color: #03101f; /* 深藍底色 */
-            border-bottom: 1px solid #334e68;
-            z-index: 11000;
-            display: flex;
-            align-items: center;
-            justify-content: space-between; /* 左右撐開 */
-            padding: 0 15px;
-            box-sizing: border-box;
+            position: fixed; top: 45px; left: 0; width: 100%; height: 50px;
+            background-color: #03101f; 
+            border-bottom: 1px solid #334e68; 
+            z-index: 11000; display: flex; align-items: center; justify-content: space-between; 
+            padding: 0 15px; box-sizing: border-box;
             box-shadow: 0 4px 10px rgba(0,0,0,0.3);
         }
 
-        /* 海苔條按鈕 (漢堡) */
-        .hamburger-btn {
-            background: transparent;
-            border: none; cursor: pointer;
-            display: flex; flex-direction: column; gap: 5px;
-            padding: 5px;
-            z-index: 2;
+        .hamburger-btn { 
+            background: transparent; border: none; cursor: pointer; 
+            display: flex; flex-direction: column; gap: 5px; padding: 5px; z-index: 2;
         }
         .bar { width: 25px; height: 3px; background-color: #64ffda; border-radius: 3px; transition: 0.3s; }
         
-        /* 手機版標題 - ✨修正：改為圓體字型，並加入手指游標 */
         .mobile-header-title {
             color: #64ffda; 
-            
-            /* ✨ 修改：字體改成可愛圓體 */
-            font-family: 'Zen Maru Gothic', sans-serif;
-            font-weight: 700;
-            font-size: 20px; /* 稍微加大 */
-            
-            cursor: pointer; /* 滑鼠移過去變手指 */
-            padding: 10px; /* 增加好按的範圍 */
-            z-index: 1;
+            font-family: 'Zen Maru Gothic', sans-serif; font-weight: 700; font-size: 20px;
+            cursor: pointer; padding: 10px; z-index: 1;
         }
 
-        /* 手機版購物車按鈕 (整合在 Header 內) */
         .mobile-cart-btn {
             background: #64ffda; color: #000; 
             font-weight: bold; padding: 5px 12px; 
@@ -89,9 +63,8 @@
         /* --- 側邊選單 (Sidenav) --- */
         .sidenav {
             height: 100%; width: 0; position: fixed; z-index: 13000; 
-            top: 0; left: 0; background-color: rgba(3, 16, 31, 0.98);
+            top: 0; left: 0; background-color: rgba(3, 16, 31, 0.98); 
             overflow-x: hidden; transition: 0.4s; 
-            /* ✨修正：減少上方留白，消除空白區 */
             padding-top: 50px; 
             border-right: 1px solid #64ffda;
         }
@@ -103,29 +76,13 @@
             width: 100%; text-align: left; font-family: inherit;
         }
         .sidenav a:hover, .dropdown-btn:hover { color: #ffe100; background: rgba(255,255,255,0.05); }
-        
-        /* ✨修正：調整關閉按鈕位置 */
-        .sidenav .closebtn {
-            position: absolute; 
-            top: 5px; 
-            right: 15px; 
-            font-size: 36px; 
-            margin-left: 0; 
-            border: none;
-            padding: 0 10px;
+        .sidenav .closebtn { 
+            position: absolute; top: 5px; right: 15px; 
+            font-size: 36px; border: none; padding: 0 10px;
         }
+        .menu-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.7); z-index: 12500; backdrop-filter: blur(2px); }
 
-        /* --- 遮罩層 (點擊外部收合用) --- */
-        .menu-overlay {
-            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background-color: rgba(0, 0, 0, 0.7); 
-            z-index: 12500; backdrop-filter: blur(2px);
-        }
-
-        /* 下拉選單 */
-        .dropdown-container {
-            display: none; background-color: rgba(0,0,0,0.3); padding-left: 20px;
-        }
+        .dropdown-container { display: none; background-color: rgba(0,0,0,0.3); padding-left: 20px; }
         .dropdown-container a { font-size: 16px; color: #bcccdc; }
         .dropdown-container a:hover { color: #64ffda; }
         .fa-caret-down { float: right; padding-right: 8px; }
@@ -133,8 +90,7 @@
         /* --- 條款 Modal --- */
         .terms-modal {
             display: none; position: fixed; z-index: 20000; left: 0; top: 0;
-            width: 100%; height: 100%; overflow: auto; 
-            background-color: rgba(0,0,0,0.8);
+            width: 100%; height: 100%; overflow: auto; background-color: rgba(0,0,0,0.8);
         }
         .terms-content {
             background-color: #0d253f; margin: 10% auto; padding: 20px;
@@ -161,13 +117,9 @@
         .bg-bubbles li:nth-child(3) { left: 70%; width: 50px; height: 50px; animation-duration: 15s; animation-delay: 1s; }
         .bg-bubbles li:nth-child(4) { left: 40%; width: 30px; height: 30px; animation-duration: 10s; animation-delay: 0s; }
         .bg-bubbles li:nth-child(5) { left: 85%; width: 20px; height: 20px; animation-duration: 20s; animation-delay: 3s; }
-        @keyframes rise {
-            0% { transform: translateY(0); opacity: 0; }
-            10% { opacity: 0.8; }
-            100% { transform: translateY(-120vh); opacity: 0; }
-        }
+        @keyframes rise { 0% { transform: translateY(0); opacity: 0; } 10% { opacity: 0.8; } 100% { transform: translateY(-120vh); opacity: 0; } }
 
-        /* 導航列 (桌面版 Top Nav) */
+        /* 導航列 */
         .top-nav {
             background: rgba(16, 42, 67, 0.9); padding: 15px 20px; display: flex; justify-content: space-between; align-items: center;
             border-bottom: 1px solid #334e68; position: sticky; top: 45px; z-index: 10000; backdrop-filter: blur(5px);
@@ -185,14 +137,11 @@
             display: flex; align-items: center; justify-content: center; position: absolute; top: -8px; right: -8px;
         }
 
-        /* 佈局容器 */
         .layout-container { display: flex; max-width: 1200px; width: 100%; margin: 20px auto; padding: 0 20px; box-sizing: border-box; gap: 20px; }
-
-        /* 左側選單 */
         .sidebar {
             width: 200px; flex-shrink: 0; background: rgba(16, 42, 67, 0.6); backdrop-filter: blur(5px);
             border-radius: 10px; padding: 15px; border: 1px solid rgba(100, 255, 218, 0.2);
-            height: fit-content; position: sticky; top: 120px; /* 桌面版黏性定位 */
+            height: fit-content; position: sticky; top: 120px;
         }
         .category-btn {
             display: block; width: 100%; padding: 12px 15px; margin-bottom: 8px; background: transparent;
@@ -200,14 +149,11 @@
             cursor: pointer; transition: all 0.3s; font-size: 15px;
         }
         .category-btn:hover, .category-btn.active { background: rgba(100, 255, 218, 0.2); border-color: #64ffda; color: #64ffda; font-weight: bold; }
-
         .product-area { flex-grow: 1; }
         
-        /* 標題與搜尋欄區塊 */
         .area-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; flex-wrap: wrap; gap: 15px; }
         .section-title { font-size: 24px; font-weight: bold; color: #64ffda; padding-left: 10px; border-left: 4px solid #ffe100; margin: 0; }
         
-        /* 搜尋欄 */
         .search-box { position: relative; max-width: 250px; width: 100%; }
         .search-input {
             width: 100%; padding: 8px 15px; padding-right: 35px; border-radius: 20px; border: 1px solid #64ffda;
@@ -216,8 +162,6 @@
         .search-icon { position: absolute; right: 10px; top: 50%; transform: translateY(-50%); color: #64ffda; pointer-events: none; }
 
         .products-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 20px; }
-
-        /* 商品卡片 */
         .product-card {
             background: rgba(16, 42, 67, 0.4); border: 1px solid rgba(100, 255, 218, 0.2); border-radius: 10px;
             overflow: hidden; transition: transform 0.3s; display: flex; flex-direction: column; backdrop-filter: blur(4px); position: relative;
@@ -230,7 +174,6 @@
             color: white; font-weight: bold; font-size: 20px; display: flex; align-items: center; justify-content: center; z-index: 2;
         }
         
-        /* 標籤貼紙 */
         .p-tag {
             position: absolute; top: 10px; left: 10px; padding: 4px 8px; border-radius: 4px;
             font-size: 12px; font-weight: bold; color: white; z-index: 3; box-shadow: 0 2px 5px rgba(0,0,0,0.3);
@@ -241,16 +184,10 @@
 
         .p-info { padding: 15px; flex-grow: 1; display: flex; flex-direction: column; }
         .p-name { font-size: 16px; font-weight: bold; margin-bottom: 5px; color: #fff; }
-        
-        /* 價格顯示區塊 */
         .p-price-area { margin-bottom: 10px; }
-        .p-price-origin {
-            text-decoration: line-through; text-decoration-color: #ff4d4d; text-decoration-thickness: 2px;
-            color: #aaa; font-size: 14px; margin-right: 5px;
-        }
+        .p-price-origin { text-decoration: line-through; text-decoration-color: #ff4d4d; color: #aaa; font-size: 14px; margin-right: 5px; }
         .p-price-current { color: #ffe100; font-size: 18px; font-weight: bold; }
 
-        /* 數量選擇器 */
         .qty-control {
             display: flex; align-items: center; justify-content: space-between;
             margin-bottom: 10px; border: 1px solid rgba(100, 255, 218, 0.5); border-radius: 5px; overflow: hidden;
@@ -258,8 +195,7 @@
         }
         .qty-btn {
             background: rgba(100, 255, 218, 0.1); border: none; color: #64ffda;
-            width: 35px; height: 35px; cursor: pointer; font-size: 18px; font-weight: bold;
-            transition: 0.2s;
+            width: 35px; height: 35px; cursor: pointer; font-size: 18px; font-weight: bold; transition: 0.2s;
         }
         .qty-btn:hover { background: #64ffda; color: #000; }
         .qty-input {
@@ -268,14 +204,12 @@
         }
         .qty-input::-webkit-outer-spin-button, .qty-input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
 
-        /* 加入購物車按鈕 */
         .add-btn {
             background: #64ffda; border: none; color: #000;
             padding: 10px; border-radius: 5px; cursor: pointer; transition: 0.3s; width: 100%; font-weight: bold;
         }
         .add-btn:hover { background: #ffe100; transform: scale(1.02); }
         .add-btn.disabled { background: #555; color: #888; cursor: not-allowed; }
-        .add-btn.disabled:hover { transform: none; }
 
         /* 購物車 Modal */
         .cart-modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 20000; justify-content: center; align-items: center; }
@@ -301,17 +235,30 @@
         .free-shipping-alert { background: rgba(255, 59, 48, 0.15); color: #ff4d4d; border: 1px solid #ff4d4d; padding: 8px; text-align: center; border-radius: 5px; font-size: 13px; margin-bottom: 10px; }
         .free-shipping-success { background: rgba(100, 255, 218, 0.15); color: #64ffda; border: 1px solid #64ffda; }
 
-        /* 表單 */
+        /* ✨ 優惠碼區塊 ✨ */
+        .promo-section {
+            display: flex; gap: 10px; margin-bottom: 15px; background: rgba(255,255,255,0.05); padding: 10px; border-radius: 8px;
+        }
+        .promo-input {
+            flex-grow: 1; padding: 8px; border-radius: 5px; border: 1px solid #64ffda; background: transparent; color: white;
+        }
+        .promo-btn {
+            background: #64ffda; color: #000; border: none; padding: 8px 15px; border-radius: 5px; font-weight: bold; cursor: pointer;
+        }
+        .promo-message {
+            font-size: 13px; margin-top: 5px; text-align: left;
+        }
+        .promo-success { color: #06C755; }
+        .promo-error { color: #ff4d4d; }
+
         .form-group { margin-bottom: 15px; }
         .form-label { display: block; margin-bottom: 5px; color: #64ffda; font-size: 14px; }
         .form-input, .form-select { width: 100%; padding: 10px; border-radius: 5px; border: 1px solid #334e68; background: #03101f; color: white; box-sizing: border-box; font-size: 16px; }
         .form-input:focus, .form-select:focus { outline: none; border-color: #64ffda; }
         textarea.form-input { resize: vertical; height: 80px; }
 
-        /* --- 銀行資訊區塊 --- */
         #bankInfoArea {
-            display: none; 
-            background: #000000 !important; border: 3px solid #ffe100 !important; 
+            display: none; background: #000000 !important; border: 3px solid #ffe100 !important; 
             padding: 25px; border-radius: 12px; margin-bottom: 20px; text-align: center;
             box-shadow: 0 0 15px rgba(255, 225, 0, 0.3);
         }
@@ -321,7 +268,6 @@
             display: block; margin: 5px 0 20px 0; letter-spacing: 2px; text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
         }
         .bank-number a { color: #ffe100 !important; text-decoration: none !important; pointer-events: none; }
-
         .copy-btn {
             background: #ffe100 !important; color: #000 !important; border: none; padding: 10px 30px;
             border-radius: 30px; font-size: 16px; font-weight: bold; cursor: pointer; 
@@ -336,7 +282,6 @@
         .btn-next { background: #64ffda; color: #000; }
         .btn-next:hover { background: #ffe100; }
 
-        /* 提示框 (Toast) */
         #toast {
             visibility: hidden; min-width: 250px; background-color: rgba(0,0,0,0.9); border: 1px solid #64ffda;
             color: #fff; text-align: center; border-radius: 50px; padding: 16px; position: fixed; z-index: 20001;
@@ -346,7 +291,6 @@
         @keyframes fadein { from {bottom: 0; opacity: 0;} to {bottom: 80px; opacity: 1;} }
         @keyframes fadeout { from {bottom: 80px; opacity: 1;} to {bottom: 0; opacity: 0;} }
 
-        /* --- 訂單確認 Modal --- */
         #orderConfirmModal {
             display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: rgba(0,0,0,0.9); z-index: 30000; justify-content: center; align-items: center;
@@ -358,11 +302,7 @@
         }
         .confirm-title { font-size: 24px; color: #64ffda; font-weight: bold; margin-bottom: 20px; }
         .confirm-msg { color: #fff; font-size: 16px; line-height: 1.6; margin-bottom: 25px; }
-        
-        .confirm-highlight { 
-            color: #ffe100; font-weight: bold; font-size: 20px; display: block; margin-top: 10px; 
-        }
-        
+        .confirm-highlight { color: #ffe100; font-weight: bold; font-size: 20px; display: block; margin-top: 10px; }
         .yuge-promise-box {
             background: rgba(255, 225, 0, 0.1); border: 1px solid #ffe100; border-radius: 10px;
             padding: 15px; margin-top: 20px; text-align: center;
@@ -382,32 +322,23 @@
             cursor: pointer; text-decoration: underline;
         }
 
-        /* 無框島輝 (回到頂部) */
         .back-to-top { position: fixed; bottom: 20px; right: 20px; background: none; border: none; padding: 0; display: flex; flex-direction: column; align-items: center; cursor: pointer; z-index: 9999; opacity: 0; visibility: hidden; transition: all 0.4s ease; }
         .back-to-top.show { opacity: 1; visibility: visible; transform: translateY(0); }
         .daohui-dog-img { width: 60px; height: auto; border-radius: 8px; border: 2px solid #64ffda; box-shadow: 0 4px 10px rgba(0,0,0,0.6); }
         .back-to-top span { margin-top: 5px; color: #64ffda; font-size: 13px; font-weight: bold; text-shadow: 0 2px 4px rgba(0,0,0,0.8); }
 
-        /* 島輝擺頭動畫 */
         @keyframes wag { 0% { transform: rotate(0deg); } 25% { transform: rotate(-10deg); } 50% { transform: rotate(10deg); } 75% { transform: rotate(-5deg); } 100% { transform: rotate(0deg); } }
         .back-to-top:hover .daohui-dog-img, .back-to-top:active .daohui-dog-img { animation: wag 0.5s ease-in-out infinite; }
 
-        /* 手機版 RWD 修正 */
         @media (max-width: 768px) {
             .yuyu-announcement-bar { font-size: 13px; white-space: normal; padding: 5px; height: auto; min-height: 45px; }
             .layout-container { flex-direction: column; padding: 0 10px; }
-            
-            /* 側邊分類改為橫向滑動，並黏在第二層導覽列下方 */
             .sidebar { 
                 width: 100%; display: flex; overflow-x: auto; padding: 10px; gap: 10px; 
-                position: sticky; top: 95px; /* 45(黃) + 50(藍) = 95px */
-                z-index: 90; background: rgba(3, 16, 31, 0.95);
+                position: sticky; top: 95px; z-index: 90; background: rgba(3, 16, 31, 0.95);
             }
             .category-btn { width: auto; white-space: nowrap; margin-bottom: 0; padding: 8px 15px; }
-            
-            /* 隱藏桌面版 top-nav */
             .top-nav { display: none; }
-            
             .area-header { flex-direction: column; align-items: flex-start; gap: 10px; }
             .search-box { max-width: 100%; }
             .products-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
@@ -439,9 +370,7 @@
 
     <div id="mySidenav" class="sidenav">
         <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">×</a>
-        
         <a href="about.html">📖 關於宇魚</a>
-
         <button class="dropdown-btn">🐠 活體專區 
             <i class="fa-caret-down">▼</i>
         </button>
@@ -451,13 +380,10 @@
             <a href="#" onclick="filterProducts('shrimp', this)">🔹 米蝦專區</a>
             <a href="#" onclick="filterProducts('bottom', this)">🔹 底棲魚專區</a>
         </div>
-
         <a href="https://myship.7-11.com.tw/general/detail/GM2312087898760" target="_blank">🛒 硬體與飼料</a>
         <a href="https://myship.7-11.com.tw/general/detail/GM2404054052893" target="_blank">❄️ 冷凍豐年蝦</a>
-        
         <a href="#" onclick="openTerms()">📜 條款與細則</a>
         <a href="https://line.me/R/ti/p/@118rfvyo" target="_blank">💬 聯絡我們 (官方LINE)</a>
-        
         <a href="index.html" style="margin-top: 20px; border-top: 1px solid rgba(255,255,255,0.2);">🏠 回到首頁</a>
     </div>
 
@@ -470,17 +396,14 @@
             <div class="terms-body">
                 <h3>1. 活體不適用退換貨</h3>
                 <p>活體動物（魚蝦）屬於易腐敗商品，根據消保法規定，不適用於網購七天鑑賞期。除運送過程死亡外，活體售出後概不接受退換貨，請在下單前確認您已準備好飼養環境。</p>
-
                 <h3>2. 配送風險與責任</h3>
                 <p>我們堅持採用專業純氧包裝。若發生運送延遲或意外導致的損失，<span class="terms-highlight">由宇魚水族全權處理</span>，保障您的權益，請您放心。</p>
-
                 <h3>3. 死魚包賠政策</h3>
                 <p>為了確保責任歸屬，請您配合以下事項：</p>
                 <p>✅ <strong>開箱請務必「全程錄影」</strong>：從未拆封箱子開始錄影，直到檢查魚隻狀態。</p>
                 <p>✅ <strong>魚隻未拆袋</strong>：若發現魚隻死亡，請勿拆開塑膠袋，直接拍攝袋內死魚狀況。</p>
                 <p>✅ <strong>立即回報</strong>：請於收件後 1 小時內，將影片與照片傳至 LINE 官方帳號。</p>
                 <p>若符合以上條件，我們將依死魚數量退款 <span class="terms-highlight">（不含運費）</span>，或於下次購物時補寄。</p>
-
                 <h3>4. 運費與貨到付款規範</h3>
                 <p>若您選擇貨到付款，請務必留意收件電話。若無故未取貨導致商品退回（造成活體死亡或耗損），本賣場將把您列入<span class="terms-highlight">黑名單</span>拒絕往來，並保留法律追訴權，依據民法請求損害賠償（包含運費、包材費及商品損失）。</p>
             </div>
@@ -521,7 +444,7 @@
                 正在從雲端漁場撈魚中... 🐟
             </div>
             <div class="products-grid" id="productContainer">
-                </div>
+            </div>
         </main>
     </div>
 
@@ -534,6 +457,13 @@
             
             <div class="step-container active" id="step1">
                 <div class="cart-items" id="cartItems"></div>
+                
+                <div class="promo-section">
+                    <input type="text" id="promoCodeInput" class="promo-input" placeholder="請輸入優惠碼 (如: yuyu1380)">
+                    <button class="promo-btn" onclick="applyPromoCode()">套用</button>
+                </div>
+                <div id="promoMessage" class="promo-message"></div>
+
                 <div id="priceSummaryArea">
                     <div id="shippingAlert" class="free-shipping-alert">
                         還差 <b id="diffAmount">0</b> 元即享免運優惠！
@@ -541,6 +471,7 @@
                     <div class="price-summary">
                         <div class="summary-row"><span>小計</span><span>NT$ <span id="subTotal">0</span></span></div>
                         <div class="summary-row"><span>黑貓運費</span><span id="shippingFeeDisplay">NT$ 200</span></div>
+                        <div class="summary-row" id="discountRow" style="display:none; color:#06C755;"><span>優惠折抵</span><span>- NT$ <span id="discountValue">0</span></span></div>
                         <div class="summary-row final"><span>總金額</span><span>NT$ <span id="finalTotal">0</span></span></div>
                     </div>
                 </div>
@@ -630,6 +561,10 @@
         const FREE_SHIPPING_THRESHOLD = 2000;
         let currentCategory = 'all';
         let pendingOrderMessage = ""; 
+        
+        // ✨ 新增：優惠碼變數
+        let currentDiscount = 0;
+        let currentPromoCode = "";
 
         window.onload = function() {
             init();
@@ -770,8 +705,6 @@
             titleDom.innerText = titles[cat];
             document.querySelector('.search-input').value = '';
             renderProducts(cat);
-            
-            // 手機版：點擊分類後自動關閉側邊欄
             closeNav();
         }
 
@@ -787,7 +720,6 @@
             input.value = newVal;
         }
 
-        // --- 購物車 ---
         function addToCart(pid) {
             const product = products.find(p => p.id === pid);
             if (product.stock <= 0) return;
@@ -818,10 +750,39 @@
             setTimeout(function(){ toast.className = toast.className.replace("show", ""); }, 2000);
         }
 
+        // ✨ 新增：套用優惠碼邏輯
+        function applyPromoCode() {
+            const inputCode = document.getElementById('promoCodeInput').value.trim();
+            const messageDiv = document.getElementById('promoMessage');
+            let subtotal = cart.reduce((sum, item) => sum + item.price * item.qty, 0);
+
+            // 修改這裡：設定優惠碼為 yuyu1380，門檻 1380
+            if (inputCode === "yuyu1380") {
+                if (subtotal >= 1380) {
+                    currentDiscount = 100;
+                    currentPromoCode = inputCode;
+                    messageDiv.innerHTML = "<span class='promo-success'>✅ 優惠碼生效：已折抵 100 元</span>";
+                } else {
+                    currentDiscount = 0;
+                    currentPromoCode = "";
+                    messageDiv.innerHTML = "<span class='promo-error'>⚠️ 購物滿 1380 元才能使用此優惠碼喔！</span>";
+                }
+            } else if (inputCode === "") {
+                currentDiscount = 0;
+                currentPromoCode = "";
+                messageDiv.innerHTML = "";
+            } else {
+                currentDiscount = 0;
+                currentPromoCode = "";
+                messageDiv.innerHTML = "<span class='promo-error'>❌ 無效的優惠碼</span>";
+            }
+            updateCartUI(); // 重新計算總金額
+        }
+
         function updateCartUI() {
             const totalCount = cart.reduce((sum, item) => sum + item.qty, 0);
             document.getElementById('cartCount').innerText = totalCount;
-            document.getElementById('mobileCartCount').innerText = totalCount; // 同步手機版
+            document.getElementById('mobileCartCount').innerText = totalCount;
             
             const cartItemsContainer = document.getElementById('cartItems');
             
@@ -852,12 +813,30 @@
             });
             cartItemsContainer.innerHTML = html;
 
+            // ✨ 如果金額變動導致不滿額，自動取消優惠碼
+            if (currentPromoCode === "yuyu1380" && subtotal < 1380) {
+                currentDiscount = 0;
+                // 不清空輸入框，但提示未達標
+                document.getElementById('promoMessage').innerHTML = "<span class='promo-error'>⚠️ 金額未達標，優惠碼已失效</span>";
+            }
+
             const isFreeShipping = subtotal >= FREE_SHIPPING_THRESHOLD;
             const finalShipping = isFreeShipping ? 0 : SHIPPING_COST;
-            const finalTotal = subtotal + finalShipping;
+            const finalTotal = subtotal + finalShipping - currentDiscount; // ✨ 扣除優惠
 
             document.getElementById('subTotal').innerText = subtotal;
-            document.getElementById('finalTotal').innerText = finalTotal;
+            
+            // ✨ 顯示或隱藏折扣欄位
+            const discountRow = document.getElementById('discountRow');
+            const discountValue = document.getElementById('discountValue');
+            if (currentDiscount > 0) {
+                discountRow.style.display = 'flex';
+                discountValue.innerText = currentDiscount;
+            } else {
+                discountRow.style.display = 'none';
+            }
+
+            document.getElementById('finalTotal').innerText = finalTotal > 0 ? finalTotal : 0; // 避免負數
 
             const shippingDisplay = document.getElementById('shippingFeeDisplay');
             if (isFreeShipping) {
@@ -889,7 +868,6 @@
             updateCartUI();
         }
 
-        // --- Modal & 匯款資訊切換 ---
         function openCart() { document.getElementById('cartModal').style.display = 'flex'; goToStep1(); }
         function closeCart() { document.getElementById('cartModal').style.display = 'none'; }
         function goToStep2() { if (cart.length === 0) return; document.getElementById('step1').classList.remove('active'); document.getElementById('step2').classList.add('active'); document.getElementById('cartTitle').innerText = '📝 填寫收件資料'; }
@@ -949,12 +927,18 @@
             let subtotal = cart.reduce((sum, item) => sum + item.price * item.qty, 0);
             const isFreeShipping = subtotal >= FREE_SHIPPING_THRESHOLD;
             const shippingFee = isFreeShipping ? 0 : SHIPPING_COST;
-            const finalTotal = subtotal + shippingFee;
+            const finalTotal = subtotal + shippingFee - currentDiscount; // ✨ 扣除優惠
 
             let message = `嗨宇哥！我要下單：\n------------------\n`;
             cart.forEach(item => { message += `${item.name} x ${item.qty} = ${item.price * item.qty}\n`; });
             message += `------------------\n`;
             message += `商品小計：${subtotal}\n`;
+            
+            // ✨ 在 LINE 訊息中加入優惠碼備註
+            if (currentDiscount > 0) {
+                message += `🎉 優惠碼折抵 (${currentPromoCode})：-${currentDiscount}\n`;
+            }
+
             message += `黑貓運費：${shippingFee} ${isFreeShipping ? '(達標免運)' : ''}\n`;
             message += `💰 總金額：${finalTotal}\n`;
             message += `------------------\n`;
@@ -993,6 +977,8 @@
             setTimeout(() => {
                 window.location.href = lineUrl;
                 cart = [];
+                currentDiscount = 0; // 重置優惠
+                currentPromoCode = "";
                 updateCartUI();
                 closeCart();
                 closeConfirmModal();
@@ -1003,7 +989,6 @@
             document.getElementById('orderConfirmModal').style.display = 'none';
         }
 
-        // --- 漢堡選單開關邏輯 (含遮罩層) ---
         function openNav() {
             document.getElementById("mySidenav").style.width = "280px";
             document.getElementById("menuOverlay").style.display = "block";
@@ -1013,7 +998,6 @@
             document.getElementById("menuOverlay").style.display = "none";
         }
 
-        // 下拉選單邏輯
         var dropdown = document.getElementsByClassName("dropdown-btn");
         for (var i = 0; i < dropdown.length; i++) {
             dropdown[i].addEventListener("click", function() {
@@ -1040,13 +1024,9 @@
             }
         }
 
-        // --- 滾動偵測：只有回到頂部，移除海苔條自動收合 ---
         const backToTopBtn = document.getElementById('backToTop');
-        
         window.addEventListener('scroll', function() {
             let currentScroll = window.pageYOffset || document.documentElement.scrollTop;
-
-            // 回到頂部按鈕 (島輝)
             if (currentScroll > 300) {
                 backToTopBtn.classList.add('show');
             } else {
@@ -1058,3 +1038,18 @@
     </script>
 </body>
 </html>
+
+---
+
+### 🛑 如何在活動結束後「關掉優惠碼」？
+
+當活動結束，你想讓 `yuyu1380` 失效時，有三種簡單方法（選一種就好）：
+
+#### 方法一：改掉代碼（最簡單）
+在程式碼倒數幾行的 `applyPromoCode` 函式裡，把 `"yuyu1380"` 改成隨便一個沒人猜得到的字，比如 `"EXPIRED"` 或 `"OFF"`。
+```javascript
+// 原本是這樣：
+if (inputCode === "yuyu1380") { ...
+
+// 改成這樣就失效了：
+if (inputCode === "OFF") { ...
