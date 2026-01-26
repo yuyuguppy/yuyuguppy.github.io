@@ -40,7 +40,17 @@
             box-shadow: 0 4px 10px rgba(0,0,0,0.3);
         }
 
-        .hamburger-btn { background: transparent; border: none; cursor: pointer; padding: 5px; z-index: 2; }
+        /* ✨✨✨ 修正漢堡按鈕樣式 (加回 flex 和 gap) ✨✨✨ */
+        .hamburger-btn { 
+            background: transparent; 
+            border: none; 
+            cursor: pointer; 
+            display: flex; 
+            flex-direction: column; 
+            gap: 5px; /* 這裡控制線條間距 */
+            padding: 5px; 
+            z-index: 2; 
+        }
         .bar { width: 25px; height: 3px; background-color: #64ffda; border-radius: 3px; transition: 0.3s; }
         
         .mobile-header-title {
@@ -128,7 +138,7 @@
         }
         .gallery-scroll-container::-webkit-scrollbar { display: none; } 
 
-        /* 預設相簿項目 (有白邊，適合基地直式照片) */
+        /* 預設相簿項目 (有白邊) */
         .gallery-item {
             min-width: 75%; 
             max-width: 280px;
@@ -163,8 +173,7 @@
             margin-top: 10px; font-weight: bold; letter-spacing: 1px;
         }
 
-        /* --- ✨ 針對「活動相簿」與「爸爸的魚」的無白邊樣式 --- */
-        /* 讓這兩個 ID 的樣式變透明無框 */
+        /* --- 針對「活動相簿」與「爸爸的魚」的無白邊樣式 --- */
         #eventGalleryScroll .gallery-item, #storyGalleryScroll .gallery-item {
             background: transparent; 
             padding: 0; 
