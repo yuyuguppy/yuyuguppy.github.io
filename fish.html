@@ -408,35 +408,43 @@
         .pd-close:hover { color: #333; }
         
         .pd-body { 
-            flex-grow: 1; overflow-y: auto; padding: 20px; 
+           flex-grow: 1; overflow-y: auto; 
+            padding: 10px 20px; /* ✨ 上下縮小為 10px (原本20)，左右維持 20 */
             background: #ffffff;
         }
         
         /* ✨✨✨ 相簿容器與樣式 ✨✨✨ */
         .pd-gallery {
-            display: flex; gap: 10px; overflow-x: auto; padding-bottom: 10px; margin-bottom: 10px;
-            scroll-snap-type: x mandatory;
+            display: flex; 
+            gap: 15px; /* 照片之間的間距 */
+            overflow-x: auto; 
             
-            /* 隱藏卷軸 */
-            scrollbar-width: none; /* Firefox */
-            -ms-overflow-style: none; /* IE/Edge */
+            /* ✨ 修改：移除底部多餘的 padding，讓圓點更靠近照片 */
+            padding-bottom: 0; 
+            margin-bottom: 15px; 
+            
+            scroll-snap-type: x mandatory;
+            scrollbar-width: none; 
+            -ms-overflow-style: none; 
         }
-        .pd-gallery::-webkit-scrollbar { display: none; /* Chrome/Safari */ }
-
+        .pd-gallery::-webkit-scrollbar { display: none; }
         .pd-gallery img, .pd-gallery video {
-            height: 250px; 
-            /* 🔴 關鍵修改：強制鎖定寬度為 75% */
-            /* 這樣右邊就會空出空間，讓下一張圖露出來 */
-            flex: 0 0 75%; 
-            width: 75%; 
+            height: 200px; /* ✨ 手機版高度稍微改小一點 (原本250px)，看起來更緊湊 */
+            
+            /* 維持偷看下一張的設定 */
+            flex: 0 0 78%; 
+            width: 78%; 
 
-            object-fit: contain; 
-            background: #f9f9f9;
+            /* ✨ 關鍵修改：改用 cover 強制填滿整個區塊，解決上下留白問題 */
+            /* (小提醒：這可能會稍微裁切到一點點照片邊緣，但視覺上最整潔) */
+            object-fit: cover; 
+            
+            /* background: #f9f9f9; ✨ 註解掉或刪除這行，移除灰色背景色 */
+            
             border-radius: 12px; 
             scroll-snap-align: center;
-            
-            /* 增加一點右邊距，讓照片不要黏太緊 */
-            margin-right: 15px; 
+            margin-right: 10px; /* ✨ 設定照片之間的間距 */
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1); /* 加一點小陰影增加立體感 */
         }
 
         /* ✨ 圓點導航樣式 */
