@@ -115,7 +115,7 @@
         }
         .story-highlight { color: #64ffda; font-weight: bold; }
 
-        /* 單張拍立得 */
+        /* 單張拍立得 (垂直排列用) */
         .photo-frame {
             background: #fff; padding: 10px 10px 30px 10px; 
             box-shadow: 0 5px 15px rgba(0,0,0,0.5);
@@ -125,42 +125,57 @@
         .photo-frame img { width: 100%; height: auto; display: block; border-radius: 2px; }
         .story-card:nth-child(even) .photo-frame { transform: rotate(-2deg); }
 
-        /* 橫向滑動相簿樣式 */
+        /* ✨ 橫向滑動相簿樣式 (含定位點) */
         .gallery-scroll-container {
             display: flex;
             gap: 15px;
             overflow-x: auto;
             padding: 10px 5px 25px 5px; 
-            scroll-snap-type: x mandatory;
+            scroll-snap-type: x mandatory; /* 關鍵：強制定位 */
             -webkit-overflow-scrolling: touch;
-            margin: 10px -15px 20px -15px;
+            margin: 10px -15px 5px -15px;
             padding-left: 15px; 
+            padding-right: 15px;
         }
         .gallery-scroll-container::-webkit-scrollbar { display: none; }
 
         .gallery-item {
-            min-width: 220px; /* 照片寬度 */
+            min-width: 100%; /* 讓每張照片佔滿寬度，像輪播圖 */
             flex-shrink: 0;
-            scroll-snap-align: center;
+            scroll-snap-align: center; /* 關鍵：定位點 */
             background: #fff;
-            padding: 8px 8px 30px 8px; /* 拍立得留白 */
+            padding: 8px 8px 30px 8px; 
             box-shadow: 0 5px 15px rgba(0,0,0,0.5);
-            border-radius: 2px;
+            border-radius: 4px;
             transform: rotate(0deg);
             transition: transform 0.3s;
+            box-sizing: border-box; /* 確保 padding 不會撐爆寬度 */
         }
-        .gallery-item:nth-child(odd) { transform: rotate(-1.5deg); }
-        .gallery-item:nth-child(even) { transform: rotate(1.5deg); }
+        /* 微微歪斜增加拍立得感 */
+        .gallery-item:nth-child(odd) { transform: rotate(-1deg); }
+        .gallery-item:nth-child(even) { transform: rotate(1deg); }
 
         .gallery-img-box {
             width: 100%;
-            height: 160px; /* 固定高度 */
+            height: 200px; 
             background: #f0f4f8;
             display: flex; align-items: center; justify-content: center;
             color: #8899a6; border: 1px solid #ddd;
             overflow: hidden;
         }
         .gallery-img-box img { width: 100%; height: 100%; object-fit: cover; }
+
+        /* ✨ 圓點點導航樣式 (跟首頁一樣) */
+        .slider-dots { display: flex; justify-content: center; margin-top: 10px; margin-bottom: 10px; gap: 8px; }
+        .dot { width: 8px; height: 8px; background-color: rgba(255, 255, 255, 0.3); border-radius: 50%; cursor: pointer; transition: all 0.3s; }
+        .dot.active { background-color: #64ffda; width: 24px; border-radius: 4px; }
+
+        .img-placeholder {
+            width: 100%; height: 200px; background: #f0f4f8;
+            display: flex; align-items: center; justify-content: center;
+            color: #8899a6; border: 2px dashed #cbd5e0;
+            border-radius: 4px; font-weight: bold;
+        }
 
         .cta-button {
             display: block; width: 220px; margin: 40px auto 60px; padding: 15px 0;
@@ -171,9 +186,28 @@
         .cta-button:hover { background: rgba(100, 255, 218, 0.1); transform: translateY(-3px); }
         .cta-button:active { transform: translateY(0); }
 
+        .bg-bubbles { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; overflow: hidden; pointer-events: none; }
+        .bg-bubbles li {
+            position: absolute; list-style: none; display: block; bottom: -150px; border-radius: 50%;
+            background: radial-gradient(circle at 70% 30%, rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0) 70%);
+            border: 1px solid rgba(255, 255, 255, 0.15); animation: rise infinite linear;
+        }
+        .bg-bubbles li:nth-child(1) { left: 10%; width: 40px; height: 40px; animation-duration: 12s; }
+        .bg-bubbles li:nth-child(2) { left: 20%; width: 20px; height: 20px; animation-duration: 18s; animation-delay: 2s; }
+        .bg-bubbles li:nth-child(3) { left: 70%; width: 50px; height: 50px; animation-duration: 15s; animation-delay: 1s; }
+        .bg-bubbles li:nth-child(4) { left: 40%; width: 30px; height: 30px; animation-duration: 10s; animation-delay: 0s; }
+        .bg-bubbles li:nth-child(5) { left: 85%; width: 20px; height: 20px; animation-duration: 20s; animation-delay: 3s; }
+        @keyframes rise { 
+            0% { transform: translateY(0); opacity: 0; } 
+            10% { opacity: 0.6; } 
+            100% { transform: translateY(-120vh); opacity: 0; } 
+        }
+
     </style>
 </head>
 <body>
+
+    <ul class="bg-bubbles"><li></li><li></li><li></li><li></li><li></li></ul>
 
     <div class="yuyu-announcement-bar">
         🚀 活體訂單2000元免運、常溫賣場660免運、冷凍賣場990免運
@@ -237,28 +271,29 @@
             <div class="tape" style="background-color: rgba(255, 171, 145, 0.7);"></div>
             <div class="story-heading">✨ 不只是一家店</div>
 
-            <div class="gallery-scroll-container">
+            <div class="gallery-scroll-container" id="galleryScroll">
                 <div class="gallery-item">
                     <div class="gallery-img-box">
-                        <img src="event-1.jpg" alt="活動照1" onerror="this.style.display='none';">
+                        <img src="event-1.jpg" alt="活動照1" onerror="this.style.display='none'; this.parentNode.innerHTML='<div style=\'color:#aaa;\'>📷 event-1.jpg</div>'">
                     </div>
                 </div>
                 <div class="gallery-item">
                     <div class="gallery-img-box">
-                        <img src="event-2.jpg" alt="活動照2" onerror="this.style.display='none';">
+                        <img src="event-2.jpg" alt="活動照2" onerror="this.style.display='none'; this.parentNode.innerHTML='<div style=\'color:#aaa;\'>📷 event-2.jpg</div>'">
                     </div>
                 </div>
                 <div class="gallery-item">
                     <div class="gallery-img-box">
-                        <img src="event-3.jpg" alt="活動照3" onerror="this.style.display='none';">
+                        <img src="event-3.jpg" alt="活動照3" onerror="this.style.display='none'; this.parentNode.innerHTML='<div style=\'color:#aaa;\'>📷 event-3.jpg</div>'">
                     </div>
                 </div>
                 <div class="gallery-item">
                     <div class="gallery-img-box">
-                        <img src="event-4.jpg" alt="活動照4" onerror="this.style.display='none';">
+                        <img src="event-4.jpg" alt="活動照4" onerror="this.style.display='none'; this.parentNode.innerHTML='<div style=\'color:#aaa;\'>📷 event-4.jpg</div>'">
                     </div>
                 </div>
             </div>
+            <div class="slider-dots" id="galleryDots"></div>
 
             <div class="story-text">
                 水族不該是孤獨的嗜好。2023年我們在中原園區舉辦了千人水族盛會，看著魚友們眼中的光芒，我們更堅信：
@@ -291,6 +326,48 @@
             document.getElementById("mySidenav").style.width = "0";
             document.getElementById("menuOverlay").style.display = "none";
         }
+
+        /* --- 相簿圓點點邏輯 (自動生成 + 點擊跳轉) --- */
+        document.addEventListener("DOMContentLoaded", function() {
+            const slider = document.getElementById('galleryScroll');
+            const dotsContainer = document.getElementById('galleryDots');
+            const cards = slider.querySelectorAll('.gallery-item');
+
+            // 1. 根據照片數量自動產生圓點
+            cards.forEach((card, index) => {
+                const dot = document.createElement('div');
+                dot.classList.add('dot');
+                if (index === 0) dot.classList.add('active'); // 第一顆預設亮起
+                
+                // 點擊圓點跳轉
+                dot.addEventListener('click', () => {
+                    const scrollAmount = card.offsetLeft - slider.offsetLeft;
+                    slider.scrollTo({
+                        left: scrollAmount,
+                        behavior: 'smooth'
+                    });
+                });
+                dotsContainer.appendChild(dot);
+            });
+
+            // 2. 監聽滑動事件，自動切換亮起的圓點
+            slider.addEventListener('scroll', () => {
+                const scrollCenter = slider.scrollLeft + (slider.offsetWidth / 2);
+
+                cards.forEach((card, index) => {
+                    const cardLeft = card.offsetLeft - slider.offsetLeft;
+                    const cardRight = cardLeft + card.offsetWidth;
+
+                    // 如果滑動中心點在這張卡片範圍內，這張卡片就是 active
+                    if (cardLeft <= scrollCenter && cardRight > scrollCenter) {
+                        document.querySelectorAll('.dot').forEach(d => d.classList.remove('active'));
+                        if(dotsContainer.children[index]) {
+                            dotsContainer.children[index].classList.add('active');
+                        }
+                    }
+                });
+            });
+        });
     </script>
 </body>
 </html>
