@@ -394,19 +394,35 @@
             background: #ffffff;
         }
         
+        /* ✨✨✨ 相簿容器與樣式 ✨✨✨ */
         .pd-gallery {
-            display: flex; gap: 10px; overflow-x: auto; padding-bottom: 10px; margin-bottom: 20px;
+            display: flex; gap: 10px; overflow-x: auto; padding-bottom: 10px; margin-bottom: 10px;
             scroll-snap-type: x mandatory;
+            
+            /* 隱藏卷軸 */
+            scrollbar-width: none; /* Firefox */
+            -ms-overflow-style: none; /* IE/Edge */
         }
-        .pd-gallery::-webkit-scrollbar { height: 6px; }
-        .pd-gallery::-webkit-scrollbar-track { background: #f1f1f1; border-radius: 3px; }
-        .pd-gallery::-webkit-scrollbar-thumb { background: #ccc; border-radius: 3px; }
-        .pd-gallery img {
+        .pd-gallery::-webkit-scrollbar { display: none; /* Chrome/Safari */ }
+
+        .pd-gallery img, .pd-gallery video {
             height: 250px; min-width: 100%; 
             object-fit: contain; 
             background: #f9f9f9;
             border-radius: 12px; 
             scroll-snap-align: center;
+        }
+
+        /* ✨ 圓點導航樣式 */
+        .pd-dots-container {
+            display: flex; justify-content: center; gap: 8px; margin-bottom: 20px;
+        }
+        .pd-dot {
+            width: 8px; height: 8px; border-radius: 50%; 
+            background: #ddd; cursor: pointer; transition: all 0.3s;
+        }
+        .pd-dot.active {
+            background: #4fc3f7; width: 24px; border-radius: 4px;
         }
 
         .pd-section-title {
@@ -564,6 +580,7 @@
             <div class="pd-body">
                 <div class="pd-gallery" id="pdGallery">
                     </div>
+                <div class="pd-dots-container" id="pdDots"></div>
                 
                 <div class="pd-section-title">🐟 魚隻介紹</div>
                 <div class="pd-text" id="pdIntro">這裡會顯示魚隻的詳細介紹...</div>
@@ -834,7 +851,7 @@
             });
         }
 
-        // ✨✨✨ 產品詳細頁邏輯 ✨✨✨
+        // ✨✨✨ 產品詳細頁邏輯 (含圓點導航) ✨✨✨
         function openProductDetail(pid) {
             const product = products.find(p => p.id === pid);
             if (!product) return;
@@ -844,17 +861,45 @@
             document.getElementById('pdTitle').innerText = product.name;
 
             const galleryDiv = document.getElementById('pdGallery');
-            let galleryHtml = `<img src="${product.img}" onerror="this.src='logo.jpg'">`; 
+            const dotsContainer = document.getElementById('pdDots');
             
+            // 1. 產生相簿內容
+            let items = [];
+            items.push({ type: 'img', src: product.img }); // 第一張主圖
             if (extraData.gallery && extraData.gallery.length > 0) {
-                extraData.gallery.forEach(imgUrl => {
-                    galleryHtml += `<img src="${imgUrl}">`;
+                extraData.gallery.forEach(url => {
+                    if (url.endsWith('.mp4') || url.endsWith('.webm')) items.push({ type: 'video', src: url });
+                    else items.push({ type: 'img', src: url });
                 });
             }
+
+            // 2. 渲染圖片/影片
+            let galleryHtml = '';
+            items.forEach(item => {
+                if (item.type === 'video') galleryHtml += `<video src="${item.src}" controls autoplay loop muted playsinline></video>`;
+                else galleryHtml += `<img src="${item.src}" onerror="this.src='logo.jpg'">`;
+            });
             galleryDiv.innerHTML = galleryHtml;
 
+            // 3. 渲染圓點 (如果有超過1張)
+            let dotsHtml = '';
+            if (items.length > 1) {
+                items.forEach((_, i) => {
+                    dotsHtml += `<div class="pd-dot ${i === 0 ? 'active' : ''}" onclick="scrollToGallery(${i})"></div>`;
+                });
+            }
+            dotsContainer.innerHTML = dotsHtml;
+
+            // 4. 監聽滑動更新圓點
+            galleryDiv.onscroll = function() {
+                const index = Math.round(galleryDiv.scrollLeft / galleryDiv.offsetWidth);
+                const dots = document.querySelectorAll('.pd-dot');
+                dots.forEach(d => d.classList.remove('active'));
+                if(dots[index]) dots[index].classList.add('active');
+            };
+
+            // 5. 設定文字內容
             document.getElementById('pdIntro').innerHTML = extraData.intro || "目前沒有詳細介紹，歡迎私訊詢問！";
-            
             const defaultNotice = "1. 活體運送風險由本賣場承擔。<br>2. 請務必詳閱收魚對水流程。<br>3. 下缸前請確認水質數據正常。";
             document.getElementById('pdNotice').innerHTML = extraData.notice || defaultNotice;
 
@@ -874,6 +919,12 @@
             }
 
             document.getElementById('productDetailModal').style.display = 'flex';
+        }
+
+        // 點擊圓點滾動
+        function scrollToGallery(index) {
+            const galleryDiv = document.getElementById('pdGallery');
+            galleryDiv.scrollTo({ left: galleryDiv.offsetWidth * index, behavior: 'smooth' });
         }
 
         function closeProductDetail() {
