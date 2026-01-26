@@ -313,7 +313,7 @@
         }
         .confirm-title { font-size: 24px; color: #64ffda; font-weight: bold; margin-bottom: 20px; }
         .confirm-msg { color: #fff; font-size: 16px; line-height: 1.6; margin-bottom: 25px; }
-        
+        .confirm-highlight { color: #ffe100; font-weight: bold; font-size: 20px; display: block; margin-top: 10px; }
         .yuge-promise-box {
             background: rgba(255, 225, 0, 0.1); border: 1px solid #ffe100; border-radius: 10px;
             padding: 15px; margin-top: 20px; text-align: center;
@@ -342,6 +342,7 @@
         .back-to-top:hover .daohui-dog-img, .back-to-top:active .daohui-dog-img { animation: wag 0.5s ease-in-out infinite; }
 
         @media (max-width: 768px) {
+            /* ✨ 修正：強制單行並可滑動，解決高度重疊問題 */
             .yuyu-announcement-bar { 
                 font-size: 13px; 
                 white-space: nowrap; 
@@ -349,6 +350,7 @@
                 padding: 5px 10px; 
                 height: 45px; 
                 min-height: 45px;
+                /* 隱藏滾動條 */
                 -webkit-overflow-scrolling: touch;
                 scrollbar-width: none;
             }
@@ -409,16 +411,17 @@
         .pd-gallery {
             display: flex; gap: 10px; overflow-x: auto; padding-bottom: 10px; margin-bottom: 10px;
             scroll-snap-type: x mandatory;
-            /* ✨ 新增：左右預留 padding，讓第一張和最後一張也能居中 */
-            padding: 0 20px 10px 20px; 
-            scrollbar-width: none;
+            
+            /* 隱藏卷軸 */
+            scrollbar-width: none; /* Firefox */
+            -ms-overflow-style: none; /* IE/Edge */
         }
-        .pd-gallery::-webkit-scrollbar { display: none; }
+        .pd-gallery::-webkit-scrollbar { display: none; /* Chrome/Safari */ }
 
         .pd-gallery img, .pd-gallery video {
             height: 250px; 
             /* ✨ 關鍵修改：讓圖片寬度小於 100%，才能露出下一張 */
-            min-width: 88%; 
+            min-width: 80%; /* 改成 80% 讓右邊露出更多 */
             object-fit: contain; 
             background: #f9f9f9;
             border-radius: 12px; 
@@ -684,8 +687,8 @@
             <div class="confirm-title">🎉 訂單準備好了！</div>
             <div class="confirm-msg">
                 系統已幫您自動複製訂單內容 📋<br><br>
-                點擊下方按鈕將跳轉至 LINE<br><br>
-                請直接【貼上】並【傳送】即可！
+                點擊下方按鈕將跳轉至 LINE<br>
+                <span class="confirm-highlight">請直接【貼上】並【傳送】即可！</span>
                 
                 <div class="yuge-promise-box">
                     <img src="boss.png" class="yuge-avatar-img" alt="宇哥" onerror="this.src='logo.jpg'">
