@@ -8,7 +8,7 @@
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@500;700&display=swap" rel="stylesheet">
 
     <style>
         /* --- 全域設定 --- */
@@ -163,23 +163,22 @@
 
         .products-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 20px; }
         
-        /* 商品卡片優化 - 支援點擊 */
+        /* 商品卡片優化 */
         .product-card {
             background: rgba(16, 42, 67, 0.4); border: 1px solid rgba(100, 255, 218, 0.2); border-radius: 10px;
             overflow: hidden; transition: transform 0.3s; display: flex; flex-direction: column; 
             backdrop-filter: blur(4px); position: relative;
-            cursor: pointer; /* 讓滑鼠變手指，表示可點擊 */
+            cursor: pointer; 
         }
         .product-card:hover { transform: translateY(-5px); border-color: #64ffda; box-shadow: 0 5px 15px rgba(100, 255, 218, 0.2); }
         .p-img-box { width: 100%; height: 200px; background: rgba(0,0,0,0.3); position: relative; overflow: hidden;}
         
-        /* 圖片與影片切換的樣式 */
         .p-img, .p-video-hover { 
             width: 100%; height: 100%; object-fit: cover; 
             position: absolute; top: 0; left: 0; transition: opacity 0.3s;
         }
-        .p-video-hover { opacity: 0; z-index: 1; } /* 預設影片隱藏 */
-        .p-img-box:hover .p-video-hover { opacity: 1; } /* 滑鼠移過去顯示影片 */
+        .p-video-hover { opacity: 0; z-index: 1; } 
+        .p-img-box:hover .p-video-hover { opacity: 1; } 
 
         .sold-out-mask {
             position: absolute; top:0; left:0; width:100%; height:100%; background: rgba(0,0,0,0.7);
@@ -358,23 +357,45 @@
             .daohui-dog-img { width: 50px; }
         }
 
-        /* ✨✨✨ 新增：產品詳細 Modal 樣式 ✨✨✨ */
+        /* ✨✨✨ 日系明亮風 Modal 樣式 ✨✨✨ */
         #productDetailModal {
             display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.9); z-index: 25000; justify-content: center; align-items: center;
+            /* 遮罩改為淺色一點的黑，減少壓迫感 */
+            background: rgba(0,0,0,0.6); 
+            z-index: 25000; justify-content: center; align-items: center;
+            backdrop-filter: blur(2px); /* 輕微模糊背景 */
         }
         .pd-content {
-            background: #0d253f; width: 90%; max-width: 600px; border-radius: 15px; padding: 0;
-            border: 2px solid #64ffda; box-shadow: 0 0 30px rgba(100, 255, 218, 0.3);
+            /* 白色背景，圓潤倒角 */
+            background: #ffffff; 
+            width: 90%; max-width: 600px; 
+            border-radius: 20px; 
+            padding: 0;
+            border: none; /* 移除霓虹邊框 */
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
             max-height: 90vh; display: flex; flex-direction: column; overflow: hidden;
         }
         .pd-header {
-            padding: 15px; border-bottom: 1px solid #334e68; display: flex; justify-content: space-between; align-items: center; background: #03101f;
+            /* 白色標頭，淡灰色底線 */
+            padding: 15px 20px; border-bottom: 1px solid #f0f0f0; 
+            display: flex; justify-content: space-between; align-items: center; 
+            background: #ffffff;
         }
-        .pd-title { font-size: 20px; font-weight: bold; color: #64ffda; }
-        .pd-close { cursor: pointer; font-size: 28px; color: #aaa; }
+        .pd-title { 
+            font-size: 22px; font-weight: bold; 
+            color: #333333; /* 深灰字 */
+            font-family: 'Zen Maru Gothic', sans-serif;
+        }
+        .pd-close { 
+            cursor: pointer; font-size: 28px; color: #999; 
+            transition: color 0.3s;
+        }
+        .pd-close:hover { color: #333; }
         
-        .pd-body { flex-grow: 1; overflow-y: auto; padding: 20px; }
+        .pd-body { 
+            flex-grow: 1; overflow-y: auto; padding: 20px; 
+            background: #ffffff; /* 確保內容區也是白的 */
+        }
         
         /* 彈窗內的相簿 */
         .pd-gallery {
@@ -382,26 +403,59 @@
             scroll-snap-type: x mandatory;
         }
         .pd-gallery::-webkit-scrollbar { height: 6px; }
-        .pd-gallery::-webkit-scrollbar-thumb { background: #64ffda; border-radius: 3px; }
+        .pd-gallery::-webkit-scrollbar-track { background: #f1f1f1; border-radius: 3px; }
+        .pd-gallery::-webkit-scrollbar-thumb { background: #ccc; border-radius: 3px; }
         .pd-gallery img {
-            height: 250px; min-width: 100%; object-fit: contain; background: #000;
-            border-radius: 8px; scroll-snap-align: center;
+            height: 250px; min-width: 100%; 
+            object-fit: contain; 
+            background: #f9f9f9; /* 照片背景改淺灰 */
+            border-radius: 12px; 
+            scroll-snap-align: center;
         }
 
         .pd-section-title {
-            color: #ffe100; font-size: 18px; font-weight: bold; margin-bottom: 8px; border-left: 4px solid #64ffda; padding-left: 10px;
+            color: #2c3e50; /* 深藍灰標題 */
+            font-size: 18px; font-weight: bold; 
+            margin-bottom: 10px; 
+            border-left: 5px solid #81d4fa; /* 淺藍色裝飾線 */
+            padding-left: 12px;
+            margin-top: 10px;
+            font-family: 'Zen Maru Gothic', sans-serif;
         }
-        .pd-text { color: #dbe4ef; font-size: 15px; line-height: 1.6; margin-bottom: 20px; }
-        .pd-warning { color: #ff9999; font-size: 14px; background: rgba(255,0,0,0.1); padding: 10px; border-radius: 8px; border: 1px solid #ff4d4d; margin-bottom: 20px; }
+        .pd-text { 
+            color: #555555; /* 深灰字，好閱讀 */
+            font-size: 16px; line-height: 1.8; margin-bottom: 25px; 
+        }
+        .pd-warning { 
+            color: #795548; /* 咖啡色字 */
+            font-size: 15px; 
+            background: #fff8e1; /* 奶黃色背景 */
+            padding: 15px; 
+            border-radius: 12px; 
+            border: 1px solid #ffe0b2; /* 淺橘框 */
+            margin-bottom: 20px; 
+            line-height: 1.6;
+        }
 
         .pd-footer {
-            padding: 15px; border-top: 1px solid #334e68; background: #03101f; text-align: center;
+            padding: 15px 20px; border-top: 1px solid #f0f0f0; 
+            background: #ffffff; text-align: center;
         }
         .pd-add-btn {
-            background: #64ffda; color: #000; border: none; padding: 12px 30px; border-radius: 30px;
-            font-size: 18px; font-weight: bold; cursor: pointer; width: 100%; transition: 0.2s;
+            /* 青藍色按鈕，清新風格 */
+            background: #4fc3f7; 
+            color: #fff; 
+            border: none; padding: 12px 30px; border-radius: 50px;
+            font-size: 18px; font-weight: bold; cursor: pointer; 
+            width: 100%; 
+            transition: transform 0.2s, background 0.3s;
+            box-shadow: 0 4px 10px rgba(79, 195, 247, 0.4);
         }
-        .pd-add-btn:hover { background: #ffe100; transform: scale(1.02); }
+        .pd-add-btn:hover { 
+            background: #29b6f6; 
+            transform: translateY(-2px); 
+        }
+        .pd-add-btn:active { transform: translateY(0); }
 
     </style>
 </head>
@@ -606,7 +660,7 @@
             <div class="confirm-msg">
                 系統已幫您自動複製訂單內容 📋<br><br>
                 點擊下方按鈕將跳轉至 LINE<br>
-                請直接【貼上】並【傳送】即可！</span>
+                <span class="confirm-highlight">請直接【貼上】並【傳送】即可！</span>
                 
                 <div class="yuge-promise-box">
                     <img src="boss.png" class="yuge-avatar-img" alt="宇哥" onerror="this.src='logo.jpg'">
@@ -644,20 +698,16 @@
         let currentPromoCode = "";
 
         // ✨✨✨ 魚隻詳細資料庫 (請在此擴充) ✨✨✨
-        // 格式：'ID': { hoverMedia: '影片或GIF連結', gallery: ['圖1','圖2'...], intro: '介紹文', notice: '注意事項' }
         const fishDetails = {
             'A01': {
-                hoverMedia: 'https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjEx.../giphy.gif', // 範例：放你的GIF連結
+                hoverMedia: 'https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjEx.../giphy.gif', 
                 gallery: [
-                    'https://via.placeholder.com/600x400/ff0000/fff?text=Detail+1', // 範例：放更多照片連結
-                    'https://via.placeholder.com/600x400/00ff00/fff?text=Detail+2',
-                    'https://via.placeholder.com/600x400/0000ff/fff?text=Detail+3'
+                    'https://via.placeholder.com/600x400/eee/333?text=Detail+1',
+                    'https://via.placeholder.com/600x400/eee/333?text=Detail+2'
                 ],
                 intro: '這是一隻非常漂亮的孔雀魚，尾巴很大，顏色鮮豔。<br>個性溫和，適合新手飼養。',
                 notice: '1. 入缸請務必對溫對水。<br>2. 建議水溫 24-26 度。<br>3. 避免與攻擊性強的魚混養。'
             },
-            // 如果你還有其他魚，可以繼續往下加...
-            // 'A02': { ... }
         };
 
         window.onload = function() {
@@ -732,9 +782,8 @@
                 const imgSrc = p.img ? p.img : 'logo.jpg';
                 const isSoldOut = p.stock <= 0;
                 
-                // ✨ 檢查有沒有動圖資料
                 const extraData = fishDetails[p.id] || {};
-                const hoverMediaSrc = extraData.hoverMedia || ''; // 如果沒有就留空
+                const hoverMediaSrc = extraData.hoverMedia || '';
 
                 let tagHtml = '';
                 if (p.tag === 'HOT') tagHtml = '<div class="p-tag tag-hot">熱銷 🔥</div>';
@@ -742,10 +791,8 @@
                 else if (p.tag === 'SALE') tagHtml = '<div class="p-tag tag-sale">特價 💰</div>';
 
                 let mediaHtml = '';
-                // 預設靜態圖
                 mediaHtml += `<img src="${imgSrc}" class="p-img" alt="${p.name}" onerror="this.src='logo.jpg'">`;
                 
-                // 如果有動圖，加入 hover 層
                 if (hoverMediaSrc) {
                     if (hoverMediaSrc.endsWith('.mp4') || hoverMediaSrc.endsWith('.webm')) {
                         mediaHtml += `<video src="${hoverMediaSrc}" class="p-video-hover" autoplay loop muted playsinline></video>`;
@@ -765,7 +812,6 @@
                 if (isSoldOut) {
                     btnHtml = `<button class="add-btn disabled">已售完</button>`;
                 } else {
-                    // 加入購物車按鈕不觸發 Modal，需阻止冒泡
                     btnHtml = `
                         <div class="qty-control" onclick="event.stopPropagation()">
                             <button class="qty-btn" onclick="updateCardQty('${p.id}', -1)">-</button>
@@ -776,7 +822,6 @@
                     `;
                 }
 
-                // ✨ 在 product-card 加上 onclick 事件
                 const html = `
                     <div class="product-card" onclick="openProductDetail('${p.id}')">
                         ${tagHtml}
@@ -801,14 +846,12 @@
             const product = products.find(p => p.id === pid);
             if (!product) return;
 
-            const extraData = fishDetails[pid] || {}; // 獲取額外資料，沒有就空物件
+            const extraData = fishDetails[pid] || {}; 
 
-            // 1. 設定標題
             document.getElementById('pdTitle').innerText = product.name;
 
-            // 2. 設定相簿 (預設圖 + 額外相簿)
             const galleryDiv = document.getElementById('pdGallery');
-            let galleryHtml = `<img src="${product.img}" onerror="this.src='logo.jpg'">`; // 第一張放主圖
+            let galleryHtml = `<img src="${product.img}" onerror="this.src='logo.jpg'">`; 
             
             if (extraData.gallery && extraData.gallery.length > 0) {
                 extraData.gallery.forEach(imgUrl => {
@@ -817,26 +860,23 @@
             }
             galleryDiv.innerHTML = galleryHtml;
 
-            // 3. 設定介紹與注意事項
             document.getElementById('pdIntro').innerHTML = extraData.intro || "目前沒有詳細介紹，歡迎私訊詢問！";
             
-            // 如果有自定義注意事項就用，沒有就用預設
             const defaultNotice = "1. 活體運送風險由本賣場承擔。<br>2. 請務必詳閱收魚對水流程。<br>3. 下缸前請確認水質數據正常。";
             document.getElementById('pdNotice').innerHTML = extraData.notice || defaultNotice;
 
-            // 4. 設定底部加入購物車按鈕
             const addBtn = document.getElementById('pdAddBtn');
             if (product.stock <= 0) {
                 addBtn.innerText = "已售完";
                 addBtn.disabled = true;
-                addBtn.style.background = "#555";
+                addBtn.style.background = "#999";
             } else {
                 addBtn.innerText = `加入購物車 (NT$ ${product.price})`;
                 addBtn.disabled = false;
-                addBtn.style.background = "#64ffda";
+                addBtn.style.background = "#4fc3f7"; // 修改 JS 裡的按鈕顏色
                 addBtn.onclick = function() {
                     addToCart(pid);
-                    closeProductDetail(); // 加入後關閉視窗
+                    closeProductDetail(); 
                 };
             }
 
@@ -872,7 +912,6 @@
         function addToCart(pid) {
             const product = products.find(p => p.id === pid);
             if (product.stock <= 0) return;
-            // 如果是從列表加，抓列表的數量；如果是從詳細頁加，預設加1
             let addQty = 1;
             const listInput = document.getElementById(`qty-input-${pid}`);
             if (listInput) {
@@ -894,7 +933,7 @@
                 showToast(`✅ 已加入購物車`);
             }
             updateCartUI();
-            if (listInput) listInput.value = 1; // 重置列表數量
+            if (listInput) listInput.value = 1; 
         }
 
         function showToast(msg) {
