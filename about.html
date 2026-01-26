@@ -144,12 +144,14 @@
             flex-shrink: 0;
             scroll-snap-align: center;
             background: #fff;
-            padding: 8px 8px 30px 8px; 
+            padding: 8px 8px 15px 8px; /* 底部 padding 稍微減少 */
             box-shadow: 0 5px 15px rgba(0,0,0,0.5);
             border-radius: 4px;
             transform: rotate(0deg);
             transition: transform 0.3s;
             cursor: pointer;
+            display: flex;
+            flex-direction: column;
         }
         .gallery-item:nth-child(odd) { transform: rotate(-1.5deg); }
         .gallery-item:nth-child(even) { transform: rotate(1.5deg); }
@@ -164,6 +166,16 @@
             overflow: hidden;
         }
         .gallery-img-box img { width: 100%; height: 100%; object-fit: cover; }
+
+        /* ✨ 照片下方的短語樣式 */
+        .gallery-caption {
+            text-align: center;
+            font-size: 15px;
+            color: #556677; /* 深灰藍色，很有質感 */
+            margin-top: 10px;
+            font-weight: bold;
+            letter-spacing: 1px;
+        }
 
         .slider-dots { display: flex; justify-content: center; margin-top: 10px; margin-bottom: 10px; gap: 8px; }
         .dot { width: 8px; height: 8px; background-color: rgba(255, 255, 255, 0.3); border-radius: 50%; cursor: pointer; transition: all 0.3s; }
@@ -256,23 +268,27 @@
             <div class="gallery-scroll-container" id="baseGalleryScroll">
                 <div class="gallery-item">
                     <div class="gallery-img-box">
-                        <img src="base-1.jpg" alt="基地照1" onerror="this.style.display='none'; this.parentNode.innerHTML='<div style=\'color:#aaa;\'>📷 base-1.jpg</div>'">
+                        <img src="base-1.jpg" alt="基地照1" onerror="this.style.display='none';">
                     </div>
+                    <div class="gallery-caption">寬敞好停車</div>
                 </div>
                 <div class="gallery-item">
                     <div class="gallery-img-box">
-                        <img src="base-2.jpg" alt="基地照2" onerror="this.style.display='none'; this.parentNode.innerHTML='<div style=\'color:#aaa;\'>📷 base-2.jpg</div>'">
+                        <img src="base-2.jpg" alt="基地照2" onerror="this.style.display='none';">
                     </div>
+                    <div class="gallery-caption">三合院大中庭</div>
                 </div>
                 <div class="gallery-item">
                     <div class="gallery-img-box">
-                        <img src="base-3.jpg" alt="基地照3" onerror="this.style.display='none'; this.parentNode.innerHTML='<div style=\'color:#aaa;\'>📷 base-3.jpg</div>'">
+                        <img src="base-3.jpg" alt="基地照3" onerror="this.style.display='none';">
                     </div>
+                    <div class="gallery-caption">舒適賞魚空間</div>
                 </div>
                 <div class="gallery-item">
                     <div class="gallery-img-box">
-                        <img src="base-4.jpg" alt="基地照4" onerror="this.style.display='none'; this.parentNode.innerHTML='<div style=\'color:#aaa;\'>📷 base-4.jpg</div>'">
+                        <img src="base-4.jpg" alt="基地照4" onerror="this.style.display='none';">
                     </div>
+                    <div class="gallery-caption">歡迎全家光臨</div>
                 </div>
             </div>
             <div class="slider-dots" id="baseGalleryDots"></div>
@@ -293,23 +309,27 @@
             <div class="gallery-scroll-container" id="eventGalleryScroll">
                 <div class="gallery-item">
                     <div class="gallery-img-box">
-                        <img src="event-1.jpg" alt="活動照1" onerror="this.style.display='none'; this.parentNode.innerHTML='<div style=\'color:#aaa;\'>📷 event-1.jpg</div>'">
+                        <img src="event-1.jpg" alt="活動照1" onerror="this.style.display='none';">
                     </div>
+                    <div class="gallery-caption">中原水族盛會</div>
                 </div>
                 <div class="gallery-item">
                     <div class="gallery-img-box">
-                        <img src="event-2.jpg" alt="活動照2" onerror="this.style.display='none'; this.parentNode.innerHTML='<div style=\'color:#aaa;\'>📷 event-2.jpg</div>'">
+                        <img src="event-2.jpg" alt="活動照2" onerror="this.style.display='none';">
                     </div>
+                    <div class="gallery-caption">親子闖關同樂</div>
                 </div>
                 <div class="gallery-item">
                     <div class="gallery-img-box">
-                        <img src="event-3.jpg" alt="活動照3" onerror="this.style.display='none'; this.parentNode.innerHTML='<div style=\'color:#aaa;\'>📷 event-3.jpg</div>'">
+                        <img src="event-3.jpg" alt="活動照3" onerror="this.style.display='none';">
                     </div>
+                    <div class="gallery-caption">孔雀魚比賽</div>
                 </div>
                 <div class="gallery-item">
                     <div class="gallery-img-box">
-                        <img src="event-4.jpg" alt="活動照4" onerror="this.style.display='none'; this.parentNode.innerHTML='<div style=\'color:#aaa;\'>📷 event-4.jpg</div>'">
+                        <img src="event-4.jpg" alt="活動照4" onerror="this.style.display='none';">
                     </div>
+                    <div class="gallery-caption">專業講座教學</div>
                 </div>
             </div>
             <div class="slider-dots" id="eventGalleryDots"></div>
@@ -346,35 +366,32 @@
             document.getElementById("menuOverlay").style.display = "none";
         }
 
-        /* --- 相簿邏輯 (通用函數，支援多個相簿) --- */
+        /* --- 相簿邏輯 --- */
         function initGallery(scrollId, dotsId) {
             const slider = document.getElementById(scrollId);
             const dotsContainer = document.getElementById(dotsId);
-            if (!slider || !dotsContainer) return; // 避免找不到元素報錯
+            if (!slider || !dotsContainer) return; 
 
             const cards = slider.querySelectorAll('.gallery-item');
 
-            // 1. 產生圓點 & 綁定點擊事件
+            // 1. 產生圓點
             cards.forEach((card, index) => {
                 const dot = document.createElement('div');
                 dot.classList.add('dot');
                 if (index === 0) dot.classList.add('active'); 
                 
-                // 計算置中位置的函數
+                // 置中函數
                 const scrollToCenter = () => {
                     const scrollAmount = card.offsetLeft - slider.offsetLeft - (slider.offsetWidth / 2) + (card.offsetWidth / 2);
                     slider.scrollTo({ left: scrollAmount, behavior: 'smooth' });
                 };
 
-                // 點擊圓點跳轉
                 dot.addEventListener('click', scrollToCenter);
                 dotsContainer.appendChild(dot);
-
-                // 點擊照片本身跳轉
                 card.addEventListener('click', scrollToCenter);
             });
 
-            // 2. 監聽滑動，更新圓點
+            // 2. 監聽滑動
             slider.addEventListener('scroll', () => {
                 const scrollCenter = slider.scrollLeft + (slider.offsetWidth / 2);
 
@@ -392,10 +409,9 @@
             });
         }
 
-        // 頁面載入後初始化兩個相簿
         document.addEventListener("DOMContentLoaded", function() {
-            initGallery('baseGalleryScroll', 'baseGalleryDots');   // 初始化基地相簿
-            initGallery('eventGalleryScroll', 'eventGalleryDots'); // 初始化活動相簿
+            initGallery('baseGalleryScroll', 'baseGalleryDots');   
+            initGallery('eventGalleryScroll', 'eventGalleryDots'); 
         });
     </script>
 </body>
