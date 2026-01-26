@@ -125,40 +125,34 @@
         .photo-frame img { width: 100%; height: auto; display: block; border-radius: 2px; }
         .story-card:nth-child(even) .photo-frame { transform: rotate(-2deg); }
 
-        /* ✨ 橫向滑動相簿樣式 (修正版) */
+        /* 橫向滑動相簿樣式 */
         .gallery-scroll-container {
             display: flex;
-            gap: 15px; /* 照片間距 */
+            gap: 15px; 
             overflow-x: auto;
             padding: 10px 20px 25px 20px; 
             scroll-snap-type: x mandatory; 
             -webkit-overflow-scrolling: touch;
-            margin: 10px -25px 5px -25px; /* 撐開到邊緣 */
-            
-            /* 隱藏卷軸 */
-            scrollbar-width: none; /* Firefox */
+            margin: 10px -25px 5px -25px;
+            scrollbar-width: none; 
         }
-        .gallery-scroll-container::-webkit-scrollbar { display: none; } /* Chrome/Safari */
+        .gallery-scroll-container::-webkit-scrollbar { display: none; } 
 
         .gallery-item {
-            /* ✨ 關鍵修改：縮小寬度，讓下一張露出來 */
             min-width: 75%; 
-            max-width: 280px; /* 限制最大寬度，避免電腦版太大 */
-            
+            max-width: 280px;
             flex-shrink: 0;
-            scroll-snap-align: center; /* 停在中間 */
+            scroll-snap-align: center;
             background: #fff;
             padding: 8px 8px 30px 8px; 
             box-shadow: 0 5px 15px rgba(0,0,0,0.5);
             border-radius: 4px;
             transform: rotate(0deg);
             transition: transform 0.3s;
-            cursor: pointer; /* 讓鼠標變成手指，暗示可點擊 */
+            cursor: pointer;
         }
-        
         .gallery-item:nth-child(odd) { transform: rotate(-1.5deg); }
         .gallery-item:nth-child(even) { transform: rotate(1.5deg); }
-        /* 點擊或滑鼠移過去時，稍微放大並轉正 */
         .gallery-item:hover, .gallery-item:active { transform: rotate(0deg) scale(1.02); z-index: 10; }
 
         .gallery-img-box {
@@ -245,11 +239,9 @@
         <div class="story-card">
             <div class="tape"></div> 
             <div class="story-heading">🌱 那缸父親不讓碰的魚</div>
-            
             <div class="photo-frame">
                 <img src="story-1.jpg" alt="小時候的回憶" onerror="this.style.display='none'; this.parentNode.innerHTML='<div style=\'padding:20px; color:#aaa; text-align:center\'>📷 請上傳 story-1.jpg</div>'">
             </div>
-            
             <div class="story-text">
                 故事源自於小時候家裡那一缸「小孩止步」的魚缸。偏偏越是觸不可及，越是令人著迷。
                 <br><br>
@@ -261,14 +253,36 @@
             <div class="tape" style="background-color: rgba(77, 208, 225, 0.7); transform: rotate(2deg);"></div>
             <div class="story-heading">🏡 三合院裡的秘密基地</div>
 
-            <div class="photo-frame">
-                <img src="story-2.jpg" alt="三合院基地" onerror="this.style.display='none'; this.parentNode.innerHTML='<div style=\'padding:20px; color:#aaa; text-align:center\'>📷 請上傳 story-2.jpg</div>'">
+            <div class="gallery-scroll-container" id="baseGalleryScroll">
+                <div class="gallery-item">
+                    <div class="gallery-img-box">
+                        <img src="base-1.jpg" alt="基地照1" onerror="this.style.display='none'; this.parentNode.innerHTML='<div style=\'color:#aaa;\'>📷 base-1.jpg</div>'">
+                    </div>
+                </div>
+                <div class="gallery-item">
+                    <div class="gallery-img-box">
+                        <img src="base-2.jpg" alt="基地照2" onerror="this.style.display='none'; this.parentNode.innerHTML='<div style=\'color:#aaa;\'>📷 base-2.jpg</div>'">
+                    </div>
+                </div>
+                <div class="gallery-item">
+                    <div class="gallery-img-box">
+                        <img src="base-3.jpg" alt="基地照3" onerror="this.style.display='none'; this.parentNode.innerHTML='<div style=\'color:#aaa;\'>📷 base-3.jpg</div>'">
+                    </div>
+                </div>
+                <div class="gallery-item">
+                    <div class="gallery-img-box">
+                        <img src="base-4.jpg" alt="基地照4" onerror="this.style.display='none'; this.parentNode.innerHTML='<div style=\'color:#aaa;\'>📷 base-4.jpg</div>'">
+                    </div>
+                </div>
             </div>
+            <div class="slider-dots" id="baseGalleryDots"></div>
 
             <div class="story-text">
                 這裡是 <span class="story-highlight">宇哥</span> 與 <span class="story-highlight">柏哥</span> 的秘密基地。
                 <br><br>
-                在新埔古樸的三合院中，沒有城市的喧囂，只有水流聲和優游的魚群。希望每位來到這的朋友，都能放下重擔，沉浸在這片五彩繽紛的水世界。
+                在新埔古樸的三合院中，沒有城市的喧囂，只有水流聲和優游的魚群。
+                <br><br>
+                而且我們有<span class="story-highlight">大大的中庭</span>，來店賞魚就能<span class="story-highlight">不用擔心愛車要停哪</span>，可以放鬆慢慢逛。
             </div>
         </div>
 
@@ -276,7 +290,7 @@
             <div class="tape" style="background-color: rgba(255, 171, 145, 0.7);"></div>
             <div class="story-heading">✨ 不只是一家店</div>
 
-            <div class="gallery-scroll-container" id="galleryScroll">
+            <div class="gallery-scroll-container" id="eventGalleryScroll">
                 <div class="gallery-item">
                     <div class="gallery-img-box">
                         <img src="event-1.jpg" alt="活動照1" onerror="this.style.display='none'; this.parentNode.innerHTML='<div style=\'color:#aaa;\'>📷 event-1.jpg</div>'">
@@ -298,7 +312,7 @@
                     </div>
                 </div>
             </div>
-            <div class="slider-dots" id="galleryDots"></div>
+            <div class="slider-dots" id="eventGalleryDots"></div>
 
             <div class="story-text">
                 水族不該是孤獨的嗜好。2023年我們在中原園區舉辦了千人水族盛會，看著魚友們眼中的光芒，我們更堅信：
@@ -332,10 +346,12 @@
             document.getElementById("menuOverlay").style.display = "none";
         }
 
-        /* --- 相簿邏輯 (點擊照片也能跳轉) --- */
-        document.addEventListener("DOMContentLoaded", function() {
-            const slider = document.getElementById('galleryScroll');
-            const dotsContainer = document.getElementById('galleryDots');
+        /* --- 相簿邏輯 (通用函數，支援多個相簿) --- */
+        function initGallery(scrollId, dotsId) {
+            const slider = document.getElementById(scrollId);
+            const dotsContainer = document.getElementById(dotsId);
+            if (!slider || !dotsContainer) return; // 避免找不到元素報錯
+
             const cards = slider.querySelectorAll('.gallery-item');
 
             // 1. 產生圓點 & 綁定點擊事件
@@ -344,18 +360,18 @@
                 dot.classList.add('dot');
                 if (index === 0) dot.classList.add('active'); 
                 
-                // 點擊圓點跳轉
-                dot.addEventListener('click', () => {
+                // 計算置中位置的函數
+                const scrollToCenter = () => {
                     const scrollAmount = card.offsetLeft - slider.offsetLeft - (slider.offsetWidth / 2) + (card.offsetWidth / 2);
                     slider.scrollTo({ left: scrollAmount, behavior: 'smooth' });
-                });
+                };
+
+                // 點擊圓點跳轉
+                dot.addEventListener('click', scrollToCenter);
                 dotsContainer.appendChild(dot);
 
-                // ✨ 新增：點擊照片本身也能跳轉並置中
-                card.addEventListener('click', () => {
-                    const scrollAmount = card.offsetLeft - slider.offsetLeft - (slider.offsetWidth / 2) + (card.offsetWidth / 2);
-                    slider.scrollTo({ left: scrollAmount, behavior: 'smooth' });
-                });
+                // 點擊照片本身跳轉
+                card.addEventListener('click', scrollToCenter);
             });
 
             // 2. 監聽滑動，更新圓點
@@ -367,13 +383,19 @@
                     const cardRight = cardLeft + card.offsetWidth;
 
                     if (cardLeft <= scrollCenter && cardRight > scrollCenter) {
-                        document.querySelectorAll('.dot').forEach(d => d.classList.remove('active'));
+                        dotsContainer.querySelectorAll('.dot').forEach(d => d.classList.remove('active'));
                         if(dotsContainer.children[index]) {
                             dotsContainer.children[index].classList.add('active');
                         }
                     }
                 });
             });
+        }
+
+        // 頁面載入後初始化兩個相簿
+        document.addEventListener("DOMContentLoaded", function() {
+            initGallery('baseGalleryScroll', 'baseGalleryDots');   // 初始化基地相簿
+            initGallery('eventGalleryScroll', 'eventGalleryDots'); // 初始化活動相簿
         });
     </script>
 </body>
