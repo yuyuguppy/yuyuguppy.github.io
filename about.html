@@ -137,7 +137,7 @@
         }
         .story-card:nth-child(even) .photo-frame { transform: rotate(-2deg); }
 
-        /* 橫向滑動相簿樣式 */
+        /* --- 橫向滑動相簿通用樣式 --- */
         .gallery-scroll-container {
             display: flex;
             gap: 15px; 
@@ -150,13 +150,14 @@
         }
         .gallery-scroll-container::-webkit-scrollbar { display: none; } 
 
+        /* 預設相簿項目 (適用於三合院：有白邊) */
         .gallery-item {
             min-width: 75%; 
             max-width: 280px;
             flex-shrink: 0;
             scroll-snap-align: center;
-            background: #fff;
-            padding: 8px 8px 15px 8px; 
+            background: #fff; /* 白底 */
+            padding: 8px 8px 15px 8px; /* 白邊 padding */
             box-shadow: 0 5px 15px rgba(0,0,0,0.5);
             border-radius: 4px;
             transform: rotate(0deg);
@@ -177,22 +178,37 @@
             color: #8899a6; border: 1px solid #ddd;
             overflow: hidden;
         }
+        .gallery-img-box img { width: 100%; height: 100%; object-fit: contain; }
         
-        /* ✨ 修正：使用 contain 讓照片完整顯示不裁切 */
-        .gallery-img-box img { 
-            width: 100%; 
-            height: 100%; 
-            object-fit: contain; /* 確保直式照片也完整顯示 */
+        /* 預設短語樣式 (深色字，適合白底) */
+        .gallery-caption {
+            text-align: center; font-size: 15px; color: #556677;
+            margin-top: 10px; font-weight: bold; letter-spacing: 1px;
         }
 
-        .gallery-caption {
-            text-align: center;
-            font-size: 15px;
-            color: #556677;
-            margin-top: 10px;
-            font-weight: bold;
-            letter-spacing: 1px;
+        /* --- ✨✨✨ 針對「活動相簿」的特殊樣式 (無白邊) ✨✨✨ --- */
+        #eventGalleryScroll .gallery-item {
+            background: transparent; /* 移除白底 */
+            padding: 0;              /* 移除白邊 padding */
+            box-shadow: none;        /* 移除卡片陰影 */
+            border-radius: 12px;     /* 照片圓角 */
+            overflow: hidden;
         }
+        /* 讓活動照片的容器高一點，並加上自己的陰影 */
+        #eventGalleryScroll .gallery-img-box {
+            border: none; 
+            height: 220px; 
+            border-radius: 12px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3); /* 改用照片本身的陰影 */
+        }
+        /* 活動相簿的短語改成淺色，才看得到 */
+        #eventGalleryScroll .gallery-caption {
+            color: #dbe4ef; 
+            text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+            margin-top: 15px;
+        }
+        /* --- ✨✨✨ 特殊樣式結束 ✨✨✨ --- */
+
 
         .slider-dots { display: flex; justify-content: center; margin-top: 10px; margin-bottom: 10px; gap: 8px; }
         .dot { width: 8px; height: 8px; background-color: rgba(255, 255, 255, 0.3); border-radius: 50%; cursor: pointer; transition: all 0.3s; }
