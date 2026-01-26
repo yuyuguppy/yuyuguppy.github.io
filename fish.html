@@ -342,25 +342,18 @@
         .back-to-top:hover .daohui-dog-img, .back-to-top:active .daohui-dog-img { animation: wag 0.5s ease-in-out infinite; }
 
         @media (max-width: 768px) {
-            
-            /* ✨ 修正重點：強制黃條單行顯示，太長可左右滑動，高度鎖死 45px */
             .yuyu-announcement-bar { 
                 font-size: 13px; 
-                white-space: nowrap;       /* 強制文字不換行 */
-                overflow-x: auto;          /* 允許左右滑動 */
-                padding: 0 10px;           /* 左右留點空隙 */
-                height: 45px;              /* 固定高度 */
-                min-height: 45px;          /* 鎖死高度，避免被撐開 */
-                line-height: 45px;         /* 讓文字垂直置中 */
-                display: block;            /* 確保區塊特性 */
-                
-                /* 隱藏滑動條 (看起來比較乾淨) */
+                white-space: nowrap; 
+                overflow-x: auto; 
+                padding: 5px 10px; 
+                height: 45px; 
+                min-height: 45px;
                 -webkit-overflow-scrolling: touch;
                 scrollbar-width: none;
             }
             .yuyu-announcement-bar::-webkit-scrollbar { display: none; }
 
-            /* 以下維持原設定 */
             .layout-container { flex-direction: column; padding: 0 10px; }
             .sidebar { 
                 width: 100%; display: flex; overflow-x: auto; padding: 10px; gap: 10px; 
@@ -416,19 +409,21 @@
         .pd-gallery {
             display: flex; gap: 10px; overflow-x: auto; padding-bottom: 10px; margin-bottom: 10px;
             scroll-snap-type: x mandatory;
-            
-            /* 隱藏卷軸 */
-            scrollbar-width: none; /* Firefox */
-            -ms-overflow-style: none; /* IE/Edge */
+            /* ✨ 新增：左右預留 padding，讓第一張和最後一張也能居中 */
+            padding: 0 20px 10px 20px; 
+            scrollbar-width: none;
         }
-        .pd-gallery::-webkit-scrollbar { display: none; /* Chrome/Safari */ }
+        .pd-gallery::-webkit-scrollbar { display: none; }
 
         .pd-gallery img, .pd-gallery video {
-            height: 250px; min-width: 100%; 
+            height: 250px; 
+            /* ✨ 關鍵修改：讓圖片寬度小於 100%，才能露出下一張 */
+            min-width: 88%; 
             object-fit: contain; 
             background: #f9f9f9;
             border-radius: 12px; 
             scroll-snap-align: center;
+            flex-shrink: 0; /* 防止圖片被擠壓 */
         }
 
         /* ✨ 圓點導航樣式 */
@@ -731,8 +726,8 @@
         const fishDetails = {
             'g1': {
                 hoverMedia: 'gold-2-guppy.jpg', 
-                gallery: ['gold-2-guppy.jpg','gold-3-guppy.jpg', 'gold-4-guppy.jpg'],
-                  
+                gallery: ['gold-2-guppy.jpg', 'gold-3-guppy.jpg', 'gold-4-guppy.jpg'],
+                
                 intro: '這是一隻非常漂亮的孔雀魚，尾巴很大，顏色鮮豔。<br>個性溫和，適合新手飼養。',
                 notice: '1. 入缸請務必對溫對水。<br>2. 建議水溫 24-26 度。<br>3. 避免與攻擊性強的魚混養。'
             },
