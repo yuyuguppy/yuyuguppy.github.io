@@ -341,21 +341,22 @@
         @keyframes wag { 0% { transform: rotate(0deg); } 25% { transform: rotate(-10deg); } 50% { transform: rotate(10deg); } 75% { transform: rotate(-5deg); } 100% { transform: rotate(0deg); } }
         .back-to-top:hover .daohui-dog-img, .back-to-top:active .daohui-dog-img { animation: wag 0.5s ease-in-out infinite; }
 
-        @media (max-width: 768px) {
-            /* ✨ 修正：強制單行並可滑動，解決高度重疊問題 */
-            .yuyu-announcement-bar { 
-                font-size: 13px; 
-                white-space: nowrap; 
-                overflow-x: auto; 
-                padding: 5px 10px; 
-                height: 45px; 
-                min-height: 45px;
-                /* 隱藏滾動條 */
-                -webkit-overflow-scrolling: touch;
-                scrollbar-width: none;
-            }
-            .yuyu-announcement-bar::-webkit-scrollbar { display: none; }
-
+       /* 請在 @media (max-width: 768px) 裡面找到這段並替換 */
+        .yuyu-announcement-bar { 
+            font-size: 13px; 
+            white-space: nowrap !important; /* 強制不換行 */
+            overflow-x: auto !important;    /* 太長就左右滑動 */
+            padding: 0 10px; 
+            height: 45px !important;        /* 鎖死高度 45px */
+            min-height: 45px !important;    /* 鎖死最小高度 */
+            line-height: 45px;              /* 文字垂直置中 */
+            display: block; 
+            
+            /* 隱藏醜醜的捲軸 */
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: none;
+        }
+        .yuyu-announcement-bar::-webkit-scrollbar { display: none; }
             .layout-container { flex-direction: column; padding: 0 10px; }
             .sidebar { 
                 width: 100%; display: flex; overflow-x: auto; padding: 10px; gap: 10px; 
