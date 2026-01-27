@@ -313,7 +313,7 @@
         }
         .confirm-title { font-size: 24px; color: #64ffda; font-weight: bold; margin-bottom: 20px; }
         .confirm-msg { color: #fff; font-size: 16px; line-height: 1.6; margin-bottom: 25px; }
-        .confirm-highlight { color: #ffe100; font-weight: bold; font-size: 20px; display: block; margin-top: 10px; }
+        
         .yuge-promise-box {
             background: rgba(255, 225, 0, 0.1); border: 1px solid #ffe100; border-radius: 10px;
             padding: 15px; margin-top: 20px; text-align: center;
@@ -341,26 +341,21 @@
         @keyframes wag { 0% { transform: rotate(0deg); } 25% { transform: rotate(-10deg); } 50% { transform: rotate(10deg); } 75% { transform: rotate(-5deg); } 100% { transform: rotate(0deg); } }
         .back-to-top:hover .daohui-dog-img, .back-to-top:active .daohui-dog-img { animation: wag 0.5s ease-in-out infinite; }
 
-       @media (max-width: 768px) {
-            
-            /* ✨ 修正重點：強制黃條單行顯示，太長可左右滑動，高度鎖死 45px */
+        @media (max-width: 768px) {
+            /* ✨ 修正：強制單行並可滑動，解決高度重疊問題 */
             .yuyu-announcement-bar { 
                 font-size: 13px; 
-                white-space: nowrap;       /* 強制文字不換行 */
-                overflow-x: auto;          /* 允許左右滑動 */
-                padding: 0 10px;           /* 左右留點空隙 */
-                height: 45px;              /* 固定高度 */
-                min-height: 45px;          /* 鎖死高度，避免被撐開 */
-                line-height: 45px;         /* 讓文字垂直置中 */
-                display: block;            /* 確保區塊特性 */
-                
-                /* 隱藏滑動條 (看起來比較乾淨) */
+                white-space: nowrap; 
+                overflow-x: auto; 
+                padding: 5px 10px; 
+                height: 45px; 
+                min-height: 45px;
+                /* 隱藏滾動條 */
                 -webkit-overflow-scrolling: touch;
                 scrollbar-width: none;
             }
             .yuyu-announcement-bar::-webkit-scrollbar { display: none; }
 
-            /* 以下維持原設定 */
             .layout-container { flex-direction: column; padding: 0 10px; }
             .sidebar { 
                 width: 100%; display: flex; overflow-x: auto; padding: 10px; gap: 10px; 
@@ -408,43 +403,33 @@
         .pd-close:hover { color: #333; }
         
         .pd-body { 
-           flex-grow: 1; overflow-y: auto; 
-            padding: 10px 20px; /* ✨ 上下縮小為 10px (原本20)，左右維持 20 */
+            flex-grow: 1; overflow-y: auto; padding: 10px 20px; 
             background: #ffffff;
         }
         
         /* ✨✨✨ 相簿容器與樣式 ✨✨✨ */
         .pd-gallery {
-            display: flex; 
-            gap: 15px; /* 照片之間的間距 */
-            overflow-x: auto; 
-            
-            /* ✨ 修改：移除底部多餘的 padding，讓圓點更靠近照片 */
-            padding-bottom: 0; 
-            margin-bottom: 15px; 
-            
+            display: flex; gap: 15px; overflow-x: auto; padding-bottom: 0; margin-bottom: 15px;
             scroll-snap-type: x mandatory;
-            scrollbar-width: none; 
-            -ms-overflow-style: none; 
-        }
-        .pd-gallery::-webkit-scrollbar { display: none; }
-        .pd-gallery img, .pd-gallery video {
-            height: 200px; /* ✨ 手機版高度稍微改小一點 (原本250px)，看起來更緊湊 */
             
-            /* 維持偷看下一張的設定 */
+            /* 隱藏卷軸 */
+            scrollbar-width: none; /* Firefox */
+            -ms-overflow-style: none; /* IE/Edge */
+        }
+        .pd-gallery::-webkit-scrollbar { display: none; /* Chrome/Safari */ }
+
+        .pd-gallery img, .pd-gallery video {
+            height: 200px; 
+            /* ✨ 關鍵修改：讓圖片寬度小於 100%，才能露出下一張 */
             flex: 0 0 78%; 
             width: 78%; 
 
-            /* ✨ 關鍵修改：改用 cover 強制填滿整個區塊，解決上下留白問題 */
-            /* (小提醒：這可能會稍微裁切到一點點照片邊緣，但視覺上最整潔) */
             object-fit: cover; 
-            
-            /* background: #f9f9f9; ✨ 註解掉或刪除這行，移除灰色背景色 */
-            
+            background: transparent;
             border-radius: 12px; 
             scroll-snap-align: center;
-            margin-right: 10px; /* ✨ 設定照片之間的間距 */
-            box-shadow: 0 4px 8px rgba(0,0,0,0.1); /* 加一點小陰影增加立體感 */
+            margin-right: 10px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
         }
 
         /* ✨ 圓點導航樣式 */
@@ -705,8 +690,8 @@
             <div class="confirm-title">🎉 訂單準備好了！</div>
             <div class="confirm-msg">
                 系統已幫您自動複製訂單內容 📋<br><br>
-                點擊下方按鈕將跳轉至 LINE<br>
-                <span class="confirm-highlight">請直接【貼上】並【傳送】即可！</span>
+                點擊下方按鈕將跳轉至 LINE<br><br>
+                請直接【貼上】並【傳送】即可！
                 
                 <div class="yuge-promise-box">
                     <img src="boss.png" class="yuge-avatar-img" alt="宇哥" onerror="this.src='logo.jpg'">
@@ -816,6 +801,13 @@
                 const matchSearch = p.name.toLowerCase().includes(searchTerm);
                 return matchCat && matchSearch;
             });
+            
+            // ✨✨✨ 自動排序功能 (有貨在上，沒貨沉底) ✨✨✨
+            filtered.sort((a, b) => {
+                const aStock = a.stock > 0 ? 1 : 0;
+                const bStock = b.stock > 0 ? 1 : 0;
+                return bStock - aStock; // 降冪排列：1 (有貨) 在前，0 (沒貨) 在後
+            });
 
             if(filtered.length === 0) {
                 container.innerHTML = '<div style="color:#888; grid-column:1/-1; text-align:center; padding:20px;">找不到相關商品 🦐</div>';
@@ -924,18 +916,9 @@
             }
             dotsContainer.innerHTML = dotsHtml;
 
-            // 4. 監聽滑動更新圓點 (修正版)
+            // 4. 監聽滑動更新圓點 (修正版：用中心點判斷)
             galleryDiv.onscroll = function() {
-                // 找出第一張圖片元素，獲取它的實際寬度
-                const firstImg = galleryDiv.querySelector('img, video');
-                if (!firstImg) return;
-
-                // 計算每張圖的總寬度 (寬度 + 右邊距)
-                // clientWidth 是圖片本身寬度，我們手動加上 CSS 設定的 margin-right
-                // 注意：如果 CSS 改了 margin，這裡的 10 (px) 也要跟著微調，或者用更進階的寫法抓取
-                // 但為了簡單起見，我們直接抓取圖片元素的 offsetLeft 差值會更準確
-                
-                // 更穩定的算法：直接找「目前中心點最接近哪一張圖」
+                // 找出中心點位置
                 const centerPoint = galleryDiv.scrollLeft + (galleryDiv.offsetWidth / 2);
                 
                 // 找出所有的圖片/影片元素
@@ -957,6 +940,7 @@
                 dots.forEach(d => d.classList.remove('active'));
                 if(dots[activeIndex]) dots[activeIndex].classList.add('active');
             };
+
             // 5. 設定文字內容
             document.getElementById('pdIntro').innerHTML = extraData.intro || "目前沒有詳細介紹，歡迎私訊詢問！";
             const defaultNotice = "1. 活體運送風險由本賣場承擔。<br>2. 請務必詳閱收魚對水流程。<br>3. 下缸前請確認水質數據正常。";
@@ -980,17 +964,18 @@
             document.getElementById('productDetailModal').style.display = 'flex';
         }
 
-       // 點擊圓點滾動 (修正版)
+        // 點擊圓點滾動 (修正版)
         function scrollToGallery(index) {
             const galleryDiv = document.getElementById('pdGallery');
             const allMedia = galleryDiv.querySelectorAll('img, video');
             
             if (allMedia[index]) {
-                // 直接滑動到該圖片的左邊界，並扣掉一點點 padding 讓它置中或靠左
-                // 這裡我們直接用 scrollLeft = offsetLeft - paddingLeft
-                // 假設 CSS padding-left 是 20px
+                // 直接滑動到該圖片的左邊界
+                // 因為我們設定了 container padding-left: 20px, 圖片 margin-right: 10px
+                // 這裡 offsetLeft 已經是相對於父容器的距離，直接用即可
+                // 但為了更精準置中，可以微調一下
                 galleryDiv.scrollTo({ 
-                    left: allMedia[index].offsetLeft - 20, 
+                    left: allMedia[index].offsetLeft, 
                     behavior: 'smooth' 
                 });
             }
