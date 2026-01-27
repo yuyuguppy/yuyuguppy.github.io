@@ -313,7 +313,7 @@
         }
         .confirm-title { font-size: 24px; color: #64ffda; font-weight: bold; margin-bottom: 20px; }
         .confirm-msg { color: #fff; font-size: 16px; line-height: 1.6; margin-bottom: 25px; }
-        
+        .confirm-highlight { color: #ffe100; font-weight: bold; font-size: 20px; display: block; margin-top: 10px; }
         .yuge-promise-box {
             background: rgba(255, 225, 0, 0.1); border: 1px solid #ffe100; border-radius: 10px;
             padding: 15px; margin-top: 20px; text-align: center;
@@ -340,36 +340,6 @@
 
         @keyframes wag { 0% { transform: rotate(0deg); } 25% { transform: rotate(-10deg); } 50% { transform: rotate(10deg); } 75% { transform: rotate(-5deg); } 100% { transform: rotate(0deg); } }
         .back-to-top:hover .daohui-dog-img, .back-to-top:active .daohui-dog-img { animation: wag 0.5s ease-in-out infinite; }
-
-       /* 請在 @media (max-width: 768px) 裡面找到這段並替換 */
-        .yuyu-announcement-bar { 
-            font-size: 13px; 
-            white-space: nowrap !important; /* 強制不換行 */
-            overflow-x: auto !important;    /* 太長就左右滑動 */
-            padding: 0 10px; 
-            height: 45px !important;        /* 鎖死高度 45px */
-            min-height: 45px !important;    /* 鎖死最小高度 */
-            line-height: 45px;              /* 文字垂直置中 */
-            display: block; 
-            
-            /* 隱藏醜醜的捲軸 */
-            -webkit-overflow-scrolling: touch;
-            scrollbar-width: none;
-        }
-        .yuyu-announcement-bar::-webkit-scrollbar { display: none; }
-            .layout-container { flex-direction: column; padding: 0 10px; }
-            .sidebar { 
-                width: 100%; display: flex; overflow-x: auto; padding: 10px; gap: 10px; 
-                position: sticky; top: 95px; z-index: 90; background: rgba(3, 16, 31, 0.95);
-            }
-            .category-btn { width: auto; white-space: nowrap; margin-bottom: 0; padding: 8px 15px; }
-            .top-nav { display: none; }
-            .area-header { flex-direction: column; align-items: flex-start; gap: 10px; }
-            .search-box { max-width: 100%; }
-            .products-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
-            .back-to-top { bottom: 15px; right: 15px; }
-            .daohui-dog-img { width: 50px; }
-        }
 
         /* ✨✨✨ 日系明亮風 Modal 樣式 ✨✨✨ */
         #productDetailModal {
@@ -487,6 +457,38 @@
             transform: translateY(-2px); 
         }
         .pd-add-btn:active { transform: translateY(0); }
+
+        /* ✨ 關鍵修復：這裡補回了被刪掉的 @media 括號 */
+        @media (max-width: 768px) {
+            .yuyu-announcement-bar { 
+                font-size: 13px; 
+                white-space: nowrap !important; /* 強制不換行 */
+                overflow-x: auto !important;    /* 太長就左右滑動 */
+                padding: 0 10px; 
+                height: 45px !important;        /* 鎖死高度 45px */
+                min-height: 45px !important;    /* 鎖死最小高度 */
+                line-height: 45px;              /* 文字垂直置中 */
+                display: block; 
+                
+                /* 隱藏醜醜的捲軸 */
+                -webkit-overflow-scrolling: touch;
+                scrollbar-width: none;
+            }
+            .yuyu-announcement-bar::-webkit-scrollbar { display: none; }
+            
+            .layout-container { flex-direction: column; padding: 0 10px; }
+            .sidebar { 
+                width: 100%; display: flex; overflow-x: auto; padding: 10px; gap: 10px; 
+                position: sticky; top: 95px; z-index: 90; background: rgba(3, 16, 31, 0.95);
+            }
+            .category-btn { width: auto; white-space: nowrap; margin-bottom: 0; padding: 8px 15px; }
+            .top-nav { display: none; }
+            .area-header { flex-direction: column; align-items: flex-start; gap: 10px; }
+            .search-box { max-width: 100%; }
+            .products-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+            .back-to-top { bottom: 15px; right: 15px; }
+            .daohui-dog-img { width: 50px; }
+        }
 
     </style>
 </head>
@@ -691,8 +693,8 @@
             <div class="confirm-title">🎉 訂單準備好了！</div>
             <div class="confirm-msg">
                 系統已幫您自動複製訂單內容 📋<br><br>
-                點擊下方按鈕將跳轉至 LINE<br><br>
-                請直接【貼上】並【傳送】即可！
+                點擊下方按鈕將跳轉至 LINE<br>
+                <span class="confirm-highlight">請直接【貼上】並【傳送】即可！</span>
                 
                 <div class="yuge-promise-box">
                     <img src="boss.png" class="yuge-avatar-img" alt="宇哥" onerror="this.src='logo.jpg'">
