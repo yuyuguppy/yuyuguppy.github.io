@@ -40,16 +40,10 @@
             box-shadow: 0 4px 10px rgba(0,0,0,0.3);
         }
 
-        /* ✨✨✨ 修正漢堡按鈕樣式 (加回 flex 和 gap) ✨✨✨ */
+        /* 修正漢堡按鈕樣式 */
         .hamburger-btn { 
-            background: transparent; 
-            border: none; 
-            cursor: pointer; 
-            display: flex; 
-            flex-direction: column; 
-            gap: 5px; /* 這裡控制線條間距 */
-            padding: 5px; 
-            z-index: 2; 
+            background: transparent; border: none; cursor: pointer; 
+            display: flex; flex-direction: column; gap: 5px; padding: 5px; z-index: 2; 
         }
         .bar { width: 25px; height: 3px; background-color: #64ffda; border-radius: 3px; transition: 0.3s; }
         
@@ -81,6 +75,25 @@
             font-size: 36px; border: none; color: #fff; padding: 0 10px;
         }
         .menu-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.7); z-index: 12500; backdrop-filter: blur(2px); }
+
+        /* --- ✨✨✨ 補上：條款 Modal 樣式 (從首頁移植過來) ✨✨✨ */
+        .terms-modal {
+            display: none; position: fixed; z-index: 20000; left: 0; top: 0;
+            width: 100%; height: 100%; overflow: auto; background-color: rgba(0,0,0,0.8);
+        }
+        .terms-content {
+            background-color: #0d253f; margin: 10% auto; padding: 20px;
+            border: 2px solid #64ffda; width: 85%; max-width: 600px;
+            border-radius: 10px; color: #fff; line-height: 1.8;
+            max-height: 70vh; overflow-y: auto;
+        }
+        .terms-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #334e68; padding-bottom: 10px; margin-bottom: 15px; }
+        .terms-title { font-size: 22px; color: #ffe100; font-weight: bold; }
+        .close-terms { color: #aaa; font-size: 28px; font-weight: bold; cursor: pointer; }
+        .terms-body h3 { color: #64ffda; margin-top: 20px; font-size: 18px; border-left: 3px solid #ffe100; padding-left: 10px; }
+        .terms-body p { font-size: 14px; color: #ddd; margin-bottom: 10px; text-align: justify; }
+        .terms-highlight { color: #ff4d4d; font-weight: bold; }
+
 
         /* --- 3. 關於頁面樣式 --- */
         .story-container {
@@ -223,6 +236,23 @@
             100% { transform: translateY(-120vh); opacity: 0; } 
         }
 
+        /* --- 手機版 RWD 修正 --- */
+        @media (max-width: 768px) {
+            .yuyu-announcement-bar { 
+                font-size: 13px; 
+                white-space: nowrap; 
+                overflow-x: auto; 
+                padding: 0 10px; 
+                height: 45px; 
+                min-height: 45px; 
+                line-height: 45px; 
+                display: block; 
+                -webkit-overflow-scrolling: touch;
+                scrollbar-width: none;
+            }
+            .yuyu-announcement-bar::-webkit-scrollbar { display: none; }
+        }
+
     </style>
 </head>
 <body>
@@ -242,13 +272,43 @@
     </div>
 
     <div id="menuOverlay" class="menu-overlay" onclick="closeNav()"></div>
+
     <div id="mySidenav" class="sidenav">
         <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">×</a>
         <a href="index.html">🏠 回到首頁</a>
         <a href="fish.html">🐠 活體專區</a>
         <a href="https://myship.7-11.com.tw/general/detail/GM2312087898760" target="_blank">🛒 硬體與飼料</a>
+        <a href="https://myship.7-11.com.tw/general/detail/GM2404054052893" target="_blank">❄️ 冷凍豐年蝦</a>
+        <a href="#" onclick="openTerms()">📜 條款與細則</a>
         <a href="https://line.me/R/ti/p/@118rfvyo" target="_blank">💬 聯絡我們 (官方LINE)</a>
     </div>
+
+    <div id="termsModal" class="terms-modal">
+        <div class="terms-content">
+            <div class="terms-header">
+                <span class="terms-title">📜 宇魚水族 條款與細則</span>
+                <span class="close-terms" onclick="closeTerms()">×</span>
+            </div>
+            <div class="terms-body">
+                <h3>1. 活體不適用退換貨</h3>
+                <p>活體動物（魚蝦）屬於易腐敗商品，根據消保法規定，不適用於網購七天鑑賞期。除運送過程死亡外，活體售出後概不接受退換貨，請在下單前確認您已準備好飼養環境。</p>
+
+                <h3>2. 配送風險與責任</h3>
+                <p>我們堅持採用專業純氧包裝。若發生運送延遲或意外導致的損失，<span class="terms-highlight">由宇魚水族全權處理</span>，保障您的權益，請您放心。</p>
+
+                <h3>3. 死魚包賠政策</h3>
+                <p>為了確保責任歸屬，請您配合以下事項：</p>
+                <p>✅ <strong>開箱請務必「全程錄影」</strong>：從未拆封箱子開始錄影，直到檢查魚隻狀態。</p>
+                <p>✅ <strong>魚隻未拆袋</strong>：若發現魚隻死亡，請勿拆開塑膠袋，直接拍攝袋內死魚狀況。</p>
+                <p>✅ <strong>立即回報</strong>：請於收件後 1 小時內，將影片與照片傳至 LINE 官方帳號。</p>
+                <p>若符合以上條件，我們將依死魚數量退款 <span class="terms-highlight">（不含運費）</span>，或於下次購物時補寄。</p>
+
+                <h3>4. 運費與貨到付款規範</h3>
+                <p>若您選擇貨到付款，請務必留意收件電話。若無故未取貨導致商品退回（造成活體死亡或耗損），本賣場將把您列入<span class="terms-highlight">黑名單</span>拒絕往來，並保留法律追訴權，依據民法請求損害賠償（包含運費、包材費及商品損失）。</p>
+            </div>
+        </div>
+    </div>
+
 
     <div class="story-container">
         
@@ -393,6 +453,21 @@
         function closeNav() {
             document.getElementById("mySidenav").style.width = "0";
             document.getElementById("menuOverlay").style.display = "none";
+        }
+
+        /* --- ✨✨✨ 補上：Modal 開關邏輯 ✨✨✨ */
+        function openTerms() {
+            document.getElementById("termsModal").style.display = "block";
+            closeNav(); // 打開條款時，順便關閉側邊欄
+        }
+        function closeTerms() {
+            document.getElementById("termsModal").style.display = "none";
+        }
+        // 點擊 Modal 外部空白處關閉
+        window.onclick = function(event) {
+            if (event.target == document.getElementById("termsModal")) {
+                closeTerms();
+            }
         }
 
         /* --- 相簿邏輯 --- */
