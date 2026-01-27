@@ -740,6 +740,12 @@
                 intro: '色澤金黃喜氣，寓意招財好風水，宛如缸中游動的小金條！<br>體長約3.5至4.5公分，圓尾基因強健好照顧，適應力高達4.5分。<br>室內燈照下璀璨亮眼，戶外俯視更顯金光閃爍，是新手也能輕鬆養的富貴魚種。<br>',
                 notice: '1. 入缸請務必對溫對水。<br>2. 建議水溫 24-26 度。<br>3. 避免與攻擊性強的魚混養。'
             },
+            'g2': { 
+                hoverMedia: 'blue-hover.mp4', 
+                gallery: ['blue-1.jpg', 'blue-2.jpg'],
+                intro: '這是莫斯科藍，顏色非常深邃優雅。',
+                notice: '建議水溫 26 度。'
+            }
         };
 
         window.onload = function() {
@@ -946,7 +952,14 @@
 
             // 5. 設定文字內容
             document.getElementById('pdIntro').innerHTML = extraData.intro || "目前沒有詳細介紹，歡迎私訊詢問！";
-            const defaultNotice = "1. 活體運送風險由本賣場承擔。<br>2. 請務必詳閱收魚對水流程。<br>3. 下缸前請確認水質數據正常。";
+            const defaultNotice = `
+    1. 下單後加入官方 LINE 可即時確認配送進度。<br>
+    2. 魚隻入缸前務必進行對溫與對水流程。<br>
+    3. 建議飼養水溫：22°C ~ 26°C。<br>
+    4. 如需混養請務必確認魚種之間是否有攻擊性。<br>
+    5. 為保障權益，收件開箱請務必「全程錄影」。<br>
+    6. 購買前請詳細閱讀本賣場之「條款與細則」。
+`;
             document.getElementById('pdNotice').innerHTML = extraData.notice || defaultNotice;
 
             const addBtn = document.getElementById('pdAddBtn');
