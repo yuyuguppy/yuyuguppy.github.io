@@ -470,6 +470,7 @@
         /* ✨ 手機版 RWD 修正 (恢復正常排版) */
         /* ✨ 手機版 RWD 修正 (方案 B：緊湊排列) */
         /* ✨ 手機版 RWD 修正 (按鈕與排版縮小優化版) */
+       /* ✨ 手機版 RWD 修正 (按鈕加大好點版) */
         @media (max-width: 768px) {
             .yuyu-announcement-bar { 
                 font-size: 13px; white-space: nowrap !important; overflow-x: auto !important; 
@@ -480,33 +481,34 @@
             
             .layout-container { flex-direction: column; padding: 0 10px; }
             
-            /* 上方目錄緊湊版 */
+            /* 上方目錄維持 */
             .sidebar { width: 100%; display: flex; overflow-x: auto; padding: 8px 4px; gap: 4px; position: sticky; top: 95px; z-index: 90; background: rgba(3, 16, 31, 0.95); scrollbar-width: none; }
             .sidebar::-webkit-scrollbar { display: none; }
             .category-btn { width: auto; white-space: nowrap; margin-bottom: 0; padding: 6px 10px; font-size: 13px; flex-shrink: 0; }
             
             .top-nav { display: none; }
             
-            /* 商品列表：維持兩欄，但間距縮小 */
-            .products-grid { grid-template-columns: repeat(2, 1fr); gap: 8px; }
+            /* 商品列表 */
+            .products-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
             
-            /* 👇👇👇 這裡讓規格按鈕變小、變精緻 👇👇👇 */
+            /* 👇👇👇 重點修改：規格按鈕加大 👇👇👇 */
             .variant-tag-container {
-                gap: 3px; /* 按鈕之間的縫隙變小 */
-                margin-bottom: 6px;
+                gap: 5px;          /* 間距拉開一點，避免誤觸 */
+                margin-bottom: 8px;
             }
             .v-tag {
-                padding: 4px 6px;     /* 內距改小 (變扁) */
-                font-size: 12px;      /* 字體改小 */
-                min-width: 30px;      /* 最小寬度改小 */
-                border-radius: 4px;   
-                line-height: 1.2;
-                font-weight: normal;  /* 字體不要太粗，看起來比較清爽 */
+                padding: 6px 10px;    /* ✨ 內距加大 (上下6px, 左右10px) */
+                font-size: 13px;      /* ✨ 字體加大回來 */
+                min-width: 40px;      /* 最小寬度加大 */
+                border-radius: 5px;   
+                line-height: 1.4;
+                font-weight: normal; 
+                flex-grow: 1;         /* ✨ 讓按鈕自動撐滿，增加點擊面積 */
             }
             
-            .p-info { padding: 8px; } /* 卡片內部留白減少 */
-            .p-name { font-size: 15px; margin-bottom: 3px; } /* 商品名稱縮小一點 */
-            .p-price-current { font-size: 16px; margin-bottom: 4px; } /* 價格字體微調 */
+            .p-info { padding: 12px; } /* 卡片內部空間稍微放鬆 */
+            .p-name { font-size: 16px; margin-bottom: 5px; } 
+            .p-price-current { font-size: 17px; margin-bottom: 6px; }
             /* 👆👆👆 修改結束 👆👆👆 */
 
             .back-to-top { bottom: 15px; right: 15px; }
