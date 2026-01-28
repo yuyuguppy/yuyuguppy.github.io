@@ -382,19 +382,15 @@
         .pd-gallery {
             display: flex; gap: 15px; overflow-x: auto; padding-bottom: 0; margin-bottom: 15px;
             scroll-snap-type: x mandatory;
-            
-            /* 隱藏卷軸 */
-            scrollbar-width: none; /* Firefox */
-            -ms-overflow-style: none; /* IE/Edge */
+            scrollbar-width: none; 
+            -ms-overflow-style: none;
         }
-        .pd-gallery::-webkit-scrollbar { display: none; /* Chrome/Safari */ }
+        .pd-gallery::-webkit-scrollbar { display: none; }
 
         .pd-gallery img, .pd-gallery video {
             height: 200px; 
-            /* ✨ 關鍵修改：讓圖片寬度小於 100%，才能露出下一張 */
             flex: 0 0 78%; 
             width: 78%; 
-
             object-fit: cover; 
             background: transparent;
             border-radius: 12px; 
@@ -458,19 +454,16 @@
         }
         .pd-add-btn:active { transform: translateY(0); }
 
-        /* ✨ 關鍵修復：這裡補回了被刪掉的 @media 括號 */
         @media (max-width: 768px) {
             .yuyu-announcement-bar { 
                 font-size: 13px; 
-                white-space: nowrap !important; /* 強制不換行 */
-                overflow-x: auto !important;    /* 太長就左右滑動 */
+                white-space: nowrap !important; 
+                overflow-x: auto !important; 
                 padding: 0 10px; 
-                height: 45px !important;        /* 鎖死高度 45px */
-                min-height: 45px !important;    /* 鎖死最小高度 */
-                line-height: 45px;              /* 文字垂直置中 */
+                height: 45px !important; 
+                min-height: 45px !important; 
+                line-height: 45px; 
                 display: block; 
-                
-                /* 隱藏醜醜的捲軸 */
                 -webkit-overflow-scrolling: touch;
                 scrollbar-width: none;
             }
@@ -522,7 +515,7 @@
         <div class="dropdown-container">
             <a href="#" onclick="filterProducts('guppy', this)">🔹 孔雀魚</a>
             <a href="#" onclick="filterProducts('molly', this)">🔹 茉莉魚</a>
-            <a href="#" onclick="filterProducts('shrimp', this)">🔹 米蝦、螺類、底棲</a>
+            <a href="#" onclick="filterProducts('shrimp', this)">🔹 蝦子、螺、底棲魚</a>
         </div>
         <a href="https://myship.7-11.com.tw/general/detail/GM2312087898760" target="_blank">🛒 硬體與飼料</a>
         <a href="https://myship.7-11.com.tw/general/detail/GM2404054052893" target="_blank">❄️ 冷凍豐年蝦</a>
@@ -570,7 +563,7 @@
             <button class="category-btn active" onclick="filterProducts('all', this)">📌 全部商品</button>
             <button class="category-btn" onclick="filterProducts('guppy', this)">🐟 孔雀魚</button>
             <button class="category-btn" onclick="filterProducts('molly', this)">🐠 茉莉魚</button>
-            <button class="category-btn" onclick="filterProducts('shrimp', this)">🦐 米蝦、螺類、底棲</button>
+            <button class="category-btn" onclick="filterProducts('shrimp', this)">🦐 蝦子、螺、底棲</button>
             <button class="category-btn" onclick="filterProducts('addon', this)">🥫 加購區</button>
         </aside>
 
@@ -598,18 +591,14 @@
                 <div class="pd-close" onclick="closeProductDetail()">✕</div>
             </div>
             <div class="pd-body">
-                <div class="pd-gallery" id="pdGallery">
-                    </div>
+                <div class="pd-gallery" id="pdGallery"></div>
                 <div class="pd-dots-container" id="pdDots"></div>
                 
                 <div class="pd-section-title">🐟 魚隻介紹</div>
                 <div class="pd-text" id="pdIntro">這裡會顯示魚隻的詳細介紹...</div>
 
                 <div class="pd-section-title">⚠️ 注意事項</div>
-                <div class="pd-warning" id="pdNotice">
-                    1. 活體運送風險由本賣場承擔。<br>
-                    2. 請務必詳閱收魚對水流程。
-                </div>
+                <div class="pd-warning" id="pdNotice"></div>
             </div>
             <div class="pd-footer">
                 <button class="pd-add-btn" id="pdAddBtn" onclick="">加入購物車</button>
@@ -626,17 +615,13 @@
             
             <div class="step-container active" id="step1">
                 <div class="cart-items" id="cartItems"></div>
-                
                 <div class="promo-section">
                     <input type="text" id="promoCodeInput" class="promo-input" placeholder="請輸入優惠碼 (如: yuyu1380)">
                     <button class="promo-btn" onclick="applyPromoCode()">套用</button>
                 </div>
                 <div id="promoMessage" class="promo-message"></div>
-
                 <div id="priceSummaryArea">
-                    <div id="shippingAlert" class="free-shipping-alert">
-                        還差 <b id="diffAmount">0</b> 元即享免運優惠！
-                    </div>
+                    <div id="shippingAlert" class="free-shipping-alert">還差 <b id="diffAmount">0</b> 元即享免運優惠！</div>
                     <div class="price-summary">
                         <div class="summary-row"><span>小計</span><span>NT$ <span id="subTotal">0</span></span></div>
                         <div class="summary-row"><span>黑貓運費</span><span id="shippingFeeDisplay">NT$ 200</span></div>
@@ -654,9 +639,6 @@
 
             <div class="step-container" id="step2">
                 <div style="flex-grow: 1; overflow-y: auto; padding: 5px;">
-                    <div style="margin-bottom: 15px; font-size: 14px; color: #ccc;">
-                        請確認付款方式與收件資料：
-                    </div>
                     <div class="form-group">
                         <label class="form-label">付款方式 <span style="color:red">*</span></label>
                         <select id="paymentMethod" class="form-select" onchange="toggleBankInfo()">
@@ -664,17 +646,15 @@
                             <option value="cod">🚚 貨到付款 (黑貓)</option>
                         </select>
                     </div>
-
                     <div id="bankInfoArea" style="display: block;">
                         <div class="bank-title">🏦 013 國泰世華銀行</div>
                         <span class="bank-number" id="bankAccount">206506221657</span>
                         <button class="copy-btn" onclick="copyBankAccount()">📋 點我複製帳號</button>
                     </div>
-
-                    <div class="form-group"><label class="form-label">收件人姓名 <span style="color:red">*</span></label><input type="text" id="custName" class="form-input" placeholder="請輸入姓名"></div>
-                    <div class="form-group"><label class="form-label">聯絡電話 <span style="color:red">*</span></label><input type="tel" id="custPhone" class="form-input" placeholder="09xxxxxxxx"></div>
-                    <div class="form-group"><label class="form-label">收件地址 <span style="color:red">*</span></label><input type="text" id="custAddr" class="form-input" placeholder="縣市/區域/街道巷弄"></div>
-                    <div class="form-group"><label class="form-label">訂單備註</label><textarea id="custNote" class="form-input" placeholder="例如：管理室代收、指定時段..."></textarea></div>
+                    <div class="form-group"><label class="form-label">收件人姓名 <span style="color:red">*</span></label><input type="text" id="custName" class="form-input"></div>
+                    <div class="form-group"><label class="form-label">聯絡電話 <span style="color:red">*</span></label><input type="tel" id="custPhone" class="form-input"></div>
+                    <div class="form-group"><label class="form-label">收件地址 <span style="color:red">*</span></label><input type="text" id="custAddr" class="form-input"></div>
+                    <div class="form-group"><label class="form-label">訂單備註</label><textarea id="custNote" class="form-input"></textarea></div>
                 </div>
                 <div class="cart-footer">
                     <div class="cart-actions">
@@ -689,17 +669,10 @@
     <div id="orderConfirmModal">
         <div class="confirm-content">
             <div class="confirm-title">🎉 訂單準備好了！</div>
-            <div class="confirm-msg">
-                系統已幫您自動複製訂單內容 📋<br><br>
-                點擊下方按鈕將跳轉至 LINE<br>
-                <span class="confirm-highlight">請直接【貼上】並【傳送】即可！</span>
-                
+            <div class="confirm-msg">系統已幫您自動複製訂單內容 📋<br><br>點擊下方按鈕將跳轉至 LINE<br><span class="confirm-highlight">請直接【貼上】並【傳送】即可！</span>
                 <div class="yuge-promise-box">
                     <img src="boss.png" class="yuge-avatar-img" alt="宇哥" onerror="this.src='logo.jpg'">
-                    <div class="yuge-text">
-                        宇哥會在LINE上親自為您提供黑貓貨單<br>
-                        ✨ 確認配送進度！敬請期待收魚喔！ ✨
-                    </div>
+                    <div class="yuge-text">宇哥會在LINE上親自為您提供黑貓貨單<br>✨ 確認配送進度！敬請期待收魚喔！ ✨</div>
                 </div>
             </div>
             <button class="confirm-btn" onclick="finalSubmit()">🚀 前往 LINE 傳送訂單</button>
@@ -708,7 +681,6 @@
     </div>
 
     <div id="toast">✅ 已加入購物車</div>
-
     <div id="backToTop" class="back-to-top" onclick="scrollToTop()">
         <img src="daohui.png" alt="島輝" class="daohui-dog-img">
         <span>回到最頂端</span>
@@ -729,20 +701,11 @@
         let currentDiscount = 0;
         let currentPromoCode = "";
 
-        // ✨✨✨ 魚隻詳細資料庫 (請在此擴充) ✨✨✨
         const fishDetails = {
             'g1': {
                 hoverMedia: 'gold-2-guppy.jpg', 
                 gallery: ['gold-2-guppy.jpg', 'gold-3-guppy.jpg', 'gold-4-guppy.jpg'],
-                
                 intro: '色澤金黃喜氣，寓意招財好風水，宛如缸中游動的小金條！<br>體長約3.5至4.5公分，圓尾基因強健好照顧，適應力高達4.5分。<br>室內燈照下璀璨亮眼，戶外俯視更顯金光閃爍，是新手也能輕鬆養的富貴魚種。<br>',
-                notice: '1. 入缸請務必對溫對水。<br>2. 建議水溫 24-26 度。<br>3. 避免與攻擊性強的魚混養。'
-            },
-            'g2': { 
-                hoverMedia: 'blue-hover.mp4', 
-                gallery: ['blue-1.jpg', 'blue-2.jpg'],
-                intro: '這是莫斯科藍，顏色非常深邃優雅。',
-                notice: '建議水溫 26 度。'
             }
         };
 
@@ -750,7 +713,6 @@
             init();
             loadCustomerData();
             toggleBankInfo(); 
-            
             const urlParams = new URLSearchParams(window.location.search);
             const categoryParam = urlParams.get('cat');
             if (categoryParam) {
@@ -765,31 +727,21 @@
             if (googleSheetID) {
                 document.getElementById('loading').style.display = 'block';
                 const url = `https://docs.google.com/spreadsheets/d/${googleSheetID}/export?format=csv`;
-                
                 Papa.parse(url, {
                     download: true, header: true,
                     complete: function(results) {
-                        const sheetData = results.data;
-                        const validData = sheetData.filter(item => item.id && item.name);
-                        
-                        if (validData.length > 0) {
-                            products = validData.map(item => ({
-                                id: item.id,
-                                name: item.name,
-                                price: parseInt(item.price) || 0,
-                                category: item.category ? item.category.trim() : 'guppy',
-                                stock: parseInt(item.stock) || 0,
-                                img: item.img ? item.img.trim() : '',
-                                tag: item.tag ? item.tag.trim() : '',
-                                origin_price: parseInt(item.origin_price) || 0
-                            }));
-                        }
+                        products = results.data.filter(item => item.id && item.name).map(item => ({
+                            id: item.id,
+                            name: item.name,
+                            price: parseInt(item.price) || 0,
+                            category: item.category ? item.category.trim() : 'guppy',
+                            stock: parseInt(item.stock) || 0,
+                            img: item.img ? item.img.trim() : '',
+                            tag: item.tag ? item.tag.trim() : '',
+                            origin_price: parseInt(item.origin_price) || 0
+                        }));
                         document.getElementById('loading').style.display = 'none';
                         renderProducts('all');
-                    },
-                    error: function(err) {
-                        console.error("讀取失敗", err);
-                        document.getElementById('loading').innerHTML = "⚠️ 讀取失敗<br>請確認試算表已發布";
                     }
                 });
             }
@@ -801,20 +753,16 @@
         function renderProducts(filterCategory) {
             currentCategory = filterCategory;
             container.innerHTML = '';
-            
             const searchTerm = document.querySelector('.search-input').value.toLowerCase();
+            
             let filtered = products.filter(p => {
+                const isNotSub = p.category !== 'sub';
                 const matchCat = filterCategory === 'all' || p.category === filterCategory;
                 const matchSearch = p.name.toLowerCase().includes(searchTerm);
-                return matchCat && matchSearch;
+                return isNotSub && matchCat && matchSearch;
             });
-            
-            // ✨✨✨ 自動排序功能 (有貨在上，沒貨沉底) ✨✨✨
-            filtered.sort((a, b) => {
-                const aStock = a.stock > 0 ? 1 : 0;
-                const bStock = b.stock > 0 ? 1 : 0;
-                return bStock - aStock; // 降冪排列：1 (有貨) 在前，0 (沒貨) 在後
-            });
+
+            filtered.sort((a, b) => (b.stock > 0 ? 1 : 0) - (a.stock > 0 ? 1 : 0));
 
             if(filtered.length === 0) {
                 container.innerHTML = '<div style="color:#888; grid-column:1/-1; text-align:center; padding:20px;">找不到相關商品 🦐</div>';
@@ -822,364 +770,168 @@
             }
 
             filtered.forEach(p => {
-                const imgSrc = p.img ? p.img : 'logo.jpg';
                 const isSoldOut = p.stock <= 0;
-                
                 const extraData = fishDetails[p.id] || {};
-                const hoverMediaSrc = extraData.hoverMedia || '';
+                let tagHtml = p.tag === 'HOT' ? '<div class="p-tag tag-hot">熱銷 🔥</div>' : p.tag === 'NEW' ? '<div class="p-tag tag-new">新品 ✨</div>' : p.tag === 'SALE' ? '<div class="p-tag tag-sale">特價 💰</div>' : '';
 
-                let tagHtml = '';
-                if (p.tag === 'HOT') tagHtml = '<div class="p-tag tag-hot">熱銷 🔥</div>';
-                else if (p.tag === 'NEW') tagHtml = '<div class="p-tag tag-new">新品 ✨</div>';
-                else if (p.tag === 'SALE') tagHtml = '<div class="p-tag tag-sale">特價 💰</div>';
-
-                let mediaHtml = '';
-                mediaHtml += `<img src="${imgSrc}" class="p-img" alt="${p.name}" onerror="this.src='logo.jpg'">`;
-                
-                if (hoverMediaSrc) {
-                    if (hoverMediaSrc.endsWith('.mp4') || hoverMediaSrc.endsWith('.webm')) {
-                        mediaHtml += `<video src="${hoverMediaSrc}" class="p-video-hover" autoplay loop muted playsinline></video>`;
-                    } else {
-                        mediaHtml += `<img src="${hoverMediaSrc}" class="p-video-hover">`;
-                    }
-                }
-
-                let priceHtml = '';
-                if (p.tag === 'SALE' && p.origin_price > p.price) {
-                    priceHtml = `<div class="p-price-area"><span class="p-price-origin">NT$ ${p.origin_price}</span><span class="p-price-current">NT$ ${p.price}</span></div>`;
-                } else {
-                    priceHtml = `<div class="p-price-area"><span class="p-price-current">NT$ ${p.price}</span></div>`;
-                }
-
-                let btnHtml = '';
-                if (isSoldOut) {
-                    btnHtml = `<button class="add-btn disabled">已售完</button>`;
-                } else {
-                    btnHtml = `
-                        <div class="qty-control" onclick="event.stopPropagation()">
-                            <button class="qty-btn" onclick="updateCardQty('${p.id}', -1)">-</button>
-                            <input type="number" id="qty-input-${p.id}" class="qty-input" value="1" min="1" max="${p.stock}" readonly>
-                            <button class="qty-btn" onclick="updateCardQty('${p.id}', 1)">+</button>
-                        </div>
-                        <button class="add-btn" onclick="event.stopPropagation(); addToCart('${p.id}')">加入購物車</button>
-                    `;
-                }
-
-                const html = `
+                container.innerHTML += `
                     <div class="product-card" onclick="openProductDetail('${p.id}')">
                         ${tagHtml}
                         <div class="p-img-box">
-                            ${mediaHtml}
+                            <img src="${p.img || 'logo.jpg'}" class="p-img" onerror="this.src='logo.jpg'">
                             ${isSoldOut ? '<div class="sold-out-mask">SOLD OUT</div>' : ''}
                         </div>
                         <div class="p-info">
                             <div class="p-name">${p.name}</div>
-                            ${priceHtml}
+                            <div class="p-price-area"><span class="p-price-current">NT$ ${p.price}</span></div>
                             <div style="font-size:12px; color:#888; margin-bottom:5px;">庫存：${p.stock}</div>
-                            ${btnHtml}
+                            ${isSoldOut ? '<button class="add-btn disabled">已售完</button>' : `
+                                <div class="qty-control" onclick="event.stopPropagation()">
+                                    <button class="qty-btn" onclick="updateCardQty('${p.id}', -1)">-</button>
+                                    <input type="number" id="qty-input-${p.id}" class="qty-input" value="1" readonly>
+                                    <button class="qty-btn" onclick="updateCardQty('${p.id}', 1)">+</button>
+                                </div>
+                                <button class="add-btn" onclick="event.stopPropagation(); addToCart('${p.id}')">加入購物車</button>`}
                         </div>
-                    </div>
-                `;
-                container.innerHTML += html;
+                    </div>`;
             });
         }
 
-        // ✨✨✨ 產品詳細頁邏輯 (含圓點導航) ✨✨✨
         function openProductDetail(pid) {
             const product = products.find(p => p.id === pid);
             if (!product) return;
-
-            const extraData = fishDetails[pid] || {}; 
-
+            const extraData = fishDetails[pid] || {};
             document.getElementById('pdTitle').innerText = product.name;
 
+            const subVariants = products.filter(p => p.id.startsWith(pid + '-') && p.category === 'sub');
+            let variantsHtml = '';
+            if (subVariants.length > 0) {
+                variantsHtml = '<div class="pd-section-title">📏 選擇規格</div><div style="display:flex; gap:10px; flex-wrap:wrap; margin-bottom:15px;">';
+                variantsHtml += `<button class="category-btn active" id="vbtn-${product.id}" onclick="switchVariant('${product.id}')" style="width:auto; margin-bottom:0;">基本款</button>`;
+                subVariants.forEach(sv => {
+                    variantsHtml += `<button class="category-btn" id="vbtn-${sv.id}" onclick="switchVariant('${sv.id}')" style="width:auto; margin-bottom:0;">${sv.name.replace(product.name + '-', '')}</button>`;
+                });
+                variantsHtml += '</div>';
+            }
+
             const galleryDiv = document.getElementById('pdGallery');
-            const dotsContainer = document.getElementById('pdDots');
+            let items = [{ type: 'img', src: product.img }];
+            if (extraData.gallery) extraData.gallery.forEach(url => items.push({ type: url.endsWith('.mp4') ? 'video' : 'img', src: url }));
             
-            // 1. 產生相簿內容
-            let items = [];
-            items.push({ type: 'img', src: product.img }); // 第一張主圖
-            if (extraData.gallery && extraData.gallery.length > 0) {
-                extraData.gallery.forEach(url => {
-                    if (url.endsWith('.mp4') || url.endsWith('.webm')) items.push({ type: 'video', src: url });
-                    else items.push({ type: 'img', src: url });
-                });
-            }
+            galleryDiv.innerHTML = items.map(item => item.type === 'video' ? `<video src="${item.src}" controls autoplay loop muted playsinline></video>` : `<img src="${item.src}" onerror="this.src='logo.jpg'">`).join('');
+            
+            const dotsContainer = document.getElementById('pdDots');
+            dotsContainer.innerHTML = items.length > 1 ? items.map((_, i) => `<div class="pd-dot ${i === 0 ? 'active' : ''}" onclick="scrollToGallery(${i})"></div>`).join('') : '';
 
-            // 2. 渲染圖片/影片
-            let galleryHtml = '';
-            items.forEach(item => {
-                if (item.type === 'video') galleryHtml += `<video src="${item.src}" controls autoplay loop muted playsinline></video>`;
-                else galleryHtml += `<img src="${item.src}" onerror="this.src='logo.jpg'">`;
-            });
-            galleryDiv.innerHTML = galleryHtml;
-
-            // 3. 渲染圓點 (如果有超過1張)
-            let dotsHtml = '';
-            if (items.length > 1) {
-                items.forEach((_, i) => {
-                    dotsHtml += `<div class="pd-dot ${i === 0 ? 'active' : ''}" onclick="scrollToGallery(${i})"></div>`;
-                });
-            }
-            dotsContainer.innerHTML = dotsHtml;
-
-            // 4. 監聽滑動更新圓點 (修正版：用中心點判斷)
             galleryDiv.onscroll = function() {
-                // 找出中心點位置
                 const centerPoint = galleryDiv.scrollLeft + (galleryDiv.offsetWidth / 2);
-                
-                // 找出所有的圖片/影片元素
                 const allMedia = galleryDiv.querySelectorAll('img, video');
                 let activeIndex = 0;
-
                 allMedia.forEach((media, index) => {
-                    const mediaLeft = media.offsetLeft;
-                    const mediaRight = mediaLeft + media.offsetWidth;
-
-                    // 如果中心點落在這張圖的範圍內，它就是主角
-                    if (centerPoint >= mediaLeft && centerPoint <= mediaRight) {
-                        activeIndex = index;
-                    }
+                    if (centerPoint >= media.offsetLeft && centerPoint <= (media.offsetLeft + media.offsetWidth)) activeIndex = index;
                 });
-
-                // 更新圓點樣式
-                const dots = document.querySelectorAll('.pd-dot');
-                dots.forEach(d => d.classList.remove('active'));
-                if(dots[activeIndex]) dots[activeIndex].classList.add('active');
+                document.querySelectorAll('.pd-dot').forEach((d, i) => d.classList.toggle('active', i === activeIndex));
             };
 
-            // 5. 設定文字內容
-            document.getElementById('pdIntro').innerHTML = extraData.intro || "目前沒有詳細介紹，歡迎私訊詢問！";
-            const defaultNotice = `
-    1. 下單後加入官方 LINE 可即時確認配送進度。<br>
-    2. 魚隻入缸前務必進行對溫與對水流程。<br>
-    3. 建議飼養水溫：22°C ~ 26°C。<br>
-    4. 如需混養請務必確認魚種之間是否有攻擊性。<br>
-    5. 為保障權益，收件開箱請務必「全程錄影」。<br>
-    6. 購買前請詳細閱讀本賣場之「條款與細則」。
-`;
-            document.getElementById('pdNotice').innerHTML = extraData.notice || defaultNotice;
-
-            const addBtn = document.getElementById('pdAddBtn');
-            if (product.stock <= 0) {
-                addBtn.innerText = "已售完";
-                addBtn.disabled = true;
-                addBtn.style.background = "#999";
-            } else {
-                addBtn.innerText = `加入購物車 (NT$ ${product.price})`;
-                addBtn.disabled = false;
-                addBtn.style.background = "#4fc3f7"; 
-                addBtn.onclick = function() {
-                    addToCart(pid);
-                    closeProductDetail(); 
-                };
-            }
-
+            document.getElementById('pdIntro').innerHTML = variantsHtml + (extraData.intro || "歡迎私訊詢問！");
+            document.getElementById('pdNotice').innerHTML = `1. 下單後加入官方 LINE 可即時確認進度。<br>2. 魚隻入缸前務必對溫對水。<br>3. 建議水溫：22°C ~ 26°C。<br>4. 收件開箱請務必「全程錄影」。<br>5. 請詳閱「條款與細則」。`;
+            
+            updatePdAddBtn(product);
             document.getElementById('productDetailModal').style.display = 'flex';
         }
 
-        // 點擊圓點滾動 (修正版)
-        function scrollToGallery(index) {
-            const galleryDiv = document.getElementById('pdGallery');
-            const allMedia = galleryDiv.querySelectorAll('img, video');
-            
-            if (allMedia[index]) {
-                // 直接滑動到該圖片的左邊界
-                // 因為我們設定了 container padding-left: 20px, 圖片 margin-right: 10px
-                // 這裡 offsetLeft 已經是相對於父容器的距離，直接用即可
-                // 但為了更精準置中，可以微調一下
-                galleryDiv.scrollTo({ 
-                    left: allMedia[index].offsetLeft, 
-                    behavior: 'smooth' 
-                });
+        function switchVariant(vid) {
+            const variant = products.find(p => p.id === vid);
+            if (!variant) return;
+            document.querySelectorAll('[id^="vbtn-"]').forEach(btn => btn.classList.toggle('active', btn.id === 'vbtn-' + vid));
+            updatePdAddBtn(variant);
+        }
+
+        function updatePdAddBtn(item) {
+            const addBtn = document.getElementById('pdAddBtn');
+            if (item.stock <= 0) {
+                addBtn.innerText = "該規格已售完"; addBtn.disabled = true; addBtn.style.background = "#999";
+            } else {
+                addBtn.innerText = `加入購物車 - ${item.name} (NT$ ${item.price})`;
+                addBtn.disabled = false; addBtn.style.background = "#4fc3f7"; 
+                addBtn.onclick = () => { addToCart(item.id); closeProductDetail(); };
             }
         }
 
-        function closeProductDetail() {
-            document.getElementById('productDetailModal').style.display = 'none';
+        function scrollToGallery(index) {
+            const galleryDiv = document.getElementById('pdGallery');
+            const allMedia = galleryDiv.querySelectorAll('img, video');
+            if (allMedia[index]) galleryDiv.scrollTo({ left: allMedia[index].offsetLeft, behavior: 'smooth' });
         }
+
+        function closeProductDetail() { document.getElementById('productDetailModal').style.display = 'none'; }
 
         function filterProducts(cat, btn) {
             document.querySelectorAll('.category-btn').forEach(b => b.classList.remove('active'));
             btn.classList.add('active');
-            
-            // ✨ 更新標題對應表
-            const titles = { 
-                'all': '📌 全部商品', 
-                'guppy': '🐟 孔雀魚專區', 
-                'molly': '🐠 茉莉魚專區', 
-                'shrimp': '🦐 蝦子、螺、底棲魚', // 合併後的標題
-                'addon': '🥫 加購專區' 
-            };
-            
+            const titles = { 'all': '📌 全部商品', 'guppy': '🐟 孔雀魚專區', 'molly': '🐠 茉莉魚專區', 'shrimp': '🦐 蝦子、螺、底棲魚', 'addon': '🥫 加購專區' };
             titleDom.innerText = titles[cat];
-            document.querySelector('.search-input').value = '';
-            renderProducts(cat);
-            closeNav();
-        } function filterProducts(cat, btn) {
-            document.querySelectorAll('.category-btn').forEach(b => b.classList.remove('active'));
-            btn.classList.add('active');
-            const titles = { 'all': '📌 全部商品', 'guppy': '🐟 孔雀魚專區', 'molly': '🐠 茉莉魚專區', 'shrimp': '🦐 米蝦、螺類、底棲', 'addon': '🥫 加購專區' };
-            titleDom.innerText = titles[cat];
-            document.querySelector('.search-input').value = '';
             renderProducts(cat);
             closeNav();
         }
 
-        function searchProducts(val) { renderProducts(currentCategory); }
+        function searchProducts() { renderProducts(currentCategory); }
 
         function updateCardQty(pid, delta) {
             const input = document.getElementById(`qty-input-${pid}`);
             const product = products.find(p => p.id === pid);
-            let currentVal = parseInt(input.value);
-            let newVal = currentVal + delta;
-            if (newVal < 1) newVal = 1;
-            if (newVal > product.stock) { showToast(`庫存只剩 ${product.stock} 喔！`); newVal = product.stock; }
-            input.value = newVal;
+            let newVal = parseInt(input.value) + delta;
+            if (newVal >= 1 && newVal <= product.stock) input.value = newVal;
         }
 
         function addToCart(pid) {
             const product = products.find(p => p.id === pid);
             if (product.stock <= 0) return;
-            let addQty = 1;
-            const listInput = document.getElementById(`qty-input-${pid}`);
-            if (listInput) {
-                addQty = parseInt(listInput.value);
-            }
-
-            const existItem = cart.find(c => c.id === pid);
-            
-            if (existItem) { 
-                if (existItem.qty + addQty <= product.stock) {
-                    existItem.qty += addQty;
-                    showToast(`已增加 ${addQty} 個 ${product.name} 🛒`);
-                } else {
-                    showToast("購物車數量超過庫存囉！");
-                    return;
-                }
-            } else { 
-                cart.push({ ...product, qty: addQty }); 
-                showToast(`✅ 已加入購物車`);
-            }
+            const input = document.getElementById(`qty-input-${pid}`);
+            const qty = input ? parseInt(input.value) : 1;
+            const exist = cart.find(c => c.id === pid);
+            if (exist) {
+                if (exist.qty + qty <= product.stock) exist.qty += qty;
+                else { showToast("超過庫存囉！"); return; }
+            } else cart.push({ ...product, qty });
+            showToast("✅ 已加入購物車");
             updateCartUI();
-            if (listInput) listInput.value = 1; 
         }
 
         function showToast(msg) {
-            const toast = document.getElementById("toast");
-            toast.innerText = msg;
-            toast.className = "show";
-            setTimeout(function(){ toast.className = toast.className.replace("show", ""); }, 2000);
-        }
-
-        function applyPromoCode() {
-            const inputCode = document.getElementById('promoCodeInput').value.trim();
-            const messageDiv = document.getElementById('promoMessage');
-            let subtotal = cart.reduce((sum, item) => sum + item.price * item.qty, 0);
-
-            if (inputCode === "yuyu1380") {
-                if (subtotal >= 1380) {
-                    currentDiscount = 100;
-                    currentPromoCode = inputCode;
-                    messageDiv.innerHTML = "<span class='promo-success'>✅ 優惠碼生效：已折抵 100 元</span>";
-                } else {
-                    currentDiscount = 0;
-                    currentPromoCode = "";
-                    messageDiv.innerHTML = "<span class='promo-error'>⚠️ 購物滿 1380 元才能使用此優惠碼喔！</span>";
-                }
-            } else if (inputCode === "") {
-                currentDiscount = 0;
-                currentPromoCode = "";
-                messageDiv.innerHTML = "";
-            } else {
-                currentDiscount = 0;
-                currentPromoCode = "";
-                messageDiv.innerHTML = "<span class='promo-error'>❌ 無效的優惠碼</span>";
-            }
-            updateCartUI(); 
+            const t = document.getElementById("toast");
+            t.innerText = msg; t.className = "show";
+            setTimeout(() => t.className = "", 2000);
         }
 
         function updateCartUI() {
-            const totalCount = cart.reduce((sum, item) => sum + item.qty, 0);
+            const totalCount = cart.reduce((s, i) => s + i.qty, 0);
             document.getElementById('cartCount').innerText = totalCount;
             document.getElementById('mobileCartCount').innerText = totalCount;
-            
-            const cartItemsContainer = document.getElementById('cartItems');
-            
-            if (cart.length === 0) {
-                cartItemsContainer.innerHTML = '<div style="text-align:center; color:#aaa; padding:20px;">您的購物車是空的 🛒</div>';
-                document.getElementById('priceSummaryArea').style.display = 'none';
-                document.querySelector('.btn-next').style.display = 'none';
-                return;
-            } else {
-                document.getElementById('priceSummaryArea').style.display = 'block';
-                document.querySelector('.btn-next').style.display = 'block';
-            }
+            const subtotal = cart.reduce((s, i) => s + i.price * i.qty, 0);
+            const isFree = subtotal >= FREE_SHIPPING_THRESHOLD;
+            const finalTotal = subtotal + (isFree ? 0 : SHIPPING_COST) - currentDiscount;
 
-            let html = '';
-            let subtotal = 0;
-            cart.forEach((item, index) => {
-                subtotal += item.price * item.qty;
-                html += `
-                    <div class="cart-item">
-                        <div class="ci-name">${item.name}<br><small style="color:#64ffda">NT$ ${item.price}</small></div>
-                        <div class="ci-controls">
-                            <button class="ci-btn" onclick="changeQty(${index}, -1)">-</button>
-                            <span class="ci-qty">${item.qty}</span>
-                            <button class="ci-btn" onclick="changeQty(${index}, 1)">+</button>
-                        </div>
+            document.getElementById('cartItems').innerHTML = cart.map((item, index) => `
+                <div class="cart-item">
+                    <div class="ci-name">${item.name}<br><small>NT$ ${item.price}</small></div>
+                    <div class="ci-controls">
+                        <button class="ci-btn" onclick="changeQty(${index}, -1)">-</button>
+                        <span class="ci-qty">${item.qty}</span>
+                        <button class="ci-btn" onclick="changeQty(${index}, 1)">+</button>
                     </div>
-                `;
-            });
-            cartItemsContainer.innerHTML = html;
-
-            if (currentPromoCode === "yuyu1380" && subtotal < 1380) {
-                currentDiscount = 0;
-                document.getElementById('promoMessage').innerHTML = "<span class='promo-error'>⚠️ 金額未達標，優惠碼已失效</span>";
-            }
-
-            const isFreeShipping = subtotal >= FREE_SHIPPING_THRESHOLD;
-            const finalShipping = isFreeShipping ? 0 : SHIPPING_COST;
-            const finalTotal = subtotal + finalShipping - currentDiscount; 
+                </div>`).join('');
 
             document.getElementById('subTotal').innerText = subtotal;
-            
-            const discountRow = document.getElementById('discountRow');
-            const discountValue = document.getElementById('discountValue');
-            if (currentDiscount > 0) {
-                discountRow.style.display = 'flex';
-                discountValue.innerText = currentDiscount;
-            } else {
-                discountRow.style.display = 'none';
-            }
-
-            document.getElementById('finalTotal').innerText = finalTotal > 0 ? finalTotal : 0; 
-
-            const shippingDisplay = document.getElementById('shippingFeeDisplay');
-            if (isFreeShipping) {
-                shippingDisplay.innerHTML = `<span style="text-decoration:line-through; color:#888; margin-right:5px;">NT$ ${SHIPPING_COST}</span> <span style="color:#64ffda">NT$ 0 (免運)</span>`;
-            } else {
-                shippingDisplay.innerHTML = `NT$ ${SHIPPING_COST}`;
-            }
-
-            const alertBox = document.getElementById('shippingAlert');
-            if (isFreeShipping) {
-                alertBox.className = 'free-shipping-alert free-shipping-success';
-                alertBox.innerHTML = '🎉 恭喜！您已符合免運資格！';
-            } else {
-                const diff = FREE_SHIPPING_THRESHOLD - subtotal;
-                alertBox.className = 'free-shipping-alert';
-                alertBox.innerHTML = `還差 <b style="font-size:16px;">${diff}</b> 元即享黑貓免運優惠！`;
-            }
+            document.getElementById('finalTotal').innerText = finalTotal;
+            document.getElementById('shippingFeeDisplay').innerText = isFree ? "NT$ 0 (免運)" : `NT$ ${SHIPPING_COST}`;
+            document.getElementById('shippingAlert').innerHTML = isFree ? "🎉 恭喜免運！" : `還差 <b>${FREE_SHIPPING_THRESHOLD - subtotal}</b> 元即享免運！`;
         }
 
         function changeQty(index, delta) {
             const item = cart[index];
             const product = products.find(p => p.id === item.id);
-            if (delta > 0 && item.qty >= product.stock) {
-                showToast("老闆說庫存只剩這些了～");
-                return;
-            }
+            if (delta > 0 && item.qty >= product.stock) return;
             item.qty += delta;
             if (item.qty <= 0) cart.splice(index, 1);
             updateCartUI();
@@ -1187,170 +939,52 @@
 
         function openCart() { document.getElementById('cartModal').style.display = 'flex'; goToStep1(); }
         function closeCart() { document.getElementById('cartModal').style.display = 'none'; }
-        function goToStep2() { if (cart.length === 0) return; document.getElementById('step1').classList.remove('active'); document.getElementById('step2').classList.add('active'); document.getElementById('cartTitle').innerText = '📝 填寫收件資料'; }
-        function goToStep1() { document.getElementById('step2').classList.remove('active'); document.getElementById('step1').classList.add('active'); document.getElementById('cartTitle').innerText = '🛒 您的購物車'; }
-
-        function toggleBankInfo() {
-            const payment = document.getElementById('paymentMethod').value;
-            const bankArea = document.getElementById('bankInfoArea');
-            if (payment === 'atm') {
-                bankArea.style.display = 'block';
-            } else {
-                bankArea.style.display = 'none';
-            }
-        }
-
-        function copyBankAccount() {
-            navigator.clipboard.writeText(BANK_ACC).then(() => {
-                showToast("✅ 帳號已複製！");
-            }).catch(err => {
-                showToast("❌ 複製失敗，請手動複製");
-            });
-        }
-
-        function saveCustomerData() {
-            const data = {
-                name: document.getElementById('custName').value,
-                phone: document.getElementById('custPhone').value,
-                addr: document.getElementById('custAddr').value
-            };
-            localStorage.setItem('yuyu_customer', JSON.stringify(data));
-        }
-        function loadCustomerData() {
-            const saved = localStorage.getItem('yuyu_customer');
-            if (saved) {
-                const data = JSON.parse(saved);
-                if(data.name) document.getElementById('custName').value = data.name;
-                if(data.phone) document.getElementById('custPhone').value = data.phone;
-                if(data.addr) document.getElementById('custAddr').value = data.addr;
-            }
-        }
+        function goToStep2() { if (cart.length > 0) { document.getElementById('step1').classList.remove('active'); document.getElementById('step2').classList.add('active'); } }
+        function goToStep1() { document.getElementById('step2').classList.remove('active'); document.getElementById('step1').classList.add('active'); }
+        function toggleBankInfo() { document.getElementById('bankInfoArea').style.display = document.getElementById('paymentMethod').value === 'atm' ? 'block' : 'none'; }
+        function copyBankAccount() { navigator.clipboard.writeText(BANK_ACC); showToast("✅ 帳號已複製"); }
 
         function prepareOrder() {
             const name = document.getElementById('custName').value.trim();
             const phone = document.getElementById('custPhone').value.trim();
             const addr = document.getElementById('custAddr').value.trim();
-            const note = document.getElementById('custNote').value.trim();
-            const payment = document.getElementById('paymentMethod').value;
-
-            if (!name || !phone || !addr) { 
-                alert('請完整填寫姓名、電話與地址喔！'); 
-                return; 
-            }
-
+            if (!name || !phone || !addr) return alert('請填寫完整資料');
+            
             saveCustomerData();
-
-            const paymentText = payment === 'atm' ? '🏧 銀行匯款' : '🚚 貨到付款';
-            let subtotal = cart.reduce((sum, item) => sum + item.price * item.qty, 0);
-            const isFreeShipping = subtotal >= FREE_SHIPPING_THRESHOLD;
-            const shippingFee = isFreeShipping ? 0 : SHIPPING_COST;
-            const finalTotal = subtotal + shippingFee - currentDiscount; 
-
-            let message = `嗨宇哥！我要下單：\n------------------\n`;
-            cart.forEach(item => { message += `${item.name} x ${item.qty} = ${item.price * item.qty}\n`; });
-            message += `------------------\n`;
-            message += `商品小計：${subtotal}\n`;
+            const subtotal = cart.reduce((s, i) => s + i.price * i.qty, 0);
+            const shipping = subtotal >= FREE_SHIPPING_THRESHOLD ? 0 : SHIPPING_COST;
             
-            if (currentDiscount > 0) {
-                message += `🎉 優惠碼折抵 (${currentPromoCode})：-${currentDiscount}\n`;
-            }
-
-            message += `黑貓運費：${shippingFee} ${isFreeShipping ? '(達標免運)' : ''}\n`;
-            message += `💰 總金額：${finalTotal}\n`;
-            message += `------------------\n`;
-            message += `【付款方式】：${paymentText}\n`;
+            let msg = `嗨宇哥！我要下單：\n------------------\n`;
+            cart.forEach(i => msg += `${i.name} x ${i.qty} = ${i.price * i.qty}\n`);
+            msg += `------------------\n總金額：${subtotal + shipping - currentDiscount}\n付款：${document.getElementById('paymentMethod').value === 'atm' ? '銀行匯款' : '貨到付款'}\n收件人：${name}\n電話：${phone}\n地址：${addr}`;
             
-            if (payment === 'atm') {
-                message += `(匯款帳號：${BANK_CODE} ${BANK_ACC})\n`;
-                message += `(我匯款後會再通知您查收！)\n`;
-            }
-            
-            message += `【收件資訊】\n姓名：${name}\n電話：${phone}\n地址：${addr}\n`;
-            if (note) message += `備註：${note}\n`;
-            message += `\n麻煩確認訂單，謝謝！`;
-
-            pendingOrderMessage = message;
+            pendingOrderMessage = msg;
             document.getElementById('orderConfirmModal').style.display = 'flex';
         }
 
         function finalSubmit() {
-            const lineID = "@118rfvyo"; 
-            const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
-
-            navigator.clipboard.writeText(pendingOrderMessage).then(() => {
-                console.log("訂單複製成功");
-            }).catch(err => {
-                console.error("複製失敗", err);
-            });
-
-            let lineUrl = "";
-            if (isMobile) {
-                lineUrl = `https://line.me/R/oaMessage/${lineID}/?${encodeURIComponent(pendingOrderMessage)}`;
-            } else {
-                lineUrl = `https://line.me/R/ti/p/${lineID}`;
-            }
-            
-            setTimeout(() => {
-                window.location.href = lineUrl;
-                cart = [];
-                currentDiscount = 0; 
-                currentPromoCode = "";
-                updateCartUI();
-                closeCart();
-                closeConfirmModal();
-            }, 300);
+            navigator.clipboard.writeText(pendingOrderMessage);
+            window.location.href = `https://line.me/R/ti/p/@118rfvyo`;
         }
 
-        function closeConfirmModal() {
-            document.getElementById('orderConfirmModal').style.display = 'none';
+        function saveCustomerData() {
+            localStorage.setItem('yuyu_customer', JSON.stringify({ name: document.getElementById('custName').value, phone: document.getElementById('custPhone').value, addr: document.getElementById('custAddr').value }));
+        }
+        function loadCustomerData() {
+            const data = JSON.parse(localStorage.getItem('yuyu_customer') || '{}');
+            if (data.name) document.getElementById('custName').value = data.name;
+            if (data.phone) document.getElementById('custPhone').value = data.phone;
+            if (data.addr) document.getElementById('custAddr').value = data.addr;
         }
 
-        function openNav() {
-            document.getElementById("mySidenav").style.width = "280px";
-            document.getElementById("menuOverlay").style.display = "block";
-        }
-        function closeNav() {
-            document.getElementById("mySidenav").style.width = "0";
-            document.getElementById("menuOverlay").style.display = "none";
-        }
-
-        var dropdown = document.getElementsByClassName("dropdown-btn");
-        for (var i = 0; i < dropdown.length; i++) {
-            dropdown[i].addEventListener("click", function() {
-                this.classList.toggle("active");
-                var dropdownContent = this.nextElementSibling;
-                if (dropdownContent.style.display === "block") {
-                    dropdownContent.style.display = "none";
-                } else {
-                    dropdownContent.style.display = "block";
-                }
-            });
-        }
-
-        function openTerms() {
-            document.getElementById("termsModal").style.display = "block";
-            closeNav();
-        }
-        function closeTerms() {
-            document.getElementById("termsModal").style.display = "none";
-        }
-        window.onclick = function(event) {
-            if (event.target == document.getElementById("termsModal")) {
-                closeTerms();
-            }
-        }
-
-        const backToTopBtn = document.getElementById('backToTop');
-        window.addEventListener('scroll', function() {
-            let currentScroll = window.pageYOffset || document.documentElement.scrollTop;
-            if (currentScroll > 300) {
-                backToTopBtn.classList.add('show');
-            } else {
-                backToTopBtn.classList.remove('show');
-            }
-        });
-
+        function openNav() { document.getElementById("mySidenav").style.width = "280px"; document.getElementById("menuOverlay").style.display = "block"; }
+        function closeNav() { document.getElementById("mySidenav").style.width = "0"; document.getElementById("menuOverlay").style.display = "none"; }
         function scrollToTop() { window.scrollTo({ top: 0, behavior: 'smooth' }); }
+        
+        document.querySelectorAll(".dropdown-btn").forEach(btn => btn.onclick = () => {
+            btn.classList.toggle("active");
+            btn.nextElementSibling.style.display = btn.nextElementSibling.style.display === "block" ? "none" : "block";
+        });
     </script>
 </body>
 </html>
