@@ -842,7 +842,12 @@
                 let variantTags = '';
                 if(subVariants.length > 0) {
                     variantTags = `<div class="variant-tag-container">`;
-                    variantTags += `<div class="v-tag active" id="vtag-${p.id}-${p.id}" onclick="event.stopPropagation(); updateExternalVariant('${p.id}', '${p.id}')">單件</div>`;
+                    
+                    // 抓取主商品名稱中 '-' 後面的字，如果沒有就用 '單件'
+                    let mainName = p.name.includes('-') ? p.name.split('-').pop() : '單件';
+                    
+                    variantTags += `<div class="v-tag active" id="vtag-${p.id}-${p.id}" onclick="event.stopPropagation(); updateExternalVariant('${p.id}', '${p.id}')">${mainName}</div>`;
+                    
                     subVariants.forEach(v => {
                         let vName = v.name.includes('-') ? v.name.split('-').pop() : v.name;
                         variantTags += `<div class="v-tag" id="vtag-${p.id}-${v.id}" onclick="event.stopPropagation(); updateExternalVariant('${p.id}', '${v.id}')">${vName}</div>`;
@@ -955,10 +960,15 @@
             
             const subVariants = products.filter(v => v.id.startsWith(pid + '-') && v.category === 'sub');
             const vArea = document.getElementById('pdVariantArea');
+            // ✨ 修改：讓第一個按鈕名稱變聰明 (Modal 內) ✨
             if(subVariants.length > 0) {
                 let html = `<div class="pd-section-title">📏 選擇規格</div><div class="variant-tag-container">`;
-                // 👇 這裡也改成 '單件'
-                html += `<div class="v-tag active" id="pdv-${product.id}" onclick="switchPdVariant('${pid}', '${product.id}')">單件</div>`;
+                
+                // 抓取主商品名稱中 '-' 後面的字，如果沒有就用 '單件'
+                let mainName = product.name.includes('-') ? product.name.split('-').pop() : '單件';
+                
+                html += `<div class="v-tag active" id="pdv-${product.id}" onclick="switchPdVariant('${pid}', '${product.id}')">${mainName}</div>`;
+                
                 subVariants.forEach(v => {
                     let vName = v.name.includes('-') ? v.name.split('-').pop() : v.name;
                     html += `<div class="v-tag" id="pdv-${v.id}" onclick="switchPdVariant('${pid}', '${v.id}')">${vName}</div>`;
