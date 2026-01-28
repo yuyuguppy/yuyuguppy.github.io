@@ -794,6 +794,7 @@
                 
                 Papa.parse(url, {
                     download: true, header: true,
+                    skipEmptyLines: true,
                     complete: function(results) {
                         const sheetData = results.data;
                         const validData = sheetData.filter(item => item.id && item.name);
@@ -895,7 +896,9 @@
                             ${isSoldOut ? '<div class="sold-out-mask">SOLD OUT</div>' : ''}
                         </div>
                         <div class="p-info">
-                            <div class="p-name">${displayName}</div> ${priceHtml} 
+                            <div class="p-name">${displayName}</div>
+                            
+                            ${priceHtml} 
                             ${variantTags}
                             ${stockHtml}
                             
@@ -917,6 +920,7 @@
         // ✨ 外部切換規格功能
         // ✨ 外部切換規格功能 (修正版)
         // ✨ 外部切換規格 (含換圖功能)
+        // ✨ 外部切換規格 (含換圖與價格修復)
         window.updateExternalVariant = (mainId, vid) => {
             const item = products.find(p => p.id === vid);
             if (!item) return;
@@ -925,26 +929,28 @@
             document.querySelectorAll(`[id^="vtag-${mainId}"]`).forEach(el => el.classList.remove('active'));
             document.getElementById(`vtag-${mainId}-${vid}`).classList.add('active');
             
-            // 2. 更新價格 (含紅線判斷)
+            // 2. 更新價格 (修正版)
             const priceEl = document.getElementById(`price-${mainId}`);
-            if (item.tag === 'SALE' && item.origin_price > item.price) {
-                priceEl.innerHTML = `
-                    <span class="price-origin">NT$ ${item.origin_price}</span>
-                    <span class="price-sale">NT$ ${item.price}</span>
-                `;
-            } else {
-                priceEl.innerHTML = `NT$ ${item.price}`;
-                priceEl.className = 'p-price-current'; 
-                priceEl.style.color = '#ffe100'; // 恢復金色
+            if (priceEl) {
+                if (item.tag === 'SALE' && item.origin_price > item.price) {
+                    priceEl.innerHTML = `
+                        <span class="price-origin">NT$ ${item.origin_price}</span>
+                        <span class="price-sale">NT$ ${item.price}</span>
+                    `;
+                } else {
+                    priceEl.innerHTML = `NT$ ${item.price}`;
+                    priceEl.className = 'p-price-current'; 
+                    priceEl.style.color = '#ffe100';
+                }
             }
 
-            // ✨ 3. 更新圖片 (這是您要的功能)
+            // 3. ✨ 更新圖片 (這行是關鍵)
             const imgEl = document.getElementById(`img-${mainId}`);
             if (imgEl && item.img) {
                 imgEl.src = item.img;
             }
             
-            // 4. 更新按鈕行為
+            // 4. 更新加入購物車按鈕
             const addBtn = document.getElementById(`addbtn-${mainId}`);
             if (addBtn) {
                 if(item.stock <= 0) {
