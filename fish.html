@@ -468,6 +468,7 @@
         .pd-add-btn:active { transform: translateY(0); }
 
         /* ✨ 手機版 RWD 修正 (恢復正常排版) */
+        /* ✨ 手機版 RWD 修正 (方案 B：緊湊排列) */
         @media (max-width: 768px) {
             .yuyu-announcement-bar { 
                 font-size: 13px; white-space: nowrap !important; overflow-x: auto !important; 
@@ -477,14 +478,33 @@
             .yuyu-announcement-bar::-webkit-scrollbar { display: none; }
             
             .layout-container { flex-direction: column; padding: 0 10px; }
+            
+            /* 👇 修改重點：讓目錄變緊湊 👇 */
             .sidebar { 
-                width: 100%; display: flex; overflow-x: auto; padding: 10px; gap: 10px; 
-                position: sticky; top: 95px; z-index: 90; background: rgba(3, 16, 31, 0.95);
+                width: 100%; 
+                display: flex; 
+                overflow-x: auto; 
+                padding: 8px 4px;   /* 縮小外框留白 */
+                gap: 4px;           /* 縮小按鈕間的縫隙 (原本10px -> 4px) */
+                position: sticky; 
+                top: 95px; 
+                z-index: 90; 
+                background: rgba(3, 16, 31, 0.95); 
+                scrollbar-width: none;
             }
-            .category-btn { width: auto; white-space: nowrap; margin-bottom: 0; padding: 8px 15px; }
+            .sidebar::-webkit-scrollbar { display: none; }
+
+            .category-btn { 
+                width: auto; 
+                white-space: nowrap; 
+                margin-bottom: 0; 
+                padding: 6px 10px;  /* 縮小按鈕內距 (原本 8px 15px) */
+                font-size: 13px;    /* 字體縮小一點點 (原本 15px) */
+                flex-shrink: 0;     /* 確保按鈕不會被壓扁 */
+            }
+            /* 👆 修改結束 👆 */
+
             .top-nav { display: none; }
-            .area-header { flex-direction: column; align-items: flex-start; gap: 10px; }
-            .search-box { max-width: 100%; }
             .products-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
             .back-to-top { bottom: 15px; right: 15px; }
             .daohui-dog-img { width: 50px; }
