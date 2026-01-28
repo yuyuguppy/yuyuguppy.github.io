@@ -1019,7 +1019,7 @@
         } function filterProducts(cat, btn) {
             document.querySelectorAll('.category-btn').forEach(b => b.classList.remove('active'));
             btn.classList.add('active');
-            const titles = { 'all': '📌 全部商品', 'guppy': '🐟 孔雀魚專區', 'molly': '🐠 茉莉魚專區', 'shrimp': '🦐 米蝦專區', 'bottom': '🐡 底棲魚專區', 'addon': '🥫 加購專區' };
+            const titles = { 'all': '📌 全部商品', 'guppy': '🐟 孔雀魚專區', 'molly': '🐠 茉莉魚專區', 'shrimp': '🦐 米蝦、螺類、底棲', 'addon': '🥫 加購專區' };
             titleDom.innerText = titles[cat];
             document.querySelector('.search-input').value = '';
             renderProducts(cat);
