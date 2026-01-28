@@ -1,3 +1,6 @@
+
+
+
 <!DOCTYPE html>
 <html lang="zh-TW">
 <head>
@@ -12,141 +15,506 @@
 
     <style>
         /* --- 全域設定 --- */
-        body { background: radial-gradient(circle at 50% 10%, #1a3c5e 0%, #03101f 100%); color: #f0f4f8; font-family: "Microsoft JhengHei", sans-serif; margin: 0; padding: 0; min-height: 100vh; overflow-x: hidden; display: flex; flex-direction: column; position: relative; padding-top: 95px; }
+        body { 
+            background: radial-gradient(circle at 50% 10%, #1a3c5e 0%, #03101f 100%);
+            color: #f0f4f8; 
+            font-family: "Microsoft JhengHei", sans-serif; 
+            margin: 0; padding: 0; min-height: 100vh; overflow-x: hidden; 
+            display: flex; flex-direction: column; position: relative;
+            padding-top: 95px; 
+        }
 
-        /* 公告與導覽 */
-        .yuyu-announcement-bar { background-color: #ffe100; color: #000; text-align: center; padding: 0 10px; font-size: 14px; font-weight: 700; width: 100%; position: fixed; top: 0; left: 0; z-index: 12000; height: 45px; display: flex; align-items: center; justify-content: center; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-        .mobile-sticky-header { position: fixed; top: 45px; left: 0; width: 100%; height: 50px; background-color: #03101f; border-bottom: 1px solid #334e68; z-index: 11000; display: flex; align-items: center; justify-content: space-between; padding: 0 15px; box-sizing: border-box; box-shadow: 0 4px 10px rgba(0,0,0,0.3); }
-        .hamburger-btn { background: transparent; border: none; cursor: pointer; display: flex; flex-direction: column; gap: 5px; padding: 5px; z-index: 2; }
+        /* --- 1. 黃色公告欄 (手機版不換行修正) --- */
+        .yuyu-announcement-bar {
+            background-color: #ffe100; color: #000; text-align: center; 
+            padding: 0 10px; font-size: 14px; font-weight: 700; width: 100%; 
+            position: fixed; top: 0; left: 0; z-index: 12000; height: 45px; 
+            display: flex; align-items: center; justify-content: center;
+            white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+        }
+
+        /* --- 2. 手機版專用導覽列 --- */
+        .mobile-sticky-header {
+            position: fixed; top: 45px; left: 0; width: 100%; height: 50px;
+            background-color: #03101f; 
+            border-bottom: 1px solid #334e68; 
+            z-index: 11000; display: flex; align-items: center; justify-content: space-between; 
+            padding: 0 15px; box-sizing: border-box;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+        }
+
+        .hamburger-btn { 
+            background: transparent; border: none; cursor: pointer; 
+            display: flex; flex-direction: column; gap: 5px; padding: 5px; z-index: 2;
+        }
         .bar { width: 25px; height: 3px; background-color: #64ffda; border-radius: 3px; transition: 0.3s; }
-        .mobile-header-title { color: #64ffda; font-family: 'Zen Maru Gothic', sans-serif; font-weight: 700; font-size: 20px; cursor: pointer; padding: 10px; z-index: 1; }
-        .mobile-cart-btn { background: #64ffda; color: #000; font-weight: bold; padding: 5px 12px; border-radius: 20px; font-size: 14px; cursor: pointer; display: flex; align-items: center; gap: 5px; z-index: 2; }
         
-        /* 側邊選單 */
-        .sidenav { height: 100%; width: 0; position: fixed; z-index: 13000; top: 0; left: 0; background-color: rgba(3, 16, 31, 0.98); overflow-x: hidden; transition: 0.4s; padding-top: 50px; border-right: 1px solid #64ffda; }
-        .sidenav a, .dropdown-btn { padding: 15px 30px; text-decoration: none; font-size: 18px; color: #f0f4f8; display: block; transition: 0.3s; border-bottom: 1px solid rgba(255,255,255,0.05); cursor: pointer; background: none; border: none; width: 100%; text-align: left; font-family: inherit; }
+        .mobile-header-title {
+            color: #64ffda; 
+            font-family: 'Zen Maru Gothic', sans-serif; font-weight: 700; font-size: 20px;
+            cursor: pointer; padding: 10px; z-index: 1;
+        }
+
+        .mobile-cart-btn {
+            background: #64ffda; color: #000; 
+            font-weight: bold; padding: 5px 12px; 
+            border-radius: 20px; font-size: 14px;
+            cursor: pointer; display: flex; align-items: center; gap: 5px;
+            z-index: 2;
+        }
+
+        /* --- 側邊選單 (Sidenav) --- */
+        .sidenav {
+            height: 100%; width: 0; position: fixed; z-index: 13000; 
+            top: 0; left: 0; background-color: rgba(3, 16, 31, 0.98); 
+            overflow-x: hidden; transition: 0.4s; 
+            padding-top: 50px; 
+            border-right: 1px solid #64ffda;
+        }
+        .sidenav a, .dropdown-btn {
+            padding: 15px 30px; text-decoration: none; font-size: 18px;
+            color: #f0f4f8; display: block; transition: 0.3s;
+            border-bottom: 1px solid rgba(255,255,255,0.05); cursor: pointer;
+            background: none; border-left: none; border-right: none; border-top: none;
+            width: 100%; text-align: left; font-family: inherit;
+        }
         .sidenav a:hover, .dropdown-btn:hover { color: #ffe100; background: rgba(255,255,255,0.05); }
-        .sidenav .closebtn { position: absolute; top: 5px; right: 15px; font-size: 36px; padding: 0 10px; }
+        .sidenav .closebtn { 
+            position: absolute; top: 5px; right: 15px; 
+            font-size: 36px; border: none; padding: 0 10px;
+        }
         .menu-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.7); z-index: 12500; backdrop-filter: blur(2px); }
+
         .dropdown-container { display: none; background-color: rgba(0,0,0,0.3); padding-left: 20px; }
         .dropdown-container a { font-size: 16px; color: #bcccdc; }
         .dropdown-container a:hover { color: #64ffda; }
+        .fa-caret-down { float: right; padding-right: 8px; }
 
-        /* 版面配置 */
+        /* --- 條款 Modal --- */
+        .terms-modal {
+            display: none; position: fixed; z-index: 20000; left: 0; top: 0;
+            width: 100%; height: 100%; overflow: auto; background-color: rgba(0,0,0,0.8);
+        }
+        .terms-content {
+            background-color: #0d253f; margin: 10% auto; padding: 20px;
+            border: 2px solid #64ffda; width: 85%; max-width: 600px;
+            border-radius: 10px; color: #fff; line-height: 1.8;
+            max-height: 70vh; overflow-y: auto;
+        }
+        .terms-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #334e68; padding-bottom: 10px; margin-bottom: 15px; }
+        .terms-title { font-size: 22px; color: #ffe100; font-weight: bold; }
+        .close-terms { color: #aaa; font-size: 28px; font-weight: bold; cursor: pointer; }
+        .terms-body h3 { color: #64ffda; margin-top: 20px; font-size: 18px; border-left: 3px solid #ffe100; padding-left: 10px; }
+        .terms-body p { font-size: 14px; color: #ddd; margin-bottom: 10px; text-align: justify; }
+        .terms-highlight { color: #ff4d4d; font-weight: bold; }
+
+        /* 背景氣泡動畫 */
+        .bg-bubbles { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; overflow: hidden; pointer-events: none; }
+        .bg-bubbles li {
+            position: absolute; list-style: none; display: block; bottom: -150px; border-radius: 50%;
+            background: radial-gradient(circle at 70% 30%, rgba(255, 255, 255, 0.4), rgba(255, 255, 255, 0) 60%);
+            border: 1px solid rgba(255, 255, 255, 0.15); animation: rise infinite linear;
+        }
+        .bg-bubbles li:nth-child(1) { left: 10%; width: 40px; height: 40px; animation-duration: 12s; }
+        .bg-bubbles li:nth-child(2) { left: 20%; width: 20px; height: 20px; animation-duration: 18s; animation-delay: 2s; }
+        .bg-bubbles li:nth-child(3) { left: 70%; width: 50px; height: 50px; animation-duration: 15s; animation-delay: 1s; }
+        .bg-bubbles li:nth-child(4) { left: 40%; width: 30px; height: 30px; animation-duration: 10s; animation-delay: 0s; }
+        .bg-bubbles li:nth-child(5) { left: 85%; width: 20px; height: 20px; animation-duration: 20s; animation-delay: 3s; }
+        @keyframes rise { 0% { transform: translateY(0); opacity: 0; } 10% { opacity: 0.8; } 100% { transform: translateY(-120vh); opacity: 0; } }
+
+        /* 導航列 */
+        .top-nav {
+            background: rgba(16, 42, 67, 0.9); padding: 15px 20px; display: flex; justify-content: space-between; align-items: center;
+            border-bottom: 1px solid #334e68; position: sticky; top: 45px; z-index: 10000; backdrop-filter: blur(5px);
+        }
+        .logo-area { display: flex; align-items: center; gap: 10px; font-weight: bold; font-size: 20px; color: #64ffda; text-decoration: none; margin-left: 40px; }
+        .logo-img { width: 40px; height: 40px; border-radius: 50%; border: 2px solid #64ffda; }
+        
+        .cart-btn {
+            position: relative; background: #64ffda; color: #03101f; padding: 8px 15px; border-radius: 20px;
+            font-weight: bold; cursor: pointer; display: flex; align-items: center; gap: 5px; transition: transform 0.2s;
+        }
+        .cart-btn:hover { transform: scale(1.05); }
+        .cart-count {
+            background: #ff3b30; color: white; font-size: 12px; width: 20px; height: 20px; border-radius: 50%;
+            display: flex; align-items: center; justify-content: center; position: absolute; top: -8px; right: -8px;
+        }
+
         .layout-container { display: flex; max-width: 1200px; width: 100%; margin: 20px auto; padding: 0 20px; box-sizing: border-box; gap: 20px; }
-        .sidebar { width: 200px; flex-shrink: 0; background: rgba(16, 42, 67, 0.6); backdrop-filter: blur(5px); border-radius: 10px; padding: 15px; border: 1px solid rgba(100, 255, 218, 0.2); height: fit-content; position: sticky; top: 120px; }
-        .category-btn { display: block; width: 100%; padding: 12px 15px; margin-bottom: 8px; background: transparent; border: 1px solid rgba(100, 255, 218, 0.3); color: #f0f4f8; text-align: left; border-radius: 8px; cursor: pointer; transition: all 0.3s; font-size: 15px; }
+        .sidebar {
+            width: 200px; flex-shrink: 0; background: rgba(16, 42, 67, 0.6); backdrop-filter: blur(5px);
+            border-radius: 10px; padding: 15px; border: 1px solid rgba(100, 255, 218, 0.2);
+            height: fit-content; position: sticky; top: 120px;
+        }
+        .category-btn {
+            display: block; width: 100%; padding: 12px 15px; margin-bottom: 8px; background: transparent;
+            border: 1px solid rgba(100, 255, 218, 0.3); color: #f0f4f8; text-align: left; border-radius: 8px;
+            cursor: pointer; transition: all 0.3s; font-size: 15px;
+        }
         .category-btn:hover, .category-btn.active { background: rgba(100, 255, 218, 0.2); border-color: #64ffda; color: #64ffda; font-weight: bold; }
         .product-area { flex-grow: 1; }
         
         .area-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; flex-wrap: wrap; gap: 15px; }
         .section-title { font-size: 24px; font-weight: bold; color: #64ffda; padding-left: 10px; border-left: 4px solid #ffe100; margin: 0; }
+        
         .search-box { position: relative; max-width: 250px; width: 100%; }
-        .search-input { width: 100%; padding: 8px 15px; padding-right: 35px; border-radius: 20px; border: 1px solid #64ffda; background: rgba(0,0,0,0.3); color: white; outline: none; box-sizing: border-box; font-size: 14px; }
+        .search-input {
+            width: 100%; padding: 8px 15px; padding-right: 35px; border-radius: 20px; border: 1px solid #64ffda;
+            background: rgba(0,0,0,0.3); color: white; outline: none; box-sizing: border-box; font-size: 14px;
+        }
         .search-icon { position: absolute; right: 10px; top: 50%; transform: translateY(-50%); color: #64ffda; pointer-events: none; }
 
-        /* 商品卡片 */
+        /* --- 商品列表與卡片設計 --- */
         .products-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 20px; }
-        .product-card { background: rgba(16, 42, 67, 0.4); border: 1px solid rgba(100, 255, 218, 0.2); border-radius: 10px; overflow: hidden; transition: transform 0.3s; display: flex; flex-direction: column; backdrop-filter: blur(4px); position: relative; cursor: pointer; }
+        
+        .product-card {
+            background: rgba(16, 42, 67, 0.4); border: 1px solid rgba(100, 255, 218, 0.2); border-radius: 10px;
+            overflow: hidden; transition: transform 0.3s; display: flex; flex-direction: column; 
+            backdrop-filter: blur(4px); position: relative; cursor: pointer; 
+        }
         .product-card:hover { transform: translateY(-5px); border-color: #64ffda; box-shadow: 0 5px 15px rgba(100, 255, 218, 0.2); }
         .p-img-box { width: 100%; height: 200px; background: rgba(0,0,0,0.3); position: relative; overflow: hidden;}
+        
         .p-img { width: 100%; height: 100%; object-fit: cover; transition: opacity 0.3s; }
-        .sold-out-mask { position: absolute; top:0; left:0; width:100%; height:100%; background: rgba(0,0,0,0.7); color: white; font-weight: bold; font-size: 20px; display: flex; align-items: center; justify-content: center; z-index: 2; }
-        .p-tag { position: absolute; top: 10px; left: 10px; padding: 4px 8px; border-radius: 4px; font-size: 12px; font-weight: bold; color: white; z-index: 3; box-shadow: 0 2px 5px rgba(0,0,0,0.3); }
+        .sold-out-mask {
+            position: absolute; top:0; left:0; width:100%; height:100%; background: rgba(0,0,0,0.7);
+            color: white; font-weight: bold; font-size: 20px; display: flex; align-items: center; justify-content: center; z-index: 2;
+        }
+        
+        .p-tag {
+            position: absolute; top: 10px; left: 10px; padding: 4px 8px; border-radius: 4px;
+            font-size: 12px; font-weight: bold; color: white; z-index: 3; box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+        }
         .tag-hot { background: #ff3b30; } 
         .tag-new { background: #06C755; } 
         .tag-sale { background: #ff9500; } 
 
         .p-info { padding: 15px; flex-grow: 1; display: flex; flex-direction: column; }
         .p-name { font-size: 16px; font-weight: bold; margin-bottom: 5px; color: #fff; }
-        .p-price-current { color: #ffe100; font-size: 18px; font-weight: bold; margin-bottom: 8px; display: block; }
-        
+        .p-price-current { color: #ffe100; font-size: 18px; font-weight: bold; margin-bottom: 5px; display: block; }
+
         /* 特價紅線樣式 */
         .price-origin { text-decoration: line-through; color: #aaa; font-size: 14px; margin-right: 5px; }
         .price-sale { color: #ff4d4d; font-weight: bold; font-size: 18px; }
-
-        /* 賣貨便風格按鈕 */
-        .variant-tag-container { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 10px; width: 100%; }
-        .v-tag { background: #fff; color: #333; border: 1px solid #ccc; padding: 8px 12px; border-radius: 4px; font-size: 13px; font-weight: bold; cursor: pointer; transition: all 0.2s; text-align: center; flex-grow: 1; min-width: 60px; max-width: 48%; }
+        /* ✨ 賣貨便風格：方塊規格按鈕 ✨ */
+        .variant-tag-container { 
+            display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 10px; width: 100%;
+        }
+        .v-tag { 
+            background: #fff; color: #333; border: 1px solid #ccc; 
+            padding: 8px 12px; border-radius: 4px; font-size: 13px; 
+            font-weight: bold; cursor: pointer; transition: all 0.2s;
+            text-align: center; flex-grow: 1; min-width: 60px; max-width: 48%;
+        }
         .v-tag:hover { background: #f0f0f0; }
-        .v-tag.active { background: #ffe100; color: #000; border: 2px solid #ff9500; box-shadow: 0 2px 5px rgba(0,0,0,0.2); }
+        .v-tag.active { 
+            background: #ffe100; color: #000; border: 2px solid #ff9500; 
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
 
-        .qty-control { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; border: 1px solid rgba(100, 255, 218, 0.5); border-radius: 5px; overflow: hidden; margin-top: auto; }
-        .qty-btn { background: rgba(100, 255, 218, 0.1); border: none; color: #64ffda; width: 35px; height: 35px; cursor: pointer; font-size: 18px; font-weight: bold; }
-        .qty-input { width: 40px; text-align: center; background: transparent; border: none; color: #fff; font-size: 16px; }
-        .add-btn { background: #64ffda; border: none; color: #000; padding: 10px; border-radius: 5px; cursor: pointer; transition: 0.3s; width: 100%; font-weight: bold; }
+        .qty-control {
+            display: flex; align-items: center; justify-content: space-between;
+            margin-bottom: 10px; border: 1px solid rgba(100, 255, 218, 0.5); border-radius: 5px; overflow: hidden;
+            margin-top: auto; 
+        }
+        .qty-btn {
+            background: rgba(100, 255, 218, 0.1); border: none; color: #64ffda;
+            width: 35px; height: 35px; cursor: pointer; font-size: 18px; font-weight: bold; transition: 0.2s;
+        }
+        .qty-btn:hover { background: #64ffda; color: #000; }
+        .qty-input {
+            width: 40px; text-align: center; background: transparent; border: none;
+            color: #fff; font-size: 16px; font-family: inherit; -moz-appearance: textfield;
+        }
+        .qty-input::-webkit-outer-spin-button, .qty-input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+
+        .add-btn {
+            background: #64ffda; border: none; color: #000;
+            padding: 10px; border-radius: 5px; cursor: pointer; transition: 0.3s; width: 100%; font-weight: bold;
+        }
         .add-btn:hover { background: #ffe100; transform: scale(1.02); }
         .add-btn.disabled { background: #555; color: #888; cursor: not-allowed; }
 
-        /* Modal (詳細頁) */
-        #productDetailModal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 25000; justify-content: center; align-items: center; backdrop-filter: blur(2px); }
-        .pd-content { background: #ffffff; width: 90%; max-width: 600px; border-radius: 20px; padding: 0; border: none; box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2); max-height: 90vh; display: flex; flex-direction: column; overflow: hidden; }
-        .pd-header { padding: 15px 20px; border-bottom: 1px solid #f0f0f0; display: flex; justify-content: space-between; align-items: center; background: #fff; }
-        .pd-title { font-size: 22px; font-weight: bold; color: #333; font-family: 'Zen Maru Gothic', sans-serif; }
-        .pd-close { cursor: pointer; font-size: 28px; color: #999; transition: color 0.3s; }
-        .pd-close:hover { color: #333; }
-        
-        .pd-body { flex-grow: 1; overflow-y: auto; padding: 10px 20px; background: #fff; color: #555; }
-        .pd-gallery { display: flex; gap: 15px; overflow-x: auto; margin-bottom: 15px; scroll-snap-type: x mandatory; scrollbar-width: none; }
-        .pd-gallery::-webkit-scrollbar { display: none; }
-        .pd-gallery img, .pd-gallery video { height: 200px; flex: 0 0 78%; width: 78%; object-fit: cover; background: transparent; border-radius: 12px; scroll-snap-align: center; margin-right: 10px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
-        .pd-dots-container { display: flex; justify-content: center; gap: 8px; margin-bottom: 20px; }
-        .pd-dot { width: 8px; height: 8px; border-radius: 50%; background: #ddd; cursor: pointer; transition: 0.3s; }
-        .pd-dot.active { background: #4fc3f7; width: 24px; border-radius: 4px; }
-        
-        #pdPriceDisplay { margin-bottom: 15px; }
-
-        .pd-section-title { color: #2c3e50; font-size: 18px; font-weight: bold; margin-bottom: 10px; border-left: 5px solid #81d4fa; padding-left: 12px; margin-top: 15px; }
-        .pd-warning { color: #795548; font-size: 14px; background: #fff8e1; padding: 15px; border-radius: 12px; border: 1px solid #ffe0b2; margin-bottom: 20px; line-height: 1.6; }
-        .pd-footer { padding: 15px 20px; border-top: 1px solid #f0f0f0; text-align: center; background: #fff; }
-        .pd-add-btn { background: #4fc3f7; color: #fff; border: none; padding: 12px 30px; border-radius: 50px; font-size: 18px; font-weight: bold; cursor: pointer; width: 100%; transition: 0.2s; box-shadow: 0 4px 10px rgba(79, 195, 247, 0.4); }
-        .pd-add-btn:active { transform: translateY(2px); }
-
-        /* 購物車 */
+        /* 購物車 Modal */
         .cart-modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 20000; justify-content: center; align-items: center; }
         .cart-content { background: #0d253f; width: 90%; max-width: 500px; border-radius: 15px; padding: 20px; border: 2px solid #64ffda; box-shadow: 0 0 30px rgba(100, 255, 218, 0.3); max-height: 90vh; display: flex; flex-direction: column; }
         .cart-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; border-bottom: 1px solid #334e68; padding-bottom: 10px; }
         .cart-title { font-size: 20px; font-weight: bold; color: #64ffda; }
         .close-cart { cursor: pointer; font-size: 24px; color: #888; }
+        
         .step-container { display: none; flex-direction: column; height: 100%; overflow: hidden; }
         .step-container.active { display: flex; }
+
         .cart-items { flex-grow: 1; overflow-y: auto; margin-bottom: 15px; }
+        .cart-item { display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-bottom: 1px solid rgba(255,255,255,0.1); }
+        .ci-name { font-size: 15px; color: #fff; }
+        .ci-controls { display: flex; align-items: center; gap: 10px; }
+        .ci-btn { background: #334e68; border: none; color: white; width: 25px; height: 25px; border-radius: 5px; cursor: pointer; }
+        .ci-qty { min-width: 20px; text-align: center; }
+
         .price-summary { background: rgba(0,0,0,0.2); padding: 10px; border-radius: 8px; margin-bottom: 15px; }
         .summary-row { display: flex; justify-content: space-between; margin-bottom: 5px; font-size: 14px; color: #ccc; }
         .summary-row.final { border-top: 1px solid #555; padding-top: 8px; margin-top: 8px; font-size: 18px; color: #ffe100; font-weight: bold; }
+        
+        .free-shipping-alert { background: rgba(255, 59, 48, 0.15); color: #ff4d4d; border: 1px solid #ff4d4d; padding: 8px; text-align: center; border-radius: 5px; font-size: 13px; margin-bottom: 10px; }
+        .free-shipping-success { background: rgba(100, 255, 218, 0.15); color: #64ffda; border: 1px solid #64ffda; }
+
+        /* 優惠碼區塊 */
+        .promo-section {
+            display: flex; gap: 10px; margin-bottom: 15px; background: rgba(255,255,255,0.05); padding: 10px; border-radius: 8px;
+        }
+        .promo-input {
+            flex-grow: 1; padding: 8px; border-radius: 5px; border: 1px solid #64ffda; background: transparent; color: white;
+        }
+        .promo-btn {
+            background: #64ffda; color: #000; border: none; padding: 8px 15px; border-radius: 5px; font-weight: bold; cursor: pointer;
+        }
+        .promo-message {
+            font-size: 13px; margin-top: 5px; text-align: left;
+        }
+        .promo-success { color: #06C755; }
+        .promo-error { color: #ff4d4d; }
+
         .form-group { margin-bottom: 15px; }
         .form-label { display: block; margin-bottom: 5px; color: #64ffda; font-size: 14px; }
         .form-input, .form-select { width: 100%; padding: 10px; border-radius: 5px; border: 1px solid #334e68; background: #03101f; color: white; box-sizing: border-box; font-size: 16px; }
-        .promo-section { display: flex; gap: 10px; margin-bottom: 15px; }
-        .promo-btn { background: #64ffda; color: #000; border: none; padding: 8px 15px; border-radius: 5px; font-weight: bold; cursor: pointer; }
-        
-        #orderConfirmModal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 30000; justify-content: center; align-items: center; }
-        .confirm-content { background: #0d253f; border: 2px solid #64ffda; border-radius: 15px; padding: 30px; width: 90%; max-width: 400px; text-align: center; }
-        .confirm-btn { background: #64ffda; color: #000; border: none; padding: 15px 30px; border-radius: 30px; font-size: 18px; font-weight: bold; cursor: pointer; width: 100%; margin-top: 20px; }
-        .confirm-cancel { background: transparent; color: #888; border: none; margin-top: 15px; cursor: pointer; text-decoration: underline; }
+        .form-input:focus, .form-select:focus { outline: none; border-color: #64ffda; }
+        textarea.form-input { resize: vertical; height: 80px; }
+
+        #bankInfoArea {
+            display: none; background: #000000 !important; border: 3px solid #ffe100 !important; 
+            padding: 25px; border-radius: 12px; margin-bottom: 20px; text-align: center;
+            box-shadow: 0 0 15px rgba(255, 225, 0, 0.3);
+        }
+        .bank-title { color: #fff !important; font-size: 20px; margin-bottom: 10px; font-weight: bold; }
+        .bank-number {
+            color: #ffe100 !important; font-size: 32px; font-weight: 900; font-family: Consolas, monospace; 
+            display: block; margin: 5px 0 20px 0; letter-spacing: 2px; text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+        }
+        .bank-number a { color: #ffe100 !important; text-decoration: none !important; pointer-events: none; }
+        .copy-btn {
+            background: #ffe100 !important; color: #000 !important; border: none; padding: 10px 30px;
+            border-radius: 30px; font-size: 16px; font-weight: bold; cursor: pointer; 
+            display: inline-block; transition: transform 0.2s; box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+        }
+        .copy-btn:hover { transform: scale(1.05); background: #fff !important; }
+
+        .cart-footer { margin-top: auto; }
+        .cart-actions { display: flex; gap: 10px; }
+        .action-btn { flex: 1; padding: 12px; border-radius: 8px; border: none; cursor: pointer; font-weight: bold; font-size: 16px; }
+        .btn-back { background: #334e68; color: #fff; }
+        .btn-next { background: #64ffda; color: #000; }
+        .btn-next:hover { background: #ffe100; }
+
+        #toast {
+            visibility: hidden; min-width: 250px; background-color: rgba(0,0,0,0.9); border: 1px solid #64ffda;
+            color: #fff; text-align: center; border-radius: 50px; padding: 16px; position: fixed; z-index: 20001;
+            left: 50%; bottom: 80px; transform: translateX(-50%); font-size: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+        }
+        #toast.show { visibility: visible; animation: fadein 0.5s, fadeout 0.5s 1.5s; }
+        @keyframes fadein { from {bottom: 0; opacity: 0;} to {bottom: 80px; opacity: 1;} }
+        @keyframes fadeout { from {bottom: 80px; opacity: 1;} to {bottom: 0; opacity: 0;} }
+
+        #orderConfirmModal {
+            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.9); z-index: 30000; justify-content: center; align-items: center;
+        }
+        .confirm-content {
+            background: #0d253f; border: 2px solid #64ffda; border-radius: 15px;
+            padding: 30px; width: 90%; max-width: 400px; text-align: center;
+            box-shadow: 0 0 30px rgba(100, 255, 218, 0.5);
+        }
+        .confirm-title { font-size: 24px; color: #64ffda; font-weight: bold; margin-bottom: 20px; }
+        .confirm-msg { color: #fff; font-size: 16px; line-height: 1.6; margin-bottom: 25px; }
+        .confirm-highlight { color: #ffe100; font-weight: bold; font-size: 20px; display: block; margin-top: 10px; }
+        .yuge-promise-box {
+            background: rgba(255, 225, 0, 0.1); border: 1px solid #ffe100; border-radius: 10px;
+            padding: 15px; margin-top: 20px; text-align: center;
+            box-shadow: 0 0 10px rgba(255, 225, 0, 0.1); display: flex; flex-direction: column; align-items: center;
+        }
+        .yuge-avatar-img { width: auto; height: 100px; object-fit: contain; margin-bottom: 10px; display: block; }
+        .yuge-text { color: #ffe100; font-size: 19px; font-weight: bold; line-height: 1.5; text-shadow: 1px 1px 2px rgba(0,0,0,0.8); }
+
+        .confirm-btn {
+            background: #64ffda; color: #000; border: none; padding: 15px 30px;
+            border-radius: 30px; font-size: 18px; font-weight: bold; cursor: pointer; width: 100%;
+            transition: transform 0.2s; margin-top: 20px;
+        }
+        .confirm-btn:hover { transform: scale(1.05); background: #ffe100; }
+        .confirm-cancel {
+            background: transparent; color: #888; border: none; margin-top: 15px; 
+            cursor: pointer; text-decoration: underline;
+        }
 
         .back-to-top { position: fixed; bottom: 20px; right: 20px; background: none; border: none; padding: 0; display: flex; flex-direction: column; align-items: center; cursor: pointer; z-index: 9999; opacity: 0; visibility: hidden; transition: all 0.4s ease; }
         .back-to-top.show { opacity: 1; visibility: visible; transform: translateY(0); }
         .daohui-dog-img { width: 60px; height: auto; border-radius: 8px; border: 2px solid #64ffda; box-shadow: 0 4px 10px rgba(0,0,0,0.6); }
         .back-to-top span { margin-top: 5px; color: #64ffda; font-size: 13px; font-weight: bold; text-shadow: 0 2px 4px rgba(0,0,0,0.8); }
 
-        .top-nav { background: rgba(16, 42, 67, 0.9); padding: 15px 20px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #334e68; position: sticky; top: 45px; z-index: 10000; backdrop-filter: blur(5px); }
+        @keyframes wag { 0% { transform: rotate(0deg); } 25% { transform: rotate(-10deg); } 50% { transform: rotate(10deg); } 75% { transform: rotate(-5deg); } 100% { transform: rotate(0deg); } }
+        .back-to-top:hover .daohui-dog-img, .back-to-top:active .daohui-dog-img { animation: wag 0.5s ease-in-out infinite; }
 
+        /* ✨✨✨ 日系明亮風 Modal 樣式 ✨✨✨ */
+        #productDetailModal {
+            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.6); 
+            z-index: 25000; justify-content: center; align-items: center;
+            backdrop-filter: blur(2px);
+        }
+        .pd-content {
+            background: #ffffff; 
+            width: 90%; max-width: 600px; 
+            border-radius: 20px; 
+            padding: 0;
+            border: none;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
+            max-height: 90vh; display: flex; flex-direction: column; overflow: hidden;
+        }
+        .pd-header {
+            padding: 15px 20px; border-bottom: 1px solid #f0f0f0; 
+            display: flex; justify-content: space-between; align-items: center; 
+            background: #ffffff;
+        }
+        .pd-title { 
+            font-size: 22px; font-weight: bold; 
+            color: #333333;
+            font-family: 'Zen Maru Gothic', sans-serif;
+        }
+        .pd-close { 
+            cursor: pointer; font-size: 28px; color: #999; 
+            transition: color 0.3s;
+        }
+        .pd-close:hover { color: #333; }
+        
+        .pd-body { 
+            flex-grow: 1; overflow-y: auto; padding: 10px 20px; 
+            background: #ffffff; color: #555;
+        }
+        
+        /* ✨✨✨ 相簿容器與樣式 ✨✨✨ */
+        .pd-gallery {
+            display: flex; gap: 15px; overflow-x: auto; padding-bottom: 0; margin-bottom: 15px;
+            scroll-snap-type: x mandatory;
+            scrollbar-width: none; 
+            -ms-overflow-style: none;
+        }
+        .pd-gallery::-webkit-scrollbar { display: none; }
+
+        .pd-gallery img, .pd-gallery video {
+            height: 200px; 
+            flex: 0 0 78%; 
+            width: 78%; 
+            object-fit: cover; 
+            background: transparent;
+            border-radius: 12px; 
+            scroll-snap-align: center;
+            margin-right: 10px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+
+        /* ✨ 圓點導航樣式 */
+        .pd-dots-container {
+            display: flex; justify-content: center; gap: 8px; margin-bottom: 20px;
+        }
+        .pd-dot {
+            width: 8px; height: 8px; border-radius: 50%; 
+            background: #ddd; cursor: pointer; transition: all 0.3s;
+        }
+        .pd-dot.active {
+            background: #4fc3f7; width: 24px; border-radius: 4px;
+        }
+
+        .pd-section-title {
+            color: #2c3e50;
+            font-size: 18px; font-weight: bold; 
+            margin-bottom: 10px; 
+            border-left: 5px solid #81d4fa;
+            padding-left: 12px;
+            margin-top: 15px;
+            font-family: 'Zen Maru Gothic', sans-serif;
+        }
+        .pd-text { 
+            color: #555555;
+            font-size: 16px; line-height: 1.8; margin-bottom: 25px; 
+        }
+        .pd-warning { 
+            color: #795548;
+            font-size: 15px; 
+            background: #fff8e1;
+            padding: 15px; 
+            border-radius: 12px; 
+            border: 1px solid #ffe0b2;
+            margin-bottom: 20px; 
+            line-height: 1.6;
+        }
+
+        .pd-footer {
+            padding: 15px 20px; border-top: 1px solid #f0f0f0; 
+            background: #ffffff; text-align: center;
+        }
+        .pd-add-btn {
+            background: #4fc3f7; 
+            color: #fff; 
+            border: none; padding: 12px 30px; border-radius: 50px;
+            font-size: 18px; font-weight: bold; cursor: pointer; 
+            width: 100%; 
+            transition: transform 0.2s, background 0.3s;
+            box-shadow: 0 4px 10px rgba(79, 195, 247, 0.4);
+        }
+        .pd-add-btn:hover { 
+            background: #29b6f6; 
+            transform: translateY(-2px); 
+        }
+        .pd-add-btn:active { transform: translateY(0); }
+
+        /* ✨ 手機版 RWD 修正 (恢復正常排版) */
+        /* ✨ 手機版 RWD 修正 (方案 B：緊湊排列) */
         @media (max-width: 768px) {
-            .yuyu-announcement-bar { font-size: 13px; white-space: nowrap !important; overflow-x: auto !important; padding: 0 10px; height: 45px !important; min-height: 45px !important; line-height: 45px; display: block; scrollbar-width: none; }
+            .yuyu-announcement-bar { 
+                font-size: 13px; white-space: nowrap !important; overflow-x: auto !important; 
+                padding: 0 10px; height: 45px !important; min-height: 45px !important; 
+                line-height: 45px; display: block; scrollbar-width: none;
+            }
             .yuyu-announcement-bar::-webkit-scrollbar { display: none; }
+            
             .layout-container { flex-direction: column; padding: 0 10px; }
-            .sidebar { width: 100%; display: flex; overflow-x: auto; padding: 8px 4px; gap: 4px; position: sticky; top: 95px; z-index: 90; background: rgba(3, 16, 31, 0.95); scrollbar-width: none; }
+            
+            /* 👇 修改重點：讓目錄變緊湊 👇 */
+            .sidebar { 
+                width: 100%; 
+                display: flex; 
+                overflow-x: auto; 
+                padding: 8px 4px;   /* 縮小外框留白 */
+                gap: 4px;           /* 縮小按鈕間的縫隙 (原本10px -> 4px) */
+                position: sticky; 
+                top: 95px; 
+                z-index: 90; 
+                background: rgba(3, 16, 31, 0.95); 
+                scrollbar-width: none;
+            }
             .sidebar::-webkit-scrollbar { display: none; }
-            .category-btn { width: auto; white-space: nowrap; margin-bottom: 0; padding: 6px 10px; font-size: 13px; flex-shrink: 0; }
+
+            .category-btn { 
+                width: auto; 
+                white-space: nowrap; 
+                margin-bottom: 0; 
+                padding: 6px 10px;  /* 縮小按鈕內距 (原本 8px 15px) */
+                font-size: 13px;    /* 字體縮小一點點 (原本 15px) */
+                flex-shrink: 0;     /* 確保按鈕不會被壓扁 */
+            }
+            /* 👆 修改結束 👆 */
+
             .top-nav { display: none; }
             .products-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
             .back-to-top { bottom: 15px; right: 15px; }
             .daohui-dog-img { width: 50px; }
         }
+
     </style>
 </head>
 <body>
+    <ul class="bg-bubbles"><li></li><li></li><li></li><li></li><li></li></ul>
+
     <div class="yuyu-announcement-bar">
         🚀 活體訂單2000元免運、常溫賣場660免運、冷凍賣場990免運
     </div>
@@ -174,7 +542,7 @@
         <div class="dropdown-container">
             <a href="#" onclick="filterProducts('guppy', this)">🔹 孔雀魚</a>
             <a href="#" onclick="filterProducts('molly', this)">🔹 茉莉魚</a>
-            <a href="#" onclick="filterProducts('shrimp', this)">🔹 蝦子、螺、底棲魚</a>
+            <a href="#" onclick="filterProducts('shrimp', this)">🔹 蝦子、螺類、底棲</a>
         </div>
         <a href="https://myship.7-11.com.tw/general/detail/GM2312087898760" target="_blank">🛒 硬體與飼料</a>
         <a href="https://myship.7-11.com.tw/general/detail/GM2404054052893" target="_blank">❄️ 冷凍豐年蝦</a>
@@ -183,7 +551,7 @@
         <a href="index.html" style="margin-top: 20px; border-top: 1px solid rgba(255,255,255,0.2);">🏠 回到首頁</a>
     </div>
 
-    <div id="termsModal" class="terms-modal" style="display:none;">
+    <div id="termsModal" class="terms-modal">
         <div class="terms-content">
             <div class="terms-header">
                 <span class="terms-title">📜 宇魚水族 條款與細則</span>
@@ -222,7 +590,7 @@
             <button class="category-btn active" onclick="filterProducts('all', this)">📌 全部商品</button>
             <button class="category-btn" onclick="filterProducts('guppy', this)">🐟 孔雀魚</button>
             <button class="category-btn" onclick="filterProducts('molly', this)">🐠 茉莉魚</button>
-            <button class="category-btn" onclick="filterProducts('shrimp', this)">🦐 蝦子、螺、底棲魚</button>
+            <button class="category-btn" onclick="filterProducts('shrimp', this)">🦐 蝦子、螺類、底棲</button>
             <button class="category-btn" onclick="filterProducts('addon', this)">🥫 加購區</button>
         </aside>
 
@@ -238,11 +606,12 @@
             <div id="loading" style="text-align:center; color:#64ffda; padding:20px; display:none;">
                 正在從雲端漁場撈魚中... 🐟
             </div>
-            <div class="products-grid" id="productContainer"></div>
+            <div class="products-grid" id="productContainer">
+            </div>
         </main>
     </div>
 
-    <div id="productDetailModal" style="display:none;">
+    <div id="productDetailModal">
         <div class="pd-content">
             <div class="pd-header">
                 <div class="pd-title" id="pdTitle">商品名稱</div>
@@ -267,7 +636,7 @@
         </div>
     </div>
 
-    <div class="cart-modal" id="cartModal" style="display:none;">
+    <div class="cart-modal" id="cartModal">
         <div class="cart-content">
             <div class="cart-header">
                 <div class="cart-title" id="cartTitle">🛒 您的購物車</div>
@@ -333,7 +702,7 @@
         </div>
     </div>
 
-    <div id="orderConfirmModal" style="display:none;">
+    <div id="orderConfirmModal">
         <div class="confirm-content">
             <div class="confirm-title">🎉 訂單準備好了！</div>
             <div class="confirm-msg">
@@ -468,20 +837,16 @@
             filtered.forEach(p => {
                 const isSoldOut = p.stock <= 0;
                 
-                // 1. 處理標題：把 "-75g" 切掉，只留前面 "無悔飼料"
-                let displayName = p.name.includes('-') ? p.name.split('-')[0] : p.name;
-
-                // 2. 處理外部規格按鈕
+                // --- (原本的規格按鈕邏輯，保留不動) ---
                 const subVariants = products.filter(v => v.id.startsWith(p.id + '-') && v.category === 'sub');
                 let variantTags = '';
-                
                 if(subVariants.length > 0) {
                     variantTags = `<div class="variant-tag-container">`;
                     
-                    // 抓取主商品名稱中 '-' 後面的字當作第一顆按鈕名稱 (例如 "75g")
-                    let mainBtnName = p.name.includes('-') ? p.name.split('-').pop() : '單件';
+                    // 抓取主商品名稱中 '-' 後面的字，如果沒有就用 '單件'
+                    let mainName = p.name.includes('-') ? p.name.split('-').pop() : '單件';
                     
-                    variantTags += `<div class="v-tag active" id="vtag-${p.id}-${p.id}" onclick="event.stopPropagation(); updateExternalVariant('${p.id}', '${p.id}')">${mainBtnName}</div>`;
+                    variantTags += `<div class="v-tag active" id="vtag-${p.id}-${p.id}" onclick="event.stopPropagation(); updateExternalVariant('${p.id}', '${p.id}')">${mainName}</div>`;
                     
                     subVariants.forEach(v => {
                         let vName = v.name.includes('-') ? v.name.split('-').pop() : v.name;
@@ -495,14 +860,17 @@
                 else if (p.tag === 'NEW') tagHtml = '<div class="p-tag tag-new">新品 ✨</div>';
                 else if (p.tag === 'SALE') tagHtml = '<div class="p-tag tag-sale">特價 💰</div>';
 
-                // 價格顯示邏輯 (含特價紅線)
+                // ✨✨✨ (這裡是有改動的地方：價格顯示邏輯) ✨✨✨
                 let priceHtml = '';
+                // 判斷：如果有 SALE 標籤 且 原價大於售價
                 if (p.tag === 'SALE' && p.origin_price > p.price) {
-                    priceHtml = `<div id="price-${p.id}" style="margin-bottom:5px;">
-                        <span class="price-origin">NT$ ${p.origin_price}</span>
-                        <span class="price-sale">NT$ ${p.price}</span>
-                    </div>`;
+                    priceHtml = `
+                        <div id="price-${p.id}" style="margin-bottom:5px;">
+                            <span class="price-origin">NT$ ${p.origin_price}</span>
+                            <span class="price-sale">NT$ ${p.price}</span>
+                        </div>`;
                 } else {
+                    // 沒有特價，顯示原本的金色價格
                     priceHtml = `<div class="p-price-current" id="price-${p.id}">NT$ ${p.price}</div>`;
                 }
 
@@ -516,10 +884,9 @@
                             ${isSoldOut ? '<div class="sold-out-mask">SOLD OUT</div>' : ''}
                         </div>
                         <div class="p-info">
-                            <div class="p-name">${displayName}</div>
+                            <div class="p-name">${p.name}</div>
                             
-                            ${priceHtml} 
-                            ${variantTags}
+                            ${priceHtml} ${variantTags}
                             ${stockHtml}
                             
                             ${isSoldOut ? '<button class="add-btn disabled">已售完</button>' : `
@@ -537,35 +904,32 @@
             });
         }
 
-        // ✨ 外部切換規格 (含換圖功能)
+        // ✨ 外部切換規格功能
+        // ✨ 外部切換規格功能 (修正版)
         window.updateExternalVariant = (mainId, vid) => {
             const item = products.find(p => p.id === vid);
             if (!item) return;
 
-            // 1. 更新按鈕樣式
+            // 1. 更新按鈕樣式 (這段保留)
             document.querySelectorAll(`[id^="vtag-${mainId}"]`).forEach(el => el.classList.remove('active'));
             document.getElementById(`vtag-${mainId}-${vid}`).classList.add('active');
             
-            // 2. 更新價格
+            // ✨✨✨ 2. 更新價格邏輯 (這裡是重點修改) ✨✨✨
             const priceEl = document.getElementById(`price-${mainId}`);
             if (item.tag === 'SALE' && item.origin_price > item.price) {
+                // 如果是特價，顯示紅線原價 + 特價
                 priceEl.innerHTML = `
                     <span class="price-origin">NT$ ${item.origin_price}</span>
                     <span class="price-sale">NT$ ${item.price}</span>
                 `;
             } else {
+                // 如果不是特價，恢復原本樣式
                 priceEl.innerHTML = `NT$ ${item.price}`;
                 priceEl.className = 'p-price-current'; 
                 priceEl.style.color = '#ffe100';
             }
-
-            // 3. 更新圖片
-            const imgEl = document.getElementById(`img-${mainId}`);
-            if (imgEl && item.img) {
-                imgEl.src = item.img;
-            }
             
-            // 4. 更新按鈕行為
+            // 3. 更新按鈕行為 (這段保留)
             const addBtn = document.getElementById(`addbtn-${mainId}`);
             if (addBtn) {
                 if(item.stock <= 0) {
@@ -580,57 +944,47 @@
             }
         };
 
-        // ✨ 產品詳細頁邏輯
+        // ✨✨✨ 產品詳細頁邏輯 ✨✨✨
         function openProductDetail(pid) {
             const product = products.find(p => p.id === pid);
-            if (!product) return;
-
-            const extraData = fishDetails[pid] || {}; 
-
-            // 修改：標題只顯示橫槓前的文字
-            let displayName = product.name.includes('-') ? product.name.split('-')[0] : product.name;
-            document.getElementById('pdTitle').innerText = displayName;
-            
+            const extraData = fishDetails[pid] || {};
+            document.getElementById('pdTitle').innerText = product.name;
             document.getElementById('pdIntro').innerHTML = extraData.intro || "歡迎私訊詢問！";
-
-            // 判斷注意事項：加購區 vs 活體
+            
+            // ✨ 加購區 vs 活體 注意事項區分
             if (product.category === 'addon') {
                 document.getElementById('pdNotice').innerHTML = `1. 水族周邊為常溫/冷凍出貨，與活體分開配送。<br>2. 耗材拆封恕不退換。<br>3. 大型設備請先私訊確認配送。<br>4. 需合併出貨請先確認包裝空間。`;
             } else {
                 document.getElementById('pdNotice').innerHTML = `1. 下單後加入官方 LINE 確認進度。<br>2. 務必對溫對水。<br>3. 水溫建議 22~26°C。<br>4. 收件請全程錄影。<br>5. 請詳閱「條款與細則」。`;
             }
-
-            // Modal 內的規格按鈕邏輯
+            
             const subVariants = products.filter(v => v.id.startsWith(pid + '-') && v.category === 'sub');
             const vArea = document.getElementById('pdVariantArea');
-            
-            let variantHtml = '';
+            // ✨ 修改：讓第一個按鈕名稱變聰明 (Modal 內) ✨
             if(subVariants.length > 0) {
-                variantHtml += `<div class="pd-section-title">📏 選擇規格</div><div class="variant-tag-container">`;
+                let html = `<div class="pd-section-title">📏 選擇規格</div><div class="variant-tag-container">`;
                 
                 // 抓取主商品名稱中 '-' 後面的字，如果沒有就用 '單件'
                 let mainName = product.name.includes('-') ? product.name.split('-').pop() : '單件';
                 
-                variantHtml += `<div class="v-tag active" id="pdv-${product.id}" onclick="switchPdVariant('${pid}', '${product.id}')">${mainName}</div>`;
+                html += `<div class="v-tag active" id="pdv-${product.id}" onclick="switchPdVariant('${pid}', '${product.id}')">${mainName}</div>`;
                 
                 subVariants.forEach(v => {
                     let vName = v.name.includes('-') ? v.name.split('-').pop() : v.name;
-                    variantHtml += `<div class="v-tag" id="pdv-${v.id}" onclick="switchPdVariant('${pid}', '${v.id}')">${vName}</div>`;
+                    html += `<div class="v-tag" id="pdv-${v.id}" onclick="switchPdVariant('${pid}', '${v.id}')">${vName}</div>`;
                 });
-                variantHtml += `</div>`;
-            }
-            vArea.innerHTML = variantHtml;
+                vArea.innerHTML = html + `</div>`;
+            } else { vArea.innerHTML = ''; }
 
-            // 相簿邏輯
             const gallery = document.getElementById('pdGallery');
             let items = [{ type: 'img', src: product.img }];
             if (extraData.gallery) extraData.gallery.forEach(url => items.push({ type: 'img', src: url }));
-            
-            gallery.innerHTML = items.map(i => `<img src="${i.src}" onerror="this.src='logo.jpg'">`).join('');
+            gallery.innerHTML = items.map(i => `<img src="${i.src}">`).join('');
             
             const dotsContainer = document.getElementById('pdDots');
             dotsContainer.innerHTML = items.length > 1 ? items.map((_, i) => `<div class="pd-dot ${i === 0 ? 'active' : ''}" onclick="scrollToGallery(${i})"></div>`).join('') : '';
 
+            // 圓點滑動邏輯 (維持不變)
             gallery.onscroll = function() {
                 const centerPoint = gallery.scrollLeft + (gallery.offsetWidth / 2);
                 const allImgs = gallery.querySelectorAll('img');
@@ -656,7 +1010,7 @@
             const btn = document.getElementById('pdAddBtn');
             const priceDisplay = document.getElementById('pdPriceDisplay');
 
-            // 1. Modal 內部價格顯示邏輯
+            // ✨✨✨ 1. Modal 內部價格顯示邏輯 (這裡改了顏色！) ✨✨✨
             if (priceDisplay) {
                 if (item.tag === 'SALE' && item.origin_price > item.price) {
                     // 特價狀況：維持紅線與紅字
@@ -665,12 +1019,12 @@
                         <span style="font-size: 24px; color: #ff4d4d; font-weight: bold;">特價 $${item.price}</span>
                     `;
                 } else {
-                    // 正常狀況：顯示深黑色
+                    // 👇👇👇 這裡改了！把 #ffe100 (黃色) 改成 #333333 (深黑色) 👇👇👇
                     priceDisplay.innerHTML = `<span style="font-size: 24px; color: #333333; font-weight: bold;">NT$ ${item.price}</span>`;
                 }
             }
 
-            // 2. 按鈕庫存判斷
+            // 2. 按鈕庫存判斷 (這段保持不變)
             if (item.stock <= 0) {
                 btn.innerText = "該規格已售完";
                 btn.disabled = true;
@@ -697,7 +1051,7 @@
         function filterProducts(cat, btn) {
             document.querySelectorAll('.category-btn').forEach(b => b.classList.remove('active'));
             btn.classList.add('active');
-            const titles = { 'all': '📌 全部商品', 'guppy': '🐟 孔雀魚專區', 'molly': '🐠 茉莉魚專區', 'shrimp': '🦐 蝦子、螺類、底棲魚', 'addon': '🥫 加購專區' };
+            const titles = { 'all': '📌 全部商品', 'guppy': '🐟 孔雀魚專區', 'molly': '🐠 茉莉魚專區', 'shrimp': '🦐 蝦子、螺類、底棲', 'addon': '🥫 加購專區' };
             titleDom.innerText = titles[cat];
             document.querySelector('.search-input').value = '';
             renderProducts(cat);
@@ -783,7 +1137,6 @@
             document.getElementById('mobileCartCount').innerText = totalCount;
             
             const cartItemsContainer = document.getElementById('cartItems');
-            
             if (cart.length === 0) {
                 cartItemsContainer.innerHTML = '<div style="text-align:center; color:#aaa; padding:20px;">您的購物車是空的 🛒</div>';
                 document.getElementById('priceSummaryArea').style.display = 'none';
@@ -819,21 +1172,10 @@
             document.getElementById('finalTotal').innerText = finalTotal > 0 ? finalTotal : 0; 
             
             const shippingDisplay = document.getElementById('shippingFeeDisplay');
-            if (isFreeShipping) {
-                shippingDisplay.innerHTML = `<span style="text-decoration:line-through; color:#888; margin-right:5px;">NT$ ${SHIPPING_COST}</span> <span style="color:#64ffda">NT$ 0 (免運)</span>`;
-            } else {
-                shippingDisplay.innerHTML = `NT$ ${SHIPPING_COST}`;
-            }
+            shippingDisplay.innerHTML = isFreeShipping ? `<span style="text-decoration:line-through; color:#888; margin-right:5px;">NT$ ${SHIPPING_COST}</span> <span style="color:#64ffda">NT$ 0 (免運)</span>` : `NT$ ${SHIPPING_COST}`;
 
             const alertBox = document.getElementById('shippingAlert');
-            if (isFreeShipping) {
-                alertBox.className = 'free-shipping-alert free-shipping-success';
-                alertBox.innerHTML = '🎉 恭喜！您已符合免運資格！';
-            } else {
-                const diff = FREE_SHIPPING_THRESHOLD - subtotal;
-                alertBox.className = 'free-shipping-alert';
-                alertBox.innerHTML = `還差 <b style="font-size:16px;">${diff}</b> 元即享黑貓免運優惠！`;
-            }
+            alertBox.innerHTML = isFreeShipping ? '🎉 恭喜！您已符合免運資格！' : `還差 <b>${FREE_SHIPPING_THRESHOLD - subtotal}</b> 元即享黑貓免運優惠！`;
         }
 
         function changeQty(index, delta) {
@@ -855,38 +1197,11 @@
 
         function toggleBankInfo() {
             const payment = document.getElementById('paymentMethod').value;
-            const bankArea = document.getElementById('bankInfoArea');
-            if (payment === 'atm') {
-                bankArea.style.display = 'block';
-            } else {
-                bankArea.style.display = 'none';
-            }
+            document.getElementById('bankInfoArea').style.display = payment === 'atm' ? 'block' : 'none';
         }
 
         function copyBankAccount() {
-            navigator.clipboard.writeText(BANK_ACC).then(() => {
-                showToast("✅ 帳號已複製！");
-            }).catch(err => {
-                showToast("❌ 複製失敗，請手動複製");
-            });
-        }
-
-        function saveCustomerData() {
-            const data = {
-                name: document.getElementById('custName').value,
-                phone: document.getElementById('custPhone').value,
-                addr: document.getElementById('custAddr').value
-            };
-            localStorage.setItem('yuyu_customer', JSON.stringify(data));
-        }
-        function loadCustomerData() {
-            const saved = localStorage.getItem('yuyu_customer');
-            if (saved) {
-                const data = JSON.parse(saved);
-                if(data.name) document.getElementById('custName').value = data.name;
-                if(data.phone) document.getElementById('custPhone').value = data.phone;
-                if(data.addr) document.getElementById('custAddr').value = data.addr;
-            }
+            navigator.clipboard.writeText(BANK_ACC).then(() => { showToast("✅ 帳號已複製！"); });
         }
 
         function prepareOrder() {
@@ -896,12 +1211,9 @@
             const note = document.getElementById('custNote').value.trim();
             const payment = document.getElementById('paymentMethod').value;
 
-            if (!name || !phone || !addr) { 
-                alert('請完整填寫姓名、電話與地址喔！'); 
-                return; 
-            }
+            if (!name || !phone || !addr) { alert('請完整填寫姓名、電話與地址喔！'); return; }
 
-            saveCustomerData();
+            localStorage.setItem('yuyu_customer', JSON.stringify({ name, phone, addr }));
 
             const paymentText = payment === 'atm' ? '🏧 銀行匯款' : '🚚 貨到付款';
             let subtotal = cart.reduce((sum, item) => sum + item.price * item.qty, 0);
@@ -913,21 +1225,12 @@
             cart.forEach(item => { message += `${item.name} x ${item.qty} = ${item.price * item.qty}\n`; });
             message += `------------------\n`;
             message += `商品小計：${subtotal}\n`;
-            
-            if (currentDiscount > 0) {
-                message += `🎉 優惠碼折抵 (${currentPromoCode})：-${currentDiscount}\n`;
-            }
-
+            if (currentDiscount > 0) message += `🎉 優惠碼折抵 (${currentPromoCode})：-${currentDiscount}\n`;
             message += `黑貓運費：${shippingFee} ${isFreeShipping ? '(達標免運)' : ''}\n`;
             message += `💰 總金額：${finalTotal}\n`;
             message += `------------------\n`;
             message += `【付款方式】：${paymentText}\n`;
-            
-            if (payment === 'atm') {
-                message += `(匯款帳號：${BANK_CODE} ${BANK_ACC})\n`;
-                message += `(我匯款後會再通知您查收！)\n`;
-            }
-            
+            if (payment === 'atm') message += `(匯款帳號：${BANK_CODE} ${BANK_ACC})\n(我匯款後會再通知您查收！)\n`;
             message += `【收件資訊】\n姓名：${name}\n電話：${phone}\n地址：${addr}\n`;
             if (note) message += `備註：${note}\n`;
             message += `\n麻煩確認訂單，謝謝！`;
@@ -939,81 +1242,49 @@
         function finalSubmit() {
             const lineID = "@118rfvyo"; 
             const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
-
-            navigator.clipboard.writeText(pendingOrderMessage).then(() => {
-                console.log("訂單複製成功");
-            }).catch(err => {
-                console.error("複製失敗", err);
-            });
-
-            let lineUrl = "";
-            if (isMobile) {
-                lineUrl = `https://line.me/R/oaMessage/${lineID}/?${encodeURIComponent(pendingOrderMessage)}`;
-            } else {
-                lineUrl = `https://line.me/R/ti/p/${lineID}`;
-            }
+            navigator.clipboard.writeText(pendingOrderMessage);
+            let lineUrl = isMobile ? `https://line.me/R/oaMessage/${lineID}/?${encodeURIComponent(pendingOrderMessage)}` : `https://line.me/R/ti/p/${lineID}`;
             
             setTimeout(() => {
                 window.location.href = lineUrl;
-                cart = [];
-                currentDiscount = 0; 
-                currentPromoCode = "";
-                updateCartUI();
-                closeCart();
-                closeConfirmModal();
+                cart = []; currentDiscount = 0; currentPromoCode = ""; updateCartUI();
+                closeCart(); document.getElementById('orderConfirmModal').style.display = 'none';
             }, 300);
         }
 
-        function closeConfirmModal() {
-            document.getElementById('orderConfirmModal').style.display = 'none';
-        }
+        function closeConfirmModal() { document.getElementById('orderConfirmModal').style.display = 'none'; }
+        function openNav() { document.getElementById("mySidenav").style.width = "280px"; document.getElementById("menuOverlay").style.display = "block"; }
+        function closeNav() { document.getElementById("mySidenav").style.width = "0"; document.getElementById("menuOverlay").style.display = "none"; }
 
-        function openNav() {
-            document.getElementById("mySidenav").style.width = "280px";
-            document.getElementById("menuOverlay").style.display = "block";
-        }
-        function closeNav() {
-            document.getElementById("mySidenav").style.width = "0";
-            document.getElementById("menuOverlay").style.display = "none";
-        }
-
-        var dropdown = document.getElementsByClassName("dropdown-btn");
-        for (var i = 0; i < dropdown.length; i++) {
-            dropdown[i].addEventListener("click", function() {
+        document.querySelectorAll(".dropdown-btn").forEach(btn => {
+            btn.addEventListener("click", function() {
                 this.classList.toggle("active");
-                var dropdownContent = this.nextElementSibling;
-                if (dropdownContent.style.display === "block") {
-                    dropdownContent.style.display = "none";
-                } else {
-                    dropdownContent.style.display = "block";
-                }
+                var content = this.nextElementSibling;
+                content.style.display = content.style.display === "block" ? "none" : "block";
             });
-        }
+        });
 
-        function openTerms() {
-            document.getElementById("termsModal").style.display = "block";
-            closeNav();
-        }
-        function closeTerms() {
-            document.getElementById("termsModal").style.display = "none";
-        }
-        window.onclick = function(event) {
-            if (event.target == document.getElementById("termsModal")) {
-                closeTerms();
-            }
-        }
+        function openTerms() { document.getElementById("termsModal").style.display = "block"; closeNav(); }
+        function closeTerms() { document.getElementById("termsModal").style.display = "none"; }
+        window.onclick = function(event) { if (event.target == document.getElementById("termsModal")) closeTerms(); }
 
         const backToTopBtn = document.getElementById('backToTop');
         window.addEventListener('scroll', function() {
-            let currentScroll = window.pageYOffset || document.documentElement.scrollTop;
-            if (currentScroll > 300) {
-                backToTopBtn.classList.add('show');
-            } else {
-                backToTopBtn.classList.remove('show');
-            }
+            if (window.pageYOffset > 300) backToTopBtn.classList.add('show');
+            else backToTopBtn.classList.remove('show');
         });
-
         function scrollToTop() { window.scrollTo({ top: 0, behavior: 'smooth' }); }
+        
+        function saveCustomerData() { /* 已整合至 prepareOrder */ }
+        function loadCustomerData() {
+            const saved = localStorage.getItem('yuyu_customer');
+            if (saved) {
+                const data = JSON.parse(saved);
+                if(data.name) document.getElementById('custName').value = data.name;
+                if(data.phone) document.getElementById('custPhone').value = data.phone;
+                if(data.addr) document.getElementById('custAddr').value = data.addr;
+            }
+        }
     </script>
 </body>
 </html>
