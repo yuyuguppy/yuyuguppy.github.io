@@ -522,8 +522,7 @@
         <div class="dropdown-container">
             <a href="#" onclick="filterProducts('guppy', this)">🔹 孔雀魚</a>
             <a href="#" onclick="filterProducts('molly', this)">🔹 茉莉魚</a>
-            <a href="#" onclick="filterProducts('shrimp', this)">🔹 米蝦專區</a>
-            <a href="#" onclick="filterProducts('bottom', this)">🔹 底棲魚專區</a>
+            <a href="#" onclick="filterProducts('shrimp', this)">🔹 米蝦、螺類、底棲</a>
         </div>
         <a href="https://myship.7-11.com.tw/general/detail/GM2312087898760" target="_blank">🛒 硬體與飼料</a>
         <a href="https://myship.7-11.com.tw/general/detail/GM2404054052893" target="_blank">❄️ 冷凍豐年蝦</a>
@@ -571,8 +570,7 @@
             <button class="category-btn active" onclick="filterProducts('all', this)">📌 全部商品</button>
             <button class="category-btn" onclick="filterProducts('guppy', this)">🐟 孔雀魚</button>
             <button class="category-btn" onclick="filterProducts('molly', this)">🐠 茉莉魚</button>
-            <button class="category-btn" onclick="filterProducts('shrimp', this)">🦐 米蝦</button>
-            <button class="category-btn" onclick="filterProducts('bottom', this)">🐡 底棲魚</button>
+            <button class="category-btn" onclick="filterProducts('shrimp', this)">🦐 米蝦、螺類、底棲</button>
             <button class="category-btn" onclick="filterProducts('addon', this)">🥫 加購區</button>
         </aside>
 
@@ -1002,6 +1000,23 @@
         }
 
         function filterProducts(cat, btn) {
+            document.querySelectorAll('.category-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            
+            // ✨ 更新標題對應表
+            const titles = { 
+                'all': '📌 全部商品', 
+                'guppy': '🐟 孔雀魚專區', 
+                'molly': '🐠 茉莉魚專區', 
+                'shrimp': '🦐 蝦子、螺、底棲魚', // 合併後的標題
+                'addon': '🥫 加購專區' 
+            };
+            
+            titleDom.innerText = titles[cat];
+            document.querySelector('.search-input').value = '';
+            renderProducts(cat);
+            closeNav();
+        } function filterProducts(cat, btn) {
             document.querySelectorAll('.category-btn').forEach(b => b.classList.remove('active'));
             btn.classList.add('active');
             const titles = { 'all': '📌 全部商品', 'guppy': '🐟 孔雀魚專區', 'molly': '🐠 茉莉魚專區', 'shrimp': '🦐 米蝦專區', 'bottom': '🐡 底棲魚專區', 'addon': '🥫 加購專區' };
