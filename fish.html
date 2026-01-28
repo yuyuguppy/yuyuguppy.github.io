@@ -1,6 +1,4 @@
 
-
-
 <!DOCTYPE html>
 <html lang="zh-TW">
 <head>
@@ -1020,7 +1018,7 @@
             const btn = document.getElementById('pdAddBtn');
             const priceDisplay = document.getElementById('pdPriceDisplay');
 
-            // ✨✨✨ 1. Modal 內部價格顯示邏輯 (這裡改了顏色！) ✨✨✨
+            // 1. Modal 內部價格顯示邏輯
             if (priceDisplay) {
                 if (item.tag === 'SALE' && item.origin_price > item.price) {
                     // 特價狀況：維持紅線與紅字
@@ -1029,10 +1027,26 @@
                         <span style="font-size: 24px; color: #ff4d4d; font-weight: bold;">特價 $${item.price}</span>
                     `;
                 } else {
-                    // 👇👇👇 這裡改了！把 #ffe100 (黃色) 改成 #333333 (深黑色) 👇👇👇
+                    // 正常狀況：顯示深黑色
                     priceDisplay.innerHTML = `<span style="font-size: 24px; color: #333333; font-weight: bold;">NT$ ${item.price}</span>`;
                 }
             }
+
+            // 2. 按鈕庫存判斷
+            if (item.stock <= 0) {
+                btn.innerText = "該規格已售完";
+                btn.disabled = true;
+                btn.style.background = "#999";
+                btn.onclick = null;
+            } else {
+                // 如果是加購品 (addon) 或子規格 (sub)，按鈕上不顯示庫存
+                const stockText = (item.category === 'addon' || item.category === 'sub') ? '' : ` (庫存: ${item.stock})`;
+                btn.innerText = `加入購物車${stockText}`;
+                btn.disabled = false;
+                btn.style.background = "#4fc3f7"; 
+                btn.onclick = () => { addToCart(item.id); closeProductDetail(); };
+            }
+        }
 
         function scrollToGallery(index) {
             const galleryDiv = document.getElementById('pdGallery');
