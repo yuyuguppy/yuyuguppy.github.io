@@ -888,43 +888,51 @@
                 }
             }
         };
-
-        // ✨✨✨ 產品詳細頁邏輯 ✨✨✨
         function openProductDetail(pid) {
             const product = products.find(p => p.id === pid);
-            const extraData = fishDetails[pid] || {};
+            if (!product) return;
+
+            const extraData = fishDetails[pid] || {}; 
+
             document.getElementById('pdTitle').innerText = product.name;
             document.getElementById('pdIntro').innerHTML = extraData.intro || "歡迎私訊詢問！";
-            
-            // ✨ 加購區 vs 活體 注意事項區分
+
+            // 判斷注意事項：加購區 vs 活體
             if (product.category === 'addon') {
                 document.getElementById('pdNotice').innerHTML = `1. 水族周邊為常溫/冷凍出貨，與活體分開配送。<br>2. 耗材拆封恕不退換。<br>3. 大型設備請先私訊確認配送。<br>4. 需合併出貨請先確認包裝空間。`;
             } else {
                 document.getElementById('pdNotice').innerHTML = `1. 下單後加入官方 LINE 確認進度。<br>2. 務必對溫對水。<br>3. 水溫建議 22~26°C。<br>4. 收件請全程錄影。<br>5. 請詳閱「條款與細則」。`;
             }
-            
+
+            // Modal 內的規格按鈕邏輯
             const subVariants = products.filter(v => v.id.startsWith(pid + '-') && v.category === 'sub');
             const vArea = document.getElementById('pdVariantArea');
+            
+            // ✨✨✨ 修改重點：這裡加入了價格顯示區 (pdPriceDisplay) ✨✨✨
+            let variantHtml = '';
             if(subVariants.length > 0) {
-                let html = `<div class="pd-section-title">📏 選擇規格</div><div class="variant-tag-container">`;
-                // 👇 這裡也改成 '單件'
-                html += `<div class="v-tag active" id="pdv-${product.id}" onclick="switchPdVariant('${pid}', '${product.id}')">單件</div>`;
+                variantHtml += `<div class="pd-section-title">📏 選擇規格</div><div class="variant-tag-container">`;
+                variantHtml += `<div class="v-tag active" id="pdv-${product.id}" onclick="switchPdVariant('${pid}', '${product.id}')">單件</div>`;
                 subVariants.forEach(v => {
                     let vName = v.name.includes('-') ? v.name.split('-').pop() : v.name;
-                    html += `<div class="v-tag" id="pdv-${v.id}" onclick="switchPdVariant('${pid}', '${v.id}')">${vName}</div>`;
+                    variantHtml += `<div class="v-tag" id="pdv-${v.id}" onclick="switchPdVariant('${pid}', '${v.id}')">${vName}</div>`;
                 });
-                vArea.innerHTML = html + `</div>`;
-            } else { vArea.innerHTML = ''; }
+                variantHtml += `</div>`;
+            }
+            // 這裡插入價格顯示的容器
+            variantHtml += `<div id="pdPriceDisplay" style="margin: 10px 0; padding: 10px; background: rgba(255,255,255,0.05); border-radius: 8px;"></div>`;
+            vArea.innerHTML = variantHtml;
 
+            // 相簿邏輯
             const gallery = document.getElementById('pdGallery');
             let items = [{ type: 'img', src: product.img }];
             if (extraData.gallery) extraData.gallery.forEach(url => items.push({ type: 'img', src: url }));
-            gallery.innerHTML = items.map(i => `<img src="${i.src}">`).join('');
+            
+            gallery.innerHTML = items.map(i => `<img src="${i.src}" onerror="this.src='logo.jpg'">`).join('');
             
             const dotsContainer = document.getElementById('pdDots');
             dotsContainer.innerHTML = items.length > 1 ? items.map((_, i) => `<div class="pd-dot ${i === 0 ? 'active' : ''}" onclick="scrollToGallery(${i})"></div>`).join('') : '';
 
-            // 圓點滑動邏輯 (維持不變)
             gallery.onscroll = function() {
                 const centerPoint = gallery.scrollLeft + (gallery.offsetWidth / 2);
                 const allImgs = gallery.querySelectorAll('img');
@@ -948,13 +956,31 @@
 
         function updatePdBtn(item) {
             const btn = document.getElementById('pdAddBtn');
+            const priceDisplay = document.getElementById('pdPriceDisplay');
+
+            // ✨✨✨ 修改重點：特價紅線邏輯 ✨✨✨
+            if (priceDisplay) {
+                // 如果有 SALE 標籤 且 原價大於售價
+                if (item.tag === 'SALE' && item.origin_price > item.price) {
+                    priceDisplay.innerHTML = `
+                        <span style="font-size: 14px; color: #aaa; text-decoration: line-through; margin-right: 8px;">原價 $${item.origin_price}</span>
+                        <span style="font-size: 20px; color: #ff4d4d; font-weight: bold;">特價 $${item.price}</span>
+                    `;
+                } else {
+                    // 沒有特價，只顯示現在價格 (金色)
+                    priceDisplay.innerHTML = `<span style="font-size: 20px; color: #ffe100; font-weight: bold;">NT$ ${item.price}</span>`;
+                }
+            }
+
+            // 按鈕狀態控制
             if (item.stock <= 0) {
                 btn.innerText = "該規格已售完";
                 btn.disabled = true;
                 btn.style.background = "#999";
                 btn.onclick = null;
             } else {
-                btn.innerText = `加入購物車 - ${item.name} (NT$ ${item.price})`;
+                // 按鈕文字簡化，因為上面已經有大價格了
+                btn.innerText = `加入購物車 (庫存: ${item.stock})`;
                 btn.disabled = false;
                 btn.style.background = "#4fc3f7"; 
                 btn.onclick = () => { addToCart(item.id); closeProductDetail(); };
