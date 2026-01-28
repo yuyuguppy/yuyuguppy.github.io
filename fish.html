@@ -837,16 +837,20 @@
             filtered.forEach(p => {
                 const isSoldOut = p.stock <= 0;
                 
-                // --- (原本的規格按鈕邏輯，保留不動) ---
+                // ✨ 1. 處理標題：把 "-75g" 切掉，只留前面 "無悔飼料"
+                let displayName = p.name.includes('-') ? p.name.split('-')[0] : p.name;
+
+                // ✨ 2. 處理外部規格按鈕
                 const subVariants = products.filter(v => v.id.startsWith(p.id + '-') && v.category === 'sub');
                 let variantTags = '';
+                
                 if(subVariants.length > 0) {
                     variantTags = `<div class="variant-tag-container">`;
                     
-                    // 抓取主商品名稱中 '-' 後面的字，如果沒有就用 '單件'
-                    let mainName = p.name.includes('-') ? p.name.split('-').pop() : '單件';
+                    // 抓取主商品名稱中 '-' 後面的字當作第一顆按鈕名稱 (例如 "75g")
+                    let mainBtnName = p.name.includes('-') ? p.name.split('-').pop() : '單件';
                     
-                    variantTags += `<div class="v-tag active" id="vtag-${p.id}-${p.id}" onclick="event.stopPropagation(); updateExternalVariant('${p.id}', '${p.id}')">${mainName}</div>`;
+                    variantTags += `<div class="v-tag active" id="vtag-${p.id}-${p.id}" onclick="event.stopPropagation(); updateExternalVariant('${p.id}', '${p.id}')">${mainBtnName}</div>`;
                     
                     subVariants.forEach(v => {
                         let vName = v.name.includes('-') ? v.name.split('-').pop() : v.name;
@@ -860,18 +864,15 @@
                 else if (p.tag === 'NEW') tagHtml = '<div class="p-tag tag-new">新品 ✨</div>';
                 else if (p.tag === 'SALE') tagHtml = '<div class="p-tag tag-sale">特價 💰</div>';
 
-                // ✨✨✨ (這裡是有改動的地方：價格顯示邏輯) ✨✨✨
+                // 價格顯示邏輯
                 let priceHtml = '';
-                // 判斷：如果有 SALE 標籤 且 原價大於售價
                 if (p.tag === 'SALE' && p.origin_price > p.price) {
-                    priceHtml = `
-                        <div id="price-${p.id}" style="margin-bottom:5px;">
-                            <span class="price-origin">NT$ ${p.origin_price}</span>
-                            <span class="price-sale">NT$ ${p.price}</span>
-                        </div>`;
+                    priceHtml = `<span class="p-price-current" id="price-${p.id}">
+                        <span class="price-origin">NT$ ${p.origin_price}</span>
+                        <span class="price-sale">NT$ ${p.price}</span>
+                    </span>`;
                 } else {
-                    // 沒有特價，顯示原本的金色價格
-                    priceHtml = `<div class="p-price-current" id="price-${p.id}">NT$ ${p.price}</div>`;
+                    priceHtml = `<span class="p-price-current" id="price-${p.id}">NT$ ${p.price}</span>`;
                 }
 
                 const stockHtml = (p.category === 'addon') ? '' : `<div style="font-size:12px; color:#888; margin-bottom:5px;">庫存：${p.stock}</div>`;
@@ -884,9 +885,10 @@
                             ${isSoldOut ? '<div class="sold-out-mask">SOLD OUT</div>' : ''}
                         </div>
                         <div class="p-info">
-                            <div class="p-name">${p.name}</div>
+                            <div class="p-name">${displayName}</div>
                             
-                            ${priceHtml} ${variantTags}
+                            ${priceHtml} 
+                            ${variantTags}
                             ${stockHtml}
                             
                             ${isSoldOut ? '<button class="add-btn disabled">已售完</button>' : `
@@ -902,34 +904,37 @@
                 `;
                 container.innerHTML += html;
             });
-        }
 
         // ✨ 外部切換規格功能
         // ✨ 外部切換規格功能 (修正版)
+        // ✨ 外部切換規格 (含換圖功能)
         window.updateExternalVariant = (mainId, vid) => {
             const item = products.find(p => p.id === vid);
             if (!item) return;
 
-            // 1. 更新按鈕樣式 (這段保留)
+            // 1. 更新按鈕樣式
             document.querySelectorAll(`[id^="vtag-${mainId}"]`).forEach(el => el.classList.remove('active'));
             document.getElementById(`vtag-${mainId}-${vid}`).classList.add('active');
             
-            // ✨✨✨ 2. 更新價格邏輯 (這裡是重點修改) ✨✨✨
+            // 2. 更新價格
             const priceEl = document.getElementById(`price-${mainId}`);
             if (item.tag === 'SALE' && item.origin_price > item.price) {
-                // 如果是特價，顯示紅線原價 + 特價
                 priceEl.innerHTML = `
                     <span class="price-origin">NT$ ${item.origin_price}</span>
                     <span class="price-sale">NT$ ${item.price}</span>
                 `;
             } else {
-                // 如果不是特價，恢復原本樣式
-                priceEl.innerHTML = `NT$ ${item.price}`;
-                priceEl.className = 'p-price-current'; 
-                priceEl.style.color = '#ffe100';
+                priceEl.innerText = `NT$ ${item.price}`;
+                priceEl.style.color = "#ffe100";
+            }
+
+            // ✨✨✨ 3. 更新圖片 (這裡是新增的關鍵！) ✨✨✨
+            const imgEl = document.getElementById(`img-${mainId}`);
+            if (imgEl && item.img) {
+                imgEl.src = item.img;
             }
             
-            // 3. 更新按鈕行為 (這段保留)
+            // 4. 更新按鈕行為
             const addBtn = document.getElementById(`addbtn-${mainId}`);
             if (addBtn) {
                 if(item.stock <= 0) {
@@ -947,8 +952,14 @@
         // ✨✨✨ 產品詳細頁邏輯 ✨✨✨
         function openProductDetail(pid) {
             const product = products.find(p => p.id === pid);
-            const extraData = fishDetails[pid] || {};
-            document.getElementById('pdTitle').innerText = product.name;
+            if (!product) return;
+
+            const extraData = fishDetails[pid] || {}; 
+
+            // ✨ 修改：標題只顯示橫槓前的文字
+            let displayName = product.name.includes('-') ? product.name.split('-')[0] : product.name;
+            document.getElementById('pdTitle').innerText = displayName;
+            
             document.getElementById('pdIntro').innerHTML = extraData.intro || "歡迎私訊詢問！";
             
             // ✨ 加購區 vs 活體 注意事項區分
