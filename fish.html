@@ -491,30 +491,36 @@
             /* 商品列表 */
             .products-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
             
-            /* 👇👇👇 重點修改：規格按鈕加大 👇👇👇 */
+            /* 👇👇👇 重點修改：規格按鈕 (淺灰底 + 粗字) 👇👇👇 */
             .variant-tag-container {
-                gap: 5px;          /* 間距拉開一點，避免誤觸 */
+                gap: 5px;
                 margin-bottom: 8px;
             }
             .v-tag {
-                background: #e0e0e0;  /* ✨ 底色改成淺灰色 (不要全白) */
+                background: #e0e0e0;  /* ✨ 底色改成淺灰色 */
                 color: #000;          /* 字體黑色 */
-                font-weight: 800;     /* ✨ 字體加到最粗！ */
+                font-weight: 900;     /* ✨ 選項字體加到最粗！ */
                 
-                padding: 6px 10px;    /* 維持好點擊的大小 */
-                font-size: 13px;      
-                min-width: 40px;      
-                border-radius: 5px;   
+                padding: 6px 10px;
+                font-size: 13px;
+                min-width: 40px;
+                border-radius: 5px;
                 line-height: 1.4;
-                border: 1px solid #bbb; /* 邊框稍微加深一點點，更有立體感 */
-                flex-grow: 1;         /* 自動填滿 */
+                border: 1px solid #bbb; /* 邊框深一點，增加立體感 */
+                flex-grow: 1;
             }
             
-            .p-info { padding: 12px; } /* 卡片內部空間稍微放鬆 */
-            .p-name { font-size: 16px; margin-bottom: 5px; } 
+            .p-info { padding: 12px; }
+            
+            /* 👇👇👇 商品名稱加粗 👇👇👇 */
+            .p-name { 
+                font-size: 16px; 
+                margin-bottom: 5px; 
+                font-weight: 900;     /* ✨ 這裡改了！商品名稱加到最粗 */
+            } 
+            
             .p-price-current { font-size: 17px; margin-bottom: 6px; }
             /* 👆👆👆 修改結束 👆👆👆 */
-
             .back-to-top { bottom: 15px; right: 15px; }
             .daohui-dog-img { width: 50px; }
         }
