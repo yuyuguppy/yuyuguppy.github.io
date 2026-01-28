@@ -564,7 +564,7 @@
             <button class="category-btn active" onclick="filterProducts('all', this)">📌 全部商品</button>
             <button class="category-btn" onclick="filterProducts('guppy', this)">🐟 孔雀魚</button>
             <button class="category-btn" onclick="filterProducts('molly', this)">🐠 茉莉魚</button>
-            <button class="category-btn" onclick="filterProducts('shrimp', this)">🦐 蝦子、螺、底棲</button>
+            <button class="category-btn" onclick="filterProducts('shrimp', this)">🦐 蝦子、螺類、底棲</button>
             <button class="category-btn" onclick="filterProducts('addon', this)">🥫 加購區</button>
         </aside>
 
@@ -941,7 +941,7 @@
         function filterProducts(cat, btn) {
             document.querySelectorAll('.category-btn').forEach(b => b.classList.remove('active'));
             btn.classList.add('active');
-            const titles = { 'all': '📌 全部商品', 'guppy': '🐟 孔雀魚專區', 'molly': '🐠 茉莉魚專區', 'shrimp': '🦐 蝦子、螺、底棲魚', 'addon': '🥫 加購專區' };
+            const titles = { 'all': '📌 全部商品', 'guppy': '🐟 孔雀魚專區', 'molly': '🐠 茉莉魚專區', 'shrimp': '🦐 蝦子、螺類、底棲', 'addon': '🥫 加購專區' };
             titleDom.innerText = titles[cat];
             document.querySelector('.search-input').value = '';
             renderProducts(cat);
