@@ -497,13 +497,17 @@
                 margin-bottom: 8px;
             }
             .v-tag {
-                padding: 6px 10px;    /* ✨ 內距加大 (上下6px, 左右10px) */
-                font-size: 13px;      /* ✨ 字體加大回來 */
-                min-width: 40px;      /* 最小寬度加大 */
+                background: #e0e0e0;  /* ✨ 底色改成淺灰色 (不要全白) */
+                color: #000;          /* 字體黑色 */
+                font-weight: 800;     /* ✨ 字體加到最粗！ */
+                
+                padding: 6px 10px;    /* 維持好點擊的大小 */
+                font-size: 13px;      
+                min-width: 40px;      
                 border-radius: 5px;   
                 line-height: 1.4;
-                font-weight: normal; 
-                flex-grow: 1;         /* ✨ 讓按鈕自動撐滿，增加點擊面積 */
+                border: 1px solid #bbb; /* 邊框稍微加深一點點，更有立體感 */
+                flex-grow: 1;         /* 自動填滿 */
             }
             
             .p-info { padding: 12px; } /* 卡片內部空間稍微放鬆 */
