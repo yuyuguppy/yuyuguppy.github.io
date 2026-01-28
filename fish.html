@@ -1034,22 +1034,6 @@
                 }
             }
 
-            // 2. 按鈕庫存判斷 (這段保持不變)
-            if (item.stock <= 0) {
-                btn.innerText = "該規格已售完";
-                btn.disabled = true;
-                btn.style.background = "#999";
-                btn.onclick = null;
-            } else {
-                // 如果是加購品 (addon) 或子規格 (sub)，按鈕上不顯示庫存
-                const stockText = (item.category === 'addon' || item.category === 'sub') ? '' : ` (庫存: ${item.stock})`;
-                btn.innerText = `加入購物車${stockText}`;
-                btn.disabled = false;
-                btn.style.background = "#4fc3f7"; 
-                btn.onclick = () => { addToCart(item.id); closeProductDetail(); };
-            }
-        }
-
         function scrollToGallery(index) {
             const galleryDiv = document.getElementById('pdGallery');
             const allMedia = galleryDiv.querySelectorAll('img');
