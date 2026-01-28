@@ -810,10 +810,9 @@
             filtered.forEach(p => {
                 const isSoldOut = p.stock <= 0;
                 
-                // ✨ 外部規格按鈕邏輯
+                // ✨ 外部規格按鈕
                 const subVariants = products.filter(v => v.id.startsWith(p.id + '-') && v.category === 'sub');
                 let variantTags = '';
-                
                 if(subVariants.length > 0) {
                     variantTags = `<div class="variant-tag-container">`;
                     variantTags += `<div class="v-tag active" id="vtag-${p.id}-${p.id}" onclick="event.stopPropagation(); updateExternalVariant('${p.id}', '${p.id}')">單件</div>`;
@@ -829,8 +828,17 @@
                 else if (p.tag === 'NEW') tagHtml = '<div class="p-tag tag-new">新品 ✨</div>';
                 else if (p.tag === 'SALE') tagHtml = '<div class="p-tag tag-sale">特價 💰</div>';
 
-                // ✨✨✨ 庫存顯示判斷 (這裡改了) ✨✨✨
-                // 如果是加購區 (addon)，就不顯示庫存；否則顯示庫存
+                // ✨✨✨ 價格顯示邏輯 (含特價紅線) ✨✨✨
+                let priceHtml = '';
+                if (p.tag === 'SALE' && p.origin_price > p.price) {
+                    priceHtml = `<span class="p-price-current" id="price-${p.id}">
+                        <span style="font-size:14px; color:#aaa; text-decoration:line-through; margin-right:5px;">NT$ ${p.origin_price}</span>
+                        <span style="color:#ff4d4d;">NT$ ${p.price}</span>
+                    </span>`;
+                } else {
+                    priceHtml = `<span class="p-price-current" id="price-${p.id}">NT$ ${p.price}</span>`;
+                }
+
                 const stockHtml = (p.category === 'addon') ? '' : `<div style="font-size:12px; color:#888; margin-bottom:5px;">庫存：${p.stock}</div>`;
 
                 const html = `
@@ -842,10 +850,8 @@
                         </div>
                         <div class="p-info">
                             <div class="p-name">${p.name}</div>
-                            <span class="p-price-current" id="price-${p.id}">NT$ ${p.price}</span>
                             
-                            ${variantTags}
-                            
+                            ${priceHtml} ${variantTags}
                             ${stockHtml}
                             
                             ${isSoldOut ? '<button class="add-btn disabled">已售完</button>' : `
@@ -872,8 +878,17 @@
             document.querySelectorAll(`[id^="vtag-${mainId}"]`).forEach(el => el.classList.remove('active'));
             document.getElementById(`vtag-${mainId}-${vid}`).classList.add('active');
             
-            // 更新價格與按鈕行為
-            document.getElementById(`price-${mainId}`).innerText = `NT$ ${item.price}`;
+            // ✨✨✨ 價格顯示邏輯 (含特價紅線) ✨✨✨
+            const priceEl = document.getElementById(`price-${mainId}`);
+            if (item.tag === 'SALE' && item.origin_price > item.price) {
+                priceEl.innerHTML = `
+                    <span style="font-size:14px; color:#aaa; text-decoration:line-through; margin-right:5px;">NT$ ${item.origin_price}</span>
+                    <span style="color:#ff4d4d;">NT$ ${item.price}</span>
+                `;
+            } else {
+                priceEl.innerText = `NT$ ${item.price}`;
+                priceEl.style.color = "#ffe100"; // 恢復一般金色
+            }
             
             const addBtn = document.getElementById(`addbtn-${mainId}`);
             if (addBtn) {
@@ -958,19 +973,32 @@
             const btn = document.getElementById('pdAddBtn');
             const priceDisplay = document.getElementById('pdPriceDisplay');
 
-            // ✨✨✨ 修改重點：特價紅線邏輯 ✨✨✨
+            // ✨✨✨ 內部價格顯示邏輯 (含特價紅線) ✨✨✨
             if (priceDisplay) {
-                // 如果有 SALE 標籤 且 原價大於售價
                 if (item.tag === 'SALE' && item.origin_price > item.price) {
                     priceDisplay.innerHTML = `
-                        <span style="font-size: 14px; color: #aaa; text-decoration: line-through; margin-right: 8px;">原價 $${item.origin_price}</span>
-                        <span style="font-size: 20px; color: #ff4d4d; font-weight: bold;">特價 $${item.price}</span>
+                        <span style="font-size: 16px; color: #aaa; text-decoration: line-through; margin-right: 8px;">原價 $${item.origin_price}</span>
+                        <span style="font-size: 22px; color: #ff4d4d; font-weight: bold;">特價 $${item.price}</span>
                     `;
                 } else {
-                    // 沒有特價，只顯示現在價格 (金色)
-                    priceDisplay.innerHTML = `<span style="font-size: 20px; color: #ffe100; font-weight: bold;">NT$ ${item.price}</span>`;
+                    priceDisplay.innerHTML = `<span style="font-size: 22px; color: #ffe100; font-weight: bold;">NT$ ${item.price}</span>`;
                 }
             }
+
+            if (item.stock <= 0) {
+                btn.innerText = "該規格已售完";
+                btn.disabled = true;
+                btn.style.background = "#999";
+                btn.onclick = null;
+            } else {
+                // 如果是加購品 (addon)，按鈕上不顯示庫存
+                const stockText = (item.category === 'addon' || item.category === 'sub') ? '' : ` (庫存: ${item.stock})`;
+                btn.innerText = `加入購物車${stockText}`;
+                btn.disabled = false;
+                btn.style.background = "#4fc3f7"; 
+                btn.onclick = () => { addToCart(item.id); closeProductDetail(); };
+            }
+        }
 
             // 按鈕狀態控制
             if (item.stock <= 0) {
