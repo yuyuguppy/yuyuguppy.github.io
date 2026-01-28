@@ -65,7 +65,7 @@
         .price-origin { text-decoration: line-through; color: #aaa; font-size: 14px; margin-right: 5px; }
         .price-sale { color: #ff4d4d; font-weight: bold; font-size: 18px; }
 
-        /* ✨ 賣貨便風格：方塊規格按鈕 (配色修正版) ✨ */
+        /* 賣貨便風格按鈕 */
         .variant-tag-container { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 10px; width: 100%; }
         .v-tag { background: #fff; color: #333; border: 1px solid #ccc; padding: 8px 12px; border-radius: 4px; font-size: 13px; font-weight: bold; cursor: pointer; transition: all 0.2s; text-align: center; flex-grow: 1; min-width: 60px; max-width: 48%; }
         .v-tag:hover { background: #f0f0f0; }
@@ -94,7 +94,6 @@
         .pd-dot { width: 8px; height: 8px; border-radius: 50%; background: #ddd; cursor: pointer; transition: 0.3s; }
         .pd-dot.active { background: #4fc3f7; width: 24px; border-radius: 4px; }
         
-        /* Modal 內的價格顯示區 */
         #pdPriceDisplay { margin-bottom: 15px; }
 
         .pd-section-title { color: #2c3e50; font-size: 18px; font-weight: bold; margin-bottom: 10px; border-left: 5px solid #81d4fa; padding-left: 12px; margin-top: 15px; }
@@ -131,15 +130,14 @@
         .daohui-dog-img { width: 60px; height: auto; border-radius: 8px; border: 2px solid #64ffda; box-shadow: 0 4px 10px rgba(0,0,0,0.6); }
         .back-to-top span { margin-top: 5px; color: #64ffda; font-size: 13px; font-weight: bold; text-shadow: 0 2px 4px rgba(0,0,0,0.8); }
 
-        /* ✨ 手機版 RWD 修正 (方案 B：緊湊排列) */
+        .top-nav { background: rgba(16, 42, 67, 0.9); padding: 15px 20px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #334e68; position: sticky; top: 45px; z-index: 10000; backdrop-filter: blur(5px); }
+
         @media (max-width: 768px) {
             .yuyu-announcement-bar { font-size: 13px; white-space: nowrap !important; overflow-x: auto !important; padding: 0 10px; height: 45px !important; min-height: 45px !important; line-height: 45px; display: block; scrollbar-width: none; }
             .yuyu-announcement-bar::-webkit-scrollbar { display: none; }
             .layout-container { flex-direction: column; padding: 0 10px; }
-            
             .sidebar { width: 100%; display: flex; overflow-x: auto; padding: 8px 4px; gap: 4px; position: sticky; top: 95px; z-index: 90; background: rgba(3, 16, 31, 0.95); scrollbar-width: none; }
             .sidebar::-webkit-scrollbar { display: none; }
-
             .category-btn { width: auto; white-space: nowrap; margin-bottom: 0; padding: 6px 10px; font-size: 13px; flex-shrink: 0; }
             .top-nav { display: none; }
             .products-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
@@ -185,7 +183,7 @@
         <a href="index.html" style="margin-top: 20px; border-top: 1px solid rgba(255,255,255,0.2);">🏠 回到首頁</a>
     </div>
 
-    <div id="termsModal" class="terms-modal">
+    <div id="termsModal" class="terms-modal" style="display:none;">
         <div class="terms-content">
             <div class="terms-header">
                 <span class="terms-title">📜 宇魚水族 條款與細則</span>
@@ -244,7 +242,7 @@
         </main>
     </div>
 
-    <div id="productDetailModal">
+    <div id="productDetailModal" style="display:none;">
         <div class="pd-content">
             <div class="pd-header">
                 <div class="pd-title" id="pdTitle">商品名稱</div>
@@ -255,7 +253,6 @@
                 <div class="pd-dots-container" id="pdDots"></div>
                 
                 <div id="pdVariantArea"></div>
-                
                 <div id="pdPriceDisplay" class="pd-price-display"></div>
                 
                 <div class="pd-section-title">📦 商品介紹</div>
@@ -270,7 +267,7 @@
         </div>
     </div>
 
-    <div class="cart-modal" id="cartModal">
+    <div class="cart-modal" id="cartModal" style="display:none;">
         <div class="cart-content">
             <div class="cart-header">
                 <div class="cart-title" id="cartTitle">🛒 您的購物車</div>
@@ -336,7 +333,7 @@
         </div>
     </div>
 
-    <div id="orderConfirmModal">
+    <div id="orderConfirmModal" style="display:none;">
         <div class="confirm-content">
             <div class="confirm-title">🎉 訂單準備好了！</div>
             <div class="confirm-msg">
@@ -471,10 +468,10 @@
             filtered.forEach(p => {
                 const isSoldOut = p.stock <= 0;
                 
-                // ✨ 1. 處理標題：把 "-75g" 切掉，只留前面 "無悔飼料"
+                // 1. 處理標題：把 "-75g" 切掉，只留前面 "無悔飼料"
                 let displayName = p.name.includes('-') ? p.name.split('-')[0] : p.name;
 
-                // ✨ 2. 處理外部規格按鈕
+                // 2. 處理外部規格按鈕
                 const subVariants = products.filter(v => v.id.startsWith(p.id + '-') && v.category === 'sub');
                 let variantTags = '';
                 
@@ -498,15 +495,15 @@
                 else if (p.tag === 'NEW') tagHtml = '<div class="p-tag tag-new">新品 ✨</div>';
                 else if (p.tag === 'SALE') tagHtml = '<div class="p-tag tag-sale">特價 💰</div>';
 
-                // ✨✨✨ 價格顯示邏輯 (含特價紅線) ✨✨✨
+                // 價格顯示邏輯 (含特價紅線)
                 let priceHtml = '';
                 if (p.tag === 'SALE' && p.origin_price > p.price) {
-                    priceHtml = `<span class="p-price-current" id="price-${p.id}">
+                    priceHtml = `<div id="price-${p.id}" style="margin-bottom:5px;">
                         <span class="price-origin">NT$ ${p.origin_price}</span>
                         <span class="price-sale">NT$ ${p.price}</span>
-                    </span>`;
+                    </div>`;
                 } else {
-                    priceHtml = `<span class="p-price-current" id="price-${p.id}">NT$ ${p.price}</span>`;
+                    priceHtml = `<div class="p-price-current" id="price-${p.id}">NT$ ${p.price}</div>`;
                 }
 
                 const stockHtml = (p.category === 'addon') ? '' : `<div style="font-size:12px; color:#888; margin-bottom:5px;">庫存：${p.stock}</div>`;
@@ -557,11 +554,12 @@
                     <span class="price-sale">NT$ ${item.price}</span>
                 `;
             } else {
-                priceEl.innerText = `NT$ ${item.price}`;
-                priceEl.style.color = "#ffe100";
+                priceEl.innerHTML = `NT$ ${item.price}`;
+                priceEl.className = 'p-price-current'; 
+                priceEl.style.color = '#ffe100';
             }
 
-            // ✨✨✨ 3. 更新圖片 (這裡是新增的關鍵！) ✨✨✨
+            // 3. 更新圖片
             const imgEl = document.getElementById(`img-${mainId}`);
             if (imgEl && item.img) {
                 imgEl.src = item.img;
@@ -582,14 +580,14 @@
             }
         };
 
-        // ✨✨✨ 產品詳細頁邏輯 ✨✨✨
+        // ✨ 產品詳細頁邏輯
         function openProductDetail(pid) {
             const product = products.find(p => p.id === pid);
             if (!product) return;
 
             const extraData = fishDetails[pid] || {}; 
 
-            // ✨ 修改：標題只顯示橫槓前的文字
+            // 修改：標題只顯示橫槓前的文字
             let displayName = product.name.includes('-') ? product.name.split('-')[0] : product.name;
             document.getElementById('pdTitle').innerText = displayName;
             
@@ -606,7 +604,6 @@
             const subVariants = products.filter(v => v.id.startsWith(pid + '-') && v.category === 'sub');
             const vArea = document.getElementById('pdVariantArea');
             
-            // ✨ 修改：讓第一個按鈕名稱變聰明 (Modal 內) ✨
             let variantHtml = '';
             if(subVariants.length > 0) {
                 variantHtml += `<div class="pd-section-title">📏 選擇規格</div><div class="variant-tag-container">`;
@@ -659,7 +656,7 @@
             const btn = document.getElementById('pdAddBtn');
             const priceDisplay = document.getElementById('pdPriceDisplay');
 
-            // 1. Modal 內部價格顯示邏輯 (這裡改了顏色！)
+            // 1. Modal 內部價格顯示邏輯
             if (priceDisplay) {
                 if (item.tag === 'SALE' && item.origin_price > item.price) {
                     // 特價狀況：維持紅線與紅字
