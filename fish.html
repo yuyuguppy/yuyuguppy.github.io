@@ -978,22 +978,23 @@
 
         function updatePdBtn(item) {
             const btn = document.getElementById('pdAddBtn');
-            // 記得確認你的 HTML 裡有 <div id="pdPriceDisplay"></div> 喔！
-            const priceDisplay = document.getElementById('pdPriceDisplay'); 
+            const priceDisplay = document.getElementById('pdPriceDisplay');
 
-            // ✨✨✨ 1. Modal 內部價格顯示邏輯 (這裡是重點修改) ✨✨✨
+            // ✨✨✨ 1. Modal 內部價格顯示邏輯 (這裡改了顏色！) ✨✨✨
             if (priceDisplay) {
                 if (item.tag === 'SALE' && item.origin_price > item.price) {
+                    // 特價狀況：維持紅線與紅字
                     priceDisplay.innerHTML = `
-                        <span class="price-origin" style="font-size: 16px;">原價 $${item.origin_price}</span>
-                        <span class="price-sale" style="font-size: 24px;">特價 $${item.price}</span>
+                        <span style="font-size: 16px; color: #aaa; text-decoration: line-through; margin-right: 8px;">原價 $${item.origin_price}</span>
+                        <span style="font-size: 24px; color: #ff4d4d; font-weight: bold;">特價 $${item.price}</span>
                     `;
                 } else {
-                    priceDisplay.innerHTML = `<span style="font-size: 24px; color: #ffe100; font-weight: bold;">NT$ ${item.price}</span>`;
+                    // 👇👇👇 這裡改了！把 #ffe100 (黃色) 改成 #333333 (深黑色) 👇👇👇
+                    priceDisplay.innerHTML = `<span style="font-size: 24px; color: #333333; font-weight: bold;">NT$ ${item.price}</span>`;
                 }
             }
-            
-            // 2. 按鈕庫存判斷 (保留原本邏輯)
+
+            // 2. 按鈕庫存判斷 (這段保持不變)
             if (item.stock <= 0) {
                 btn.innerText = "該規格已售完";
                 btn.disabled = true;
