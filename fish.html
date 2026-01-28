@@ -193,6 +193,9 @@
         .p-name { font-size: 16px; font-weight: bold; margin-bottom: 5px; color: #fff; }
         .p-price-current { color: #ffe100; font-size: 18px; font-weight: bold; margin-bottom: 5px; display: block; }
 
+        /* 特價紅線樣式 */
+        .price-origin { text-decoration: line-through; color: #aaa; font-size: 14px; margin-right: 5px; }
+        .price-sale { color: #ff4d4d; font-weight: bold; font-size: 18px; }
         /* ✨ 賣貨便風格：方塊規格按鈕 ✨ */
         .variant-tag-container { 
             display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 10px; width: 100%;
@@ -599,6 +602,7 @@
                 <div class="pd-dots-container" id="pdDots"></div>
                 
                 <div id="pdVariantArea"></div>
+                <div id="pdPriceDisplay" class="pd-price-display"></div>
                 
                 <div class="pd-section-title">📦 商品介紹</div>
                 <div class="pd-text" id="pdIntro">這裡會顯示魚隻的詳細介紹...</div>
@@ -813,10 +817,9 @@
             filtered.forEach(p => {
                 const isSoldOut = p.stock <= 0;
                 
-                // ✨ 外部規格按鈕邏輯
+                // --- (原本的規格按鈕邏輯，保留不動) ---
                 const subVariants = products.filter(v => v.id.startsWith(p.id + '-') && v.category === 'sub');
                 let variantTags = '';
-                
                 if(subVariants.length > 0) {
                     variantTags = `<div class="variant-tag-container">`;
                     variantTags += `<div class="v-tag active" id="vtag-${p.id}-${p.id}" onclick="event.stopPropagation(); updateExternalVariant('${p.id}', '${p.id}')">單件</div>`;
@@ -832,8 +835,20 @@
                 else if (p.tag === 'NEW') tagHtml = '<div class="p-tag tag-new">新品 ✨</div>';
                 else if (p.tag === 'SALE') tagHtml = '<div class="p-tag tag-sale">特價 💰</div>';
 
-                // ✨✨✨ 庫存顯示判斷 (這裡改了) ✨✨✨
-                // 如果是加購區 (addon)，就不顯示庫存；否則顯示庫存
+                // ✨✨✨ (這裡是有改動的地方：價格顯示邏輯) ✨✨✨
+                let priceHtml = '';
+                // 判斷：如果有 SALE 標籤 且 原價大於售價
+                if (p.tag === 'SALE' && p.origin_price > p.price) {
+                    priceHtml = `
+                        <div id="price-${p.id}" style="margin-bottom:5px;">
+                            <span class="price-origin">NT$ ${p.origin_price}</span>
+                            <span class="price-sale">NT$ ${p.price}</span>
+                        </div>`;
+                } else {
+                    // 沒有特價，顯示原本的金色價格
+                    priceHtml = `<div class="p-price-current" id="price-${p.id}">NT$ ${p.price}</div>`;
+                }
+
                 const stockHtml = (p.category === 'addon') ? '' : `<div style="font-size:12px; color:#888; margin-bottom:5px;">庫存：${p.stock}</div>`;
 
                 const html = `
@@ -845,10 +860,8 @@
                         </div>
                         <div class="p-info">
                             <div class="p-name">${p.name}</div>
-                            <span class="p-price-current" id="price-${p.id}">NT$ ${p.price}</span>
                             
-                            ${variantTags}
-                            
+                            ${priceHtml} ${variantTags}
                             ${stockHtml}
                             
                             ${isSoldOut ? '<button class="add-btn disabled">已售完</button>' : `
@@ -867,17 +880,31 @@
         }
 
         // ✨ 外部切換規格功能
+        // ✨ 外部切換規格功能 (修正版)
         window.updateExternalVariant = (mainId, vid) => {
             const item = products.find(p => p.id === vid);
             if (!item) return;
 
-            // 更新按鈕樣式
+            // 1. 更新按鈕樣式 (這段保留)
             document.querySelectorAll(`[id^="vtag-${mainId}"]`).forEach(el => el.classList.remove('active'));
             document.getElementById(`vtag-${mainId}-${vid}`).classList.add('active');
             
-            // 更新價格與按鈕行為
-            document.getElementById(`price-${mainId}`).innerText = `NT$ ${item.price}`;
+            // ✨✨✨ 2. 更新價格邏輯 (這裡是重點修改) ✨✨✨
+            const priceEl = document.getElementById(`price-${mainId}`);
+            if (item.tag === 'SALE' && item.origin_price > item.price) {
+                // 如果是特價，顯示紅線原價 + 特價
+                priceEl.innerHTML = `
+                    <span class="price-origin">NT$ ${item.origin_price}</span>
+                    <span class="price-sale">NT$ ${item.price}</span>
+                `;
+            } else {
+                // 如果不是特價，恢復原本樣式
+                priceEl.innerHTML = `NT$ ${item.price}`;
+                priceEl.className = 'p-price-current'; 
+                priceEl.style.color = '#ffe100';
+            }
             
+            // 3. 更新按鈕行為 (這段保留)
             const addBtn = document.getElementById(`addbtn-${mainId}`);
             if (addBtn) {
                 if(item.stock <= 0) {
@@ -951,13 +978,31 @@
 
         function updatePdBtn(item) {
             const btn = document.getElementById('pdAddBtn');
+            // 記得確認你的 HTML 裡有 <div id="pdPriceDisplay"></div> 喔！
+            const priceDisplay = document.getElementById('pdPriceDisplay'); 
+
+            // ✨✨✨ 1. Modal 內部價格顯示邏輯 (這裡是重點修改) ✨✨✨
+            if (priceDisplay) {
+                if (item.tag === 'SALE' && item.origin_price > item.price) {
+                    priceDisplay.innerHTML = `
+                        <span class="price-origin" style="font-size: 16px;">原價 $${item.origin_price}</span>
+                        <span class="price-sale" style="font-size: 24px;">特價 $${item.price}</span>
+                    `;
+                } else {
+                    priceDisplay.innerHTML = `<span style="font-size: 24px; color: #ffe100; font-weight: bold;">NT$ ${item.price}</span>`;
+                }
+            }
+            
+            // 2. 按鈕庫存判斷 (保留原本邏輯)
             if (item.stock <= 0) {
                 btn.innerText = "該規格已售完";
                 btn.disabled = true;
                 btn.style.background = "#999";
                 btn.onclick = null;
             } else {
-                btn.innerText = `加入購物車 - ${item.name} (NT$ ${item.price})`;
+                // 如果是加購品 (addon) 或子規格 (sub)，按鈕上不顯示庫存
+                const stockText = (item.category === 'addon' || item.category === 'sub') ? '' : ` (庫存: ${item.stock})`;
+                btn.innerText = `加入購物車${stockText}`;
                 btn.disabled = false;
                 btn.style.background = "#4fc3f7"; 
                 btn.onclick = () => { addToCart(item.id); closeProductDetail(); };
