@@ -786,18 +786,36 @@
         function renderProducts(filterCategory) {
             currentCategory = filterCategory;
             container.innerHTML = '';
+            
             const searchTerm = document.querySelector('.search-input').value.toLowerCase();
             
-            let filtered = products.filter(p => p.category !== 'sub' && (filterCategory === 'all' || p.category === filterCategory) && p.name.toLowerCase().includes(searchTerm));
-            filtered.sort((a, b) => (b.stock > 0 ? 1 : 0) - (a.stock > 0 ? 1 : 0));
+            let filtered = products.filter(p => {
+                const isNotSub = p.category !== 'sub';
+                const matchCat = filterCategory === 'all' || p.category === filterCategory;
+                const matchSearch = p.name.toLowerCase().includes(searchTerm);
+                return isNotSub && matchCat && matchSearch;
+            });
+            
+            filtered.sort((a, b) => {
+                const aStock = a.stock > 0 ? 1 : 0;
+                const bStock = b.stock > 0 ? 1 : 0;
+                return bStock - aStock; 
+            });
+
+            if(filtered.length === 0) {
+                container.innerHTML = '<div style="color:#888; grid-column:1/-1; text-align:center; padding:20px;">找不到相關商品 🦐</div>';
+                return;
+            }
 
             filtered.forEach(p => {
                 const isSoldOut = p.stock <= 0;
+                
+                // ✨ 外部規格按鈕邏輯
                 const subVariants = products.filter(v => v.id.startsWith(p.id + '-') && v.category === 'sub');
                 let variantTags = '';
+                
                 if(subVariants.length > 0) {
                     variantTags = `<div class="variant-tag-container">`;
-                    // 👇 這裡改成 '單件'
                     variantTags += `<div class="v-tag active" id="vtag-${p.id}-${p.id}" onclick="event.stopPropagation(); updateExternalVariant('${p.id}', '${p.id}')">單件</div>`;
                     subVariants.forEach(v => {
                         let vName = v.name.includes('-') ? v.name.split('-').pop() : v.name;
@@ -806,9 +824,16 @@
                     variantTags += `</div>`;
                 }
 
-                let tagHtml = p.tag === 'HOT' ? '<div class="p-tag tag-hot">熱銷 🔥</div>' : p.tag === 'NEW' ? '<div class="p-tag tag-new">新品 ✨</div>' : p.tag === 'SALE' ? '<div class="p-tag tag-sale">特價 💰</div>' : '';
+                let tagHtml = '';
+                if (p.tag === 'HOT') tagHtml = '<div class="p-tag tag-hot">熱銷 🔥</div>';
+                else if (p.tag === 'NEW') tagHtml = '<div class="p-tag tag-new">新品 ✨</div>';
+                else if (p.tag === 'SALE') tagHtml = '<div class="p-tag tag-sale">特價 💰</div>';
 
-                container.innerHTML += `
+                // ✨✨✨ 庫存顯示判斷 (這裡改了) ✨✨✨
+                // 如果是加購區 (addon)，就不顯示庫存；否則顯示庫存
+                const stockHtml = (p.category === 'addon') ? '' : `<div style="font-size:12px; color:#888; margin-bottom:5px;">庫存：${p.stock}</div>`;
+
+                const html = `
                     <div class="product-card" onclick="openProductDetail('${p.id}')">
                         ${tagHtml}
                         <div class="p-img-box">
@@ -818,17 +843,23 @@
                         <div class="p-info">
                             <div class="p-name">${p.name}</div>
                             <span class="p-price-current" id="price-${p.id}">NT$ ${p.price}</span>
+                            
                             ${variantTags}
-                            <div style="font-size:12px; color:#888; margin-bottom:5px;">庫存：${p.stock}</div>
+                            
+                            ${stockHtml}
+                            
                             ${isSoldOut ? '<button class="add-btn disabled">已售完</button>' : `
                                 <div class="qty-control" onclick="event.stopPropagation()">
                                     <button class="qty-btn" onclick="updateCardQty('${p.id}', -1)">-</button>
                                     <input type="number" id="qty-input-${p.id}" class="qty-input" value="1" readonly>
                                     <button class="qty-btn" onclick="updateCardQty('${p.id}', 1)">+</button>
                                 </div>
-                                <button class="add-btn" id="addbtn-${p.id}" onclick="event.stopPropagation(); addToCart('${p.id}')">加入購物車</button>`}
+                                <button class="add-btn" id="addbtn-${p.id}" onclick="event.stopPropagation(); addToCart('${p.id}')">加入購物車</button>`
+                            }
                         </div>
-                    </div>`;
+                    </div>
+                `;
+                container.innerHTML += html;
             });
         }
 
