@@ -801,14 +801,16 @@
                         
                         if (validData.length > 0) {
                             products = validData.map(item => ({
-                                id: item.id,
-                                name: item.name,
-                                price: parseInt(item.price) || 0,
+                                // ✨ 關鍵修改：強制清除 ID 裡面的換行符號與空白，避免對應錯誤
+                                id: item.id.trim().replace(/[\r\n]+/g, ""),
+                                name: item.name.trim(),
+                                // ✨ 關鍵修改：強制抓取純數字，避免價格欄位有換行導致錯誤
+                                price: parseInt(String(item.price).replace(/[^0-9]/g, '')) || 0,
                                 category: item.category ? item.category.trim() : 'guppy',
                                 stock: parseInt(item.stock) || 0,
                                 img: item.img ? item.img.trim() : '',
                                 tag: item.tag ? item.tag.trim() : '',
-                                origin_price: parseInt(item.origin_price) || 0
+                                origin_price: parseInt(String(item.origin_price).replace(/[^0-9]/g, '')) || 0
                             }));
                         }
                         document.getElementById('loading').style.display = 'none';
@@ -927,9 +929,10 @@
 
             // 1. 更新按鈕樣式
             document.querySelectorAll(`[id^="vtag-${mainId}"]`).forEach(el => el.classList.remove('active'));
-            document.getElementById(`vtag-${mainId}-${vid}`).classList.add('active');
+            const activeBtn = document.getElementById(`vtag-${mainId}-${vid}`);
+            if(activeBtn) activeBtn.classList.add('active');
             
-            // 2. 更新價格 (修正版)
+            // 2. 更新價格
             const priceEl = document.getElementById(`price-${mainId}`);
             if (priceEl) {
                 if (item.tag === 'SALE' && item.origin_price > item.price) {
