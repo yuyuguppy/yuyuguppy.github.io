@@ -810,7 +810,8 @@
                                 stock: parseInt(item.stock) || 0,
                                 img: item.img ? item.img.trim() : '',
                                 tag: item.tag ? item.tag.trim() : '',
-                                origin_price: parseInt(String(item.origin_price).replace(/[^0-9]/g, '')) || 0
+                                origin_price: parseInt(String(item.origin_price).replace(/[^0-9]/g, '')) || 0,
+                                intro: item.intro ? item.intro.trim() : ''
                             }));
                         }
                         document.getElementById('loading').style.display = 'none';
@@ -979,7 +980,7 @@
             let displayName = product.name.includes('-') ? product.name.split('-')[0] : product.name;
             document.getElementById('pdTitle').innerText = displayName;
             
-            document.getElementById('pdIntro').innerHTML = extraData.intro || "歡迎私訊詢問！";
+            document.getElementById('pdIntro').innerHTML = product.intro || extraData.intro || "歡迎私訊詢問！";
 
             // ✨ 加購區 vs 活體 注意事項區分
             if (product.category === 'addon') {
