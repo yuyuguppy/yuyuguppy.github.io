@@ -446,6 +446,7 @@
             border: 1px solid #ffe0b2;
             margin-bottom: 20px; 
             line-height: 1.6;
+            white-space: pre-wrap;
         }
 
         .pd-footer {
@@ -811,7 +812,8 @@
                                 img: item.img ? item.img.trim() : '',
                                 tag: item.tag ? item.tag.trim() : '',
                                 origin_price: parseInt(String(item.origin_price).replace(/[^0-9]/g, '')) || 0,
-                                intro: item.intro ? item.intro.trim() : ''
+                                intro: item.intro ? item.intro.trim() : '',
+                                notice: item.notice ? item.notice.trim() : ''
                             }));
                         }
                         document.getElementById('loading').style.display = 'none';
@@ -982,8 +984,13 @@
             
             document.getElementById('pdIntro').innerHTML = product.intro || extraData.intro || "歡迎私訊詢問！";
 
-            // ✨ 加購區 vs 活體 注意事項區分
-            if (product.category === 'addon') {
+            // ✨ 注意事項邏輯：
+            // 1. 如果試算表有寫 notice，就用試算表的
+            // 2. 如果沒寫，就看是不是加購區 (addon)
+            // 3. 如果都不是，就顯示預設活體須知
+            if (product.notice) {
+                document.getElementById('pdNotice').innerHTML = product.notice;
+            } else if (product.category === 'addon') {
                 document.getElementById('pdNotice').innerHTML = `1. 水族周邊為常溫/冷凍出貨，與活體分開配送。<br>2. 耗材拆封恕不退換。<br>3. 大型設備請先私訊確認配送。<br>4. 需合併出貨請先確認包裝空間。`;
             } else {
                 document.getElementById('pdNotice').innerHTML = `1. 下單後加入官方 LINE 確認進度。<br>2. 務必對溫對水。<br>3. 水溫建議 22~26°C。<br>4. 收件請全程錄影。<br>5. 請詳閱「條款與細則」。`;
