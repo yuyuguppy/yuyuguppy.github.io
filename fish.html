@@ -926,51 +926,57 @@
         // ✨ 外部切換規格功能 (修正版)
         // ✨ 外部切換規格 (含換圖功能)
         // ✨ 外部切換規格 (含換圖與價格修復)
-        window.updateExternalVariant = (mainId, vid) => {
-            const item = products.find(p => p.id === vid);
-            if (!item) return;
+       // ✨ 外部切換規格 (含換圖與連動 Modal 修復)
+window.updateExternalVariant = (mainId, vid) => {
+    const item = products.find(p => p.id === vid);
+    if (!item) return;
 
-            // 1. 更新按鈕樣式
-            document.querySelectorAll(`[id^="vtag-${mainId}"]`).forEach(el => el.classList.remove('active'));
-            const activeBtn = document.getElementById(`vtag-${mainId}-${vid}`);
-            if(activeBtn) activeBtn.classList.add('active');
-            
-            // 2. 更新價格
-            const priceEl = document.getElementById(`price-${mainId}`);
-            if (priceEl) {
-                if (item.tag === 'SALE' && item.origin_price > item.price) {
-                    priceEl.innerHTML = `
-                        <span class="price-origin">NT$ ${item.origin_price}</span>
-                        <span class="price-sale">NT$ ${item.price}</span>
-                    `;
-                } else {
-                    priceEl.innerHTML = `NT$ ${item.price}`;
-                    priceEl.className = 'p-price-current'; 
-                    priceEl.style.color = '#ffe100';
-                }
-            }
+    // 1. 更新按鈕樣式
+    document.querySelectorAll(`[id^="vtag-${mainId}"]`).forEach(el => el.classList.remove('active'));
+    const activeBtn = document.getElementById(`vtag-${mainId}-${vid}`);
+    if(activeBtn) activeBtn.classList.add('active');
+    
+    // 2. 更新價格
+    const priceEl = document.getElementById(`price-${mainId}`);
+    if (priceEl) {
+        if (item.tag === 'SALE' && item.origin_price > item.price) {
+            priceEl.innerHTML = `
+                <span class="price-origin">NT$ ${item.origin_price}</span>
+                <span class="price-sale">NT$ ${item.price}</span>
+            `;
+        } else {
+            priceEl.innerHTML = `NT$ ${item.price}`;
+            priceEl.className = 'p-price-current'; 
+            priceEl.style.color = '#ffe100';
+        }
+    }
 
-            // 3. ✨ 更新圖片 (這行是關鍵)
-            const imgEl = document.getElementById(`img-${mainId}`);
-            if (imgEl && item.img) {
-                imgEl.src = item.img;
-            }
-            
-            // 4. 更新加入購物車按鈕
-            const addBtn = document.getElementById(`addbtn-${mainId}`);
-            if (addBtn) {
-                if(item.stock <= 0) {
-                    addBtn.innerText = "該規格售完"; 
-                    addBtn.classList.add('disabled'); 
-                    addBtn.onclick = null;
-                } else {
-                    addBtn.innerText = "加入購物車"; 
-                    addBtn.classList.remove('disabled');
-                    addBtn.onclick = (e) => { e.stopPropagation(); addToCart(vid); };
-                }
-            }
-        };
+    // 3. 更新卡片上的圖片
+    const imgEl = document.getElementById(`img-${mainId}`);
+    if (imgEl && item.img) {
+        imgEl.src = item.img;
+    }
 
+    // 4. ✨ 最關鍵：更新卡片整體的點擊事件，讓它點開後顯示「該規格」的詳情 ✨
+    const cardEl = imgEl.closest('.product-card');
+    if (cardEl) {
+        cardEl.setAttribute('onclick', `openProductDetail('${vid}')`);
+    }
+    
+    // 5. 更新加入購物車按鈕
+    const addBtn = document.getElementById(`addbtn-${mainId}`);
+    if (addBtn) {
+        if(item.stock <= 0) {
+            addBtn.innerText = "該規格售完"; 
+            addBtn.classList.add('disabled'); 
+            addBtn.onclick = null;
+        } else {
+            addBtn.innerText = "加入購物車"; 
+            addBtn.classList.remove('disabled');
+            addBtn.onclick = (e) => { e.stopPropagation(); addToCart(vid); };
+        }
+    }
+};
         // ✨✨✨ 產品詳細頁邏輯 ✨✨✨
         function openProductDetail(pid) {
             const product = products.find(p => p.id === pid);
