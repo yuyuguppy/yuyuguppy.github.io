@@ -1845,16 +1845,20 @@
 
 
 // ✨ 1. 外部切換規格功能 (修正：同時更新點擊卡片的連結目標)
+       // 🔹 全局變數：用來防止「點擊滑動」時又觸發「手動滑動」的偵測，造成無限迴圈
+        let isAutoScrolling = false;
+
+        // ✨ 1. 外層規格切換 (修正：同時更新點擊卡片的連結目標)
         window.updateExternalVariant = (mainId, vid) => {
             const item = products.find(p => p.id === vid);
             if (!item) return;
 
-            // 1. 更新按鈕樣式
+            // 更新按鈕樣式
             document.querySelectorAll(`[id^="vtag-${mainId}"]`).forEach(el => el.classList.remove('active'));
             const activeBtn = document.getElementById(`vtag-${mainId}-${vid}`);
             if(activeBtn) activeBtn.classList.add('active');
             
-            // 2. 更新價格
+            // 更新價格
             const priceEl = document.getElementById(`price-${mainId}`);
             if (priceEl) {
                 if (item.tag === 'SALE' && item.origin_price > item.price) {
@@ -1869,19 +1873,19 @@
                 }
             }
 
-            // 3. ✨ 更新圖片
+            // 更新圖片
             const imgEl = document.getElementById(`img-${mainId}`);
             if (imgEl && item.img) {
                 imgEl.src = item.img;
             }
 
-            // 4. ✨ 最關鍵：更新卡片 onclick 事件，讓它點開後顯示「該規格」的詳情
+            // ✨ 關鍵修正：點擊卡片時，直接開啟「目前選中的規格 ID」
             const cardEl = imgEl.closest('.product-card');
             if (cardEl) {
                 cardEl.setAttribute('onclick', `openProductDetail('${vid}')`);
             }
             
-            // 5. 更新加入購物車按鈕
+            // 更新加入購物車按鈕
             const addBtn = document.getElementById(`addbtn-${mainId}`);
             if (addBtn) {
                 if(item.stock <= 0) {
@@ -1896,29 +1900,26 @@
             }
         };
 
-        // ✨ 2. 產品詳細頁邏輯 (修正：永遠抓第一格的介紹，但顯示選中規格的圖與價)
+        // ✨ 2. 開啟詳情頁 (升級版：一次載入所有規格照片，支援滑動切換)
         function openProductDetail(pid) {
             const product = products.find(p => p.id === pid);
             if (!product) return;
 
-            // 抓取「主商品 ID」（假設 ID 格式是 g1 或 g1-1，取 - 前面的部分即為主ID）
+            // 抓取主商品 ID
             const mainId = pid.split('-')[0];
             const mainProduct = products.find(p => p.id === mainId);
-
             const extraData = fishDetails[mainId] || {}; 
 
-            // 標題顯示 (去掉後面的規格名)
+            // 標題顯示
             let displayName = product.name.includes('-') ? product.name.split('-')[0] : product.name;
             document.getElementById('pdTitle').innerText = displayName;
             
-            // ✨ 關鍵修正：介紹文案永遠抓 mainProduct (主商品)，如果找不到才抓目前的 product
+            // 介紹文案 (永遠固定顯示主商品的介紹)
             const introText = (mainProduct && mainProduct.intro) ? mainProduct.intro : (product.intro || extraData.intro);
             document.getElementById('pdIntro').innerHTML = introText || "歡迎私訊詢問！";
 
-            // 注意事項邏輯 (優先抓主商品的 notice)
+            // 注意事項 (優先抓主商品的 notice)
             let noticeText = (mainProduct && mainProduct.notice) ? mainProduct.notice : product.notice;
-            
-            // 如果都沒有 notice，依照分類給預設值
             if (!noticeText) {
                 if (product.category === 'addon') {
                     noticeText = `1. 水族周邊為常溫/冷凍出貨，與活體分開配送。<br>2. 耗材拆封恕不退換。<br>3. 大型設備請先私訊確認配送。<br>4. 需合併出貨請先確認包裝空間。`;
@@ -1931,81 +1932,131 @@
             // 渲染規格按鈕
             const subVariants = products.filter(v => v.id.startsWith(mainId + '-') && v.category === 'sub');
             const vArea = document.getElementById('pdVariantArea');
-            
-            if(subVariants.length > 0) {
+            let hasVariants = subVariants.length > 0;
+
+            if(hasVariants) {
                 let html = `<div class="pd-section-title">📏 選擇規格</div><div class="variant-tag-container">`;
                 
-                // 主商品按鈕名稱
+                // 主商品按鈕
                 let mainName = mainProduct ? (mainProduct.name.includes('-') ? mainProduct.name.split('-').pop() : '單件') : '單件';
-                
-                // 判斷主按鈕是否被選中
                 let activeClass = (product.id === mainId) ? 'active' : '';
-                html += `<div class="v-tag ${activeClass}" id="pdv-${mainId}" onclick="switchPdVariant('${mainId}', '${mainId}')">${mainName}</div>`;
+                html += `<div class="v-tag ${activeClass}" id="pdv-${mainId}" onclick="switchPdVariant('${mainId}', '${mainId}', true)">${mainName}</div>`;
                 
                 // 子規格按鈕
                 subVariants.forEach(v => {
                     let vName = v.name.includes('-') ? v.name.split('-').pop() : v.name;
                     let subActive = (product.id === v.id) ? 'active' : '';
-                    html += `<div class="v-tag ${subActive}" id="pdv-${v.id}" onclick="switchPdVariant('${mainId}', '${v.id}')">${vName}</div>`;
+                    html += `<div class="v-tag ${subActive}" id="pdv-${v.id}" onclick="switchPdVariant('${mainId}', '${v.id}', true)">${vName}</div>`;
                 });
                 vArea.innerHTML = html + `</div>`;
             } else { vArea.innerHTML = ''; }
 
-            // ✨ 渲染相簿 (使用當前選中規格 product.img 的圖片)
+            // ✨✨✨ 建構「超級相簿」：包含主商品圖、所有規格圖、額外圖 ✨✨✨
             const gallery = document.getElementById('pdGallery');
-            let items = [{ type: 'img', src: product.img }];
-            
-            // 如果有額外相簿資料 (fishDetails)，也可以加進去
-            if (extraData.gallery) extraData.gallery.forEach(url => items.push({ type: 'img', src: url }));
+            let galleryItems = [];
 
-            gallery.innerHTML = items.map(i => `<img src="${i.src}">`).join('');
+            // 1. 放入「所有相關商品」的照片 (主商品 + 規格)
+            // 我們會記錄這張照片屬於哪個 ID (data-vid)，方便滑動時反查
+            const groupProducts = [mainProduct, ...subVariants];
+            
+            groupProducts.forEach(p => {
+                if(p && p.img) {
+                    // 避免重複放入同一張照片
+                    if (!galleryItems.find(i => i.src === p.img)) {
+                        galleryItems.push({ src: p.img, vid: p.id }); 
+                    }
+                }
+            });
+
+            // 2. 放入額外相簿 (fishDetails)
+            if (extraData.gallery) {
+                extraData.gallery.forEach(url => {
+                    if (!galleryItems.find(i => i.src === url)) {
+                        galleryItems.push({ src: url, vid: null }); // null 表示這只是展示圖，不連動規格
+                    }
+                });
+            }
+
+            // 如果沒照片，至少放一張
+            if(galleryItems.length === 0) galleryItems.push({ src: 'logo.jpg', vid: null });
+
+            // 渲染相簿 HTML
+            gallery.innerHTML = galleryItems.map(i => `<img src="${i.src}" data-vid="${i.vid || ''}">`).join('');
             
             // 渲染圓點
             const dotsContainer = document.getElementById('pdDots');
-            dotsContainer.innerHTML = items.length > 1 ? items.map((_, i) => `<div class="pd-dot ${i === 0 ? 'active' : ''}" onclick="scrollToGallery(${i})"></div>`).join('') : '';
+            dotsContainer.innerHTML = galleryItems.length > 1 ? galleryItems.map((_, i) => `<div class="pd-dot" onclick="scrollToGallery(${i})"></div>`).join('') : '';
 
-            // 綁定滾動事件 (圓點連動)
+            // ✨ 滑動偵測邏輯 (手機滑動 -> 自動切換規格) ✨
             gallery.onscroll = function() {
                 const centerPoint = gallery.scrollLeft + (gallery.offsetWidth / 2);
                 const allImgs = gallery.querySelectorAll('img');
                 let activeIndex = 0;
+                let activeVid = null;
+
                 allImgs.forEach((img, index) => {
-                    if (centerPoint >= img.offsetLeft && centerPoint <= (img.offsetLeft + img.offsetWidth)) activeIndex = index;
+                    // 判斷哪張圖在正中間
+                    if (centerPoint >= img.offsetLeft && centerPoint <= (img.offsetLeft + img.offsetWidth)) {
+                        activeIndex = index;
+                        activeVid = img.getAttribute('data-vid'); // 抓取這張圖對應的規格 ID
+                    }
                 });
+
+                // 更新圓點
                 document.querySelectorAll('.pd-dot').forEach((d, i) => d.classList.toggle('active', i === activeIndex));
+
+                // 如果這張圖有對應的規格 ID，且不是自動滾動中，且跟現在選的不一樣 -> 切換規格
+                if (activeVid && !isAutoScrolling && hasVariants) {
+                    // 呼叫切換函數，但傳入 false (不要再滾動相簿，避免無限迴圈)
+                    // 這裡我們需要比對一下，避免一直重複觸發
+                    const currentActiveBtn = document.querySelector('.v-tag.active');
+                    if (currentActiveBtn && currentActiveBtn.id !== `pdv-${activeVid}`) {
+                        switchPdVariant(mainId, activeVid, false); 
+                    }
+                }
             };
 
+            // 初始化按鈕與價格
             updatePdBtn(product);
             document.getElementById('productDetailModal').style.display = 'flex';
+
+            // 打開時，自動滾動到該商品對應的照片
+            setTimeout(() => {
+                const targetImg = gallery.querySelector(`img[data-vid="${product.id}"]`);
+                if(targetImg) {
+                    isAutoScrolling = true;
+                    gallery.scrollTo({ left: targetImg.offsetLeft, behavior: 'auto' }); // 第一次開啟直接跳轉不用動畫
+                    setTimeout(() => isAutoScrolling = false, 500);
+                }
+            }, 100);
         }
 
-        // ✨ 3. Modal 內頁規格切換 (修正：同時更新相簿圖片)
-        window.switchPdVariant = (mainId, vid) => {
+        // ✨ 3. 內頁規格切換 (支援點按鈕 -> 滾動相簿)
+        window.switchPdVariant = (mainId, vid, doScroll = true) => {
             const item = products.find(p => p.id === vid);
             if (!item) return;
 
             // 更新按鈕 Active 狀態
             document.querySelectorAll(`[id^="pdv-"]`).forEach(el => el.classList.remove('active'));
-            document.getElementById(`pdv-${vid}`).classList.add('active');
+            const targetBtn = document.getElementById(`pdv-${vid}`);
+            if (targetBtn) targetBtn.classList.add('active');
             
-            // 更新按鈕與價格
+            // 更新價格與按鈕文字
             updatePdBtn(item);
 
-            // ✨ 新增：更新相簿圖片為該規格的圖片 ✨
-            const gallery = document.getElementById('pdGallery');
-            // 重置相簿：第一張放該規格的圖
-            let items = [{ type: 'img', src: item.img }];
-            
-            const extraData = fishDetails[mainId] || {};
-            if (extraData.gallery) extraData.gallery.forEach(url => items.push({ type: 'img', src: url }));
-
-            gallery.innerHTML = items.map(i => `<img src="${i.src}">`).join('');
-            
-            // 重新渲染圓點
-            const dotsContainer = document.getElementById('pdDots');
-            dotsContainer.innerHTML = items.length > 1 ? items.map((_, i) => `<div class="pd-dot ${i === 0 ? 'active' : ''}" onclick="scrollToGallery(${i})"></div>`).join('') : '';
+            // 如果是點擊按鈕 (doScroll = true)，則滾動相簿到對應照片
+            if (doScroll) {
+                const gallery = document.getElementById('pdGallery');
+                const targetImg = gallery.querySelector(`img[data-vid="${vid}"]`);
+                
+                if (targetImg) {
+                    isAutoScrolling = true; // 鎖住滑動偵測，避免打架
+                    gallery.scrollTo({ left: targetImg.offsetLeft, behavior: 'smooth' });
+                    // 0.5秒後解鎖
+                    setTimeout(() => { isAutoScrolling = false; }, 500);
+                }
+            }
         };
-
 
 
         function updatePdBtn(item) {
