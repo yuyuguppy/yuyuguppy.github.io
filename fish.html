@@ -1600,37 +1600,24 @@
 
                         
 
-                        if (validData.length > 0) {
+                        // 找到 init() 裡面的 Papa.parse，把 results.data 的處理部分改成這樣：
 
-                            products = validData.map(item => ({
-
-                                // ✨ 關鍵修改：強制清除 ID 裡面的換行符號與空白，避免對應錯誤
-
-                                id: item.id.trim().replace(/[\r\n]+/g, ""),
-
-                                name: item.name.trim(),
-
-                                // ✨ 關鍵修改：強制抓取純數字，避免價格欄位有換行導致錯誤
-
-                                price: parseInt(String(item.price).replace(/[^0-9]/g, '')) || 0,
-
-                                category: item.category ? item.category.trim() : 'guppy',
-
-                                stock: parseInt(item.stock) || 0,
-
-                                img: item.img ? item.img.trim() : '',
-
-                                tag: item.tag ? item.tag.trim() : '',
-
-                                origin_price: parseInt(String(item.origin_price).replace(/[^0-9]/g, '')) || 0,
-
-                                intro: item.intro ? item.intro.trim() : '',
-
-                                notice: item.notice ? item.notice.trim() : ''
-
-                            }));
-
-                        }
+if (validData.length > 0) {
+    products = validData.map(item => ({
+        id: item.id.trim().replace(/[\r\n]+/g, ""),
+        name: item.name.trim(),
+        price: parseInt(String(item.price).replace(/[^0-9]/g, '')) || 0,
+        category: item.category ? item.category.trim() : 'guppy',
+        stock: parseInt(item.stock) || 0,
+        img: item.img ? item.img.trim() : '',
+        tag: item.tag ? item.tag.trim() : '',
+        origin_price: parseInt(String(item.origin_price).replace(/[^0-9]/g, '')) || 0,
+        intro: item.intro ? item.intro.trim() : '',
+        notice: item.notice ? item.notice.trim() : '',
+        // 👇👇👇 新增這一行：讀取更多照片，並用逗號切開變成陣列 👇👇👇
+        more_images: item.more_images ? item.more_images.split(',').map(s => s.trim()).filter(s => s) : []
+    }));
+}
 
                         document.getElementById('loading').style.display = 'none';
 
@@ -1951,39 +1938,49 @@
                 vArea.innerHTML = html + `</div>`;
             } else { vArea.innerHTML = ''; }
 
-            // ✨✨✨ 建構「超級相簿」：包含主商品圖、所有規格圖、額外圖 ✨✨✨
+           // ✨✨✨ 建構「超級相簿」：包含主商品圖、更多細節圖、規格圖 ✨✨✨
             const gallery = document.getElementById('pdGallery');
             let galleryItems = [];
 
-            // 1. 放入「所有相關商品」的照片 (主商品 + 規格)
-            // 我們會記錄這張照片屬於哪個 ID (data-vid)，方便滑動時反查
-            const groupProducts = [mainProduct, ...subVariants];
-            
-            groupProducts.forEach(p => {
-                if(p && p.img) {
-                    // 避免重複放入同一張照片
-                    if (!galleryItems.find(i => i.src === p.img)) {
-                        galleryItems.push({ src: p.img, vid: p.id }); 
+            // 1. 先放入「主商品」的封面圖
+            if (mainProduct && mainProduct.img) {
+                 galleryItems.push({ src: mainProduct.img, vid: mainProduct.id });
+            }
+
+            // 👇👇👇 新增：放入主商品的「更多細節圖 (more_images)」 👇👇👇
+            if (mainProduct && mainProduct.more_images && mainProduct.more_images.length > 0) {
+                mainProduct.more_images.forEach(imgName => {
+                    // vid: null 代表這些是純展示圖，滑過去時不會切換下方的規格按鈕
+                    galleryItems.push({ src: imgName, vid: null });
+                });
+            }
+
+            // 3. 放入「子規格」的照片 (如果有不同顏色的話)
+            subVariants.forEach(v => {
+                if(v && v.img) {
+                    // 避免重複放入跟主圖一樣的照片
+                    if (!galleryItems.find(i => i.src === v.img)) {
+                        galleryItems.push({ src: v.img, vid: v.id }); 
                     }
                 }
             });
 
-            // 2. 放入額外相簿 (fishDetails)
+            // 4. (保留舊功能) 放入額外相簿 (fishDetails 裡面的)
             if (extraData.gallery) {
                 extraData.gallery.forEach(url => {
                     if (!galleryItems.find(i => i.src === url)) {
-                        galleryItems.push({ src: url, vid: null }); // null 表示這只是展示圖，不連動規格
+                        galleryItems.push({ src: url, vid: null });
                     }
                 });
             }
 
-            // 如果沒照片，至少放一張
+            // 如果完全沒照片，至少放一張 Logo
             if(galleryItems.length === 0) galleryItems.push({ src: 'logo.jpg', vid: null });
 
             // 渲染相簿 HTML
             gallery.innerHTML = galleryItems.map(i => `<img src="${i.src}" data-vid="${i.vid || ''}">`).join('');
             
-            // 渲染圓點
+            // 渲染下方圓點
             const dotsContainer = document.getElementById('pdDots');
             dotsContainer.innerHTML = galleryItems.length > 1 ? galleryItems.map((_, i) => `<div class="pd-dot" onclick="scrollToGallery(${i})"></div>`).join('') : '';
 
