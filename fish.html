@@ -1083,7 +1083,7 @@
 
         <a href="#" onclick="openTerms()">📜 條款與細則</a>
 
-        <a href="https://line.me/R/ti/p/@118rfvyo" target="_blank">💬 聯絡我們 (官方LINE)</a>
+        <a href="#" onclick="openContactModal()">💬 聯絡我們 (官方LINE)</a>
 
         <a href="index.html" style="margin-top: 20px; border-top: 1px solid rgba(255,255,255,0.2);">🏠 回到首頁</a>
 
@@ -1416,7 +1416,29 @@
     </div>
 
 
+<div id="contactModal" class="order-confirm-modal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 30000; justify-content: center; align-items: center;">
+        <div class="confirm-content" style="position: relative; max-width: 350px;">
+            <span onclick="closeContactModal()" style="position: absolute; right: 15px; top: 10px; font-size: 24px; cursor: pointer; color: #888;">✕</span>
+            
+            <div class="confirm-title">💬 聯絡宇哥</div>
+            
+            <div class="confirm-msg">
+                養魚遇到困難？想找特殊魚種？<br>
+                還是單純想跟我們聊聊天？<br>
+                <span style="color: #64ffda; font-weight: bold;">歡迎隨時傳 LINE 給我們！</span>
+                
+                <div class="yuge-promise-box" style="margin-top: 20px;">
+                    <img src="boss.png" class="yuge-avatar-img" alt="店寵 Boss" style="width: 120px; height: 120px; border-radius: 50%; border: 3px solid #64ffda; object-fit: cover; box-shadow: 0 0 15px rgba(100, 255, 218, 0.3);">
+                    <div class="yuge-text" style="margin-top: 10px; font-size: 16px;">
+                        我是店寵 Boss 🐶<br>
+                        <span style="font-size: 14px; color: #bcccdc;">(有事找宇哥，沒事可以來看我！)</span>
+                    </div>
+                </div>
+            </div>
 
+            <button class="confirm-btn" onclick="window.location.href='https://line.me/R/ti/p/@118rfvyo'">🚀 前往官方 LINE</button>
+        </div>
+    </div>
     <div id="toast">✅ 已加入購物車</div>
 
 
@@ -2505,7 +2527,20 @@ if (validData.length > 0) {
 
         });
 
+// --- 聯絡我們 Modal 開關 ---
+        function openContactModal() {
+            closeNav(); // 先關閉側邊選單
+            document.getElementById('contactModal').style.display = 'flex';
+        }
+        function closeContactModal() {
+            document.getElementById('contactModal').style.display = 'none';
+        }
 
+        // 修改原本的點擊空白處關閉功能 (合併 termsModal 和 contactModal)
+        window.onclick = function(event) {
+            if (event.target == document.getElementById("termsModal")) closeTerms();
+            if (event.target == document.getElementById("contactModal")) closeContactModal();
+        }
 
         function openTerms() { document.getElementById("termsModal").style.display = "block"; closeNav(); }
 
