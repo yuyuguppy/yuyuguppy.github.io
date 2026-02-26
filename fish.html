@@ -42,10 +42,16 @@
 
         }
 
-/* ✨ 修正閃爍：強制將聯絡視窗預設為隱藏 */
+/* ✨ 修正閃爍：強制將聯絡視窗預設為隱藏，並設定為滿版彈窗 */
         #contactModal {
             display: none;
-            z-index: 30000; /* 確保層級正確 */
+            position: fixed; 
+            top: 0; left: 0; 
+            width: 100%; height: 100%; 
+            background: rgba(0,0,0,0.8); 
+            z-index: 30000; 
+            justify-content: center; 
+            align-items: center;
         }
 
         /* --- 1. 黃色公告欄 (手機版不換行修正) --- */
@@ -1379,53 +1385,20 @@
 
 
 
-    <div id="orderConfirmModal">
-
+<div id="orderConfirmModal">
         <div class="confirm-content">
-
             <div class="confirm-title">🎉 訂單準備好了！</div>
-
             <div class="confirm-msg">
-
-                系統已幫您自動複製訂單內容 📋<br><br>
-
-                點擊下方按鈕將跳轉至 LINE<br>
-
-                <span class="confirm-highlight">請直接【貼上】並【傳送】即可！</span>
-
-                
-
-                <div class="yuge-promise-box">
-
-                    <img src="boss.png" class="yuge-avatar-img" alt="宇哥" onerror="this.src='logo.jpg'">
-
-                    <div class="yuge-text">
-
-                        宇哥會在LINE上親自為您提供黑貓貨單<br>
-
-                        ✨ 確認配送進度！敬請期待收魚喔！ ✨
-
-                    </div>
-
                 </div>
-
-            </div>
-
-            <button class="confirm-btn" onclick="finalSubmit()">🚀 前往 LINE 傳送訂單</button>
-
+            <button class="confirm-btn" onclick="finalSubmit()">🚀 確認送出</button>
             <button class="confirm-cancel" onclick="closeConfirmModal()">再檢查一下</button>
-
         </div>
-
     </div>
 
-
-<div id="contactModal" class="order-confirm-modal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 30000; justify-content: center; align-items: center;">
+    <div id="contactModal">
         <div class="confirm-content" style="position: relative; max-width: 350px; padding: 25px;">
             <span onclick="closeContactModal()" style="position: absolute; right: 15px; top: 10px; font-size: 24px; cursor: pointer; color: #888;">✕</span>
-            
             <div class="confirm-title">💬 聯絡宇魚</div>
-            
             <div class="confirm-msg">
                 養魚遇到困難？想找特殊魚種？<br>
                 <span style="color: #64ffda; font-weight: bold;">歡迎隨時傳 LINE 給我們！</span>
