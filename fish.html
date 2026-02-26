@@ -1336,29 +1336,11 @@
                 <div style="flex-grow: 1; overflow-y: auto; padding: 5px;">
 
                     <div class="form-group">
-
                         <label class="form-label">付款方式 <span style="color:red">*</span></label>
-
-                        <select id="paymentMethod" class="form-select" onchange="toggleBankInfo()">
-
+                        <select id="paymentMethod" class="form-select">
                             <option value="atm">🏧 銀行匯款 (ATM)</option>
-
                             <option value="cod">🚚 貨到付款 (黑貓)</option>
-
                         </select>
-
-                    </div>
-
-
-
-                    <div id="bankInfoArea" style="display: block;">
-
-                        <div class="bank-title">🏦 013 國泰世華銀行</div>
-
-                        <span class="bank-number" id="bankAccount">206506221657</span>
-
-                        <button class="copy-btn" onclick="copyBankAccount()">📋 點我複製帳號</button>
-
                     </div>
 
 
@@ -1513,7 +1495,7 @@
 
             init();
             loadCustomerData();
-            toggleBankInfo(); 
+            
             
             const urlParams = new URLSearchParams(window.location.search);
             const categoryParam = urlParams.get('cat');
@@ -2383,23 +2365,6 @@ if (validData.length > 0) {
 
         function goToStep1() { document.getElementById('step2').classList.remove('active'); document.getElementById('step1').classList.add('active'); }
 
-
-
-        function toggleBankInfo() {
-
-            const payment = document.getElementById('paymentMethod').value;
-
-            document.getElementById('bankInfoArea').style.display = payment === 'atm' ? 'block' : 'none';
-
-        }
-
-
-
-        function copyBankAccount() {
-
-            navigator.clipboard.writeText(BANK_ACC).then(() => { showToast("✅ 帳號已複製！"); });
-
-        }
 
 
 
