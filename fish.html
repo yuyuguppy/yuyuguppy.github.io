@@ -944,19 +944,32 @@
 
        /* ✨ 手機版 RWD 修正 (按鈕加大好點版) */
 
-        @media (max-width: 768px) {
+       @media (max-width: 768px) {
+            /* 1. 外框設定：隱藏超出的部分，確保只有一行 */
+            .yuyu-announcement-bar {
+                height: 45px !important;
+                line-height: 45px;
+                display: block !important; 
+                overflow: hidden;          
+                position: fixed;
+                padding: 0;                
+                white-space: nowrap;       
+            }
 
-            .yuyu-announcement-bar { 
+            /* 2. 動畫設定：針對裡面的 span 文字做移動 */
+            .yuyu-announcement-bar span {
+                display: inline-block;
+                padding-left: 100%;  
+                animation: marquee 15s linear infinite; 
+                font-size: 14px;     
+                font-weight: bold;
+            }
 
-                font-size: 13px; white-space: nowrap !important; overflow-x: auto !important; 
-
-                padding: 0 10px; height: 45px !important; min-height: 45px !important; 
-
-                line-height: 45px; display: block; scrollbar-width: none;
-
-            }
-
-            .yuyu-announcement-bar::-webkit-scrollbar { display: none; }
+            /* 定義跑動的軌跡 */
+            @keyframes marquee {
+                0% { transform: translateX(0); }
+                100% { transform: translateX(-100%); }
+            }
 
             
 
@@ -1062,7 +1075,7 @@
 
     <div class="yuyu-announcement-bar">
 
-        🚀 活體訂單2000元免運、常溫賣場660免運、冷凍賣場990免運
+        <span>🚀 活體訂單2000元免運、常溫賣場660免運、冷凍賣場990免運</span>
 
     </div>
 
