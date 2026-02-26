@@ -76,8 +76,9 @@
         }
         .menu-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.7); z-index: 12500; backdrop-filter: blur(2px); }
         /* --- ✨✨✨ 新增：島輝聯絡卡片樣式 (防閃爍 + 美化) ✨✨✨ */
+/* --- ✨ 聯絡宇魚 (島輝名片) 完整專屬樣式 ✨ --- */
         #contactModal {
-            display: none; /* 預設隱藏，解決閃爍問題 */
+            display: none;
             position: fixed; 
             top: 0; left: 0; 
             width: 100%; height: 100%; 
@@ -88,17 +89,24 @@
         }
         .confirm-content {
             background: #0d253f; border: 2px solid #64ffda; border-radius: 15px;
-            padding: 30px; width: 90%; max-width: 400px; text-align: center;
+            padding: 25px; width: 90%; max-width: 350px; text-align: center;
             box-shadow: 0 0 30px rgba(100, 255, 218, 0.5); position: relative;
+            box-sizing: border-box;
         }
-        .confirm-title { font-size: 24px; color: #64ffda; font-weight: bold; margin-bottom: 20px; }
-        .confirm-msg { color: #fff; font-size: 16px; line-height: 1.6; margin-bottom: 25px; }
+        .confirm-title { font-size: 24px; color: #64ffda; font-weight: bold; margin-bottom: 15px; }
+        .confirm-msg { color: #fff; font-size: 16px; line-height: 1.6; }
         .yuge-promise-box {
-            background: rgba(255, 225, 0, 0.1); border: 1px solid #ffe100; border-radius: 10px;
-            padding: 15px; margin-top: 20px; text-align: center;
-            box-shadow: 0 0 10px rgba(255, 225, 0, 0.1); display: flex; flex-direction: column; align-items: center;
+            margin-top: 15px; display: flex; flex-direction: column; align-items: center;
         }
-        .yuge-text { color: #ffe100; font-size: 19px; font-weight: bold; line-height: 1.5; text-shadow: 1px 1px 2px rgba(0,0,0,0.8); }
+        .yuge-text { color: #ffe100; font-size: 18px; font-weight: bold; line-height: 1.5; margin-top: 5px; }
+        .qr-code-box {
+            margin-top: 15px; background: #fff; padding: 10px; border-radius: 10px; display: inline-block;
+        }
+        .qr-code-box img { width: 140px; height: 140px; display: block; }
+        .mobile-add-btn {
+            display: inline-block; margin-top: 15px; color: #ffe100; text-decoration: none; 
+            font-size: 16px; font-weight: bold; border-bottom: 1px dashed #ffe100; padding-bottom: 2px;
+        }
         /* --- ✨✨✨ 補上：條款 Modal 樣式 (從首頁移植過來) ✨✨✨ */
         .terms-modal {
             display: none; position: fixed; z-index: 20000; left: 0; top: 0;
@@ -467,30 +475,26 @@
 
     </div>
 <div id="contactModal">
-        <div class="confirm-content" style="position: relative; max-width: 350px; padding: 25px;">
+        <div class="confirm-content">
             <span onclick="closeContactModal()" style="position: absolute; right: 15px; top: 10px; font-size: 24px; cursor: pointer; color: #888;">✕</span>
             <div class="confirm-title">💬 聯絡宇魚</div>
             <div class="confirm-msg">
                 養魚遇到困難？想找特殊魚種？<br>
                 <span style="color: #64ffda; font-weight: bold;">歡迎隨時傳 LINE 給我們！</span>
                 
-                <div class="yuge-promise-box" style="margin-top: 15px; border: none; background: transparent; box-shadow: none; padding: 0;">
-                    <img src="boss.png" alt="店寵 島輝" style="width: 130px; height: auto; object-fit: contain; filter: drop-shadow(0 0 12px rgba(100, 255, 218, 0.5)); margin-bottom: 10px;">
-                    <div class="yuge-text" style="font-size: 18px;">
+                <div class="yuge-promise-box">
+                    <img src="boss.png" alt="店寵 島輝" style="width: 130px; height: auto; object-fit: contain; filter: drop-shadow(0 0 12px rgba(100, 255, 218, 0.5));">
+                    <div class="yuge-text">
                         我是島輝 🐶<br>
                         <span style="font-size: 15px; color: #bcccdc; font-weight: normal;">(有事找宇魚，沒事可以來看我！)</span>
                     </div>
                 </div>
 
-                <div style="margin-top: 15px; background: #fff; padding: 10px; border-radius: 10px; display: inline-block;">
-                    <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://line.me/R/ti/p/@118rfvyo" alt="LINE QR Code" style="width: 140px; height: 140px; display: block;">
+                <div class="qr-code-box">
+                    <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://line.me/R/ti/p/@118rfvyo" alt="LINE QR Code">
                 </div>
-                
-                <div style="margin-top: 15px;">
-                    <a href="https://line.me/R/ti/p/@118rfvyo" style="color: #ffe100; text-decoration: none; font-size: 16px; font-weight: bold; border-bottom: 1px dashed #ffe100; padding-bottom: 2px;">
-                        📱 手機點此直接加 LINE
-                    </a>
-                </div>
+                <br>
+                <a href="https://line.me/R/ti/p/@118rfvyo" class="mobile-add-btn">📱 手機點此直接加 LINE</a>
             </div>
         </div>
     </div>
