@@ -265,7 +265,7 @@
         <a href="https://myship.7-11.com.tw/general/detail/GM2404054052893" target="_blank">❄️ 冷凍豐年蝦</a>
         <a href="#" onclick="openTerms()">📜 條款與細則</a>
         
-        <a href="https://line.me/R/ti/p/@118rfvyo" target="_blank">💬 聯絡我們 (官方LINE)</a>
+        <a href="#" onclick="openContactModal()">💬 聯絡我們 (官方LINE)</a>
         
         <a href="index.html" style="margin-top: 20px; border-top: 1px solid rgba(255,255,255,0.2);">🏠 回到首頁</a>
     </div>
@@ -298,7 +298,60 @@
             </div>
         </div>
     </div>
+<style>
+        #contactModal {
+            display: none;
+            position: fixed; 
+            top: 0; left: 0; 
+            width: 100%; height: 100%; 
+            background: rgba(0,0,0,0.8); 
+            z-index: 30000; 
+            justify-content: center; 
+            align-items: center;
+        }
+        .confirm-content {
+            background: #0d253f; border: 2px solid #64ffda; border-radius: 15px;
+            padding: 30px; width: 90%; max-width: 400px; text-align: center;
+            box-shadow: 0 0 30px rgba(100, 255, 218, 0.5); position: relative;
+        }
+        .confirm-title { font-size: 24px; color: #64ffda; font-weight: bold; margin-bottom: 20px; }
+        .confirm-msg { color: #fff; font-size: 16px; line-height: 1.6; margin-bottom: 25px; }
+        .yuge-promise-box {
+            background: rgba(255, 225, 0, 0.1); border: 1px solid #ffe100; border-radius: 10px;
+            padding: 15px; margin-top: 20px; text-align: center;
+            box-shadow: 0 0 10px rgba(255, 225, 0, 0.1); display: flex; flex-direction: column; align-items: center;
+        }
+        .yuge-text { color: #ffe100; font-size: 19px; font-weight: bold; line-height: 1.5; text-shadow: 1px 1px 2px rgba(0,0,0,0.8); }
+    </style>
 
+    <div id="contactModal">
+        <div class="confirm-content" style="padding: 25px;">
+            <span onclick="closeContactModal()" style="position: absolute; right: 15px; top: 10px; font-size: 24px; cursor: pointer; color: #888;">✕</span>
+            <div class="confirm-title">💬 聯絡宇魚</div>
+            <div class="confirm-msg">
+                養魚遇到困難？想找特殊魚種？<br>
+                <span style="color: #64ffda; font-weight: bold;">歡迎隨時傳 LINE 給我們！</span>
+                
+                <div class="yuge-promise-box" style="margin-top: 15px; border: none; background: transparent; box-shadow: none; padding: 0;">
+                    <img src="boss.png" alt="店寵 島輝" style="width: 130px; height: auto; object-fit: contain; filter: drop-shadow(0 0 12px rgba(100, 255, 218, 0.5)); margin-bottom: 10px;">
+                    <div class="yuge-text" style="font-size: 18px;">
+                        我是島輝 🐶<br>
+                        <span style="font-size: 15px; color: #bcccdc; font-weight: normal;">(有事找宇魚，沒事可以來看我！)</span>
+                    </div>
+                </div>
+
+                <div style="margin-top: 15px; background: #fff; padding: 10px; border-radius: 10px; display: inline-block;">
+                    <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://line.me/R/ti/p/@118rfvyo" alt="LINE QR Code" style="width: 140px; height: 140px; display: block;">
+                </div>
+                
+                <div style="margin-top: 15px;">
+                    <a href="https://line.me/R/ti/p/@118rfvyo" style="color: #ffe100; text-decoration: none; font-size: 16px; font-weight: bold; border-bottom: 1px dashed #ffe100; padding-bottom: 2px;">
+                        📱 手機點此直接加 LINE
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
     <div class="main-container">
         <img src="logo.jpg" alt="宇魚水族" class="avatar">
         
@@ -510,10 +563,24 @@
         function closeTerms() {
             document.getElementById("termsModal").style.display = "none";
         }
+        // --- 聯絡我們 Modal 開關 ---
+        function openContactModal() {
+            closeNav(); // 先關閉側邊選單
+            document.getElementById('contactModal').style.display = 'flex';
+        }
+        function closeContactModal() {
+            document.getElementById('contactModal').style.display = 'none';
+        }
+
+        // --- 統一處理點擊空白處關閉 ---
         window.onclick = function(event) {
-            var modal = document.getElementById("termsModal");
-            if (event.target == modal) {
-                modal.style.display = "none";
+            var termsModal = document.getElementById("termsModal");
+            var contactModal = document.getElementById("contactModal");
+            if (event.target == termsModal) {
+                termsModal.style.display = "none";
+            }
+            if (event.target == contactModal) {
+                contactModal.style.display = "none";
             }
         }
 
@@ -580,6 +647,7 @@
     </script>
 </body>
 </html>
+
 
 
 
