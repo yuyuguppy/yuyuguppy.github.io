@@ -1491,7 +1491,7 @@
 
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.2/papaparse.min.js"></script>
-
+    <script src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
     <script>
 
         const googleSheetID = "1a0w_rwgHkmewRXDZ1nG1Tiito3qaK9huNO7xzOmc0BI"; 
@@ -1547,31 +1547,23 @@
 
 
         window.onload = function() {
+            // ✨ 新增：初始化 LIFF
+            liff.init({ liffId: "2009245186-01OMrGA7" })
+                .then(() => { console.log("LIFF 初始化成功"); })
+                .catch((err) => { console.error("LIFF 初始化失敗", err); });
 
             init();
-
             loadCustomerData();
-
             toggleBankInfo(); 
-
             
-
             const urlParams = new URLSearchParams(window.location.search);
-
             const categoryParam = urlParams.get('cat');
-
             if (categoryParam) {
-
                 setTimeout(() => {
-
                     const targetBtn = document.querySelector(`.category-btn[onclick*="'${categoryParam}'"]`);
-
                     if (targetBtn) { targetBtn.click(); }
-
                 }, 1000); 
-
             }
-
         };
 
 
@@ -2453,97 +2445,96 @@ if (validData.length > 0) {
 
 
         function prepareOrder() {
-
             const name = document.getElementById('custName').value.trim();
-
             const phone = document.getElementById('custPhone').value.trim();
-
             const addr = document.getElementById('custAddr').value.trim();
-
             const note = document.getElementById('custNote').value.trim();
-
             const payment = document.getElementById('paymentMethod').value;
-
-
 
             if (!name || !phone || !addr) { alert('請完整填寫姓名、電話與地址喔！'); return; }
 
-
-
             localStorage.setItem('yuyu_customer', JSON.stringify({ name, phone, addr }));
 
-
-
             const paymentText = payment === 'atm' ? '🏧 銀行匯款' : '🚚 貨到付款';
-
             let subtotal = cart.reduce((sum, item) => sum + item.price * item.qty, 0);
-
             const isFreeShipping = subtotal >= FREE_SHIPPING_THRESHOLD;
-
             const shippingFee = isFreeShipping ? 0 : SHIPPING_COST;
-
             const finalTotal = subtotal + shippingFee - currentDiscount; 
 
-
-
             let message = `嗨宇哥！我要下單：\n------------------\n`;
-
             cart.forEach(item => { message += `${item.name} x ${item.qty} = ${item.price * item.qty}\n`; });
-
             message += `------------------\n`;
-
             message += `商品小計：${subtotal}\n`;
-
             if (currentDiscount > 0) message += `🎉 優惠碼折抵 (${currentPromoCode})：-${currentDiscount}\n`;
-
             message += `黑貓運費：${shippingFee} ${isFreeShipping ? '(達標免運)' : ''}\n`;
-
             message += `💰 總金額：${finalTotal}\n`;
-
             message += `------------------\n`;
-
             message += `【付款方式】：${paymentText}\n`;
-
             if (payment === 'atm') message += `(匯款帳號：${BANK_CODE} ${BANK_ACC})\n(我匯款後會再通知您查收！)\n`;
-
             message += `【收件資訊】\n姓名：${name}\n電話：${phone}\n地址：${addr}\n`;
-
             if (note) message += `備註：${note}\n`;
-
             message += `\n麻煩確認訂單，謝謝！`;
-
-
 
             pendingOrderMessage = message;
 
-            document.getElementById('orderConfirmModal').style.display = 'flex';
+            // ✨ 新增：判斷是否在 LINE 裡面，改變提示文字
+            if (liff.isInClient()) {
+                document.querySelector('.confirm-msg').innerHTML = `
+                    系統已整理好您的訂單！📋<br><br>
+                    <span class="confirm-highlight">點擊下方按鈕，系統將自動為您送出訂單給宇哥！</span>
+                    <div class="yuge-promise-box">
+                        <img src="boss.png" class="yuge-avatar-img" alt="宇哥" onerror="this.src='logo.jpg'">
+                        <div class="yuge-text">宇哥會親自為您確認訂單！<br>✨ 準備迎接美魚回家囉！ ✨</div>
+                    </div>`;
+                document.querySelector('.confirm-btn').innerText = "🚀 一鍵送出訂單";
+            } else {
+                // 不在 LINE 裡面，維持原本的複製文字提示
+                document.querySelector('.confirm-msg').innerHTML = `
+                    系統已幫您自動複製訂單內容 📋<br><br>
+                    點擊下方按鈕將跳轉至 LINE<br>
+                    <span class="confirm-highlight">請直接【貼上】並【傳送】即可！</span>
+                    <div class="yuge-promise-box">
+                        <img src="boss.png" class="yuge-avatar-img" alt="宇哥" onerror="this.src='logo.jpg'">
+                        <div class="yuge-text">宇哥會在LINE上親自為您提供黑貓貨單<br>✨ 確認配送進度！敬請期待收魚喔！ ✨</div>
+                    </div>`;
+                document.querySelector('.confirm-btn').innerText = "🚀 前往 LINE 傳送訂單";
+            }
 
+            document.getElementById('orderConfirmModal').style.display = 'flex';
         }
 
-
-
         function finalSubmit() {
-
             const lineID = "@118rfvyo"; 
 
-            const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
-
-            navigator.clipboard.writeText(pendingOrderMessage);
-
-            let lineUrl = isMobile ? `https://line.me/R/oaMessage/${lineID}/?${encodeURIComponent(pendingOrderMessage)}` : `https://line.me/R/ti/p/${lineID}`;
-
-            
-
-            setTimeout(() => {
-
-                window.location.href = lineUrl;
-
-                cart = []; currentDiscount = 0; currentPromoCode = ""; updateCartUI();
-
-                closeCart(); document.getElementById('orderConfirmModal').style.display = 'none';
-
-            }, 300);
-
+            // ✨ 新增：LIFF 自動傳送訊息邏輯
+            if (liff.isInClient()) {
+                // 如果是在 LINE 裡面打開網頁
+                liff.sendMessages([{
+                    type: 'text',
+                    text: pendingOrderMessage
+                }]).then(() => {
+                    // 傳送成功：清空購物車 -> 關閉彈窗 -> 關閉網頁回到對話框！
+                    cart = []; currentDiscount = 0; currentPromoCode = ""; updateCartUI();
+                    closeCart(); document.getElementById('orderConfirmModal').style.display = 'none';
+                    liff.closeWindow(); 
+                }).catch((error) => {
+                    alert("訂單傳送失敗，請聯繫我們：" + error);
+                });
+            } else {
+                // 如果是在一般瀏覽器(Chrome/Safari)打開，維持原本複製跳轉的做法
+                const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+                navigator.clipboard.writeText(pendingOrderMessage).then(() => {
+                    let lineUrl = isMobile ? `https://line.me/R/oaMessage/${lineID}/?${encodeURIComponent(pendingOrderMessage)}` : `https://line.me/R/ti/p/${lineID}`;
+                    
+                    setTimeout(() => {
+                        window.location.href = lineUrl;
+                        cart = []; currentDiscount = 0; currentPromoCode = ""; updateCartUI();
+                        closeCart(); document.getElementById('orderConfirmModal').style.display = 'none';
+                    }, 300);
+                }).catch(err => {
+                    alert('複製失敗，請手動截圖並傳送給官方LINE。');
+                });
+            }
         }
 
 
