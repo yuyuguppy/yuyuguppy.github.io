@@ -935,7 +935,15 @@
         .pd-add-btn:active { transform: translateY(0); }
 
 
-
+/* --- 跑馬燈動畫定義 (放在最外層確保讀取) --- */
+@keyframes marquee {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-100%); }
+}
+@-webkit-keyframes marquee { /* 給舊版瀏覽器/LINE使用 */
+    0% { -webkit-transform: translateX(0); }
+    100% { -webkit-transform: translateX(-100%); }
+}
         /* ✨ 手機版 RWD 修正 (恢復正常排版) */
 
         /* ✨ 手機版 RWD 修正 (方案 B：緊湊排列) */
@@ -945,25 +953,29 @@
        /* ✨ 手機版 RWD 修正 (按鈕加大好點版) */
 
        @media (max-width: 768px) {
-            /* 1. 外框設定：隱藏超出的部分，確保只有一行 */
-            .yuyu-announcement-bar {
-                height: 45px !important;
-                line-height: 45px;
-                display: block !important; 
-                overflow: hidden;          
-                position: fixed;
-                padding: 0;                
-                white-space: nowrap;       
-            }
+            /* 1. 外框設定 */
+            .yuyu-announcement-bar {
+                height: 45px !important;
+                line-height: 45px;
+                display: block !important;
+                overflow: hidden;
+                position: fixed;
+                padding: 0;
+                white-space: nowrap;
+            }
 
-            /* 2. 動畫設定：針對裡面的 span 文字做移動 */
-            .yuyu-announcement-bar span {
-                display: inline-block;
-                padding-left: 100%;  
-                animation: marquee 15s linear infinite; 
-                font-size: 14px;     
-                font-weight: bold;
-            }
+            /* 2. 動畫設定 (加上 -webkit- 前綴) */
+            .yuyu-announcement-bar span {
+                display: inline-block;
+                padding-left: 100%;
+                /* 雙重設定，確保所有手機都能跑 */
+                -webkit-animation: marquee 15s linear infinite;
+                animation: marquee 15s linear infinite;
+                font-size: 14px;
+                font-weight: bold;
+            }
+            
+            /* ... (下方其他的 .layout-container 等設定保持不變) ... */
 
             /* 定義跑動的軌跡 */
             @keyframes marquee {
