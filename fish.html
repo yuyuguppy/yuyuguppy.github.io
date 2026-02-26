@@ -937,143 +937,75 @@
         .pd-add-btn:active { transform: translateY(0); }
 
 
-/* --- 跑馬燈動畫定義 (放在最外層確保讀取) --- */
-@keyframes marquee {
-    0% { transform: translateX(0); }
-    100% { transform: translateX(-50%); }
-}
-@-webkit-keyframes marquee { /* 給舊版瀏覽器/LINE使用 */
-    0% { -webkit-transform: translateX(0); }
-    100% { -webkit-transform: translateX(-50%); }
-}
-        /* ✨ 手機版 RWD 修正 (恢復正常排版) */
+/* =========================================
+           以下為跑馬燈動畫定義 (必須獨立放在最外層)
+           ========================================= */
+        @keyframes marquee {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+        @-webkit-keyframes marquee { 
+            0% { -webkit-transform: translateX(0); }
+            100% { -webkit-transform: translateX(-50%); }
+        }
 
-        /* ✨ 手機版 RWD 修正 (方案 B：緊湊排列) */
 
-        /* ✨ 手機版 RWD 修正 (按鈕與排版縮小優化版) */
-
-       /* ✨ 手機版 RWD 修正 (按鈕加大好點版) */
-
-       @media (max-width: 768px) {
-           .yuyu-announcement-bar {
+        /* =========================================
+           以下為手機版 (max-width: 768px) 專屬設定
+           ========================================= */
+        @media (max-width: 768px) {
+            
+            /* --- 1. 黃色跑馬燈外框 --- */
+            .yuyu-announcement-bar {
                 height: 45px !important;
                 display: flex !important;
                 align-items: center;
                 overflow: hidden;
                 position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
                 padding: 0;
                 white-space: nowrap;
             }
+            
+            /* --- 2. 跑馬燈軌道與動畫呼叫 --- */
             .marquee-track {
                 display: flex;
                 width: max-content;
                 justify-content: flex-start;
-                /* 讓兩句話一起跑 */
+                /* 呼叫上方定義的動畫，12秒跑完一次 */
                 -webkit-animation: marquee 12s linear infinite;
                 animation: marquee 12s linear infinite;
             }
+            
+            /* --- 3. 跑馬燈文字設定 --- */
             .yuyu-announcement-bar span {
                 display: inline-block;
-                padding-right: 40px; /* 這裡就是兩句話「空幾格」的距離 */
+                padding-right: 40px; /* 兩句話中間的空格 */
                 font-size: 14px;
                 font-weight: bold;
             }
+            
+            /* --- 4. 顯示接力的第二句話 --- */
             .duplicate-text { 
-                display: inline-block; /* 手機版把第二句話叫出來接力 */
+                display: inline-block; 
             }
 
-       
-
-            
-
+            /* --- 以下維持你原本的手機版版面設定 --- */
             .layout-container { flex-direction: column; padding: 0 10px; }
-
-            
-
-            /* 上方目錄維持 */
-
             .sidebar { width: 100%; display: flex; overflow-x: auto; padding: 8px 4px; gap: 4px; position: sticky; top: 95px; z-index: 90; background: rgba(3, 16, 31, 0.95); scrollbar-width: none; }
-
             .sidebar::-webkit-scrollbar { display: none; }
-
             .category-btn { width: auto; white-space: nowrap; margin-bottom: 0; padding: 6px 10px; font-size: 13px; flex-shrink: 0; }
-
-            
-
             .top-nav { display: none; }
-
-            
-
-            /* 商品列表 */
-
             .products-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
-
-            
-
-            /* 👇👇👇 重點修改：規格按鈕 (淺灰底 + 粗字) 👇👇👇 */
-
-            .variant-tag-container {
-
-                gap: 5px;
-
-                margin-bottom: 8px;
-
-            }
-
-            .v-tag {
-
-                background: #e0e0e0;  /* ✨ 底色改成淺灰色 */
-
-                color: #000;          /* 字體黑色 */
-
-                font-weight: 900;     /* ✨ 選項字體加到最粗！ */
-
-                
-
-                padding: 6px 10px;
-
-                font-size: 13px;
-
-                min-width: 40px;
-
-                border-radius: 5px;
-
-                line-height: 1.4;
-
-                border: 1px solid #bbb; /* 邊框深一點，增加立體感 */
-
-                flex-grow: 1;
-
-            }
-
-            
-
+            .variant-tag-container { gap: 5px; margin-bottom: 8px; }
+            .v-tag { background: #e0e0e0; color: #000; font-weight: 900; padding: 6px 10px; font-size: 13px; min-width: 40px; border-radius: 5px; line-height: 1.4; border: 1px solid #bbb; flex-grow: 1; }
             .p-info { padding: 12px; }
-
-            
-
-            /* 👇👇👇 商品名稱加粗 👇👇👇 */
-
-            .p-name { 
-
-                font-size: 16px; 
-
-                margin-bottom: 5px; 
-
-                font-weight: 900;     /* ✨ 這裡改了！商品名稱加到最粗 */
-
-            } 
-
-            
-
+            .p-name { font-size: 16px; margin-bottom: 5px; font-weight: 900; } 
             .p-price-current { font-size: 17px; margin-bottom: 6px; }
-
-            /* 👆👆👆 修改結束 👆👆👆 */
-
             .back-to-top { bottom: 15px; right: 15px; }
-
             .daohui-dog-img { width: 50px; }
-
         }
 
     </style>
