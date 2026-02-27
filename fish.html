@@ -1876,31 +1876,41 @@ let noticeText = product.notice ? product.notice : (mainProduct && mainProduct.n
             const gallery = document.getElementById('pdGallery');
             let galleryItems = [];
 
-            // 1. 先放入「主商品」的封面圖
-            if (mainProduct && mainProduct.img) {
-                 galleryItems.push({ src: mainProduct.img, vid: mainProduct.id });
+            // 1. 先放入「主商品」的封面圖與更多細節圖
+            if (mainProduct) {
+                if (mainProduct.img) {
+                    galleryItems.push({ src: mainProduct.img, vid: mainProduct.id });
+                }
+                if (mainProduct.more_images && mainProduct.more_images.length > 0) {
+                    mainProduct.more_images.forEach(imgName => {
+                        if (!galleryItems.find(i => i.src === imgName)) {
+                            // 主商品的細節圖，滑到時會對應主商品按鈕
+                            galleryItems.push({ src: imgName, vid: mainProduct.id });
+                        }
+                    });
+                }
             }
 
-            // 2. 優先放入「子規格」的照片 (確保點擊各種動物按鈕時，一定找得到照片！)
+            // 2. 放入所有「子規格」的封面圖與專屬的更多細節圖
             subVariants.forEach(v => {
+                // 子規格封面圖
                 if(v && v.img) {
-                    // 避免重複放入跟主圖一樣的照片
                     if (!galleryItems.find(i => i.src === v.img)) {
                         galleryItems.push({ src: v.img, vid: v.id }); 
                     }
                 }
+                // ✨ 補上這裡：子規格的專屬更多細節圖 (小老鷹、小雞呼的更多照片就會出來了！)
+                if (v && v.more_images && v.more_images.length > 0) {
+                    v.more_images.forEach(imgName => {
+                        if (!galleryItems.find(i => i.src === imgName)) {
+                            // 綁定 vid: v.id，這樣滑到這張照片時，下方的規格按鈕也會自動切換過去！
+                            galleryItems.push({ src: imgName, vid: v.id });
+                        }
+                    });
+                }
             });
 
-            // 3. 再放入主商品的「更多細節圖 (more_images)」當作純展示
-            if (mainProduct && mainProduct.more_images && mainProduct.more_images.length > 0) {
-                mainProduct.more_images.forEach(imgName => {
-                    if (!galleryItems.find(i => i.src === imgName)) {
-                        galleryItems.push({ src: imgName, vid: null });
-                    }
-                });
-            }
-
-            // 4. (保留舊功能) 放入額外相簿
+            // 3. (保留舊功能) 放入額外相簿
             if (extraData.gallery) {
                 extraData.gallery.forEach(url => {
                     if (!galleryItems.find(i => i.src === url)) {
