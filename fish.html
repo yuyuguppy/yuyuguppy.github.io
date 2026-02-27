@@ -792,18 +792,13 @@
 
         
 
-        /* ✨✨✨ 相簿容器與樣式 ✨✨✨ */
-
+       /* ✨✨✨ 相簿容器與樣式 ✨✨✨ */
         .pd-gallery {
-
             display: flex; gap: 15px; overflow-x: auto; padding-bottom: 0; margin-bottom: 15px;
-
             scroll-snap-type: x mandatory;
-
             scrollbar-width: none; 
-
             -ms-overflow-style: none;
-
+            position: relative; /* ✨ 新增這行：把座標原點鎖定在相簿內，解決電腦版亂滑的問題 ✨ */
         }
 
         .pd-gallery::-webkit-scrollbar { display: none; }
@@ -1877,7 +1872,7 @@ let noticeText = product.notice ? product.notice : (mainProduct && mainProduct.n
                 vArea.innerHTML = html + `</div>`;
             } else { vArea.innerHTML = ''; }
 
-           // ✨✨✨ 建構「超級相簿」：包含主商品圖、更多細節圖、規格圖 ✨✨✨
+// ✨✨✨ 建構「超級相簿」：包含主商品圖、更多細節圖、規格圖 ✨✨✨
             const gallery = document.getElementById('pdGallery');
             let galleryItems = [];
 
@@ -1886,15 +1881,7 @@ let noticeText = product.notice ? product.notice : (mainProduct && mainProduct.n
                  galleryItems.push({ src: mainProduct.img, vid: mainProduct.id });
             }
 
-            // 👇👇👇 新增：放入主商品的「更多細節圖 (more_images)」 👇👇👇
-            if (mainProduct && mainProduct.more_images && mainProduct.more_images.length > 0) {
-                mainProduct.more_images.forEach(imgName => {
-                    // vid: null 代表這些是純展示圖，滑過去時不會切換下方的規格按鈕
-                    galleryItems.push({ src: imgName, vid: null });
-                });
-            }
-
-            // 3. 放入「子規格」的照片 (如果有不同顏色的話)
+            // 2. 優先放入「子規格」的照片 (確保點擊各種動物按鈕時，一定找得到照片！)
             subVariants.forEach(v => {
                 if(v && v.img) {
                     // 避免重複放入跟主圖一樣的照片
@@ -1904,7 +1891,16 @@ let noticeText = product.notice ? product.notice : (mainProduct && mainProduct.n
                 }
             });
 
-            // 4. (保留舊功能) 放入額外相簿 (fishDetails 裡面的)
+            // 3. 再放入主商品的「更多細節圖 (more_images)」當作純展示
+            if (mainProduct && mainProduct.more_images && mainProduct.more_images.length > 0) {
+                mainProduct.more_images.forEach(imgName => {
+                    if (!galleryItems.find(i => i.src === imgName)) {
+                        galleryItems.push({ src: imgName, vid: null });
+                    }
+                });
+            }
+
+            // 4. (保留舊功能) 放入額外相簿
             if (extraData.gallery) {
                 extraData.gallery.forEach(url => {
                     if (!galleryItems.find(i => i.src === url)) {
