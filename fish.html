@@ -1080,6 +1080,8 @@
 
             <a href="#" onclick="filterProducts('shrimp', this)">🔹 蝦子、螺類、底棲</a>
 
+            <a href="#" onclick="filterProducts('tank', this)">🔹 魚缸區</a>
+
         </div>
 
         <a href="https://myship.7-11.com.tw/general/detail/GM2312087898760" target="_blank">🛒 硬體與飼料</a>
@@ -1177,6 +1179,8 @@
             <button class="category-btn" onclick="filterProducts('shrimp', this)">🦐 蝦子、螺類、底棲</button>
 
             <button class="category-btn" onclick="filterProducts('addon', this)">🥫 加購區</button>
+            
+            <button class="category-btn" onclick="filterProducts('tank', this)">🧊 魚缸區</button>
 
         </aside>
 
@@ -2112,8 +2116,14 @@ let noticeText = product.notice ? product.notice : (mainProduct && mainProduct.n
 
             btn.classList.add('active');
 
-            const titles = { 'all': '📌 全部商品', 'guppy': '🐟 孔雀魚專區', 'molly': '🐠 茉莉魚專區', 'shrimp': '🦐 蝦子、螺類、底棲', 'addon': '🥫 加購專區' };
-
+           const titles = { 
+    'all': '📌 全部商品', 
+    'guppy': '🐟 孔雀魚專區', 
+    'molly': '🐠 茉莉魚專區', 
+    'shrimp': '🦐 蝦子、螺類、底棲', 
+    'addon': '🥫 加購專區',  // 新增這行對應標題
+    'tank': '🧊 魚缸專區' 
+};
             titleDom.innerText = titles[cat];
 
             document.querySelector('.search-input').value = '';
