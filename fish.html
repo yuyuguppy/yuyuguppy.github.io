@@ -1719,7 +1719,7 @@ if (validData.length > 0) {
 
                         <div class="p-img-box">
 
-                            <img src="${p.img || 'logo.jpg'}" class="p-img" id="img-${p.id}" onerror="this.src='logo.jpg'">
+                            <img src="${p.img || 'logo.jpg'}" class="p-img" id="img-${p.id}" loading="lazy" onerror="this.src='logo.jpg'">
 
                             ${isSoldOut ? '<div class="sold-out-mask">SOLD OUT</div>' : ''}
 
@@ -1927,7 +1927,7 @@ let noticeText = product.notice ? product.notice : (mainProduct && mainProduct.n
             if(galleryItems.length === 0) galleryItems.push({ src: 'logo.jpg', vid: null });
 
             // 渲染相簿 HTML
-            gallery.innerHTML = galleryItems.map(i => `<img src="${i.src}" data-vid="${i.vid || ''}">`).join('');
+            gallery.innerHTML = galleryItems.map(i => `<img src="${i.src}" data-vid="${i.vid || ''}" loading="lazy">`).join('');
             
             // 渲染下方圓點
             const dotsContainer = document.getElementById('pdDots');
