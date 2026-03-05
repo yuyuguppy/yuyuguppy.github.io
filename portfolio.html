@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>作品集｜宇魚水族</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@400;700&display=swap" rel="stylesheet">
+
+    <style>
+        /* --- 1. 全域設定 --- */
+        body { 
+            background: radial-gradient(circle at 50% 10%, #1a3c5e 0%, #03101f 100%);
+            color: #f0f4f8; 
+            font-family: 'Zen Maru Gothic', "Microsoft JhengHei", sans-serif; 
+            margin: 0; padding: 0; min-height: 100vh; 
+            overflow-x: hidden; 
+            display: flex; flex-direction: column; align-items: center; 
+            padding-top: 95px; 
+        }
+
+        /* --- 2. 導覽列 --- */
+        .yuyu-announcement-bar {
+            background-color: #ffe100; color: #000; text-align: center; 
+            padding: 0 10px; font-size: 14px; font-weight: 700; width: 100%; 
+            position: fixed; top: 0; left: 0; z-index: 12000; height: 45px; 
+            display: flex; align-items: center; justify-content: center;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+        }
+
+        .mobile-sticky-header {
+            position: fixed; top: 45px; left: 0; width: 100%; height: 50px;
+            background-color: #03101f; 
+            border-bottom: 1px solid #334e68; 
+            z-index: 11000; display: flex; align-items: center; justify-content: space-between; 
+            padding: 0 15px; box-sizing: border-box;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+        }
+
+        .hamburger-btn { 
+            background: transparent; border: none; cursor: pointer; 
+            display: flex; flex-direction: column; gap: 5px; padding: 5px; z-index: 2; 
+        }
+        .bar { width: 25px; height: 3px; background-color: #64ffda; border-radius: 3px; transition: 0.3s; }
+        
+        .mobile-header-title {
+            position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%);
+            color: #64ffda; 
+            font-weight: 700; font-size: 20px;
+            letter-spacing: 1px;
+            cursor: pointer; padding: 10px; z-index: 1;
+        }
+
+        .sidenav {
+            height: 100%; width: 0; position: fixed; z-index: 13000; 
+            top: 0; left: 0; background-color: rgba(3, 16, 31, 0.98); 
+            overflow-x: hidden; transition: 0.4s; 
+            padding-top: 50px; 
+            border-right: 1px solid #64ffda;
+        }
+        .sidenav a {
+            padding: 15px 30px; text-decoration: none; font-size: 18px; 
+            color: #f0f4f8; 
+            font-weight: bold;
+            display: block; transition: 0.3s; 
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+        .sidenav a:hover { color: #ffe100; background: rgba(255,255,255,0.05); }
+        .sidenav .closebtn { 
+            position: absolute; top: 5px; right: 15px; 
+            font-size: 36px; border: none; color: #fff; padding: 0 10px;
+        }
+        .menu-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.7); z-index: 12500; backdrop-filter: blur(2px); }
+
+        /* --- 聯絡宇魚 --- */
+        #contactModal {
+            display: none; position: fixed; top: 0; left: 0; 
+            width: 100%; height: 100%; background: rgba(0,0,0,0.8); 
+            z-index: 30000; justify-content: center; align-items: center;
+        }
+        .confirm-content {
+            background: #0d253f; border: 2px solid #64ffda; border-radius: 15px;
+            padding: 25px; width: 90%; max-width: 350px; text-align: center;
+            box-shadow: 0 0 30px rgba(100, 255, 218, 0.5); position: relative;
+            box-sizing: border-box;
+        }
+        .confirm-title { font-size: 24px; color: #64ffda; font-weight: bold; margin-bottom: 15px; }
+        .confirm-msg { color: #fff; font-size: 16px; line-height: 1.6; }
+        .yuge-promise-box { margin-top: 15px; display: flex; flex-direction: column; align-items: center; }
+        .yuge-text { color: #ffe100; font-size: 18px; font-weight: bold; line-height: 1.5; margin-top: 5px; }
+        .qr-code-box { margin-top: 15px; background: #fff; padding: 10px; border-radius: 10px; display: inline-block; }
+        .qr-code-box img { width: 140px; height: 140px; display: block; }
+        .mobile-add-btn {
+            display: inline-block; margin-top: 15px; color: #ffe100; text-decoration: none; 
+            font-size: 16px; font-weight: bold; border-bottom: 1px dashed #ffe100; padding-bottom: 2px;
+        }
+
+        /* --- 條款 Modal --- */
+        .terms-modal {
+            display: none; position: fixed; z-index: 20000; left: 0; top: 0;
+            width: 100%; height: 100%; overflow: auto; background-color: rgba(0,0,0,0.8);
+        }
+        .terms-content {
+            background-color: #0d253f; margin: 10% auto; padding: 20px;
+            border: 2px solid #64ffda; width: 85%; max-width: 600px;
+            border-radius: 10px; color: #fff; line-height: 1.8;
+            max-height: 70vh; overflow-y: auto;
+        }
+        .terms-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #334e68; padding-bottom: 10px; margin-bottom: 15px; }
+        .terms-title { font-size: 22px; color: #ffe100; font-weight: bold; }
+        .close-terms { color: #aaa; font-size: 28px; font-weight: bold; cursor: pointer; }
+        .terms-body h3 { color: #64ffda; margin-top: 20px; font-size: 18px; border-left: 3px solid #ffe100; padding-left: 10px; }
+        .terms-body p { font-size: 14px; color: #ddd; margin-bottom: 10px; text-align: justify; }
+        .terms-highlight { color: #ff4d4d; font-weight: bold; }
+
+
+        /* --- 3. 作品集頁面樣式 --- */
+        .story-container {
+            width: 100%; max-width: 600px; padding: 20px 25px; box-sizing: border-box;
+            position: relative;
+        }
+        
+        .page-header { text-align: center; margin-bottom: 40px; margin-top: 20px; }
+        .title-badge {
+            display: inline-block; background: #ffe100; color: #000;
+            padding: 8px 25px; border-radius: 50px; 
+            font-weight: bold; font-size: 16px;
+            box-shadow: 0 0 10px rgba(255, 225, 0, 0.3);
+            transform: rotate(-2deg); margin-bottom: 15px;
+        }
+        .main-headline {
+            font-size: 26px; color: #64ffda; font-weight: 700;
+            line-height: 1.4; text-shadow: 0 0 10px rgba(100, 255, 218, 0.2);
+        }
+
+        .story-card {
+            background: rgba(255, 255, 255, 0.05); 
+            border: 1px solid rgba(100, 255, 218, 0.2); 
+            border-radius: 20px; padding: 25px; margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3); 
+            position: relative; backdrop-filter: blur(5px);
+        }
+
+        .tape {
+            position: absolute; width: 80px; height: 25px;
+            background-color: rgba(255, 235, 59, 0.8);
+            top: -10px; left: 50%; transform: translateX(-50%) rotate(-3deg);
+            z-index: 5; box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+        }
+
+        .story-heading {
+            font-size: 22px; color: #ffe100; 
+            font-weight: bold; margin-bottom: 15px; text-align: center;
+        }
+        .story-text {
+            line-height: 1.9; font-size: 16px; text-align: justify; color: #dbe4ef;
+        }
+        .story-highlight { color: #64ffda; font-weight: bold; }
+
+        /* --- 相簿通用樣式 --- */
+        .gallery-scroll-container {
+            display: flex; gap: 15px; overflow-x: auto;
+            padding: 10px 20px 25px 20px; scroll-snap-type: x mandatory; 
+            -webkit-overflow-scrolling: touch; margin: 10px -25px 5px -25px;
+            scrollbar-width: none; 
+        }
+        .gallery-scroll-container::-webkit-scrollbar { display: none; } 
+
+        .gallery-item {
+            min-width: 75%; max-width: 280px; flex-shrink: 0; scroll-snap-align: center;
+            background: #fff; padding: 8px 8px 15px 8px; box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+            border-radius: 4px; transform: rotate(0deg); transition: transform 0.3s;
+            cursor: pointer; display: flex; flex-direction: column;
+        }
+        .gallery-item:nth-child(odd) { transform: rotate(-1.5deg); }
+        .gallery-item:nth-child(even) { transform: rotate(1.5deg); }
+        .gallery-item:hover, .gallery-item:active { transform: rotate(0deg) scale(1.02); z-index: 10; }
+
+        .gallery-img-box {
+            width: 100%; height: 200px; background: #f0f4f8;
+            display: flex; align-items: center; justify-content: center;
+            color: #8899a6; border: 1px solid #ddd; overflow: hidden;
+        }
+        .gallery-img-box img { width: 100%; height: 100%; object-fit: contain; }
+        
+        .gallery-caption {
+            text-align: center; font-size: 15px; color: #556677;
+            margin-top: 10px; font-weight: bold; letter-spacing: 1px;
+        }
+
+        /* 讓所有展示相簿移除白邊 (若你喜歡原本的拍立得白邊，可以把這段拿掉) */
+        .gallery-scroll-container .gallery-item {
+            background: transparent; padding: 0; box-shadow: none; 
+            border-radius: 12px; overflow: hidden;
+        }
+        .gallery-scroll-container .gallery-img-box {
+            border: none; height: 220px; border-radius: 12px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        }
+        .gallery-scroll-container .gallery-caption {
+            color: #dbe4ef; text-shadow: 0 2px 4px rgba(0,0,0,0.5); margin-top: 15px;
+        }
+
+        .slider-dots { display: flex; justify-content: center; margin-top: 10px; margin-bottom: 10px; gap: 8px; }
+        .dot { width: 8px; height: 8px; background-color: rgba(255, 255, 255, 0.3); border-radius: 50%; cursor: pointer; transition: all 0.3s; }
+        .dot.active { background-color: #64ffda; width: 24px; border-radius: 4px; }
+
+        .cta-button {
+            display: block; width: 220px; margin: 40px auto 60px; padding: 15px 0;
+            text-align: center; background: transparent; border: 2px solid #64ffda;
+            color: #64ffda; font-size: 18px; font-weight: bold; text-decoration: none;
+            border-radius: 50px; transition: all 0.2s;
+        }
+        .cta-button:hover { background: rgba(100, 255, 218, 0.1); transform: translateY(-3px); }
+        .cta-button:active { transform: translateY(0); }
+
+        .bg-bubbles { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; overflow: hidden; pointer-events: none; }
+        .bg-bubbles li {
+            position: absolute; list-style: none; display: block; bottom: -150px; border-radius: 50%;
+            background: radial-gradient(circle at 70% 30%, rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0) 70%);
+            border: 1px solid rgba(255, 255, 255, 0.15); animation: rise infinite linear;
+        }
+        .bg-bubbles li:nth-child(1) { left: 10%; width: 40px; height: 40px; animation-duration: 12s; }
+        .bg-bubbles li:nth-child(2) { left: 20%; width: 20px; height: 20px; animation-duration: 18s; animation-delay: 2s; }
+        .bg-bubbles li:nth-child(3) { left: 70%; width: 50px; height: 50px; animation-duration: 15s; animation-delay: 1s; }
+        .bg-bubbles li:nth-child(4) { left: 40%; width: 30px; height: 30px; animation-duration: 10s; animation-delay: 0s; }
+        .bg-bubbles li:nth-child(5) { left: 85%; width: 20px; height: 20px; animation-duration: 20s; animation-delay: 3s; }
+        @keyframes rise { 
+            0% { transform: translateY(0); opacity: 0; } 
+            10% { opacity: 0.6; } 
+            100% { transform: translateY(-120vh); opacity: 0; } 
+        }
+
+        /* --- 手機版 RWD 修正 --- */
+        @media (max-width: 768px) {
+            .yuyu-announcement-bar { 
+                font-size: 13px; white-space: nowrap; overflow-x: auto; 
+                padding: 0 10px; height: 45px; min-height: 45px; 
+                line-height: 45px; display: block; -webkit-overflow-scrolling: touch;
+                scrollbar-width: none;
+            }
+            .yuyu-announcement-bar::-webkit-scrollbar { display: none; }
+        }
+    </style>
+</head>
+<body>
+
+    <ul class="bg-bubbles"><li></li><li></li><li></li><li></li><li></li></ul>
+
+    <div class="yuyu-announcement-bar">
+        🚀 活體訂單2000元免運、常溫賣場660免運、冷凍賣場990免運
+    </div>
+
+    <div class="mobile-sticky-header">
+        <button class="hamburger-btn" onclick="openNav()">
+            <div class="bar"></div><div class="bar"></div><div class="bar"></div>
+        </button>
+        <div class="mobile-header-title" onclick="window.location.href='index.html'">宇魚水族</div>
+        <img src="mark.png" alt="Logo" style="height: 35px;" onerror="this.style.display='none'">
+    </div>
+
+    <div id="menuOverlay" class="menu-overlay" onclick="closeNav()"></div>
+
+    <div id="mySidenav" class="sidenav">
+        <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">×</a>
+        <a href="index.html">🏠 回到首頁</a>
+        <a href="about.html">📖 關於我們</a>
+        <a href="fish.html">🐠 活體專區</a>
+        <a href="https://myship.7-11.com.tw/general/detail/GM2312087898760" target="_blank">🛒 硬體與飼料</a>
+        <a href="https://myship.7-11.com.tw/general/detail/GM2404054052893" target="_blank">❄️ 冷凍豐年蝦</a>
+        <a href="#" onclick="openTerms()">📜 條款與細則</a>
+        <a href="javascript:void(0)" onclick="openContactModal()">💬 聯絡我們 (官方LINE)</a>
+    </div>
+
+    <div id="termsModal" class="terms-modal">
+        </div>
+
+    <div class="story-container">
+        
+        <div class="page-header">
+            <span class="title-badge">Our Portfolio</span>
+            <div class="main-headline">宇魚精選作品集<br>紀錄每一個水族閃耀時刻</div>
+        </div>
+
+        <div class="story-card">
+            <div class="tape"></div> 
+            <div class="story-heading">🏆 比賽得獎紀錄</div>
+            
+            <div class="gallery-scroll-container" id="awardGalleryScroll">
+                <div class="gallery-item">
+                    <div class="gallery-img-box">
+                        <img src="award-1.jpg" alt="得獎紀錄1" onerror="this.style.display='none';">
+                    </div>
+                    <div class="gallery-caption">第一名獎盃與紀念照</div>
+                </div>
+                <div class="gallery-item">
+                    <div class="gallery-img-box">
+                        <img src="award-2.jpg" alt="得獎紀錄2" onerror="this.style.display='none';">
+                    </div>
+                    <div class="gallery-caption">參賽代表魚隻特寫</div>
+                </div>
+            </div>
+            <div class="slider-dots" id="awardGalleryDots"></div>
+            
+            <div class="story-text">
+                透過無數次的細心照料與培育，宇魚的夥伴們在各大水族賽事中屢獲佳績。這不僅是對心血的肯定，更是推動我們不斷精進的動力。
+            </div>
+        </div>
+
+        <div class="story-card">
+            <div class="tape" style="background-color: rgba(77, 208, 225, 0.7); transform: rotate(2deg);"></div>
+            <div class="story-heading">🌿 造景作品紀錄</div>
+
+            <div class="gallery-scroll-container" id="scapeGalleryScroll">
+                <div class="gallery-item">
+                    <div class="gallery-img-box">
+                        <img src="scape-1.jpg" alt="造景紀錄1" onerror="this.style.display='none';">
+                    </div>
+                    <div class="gallery-caption">石景草原風水草缸</div>
+                </div>
+                <div class="gallery-item">
+                    <div class="gallery-img-box">
+                        <img src="scape-2.jpg" alt="造景紀錄2" onerror="this.style.display='none';">
+                    </div>
+                    <div class="gallery-caption">沉木雨林生態造景</div>
+                </div>
+            </div>
+            <div class="slider-dots" id="scapeGalleryDots"></div>
+
+            <div class="story-text">
+                將大自然的美景濃縮進玻璃缸中。每一個造景作品，都是結合了水流、光影、植物與硬景觀的立體畫作，為空間帶來寧靜與生機。
+            </div>
+        </div>
+
+        <div class="story-card">
+            <div class="tape" style="background-color: rgba(255, 171, 145, 0.7);"></div>
+            <div class="story-heading">☀️ 戶外缸生態紀錄</div>
+
+            <div class="gallery-scroll-container" id="outdoorGalleryScroll">
+                <div class="gallery-item">
+                    <div class="gallery-img-box">
+                        <img src="outdoor-1.jpg" alt="戶外缸照1" onerror="this.style.display='none';">
+                    </div>
+                    <div class="gallery-caption">古厝庭院的蓮花蓮葉缸</div>
+                </div>
+                <div class="gallery-item">
+                    <div class="gallery-img-box">
+                        <img src="outdoor-2.jpg" alt="戶外缸照2" onerror="this.style.display='none';">
+                    </div>
+                    <div class="gallery-caption">自然陽光下的生機勃勃</div>
+                </div>
+            </div>
+            <div class="slider-dots" id="outdoorGalleryDots"></div>
+
+            <div class="story-text">
+                在我們的三合院基地裡，戶外缸仰賴著純粹的陽光與微風，展現出截然不同的強韌生命力，也是許多魚友來訪時最愛停留的角落。
+            </div>
+        </div>
+
+        <div class="story-card">
+            <div class="tape" style="background-color: rgba(165, 214, 167, 0.8); transform: rotate(-3deg);"></div>
+            <div class="story-heading">⚙️ 專業系統缸紀錄</div>
+
+            <div class="gallery-scroll-container" id="systemGalleryScroll">
+                <div class="gallery-item">
+                    <div class="gallery-img-box">
+                        <img src="system-1.jpg" alt="系統缸照1" onerror="this.style.display='none';">
+                    </div>
+                    <div class="gallery-caption">整齊劃一的培育系統缸</div>
+                </div>
+                <div class="gallery-item">
+                    <div class="gallery-img-box">
+                        <img src="system-2.jpg" alt="系統缸照2" onerror="this.style.display='none';">
+                    </div>
+                    <div class="gallery-caption">穩定水質的過濾配置</div>
+                </div>
+            </div>
+            <div class="slider-dots" id="systemGalleryDots"></div>
+
+            <div class="story-text">
+                為了給每一隻魚最健康的成長環境，我們親手規劃與組裝的系統缸。從管線配置到濾材挑選，展現出<span class="story-highlight">職人對細節的堅持與要求</span>。
+            </div>
+        </div>
+
+        <a href="fish.html" class="cta-button">來挑選你的第一隻魚 ❤️</a>
+
+    </div>
+
+    <div id="contactModal">
+        <div class="confirm-content">
+            <span onclick="closeContactModal()" style="position: absolute; right: 15px; top: 10px; font-size: 24px; cursor: pointer; color: #888;">✕</span>
+            <div class="confirm-title">💬 聯絡宇魚</div>
+            <div class="confirm-msg">
+                養魚遇到困難？想找特殊魚種？<br>
+                <span style="color: #64ffda; font-weight: bold;">歡迎隨時傳 LINE 給我們！</span>
+                
+                <div class="yuge-promise-box">
+                    <img src="boss.png" alt="店寵 島輝" style="width: 130px; height: auto; object-fit: contain; filter: drop-shadow(0 0 12px rgba(100, 255, 218, 0.5));">
+                    <div class="yuge-text">
+                        我是島輝 🐶<br>
+                        <span style="font-size: 15px; color: #bcccdc; font-weight: normal;">(有事找宇魚，沒事可以來看我！)</span>
+                    </div>
+                </div>
+
+                <div class="qr-code-box">
+                    <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://line.me/R/ti/p/@118rfvyo" alt="LINE QR Code">
+                </div>
+                <br>
+                <a href="https://line.me/R/ti/p/@118rfvyo" class="mobile-add-btn">📱 手機點此直接加 LINE</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        /* --- 漢堡選單與 Modal 邏輯 --- */
+        function openNav() {
+            document.getElementById("mySidenav").style.width = "280px";
+            document.getElementById("menuOverlay").style.display = "block";
+        }
+        function closeNav() {
+            document.getElementById("mySidenav").style.width = "0";
+            document.getElementById("menuOverlay").style.display = "none";
+        }
+        function openTerms() {
+            document.getElementById("termsModal").style.display = "block";
+            closeNav(); 
+        }
+        function closeTerms() {
+            document.getElementById("termsModal").style.display = "none";
+        }
+        function openContactModal() {
+            closeNav(); 
+            document.getElementById('contactModal').style.display = 'flex';
+        }
+        function closeContactModal() {
+            document.getElementById('contactModal').style.display = 'none';
+        }
+        window.onclick = function(event) {
+            var termsModal = document.getElementById("termsModal");
+            var contactModal = document.getElementById("contactModal");
+            if (event.target == termsModal) termsModal.style.display = "none";
+            if (event.target == contactModal) contactModal.style.display = "none";
+        }
+
+        /* --- 相簿滑動邏輯 --- */
+        function initGallery(scrollId, dotsId) {
+            const slider = document.getElementById(scrollId);
+            const dotsContainer = document.getElementById(dotsId);
+            if (!slider || !dotsContainer) return; 
+
+            const cards = slider.querySelectorAll('.gallery-item');
+
+            // 1. 產生圓點
+            cards.forEach((card, index) => {
+                const dot = document.createElement('div');
+                dot.classList.add('dot');
+                if (index === 0) dot.classList.add('active'); 
+                
+                const scrollToCenter = () => {
+                    const scrollAmount = card.offsetLeft - slider.offsetLeft - (slider.offsetWidth / 2) + (card.offsetWidth / 2);
+                    slider.scrollTo({ left: scrollAmount, behavior: 'smooth' });
+                };
+
+                dot.addEventListener('click', scrollToCenter);
+                dotsContainer.appendChild(dot);
+                card.addEventListener('click', scrollToCenter);
+            });
+
+            // 2. 監聽滑動
+            slider.addEventListener('scroll', () => {
+                const scrollCenter = slider.scrollLeft + (slider.offsetWidth / 2);
+
+                cards.forEach((card, index) => {
+                    const cardLeft = card.offsetLeft - slider.offsetLeft;
+                    const cardRight = cardLeft + card.offsetWidth;
+
+                    if (cardLeft <= scrollCenter && cardRight > scrollCenter) {
+                        dotsContainer.querySelectorAll('.dot').forEach(d => d.classList.remove('active'));
+                        if(dotsContainer.children[index]) {
+                            dotsContainer.children[index].classList.add('active');
+                        }
+                    }
+                });
+            });
+        }
+
+        document.addEventListener("DOMContentLoaded", function() {
+            // 初始化四大作品集區塊的相簿
+            initGallery('awardGalleryScroll', 'awardGalleryDots');
+            initGallery('scapeGalleryScroll', 'scapeGalleryDots');   
+            initGallery('outdoorGalleryScroll', 'outdoorGalleryDots'); 
+            initGallery('systemGalleryScroll', 'systemGalleryDots'); 
+        });
+    </script>
+</body>
+</html>
