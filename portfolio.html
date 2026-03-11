@@ -405,49 +405,56 @@
             </div>
         </div>
 
-        <div class="story-card">
+       <div class="story-card">
             <div class="tape" style="background-color: rgba(200, 150, 255, 0.7); transform: rotate(1deg);"></div>
             <div class="story-heading">📸 歷年作品總覽</div>
 
             <div class="gallery-scroll-container" id="pastGalleryScroll">
                 <div class="gallery-item">
-                    <div class="gallery-img-box">
-                        <img src="past-1.jpg" alt="歷年作品1" onerror="this.style.display='none';">
+                    <div class="gallery-img-box" style="height: 240px; border: none; border-radius: 8px;">
+                        <img src="past-1.jpg" alt="歷年作品1" style="border-radius: 8px;" onerror="this.style.display='none';">
                     </div>
-                    <div class="gallery-caption">水草造景紀錄</div>
                 </div>
                 <div class="gallery-item">
-                    <div class="gallery-img-box">
-                        <img src="past-2.jpg" alt="歷年作品2" onerror="this.style.display='none';">
+                    <div class="gallery-img-box" style="height: 240px; border: none; border-radius: 8px;">
+                        <img src="past-2.jpg" alt="歷年作品2" style="border-radius: 8px;" onerror="this.style.display='none';">
                     </div>
-                    <div class="gallery-caption">特色魚缸客製</div>
                 </div>
                 <div class="gallery-item">
-                    <div class="gallery-img-box">
-                        <img src="past-3.jpg" alt="歷年作品3" onerror="this.style.display='none';">
+                    <div class="gallery-img-box" style="height: 240px; border: none; border-radius: 8px;">
+                        <img src="past-3.jpg" alt="歷年作品3" style="border-radius: 8px;" onerror="this.style.display='none';">
                     </div>
-                    <div class="gallery-caption">展場水族規劃</div>
                 </div>
                 <div class="gallery-item">
-                    <div class="gallery-img-box">
-                        <img src="past-4.jpg" alt="歷年作品4" onerror="this.style.display='none';">
+                    <div class="gallery-img-box" style="height: 240px; border: none; border-radius: 8px;">
+                        <img src="past-4.jpg" alt="歷年作品4" style="border-radius: 8px;" onerror="this.style.display='none';">
                     </div>
-                    <div class="gallery-caption">室內生態角</div>
                 </div>
                 <div class="gallery-item">
-                    <div class="gallery-img-box">
-                        <img src="past-5.jpg" alt="歷年作品5" onerror="this.style.display='none';">
+                    <div class="gallery-img-box" style="height: 240px; border: none; border-radius: 8px;">
+                        <img src="past-5.jpg" alt="歷年作品5" style="border-radius: 8px;" onerror="this.style.display='none';">
                     </div>
-                    <div class="gallery-caption">店內陳列展示</div>
                 </div>
                 </div>
             <div class="slider-dots" id="pastGalleryDots"></div>
-
-            <div class="story-text">
-                每一口缸都承載著不同的故事與期盼。這裡記錄了宇魚水族一路走來為魚友們打造的專屬水族空間，感謝大家的支持與信任，讓我們能持續把自然之美帶入生活。
-            </div>
         </div>
+        ```
 
+---
+
+### 2. 啟動這組相簿的滑動功能
+
+滑到程式碼的最底下，找到 `<script>` 裡面的 `document.addEventListener("DOMContentLoaded", function() { ... });`，在裡面補上最後一行來啟動它：
+
+```javascript
+        document.addEventListener("DOMContentLoaded", function() {
+            initGallery('awardGalleryScroll', 'awardGalleryDots');
+            initGallery('scapeGalleryScroll', 'scapeGalleryDots');   
+            initGallery('outdoorGalleryScroll', 'outdoorGalleryDots'); 
+            initGallery('systemGalleryScroll', 'systemGalleryDots'); 
+            // 👇 補上這一行 👇
+            initGallery('pastGalleryScroll', 'pastGalleryDots'); 
+        });
         <a href="fish.html" class="cta-button">來挑選你的第一隻魚 ❤️</a>
 
     </div>
