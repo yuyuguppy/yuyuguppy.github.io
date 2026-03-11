@@ -391,18 +391,60 @@
                     </div>
                     <div class="gallery-caption">自動化排水安裝</div>
                 </div>
-            </div>
-            <div class="slider-dots" id="systemGalleryDots"></div>
-            <div class="gallery-item">
+                <div class="gallery-item">
                     <div class="gallery-img-box">
-                        <img src="system-2.jpg" alt="系統缸照3" onerror="this.style.display='none';">
+                        <img src="system-3.jpg" alt="系統缸照3" onerror="this.style.display='none';">
                     </div>
                     <div class="gallery-caption">自動補水的浮球配置</div>
                 </div>
-                <div class="gallery-item">
+            </div>
+            <div class="slider-dots" id="systemGalleryDots"></div>
 
             <div class="story-text">
                 為了給每一隻魚最健康的成長環境，我們親手規劃與組裝的系統缸。從管線配置到濾材挑選，展現出<span class="story-highlight">職人對細節的堅持與要求</span>。
+            </div>
+        </div>
+
+        <div class="story-card">
+            <div class="tape" style="background-color: rgba(200, 150, 255, 0.7); transform: rotate(1deg);"></div>
+            <div class="story-heading">📸 歷年作品總覽</div>
+
+            <div class="gallery-scroll-container" id="pastGalleryScroll">
+                <div class="gallery-item">
+                    <div class="gallery-img-box">
+                        <img src="past-1.jpg" alt="歷年作品1" onerror="this.style.display='none';">
+                    </div>
+                    <div class="gallery-caption">水草造景紀錄</div>
+                </div>
+                <div class="gallery-item">
+                    <div class="gallery-img-box">
+                        <img src="past-2.jpg" alt="歷年作品2" onerror="this.style.display='none';">
+                    </div>
+                    <div class="gallery-caption">特色魚缸客製</div>
+                </div>
+                <div class="gallery-item">
+                    <div class="gallery-img-box">
+                        <img src="past-3.jpg" alt="歷年作品3" onerror="this.style.display='none';">
+                    </div>
+                    <div class="gallery-caption">展場水族規劃</div>
+                </div>
+                <div class="gallery-item">
+                    <div class="gallery-img-box">
+                        <img src="past-4.jpg" alt="歷年作品4" onerror="this.style.display='none';">
+                    </div>
+                    <div class="gallery-caption">室內生態角</div>
+                </div>
+                <div class="gallery-item">
+                    <div class="gallery-img-box">
+                        <img src="past-5.jpg" alt="歷年作品5" onerror="this.style.display='none';">
+                    </div>
+                    <div class="gallery-caption">店內陳列展示</div>
+                </div>
+                </div>
+            <div class="slider-dots" id="pastGalleryDots"></div>
+
+            <div class="story-text">
+                每一口缸都承載著不同的故事與期盼。這裡記錄了宇魚水族一路走來為魚友們打造的專屬水族空間，感謝大家的支持與信任，讓我們能持續把自然之美帶入生活。
             </div>
         </div>
 
@@ -509,11 +551,12 @@
         }
 
         document.addEventListener("DOMContentLoaded", function() {
-            // 初始化四大作品集區塊的相簿
+            // 初始化所有的相簿區塊
             initGallery('awardGalleryScroll', 'awardGalleryDots');
             initGallery('scapeGalleryScroll', 'scapeGalleryDots');   
             initGallery('outdoorGalleryScroll', 'outdoorGalleryDots'); 
             initGallery('systemGalleryScroll', 'systemGalleryDots'); 
+            initGallery('pastGalleryScroll', 'pastGalleryDots'); // 👈 新增啟動第五個相簿
         });
     </script>
 </body>
