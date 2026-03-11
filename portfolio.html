@@ -405,7 +405,7 @@
             </div>
         </div>
 
-       <div class="story-card">
+      <div class="story-card">
             <div class="tape" style="background-color: rgba(200, 150, 255, 0.7); transform: rotate(1deg);"></div>
             <div class="story-heading">📸 歷年作品總覽</div>
 
@@ -435,30 +435,14 @@
                 <div class="gallery-item"><div class="gallery-img-box" style="height: 240px; border: none; border-radius: 8px;"><img src="pa-23.jpg" alt="歷年作品23" style="border-radius: 8px;" onerror="this.style.display='none';"></div></div>
                 <div class="gallery-item"><div class="gallery-img-box" style="height: 240px; border: none; border-radius: 8px;"><img src="pa-24.jpg" alt="歷年作品24" style="border-radius: 8px;" onerror="this.style.display='none';"></div></div>
                 <div class="gallery-item"><div class="gallery-img-box" style="height: 240px; border: none; border-radius: 8px;"><img src="pa-25.jpg" alt="歷年作品25" style="border-radius: 8px;" onerror="this.style.display='none';"></div></div>
-               
+                <div class="gallery-item"><div class="gallery-img-box" style="height: 240px; border: none; border-radius: 8px;"><img src="pa-26.jpg" alt="歷年作品26" style="border-radius: 8px;" onerror="this.style.display='none';"></div></div>
+                <div class="gallery-item"><div class="gallery-img-box" style="height: 240px; border: none; border-radius: 8px;"><img src="pa-27.jpg" alt="歷年作品27" style="border-radius: 8px;" onerror="this.style.display='none';"></div></div>
+                <div class="gallery-item"><div class="gallery-img-box" style="height: 240px; border: none; border-radius: 8px;"><img src="pa-28.jpg" alt="歷年作品28" style="border-radius: 8px;" onerror="this.style.display='none';"></div></div>
+                
             </div>
             <div class="slider-dots" id="pastGalleryDots" style="flex-wrap: wrap;"></div>
         </div>
-        ```
-
-*(只要確保最底下的 `initGallery('pastGalleryScroll', 'pastGalleryDots');` 有補上，就能完美運作囉！)*
-        ```
-
----
-
-### 2. 啟動這組相簿的滑動功能
-
-滑到程式碼的最底下，找到 `<script>` 裡面的 `document.addEventListener("DOMContentLoaded", function() { ... });`，在裡面補上最後一行來啟動它：
-
-```javascript
-        document.addEventListener("DOMContentLoaded", function() {
-            initGallery('awardGalleryScroll', 'awardGalleryDots');
-            initGallery('scapeGalleryScroll', 'scapeGalleryDots');   
-            initGallery('outdoorGalleryScroll', 'outdoorGalleryDots'); 
-            initGallery('systemGalleryScroll', 'systemGalleryDots'); 
-            // 👇 補上這一行 👇
-            initGallery('pastGalleryScroll', 'pastGalleryDots'); 
-        });
+        
         <a href="fish.html" class="cta-button">來挑選你的第一隻魚 ❤️</a>
 
     </div>
@@ -480,10 +464,10 @@
                 </div>
 
                 <div class="qr-code-box">
-                    <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://line.me/R/ti/p/@118rfvyo" alt="LINE QR Code">
+                    <img src="[https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://line.me/R/ti/p/@118rfvyo](https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://line.me/R/ti/p/@118rfvyo)" alt="LINE QR Code">
                 </div>
                 <br>
-                <a href="https://line.me/R/ti/p/@118rfvyo" class="mobile-add-btn">📱 手機點此直接加 LINE</a>
+                <a href="[https://line.me/R/ti/p/@118rfvyo](https://line.me/R/ti/p/@118rfvyo)" class="mobile-add-btn">📱 手機點此直接加 LINE</a>
             </div>
         </div>
     </div>
@@ -567,7 +551,7 @@
             initGallery('scapeGalleryScroll', 'scapeGalleryDots');   
             initGallery('outdoorGalleryScroll', 'outdoorGalleryDots'); 
             initGallery('systemGalleryScroll', 'systemGalleryDots'); 
-            initGallery('pastGalleryScroll', 'pastGalleryDots'); // 👈 新增啟動第五個相簿
+            initGallery('pastGalleryScroll', 'pastGalleryDots'); 
         });
     </script>
 </body>
