@@ -1610,10 +1610,12 @@ if (validData.length > 0) {
 
 
             if(filtered.length === 0) {
-                // 先判斷總商品庫 (products) 裡面有沒有東西
-                // 有東西才代表真的搜尋不到；沒東西代表還在讀取中，就先不要顯示這句話
-                if (products.length > 0) {
-                    container.innerHTML = '<div style="color:#888; grid-column:1/-1; text-align:center; padding:20px;">找不到相關商品 🦐</div>';
+                // 判斷：如果連總庫存都還是空的，代表網頁剛開、還在撈資料
+                if (products.length === 0) {
+                    container.innerHTML = '<div style="color:#64ffda; grid-column:1/-1; text-align:center; padding:20px; font-weight:bold;">正在從雲端漁場撈魚中... 🐟</div>';
+                } else {
+                    // 如果總庫存已經抓好了，但篩選出來是 0，才顯示找不到商品
+                    container.innerHTML = '<div style="color:#888; grid-column:1/-1; text-align:center; padding:20px;">目前沒有這款商品喔 🦐</div>';
                 }
                 return;
             }
