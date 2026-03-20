@@ -9,7 +9,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@500;700&display=swap" rel="stylesheet">
-
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.2/papaparse.min.js"></script>
     <style>
         /* --- 全域設定 --- */
         body { 
@@ -401,43 +401,11 @@
             </div>
         </div>
 
-        <div class="beginner-section">
-            <div class="section-header">🔥 最推薦的孔雀魚入門選擇</div>
-            <div class="beginner-scroll-container" id="guppyScroll">
-                <a href="fish.html" class="beginner-card">
-                    <span class="bg-fish-icon">🔴</span>
-                    <span class="bg-fish-name">全紅白子</span>
-                    <span class="bg-fish-desc">經典必養，紅火喜氣</span>
-                </a>
-                <a href="fish.html" class="beginner-card">
-                    <span class="bg-fish-icon">🔵</span>
-                    <span class="bg-fish-name">莫斯科藍</span>
-                    <span class="bg-fish-desc">深邃優雅，金屬光澤</span>
-                </a>
-                <a href="fish.html" class="beginner-card">
-                    <span class="bg-fish-icon">🌿</span>
-                    <span class="bg-fish-name">藍草尾</span>
-                    <span class="bg-fish-desc">細緻噴點，清新首選</span>
-                </a>
-                <a href="fish.html" class="beginner-card">
-                    <span class="bg-fish-icon">🟡</span>
-                    <span class="bg-fish-name">黃蕾絲</span>
-                    <span class="bg-fish-desc">華麗紋路，視覺強烈</span>
-                </a>
-                <a href="fish.html" class="beginner-card">
-                    <span class="bg-fish-icon">🐘</span>
-                    <span class="bg-fish-name">大耳馬賽克</span>
-                    <span class="bg-fish-desc">胸鰭巨大，可愛游姿</span>
-                </a>
-                <a href="fish.html" class="beginner-card">
-                    <span class="bg-fish-icon">💎</span>
-                    <span class="bg-fish-name">白金丹頂</span>
-                    <span class="bg-fish-desc">頭頂紅丹，身體亮白</span>
-                </a>
-            </div>
-            <div class="slider-dots" id="guppyDots"></div>
-        </div>
-
+       <div class="beginner-section">
+    <div class="section-header">🔥 推薦精選</div>
+    <div class="beginner-scroll-container" id="guppyScroll"></div>
+    <div class="slider-dots" id="guppyDots"></div>
+</div>
         <div class="reviews-section">
             <div class="title">⭐️ 顧客真實經驗分享 ⭐️</div>
             <div class="danmaku-lane lane-1">
@@ -596,31 +564,68 @@
             });
         }
 
-        // --- 6. 孔雀魚區塊：產生圓點點與互動 ---
-        document.addEventListener("DOMContentLoaded", function() {
+       // --- 6. 即時隨機推薦有庫存的魚隻 ---
+document.addEventListener("DOMContentLoaded", function() {
+    const googleSheetID = "1a0w_rwgHkmewRXDZ1nG1Tiito3qaK9huNO7xzOmc0BI"; // 宇魚的雲端資料庫
+    const sheetUrl = `https://docs.google.com/spreadsheets/d/${googleSheetID}/export?format=csv`;
+
+    Papa.parse(sheetUrl, {
+        download: true,
+        header: true,
+        skipEmptyLines: true,
+        complete: function(results) {
+            const data = results.data;
+
+            // 1. 過濾出有庫存、不是子規格、且為活體魚隻 (guppy 或 molly)
+            const inStockFishes = data.filter(item => {
+                const stock = parseInt(item.stock) || 0;
+                return stock > 0 && 
+                       item.category !== 'sub' && 
+                       (item.category === 'guppy' || item.category === 'molly');
+            });
+
+            // 2. 隨機打亂陣列，並取前 6 隻
+            const shuffled = inStockFishes.sort(() => 0.5 - Math.random());
+            const selectedFishes = shuffled.slice(0, 6);
+
             const slider = document.getElementById('guppyScroll');
             const dotsContainer = document.getElementById('guppyDots');
-            const cards = slider.querySelectorAll('.beginner-card');
 
-            // 產生點點
-            cards.forEach((card, index) => {
+            // 3. 將隨機選出的魚畫到畫面上
+            selectedFishes.forEach((fish, index) => {
+                // 如果有橫線，切出簡稱
+                const shortName = fish.name.includes('-') ? fish.name.split('-')[0] : fish.name;
+                const imgSrc = fish.img || 'logo.jpg';
+
+                // 產生卡片，帶入 cat 與 id 參數給 fish.html 接收
+                const card = document.createElement('a');
+                card.href = `fish.html?cat=${fish.category}&id=${fish.id}`;
+                card.className = 'beginner-card';
+                card.innerHTML = `
+                    <div style="width: 55px; height: 55px; border-radius: 50%; overflow: hidden; margin-bottom: 8px; border: 2px solid #64ffda; background: #03101f;">
+                        <img src="${imgSrc}" style="width: 100%; height: 100%; object-fit: cover;" onerror="this.src='logo.jpg'">
+                    </div>
+                    <span class="bg-fish-name">${shortName}</span>
+                    <span class="bg-fish-desc" style="color: #ffe100; font-weight: bold;">現貨 ${fish.stock} 隻</span>
+                `;
+                slider.appendChild(card);
+
+                // 產生圓點
                 const dot = document.createElement('div');
                 dot.classList.add('dot');
                 if (index === 0) dot.classList.add('active'); 
                 
                 dot.addEventListener('click', () => {
                     const scrollAmount = card.offsetLeft - slider.offsetLeft;
-                    slider.scrollTo({
-                        left: scrollAmount,
-                        behavior: 'smooth'
-                    });
+                    slider.scrollTo({ left: scrollAmount, behavior: 'smooth' });
                 });
                 dotsContainer.appendChild(dot);
             });
 
-            // 監聽滑動事件，更新點點狀態
+            // 4. 監聽滑動事件，更新點點狀態
             slider.addEventListener('scroll', () => {
                 const scrollCenter = slider.scrollLeft + (slider.offsetWidth / 2);
+                const cards = slider.querySelectorAll('.beginner-card');
 
                 cards.forEach((card, index) => {
                     const cardLeft = card.offsetLeft - slider.offsetLeft;
@@ -634,15 +639,10 @@
                     }
                 });
             });
-        });
+        }
+    });
+});
     </script>
 </body>
 </html>
-
-
-
-
-
-
-
 
