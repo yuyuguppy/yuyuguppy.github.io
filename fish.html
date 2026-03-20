@@ -1478,23 +1478,39 @@
 
 
 
-        window.onload = function() {
-            // ✨ 新增：初始化 LIFF
+       window.onload = function() {
+            // ✨ 1. 保留原本的 LIFF 初始化 (這段絕對不能刪，不然 LINE 結帳會壞掉喔！)
             liff.init({ liffId: "2009245186-01OMrGA7" })
                 .then(() => { console.log("LIFF 初始化成功"); })
                 .catch((err) => { console.error("LIFF 初始化失敗", err); });
-
+            
             init();
             loadCustomerData();
             
-            
             const urlParams = new URLSearchParams(window.location.search);
             const categoryParam = urlParams.get('cat');
+            
+            // ✨ 2. 原本的切換分類語法
             if (categoryParam) {
                 setTimeout(() => {
                     const targetBtn = document.querySelector(`.category-btn[onclick*="'${categoryParam}'"]`);
                     if (targetBtn) { targetBtn.click(); }
                 }, 1000); 
+            }
+
+            // ✨ 3. 新增的：抓到首頁傳來的 ID 後，自動開啟該魚隻的商品視窗
+            const idParam = urlParams.get('id');
+            if (idParam) {
+                setTimeout(() => {
+                    // 打開商品詳細視窗
+                    openProductDetail(idParam);
+                    
+                    // 同步讓背景的卡片列表捲動到那隻魚的位置
+                    const targetImg = document.getElementById(`img-${idParam}`);
+                    if (targetImg) {
+                        targetImg.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    }
+                }, 1200); // 稍微延遲一點點，等上方分類讀取完畢再彈出
             }
         };
 
