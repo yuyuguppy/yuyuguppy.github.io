@@ -1706,7 +1706,7 @@ if (validData.length > 0) {
 
 
 
-                const stockHtml = (p.category === 'addon') ? '' : `<div style="font-size:12px; color:#888; margin-bottom:5px;">庫存：${p.stock}</div>`;
+                const stockHtml = ''; // 隱藏庫存顯示
 
 
 
@@ -2074,13 +2074,7 @@ let noticeText = product.notice ? product.notice : (mainProduct && mainProduct.n
                 btn.onclick = null;
 
             } else {
-
-                // 如果是加購品 (addon) 或子規格 (sub)，按鈕上不顯示庫存
-
-                const stockText = (item.category === 'addon' || item.category === 'sub') ? '' : ` (庫存: ${item.stock})`;
-
-                btn.innerText = `加入購物車${stockText}`;
-
+                btn.innerText = `加入購物車`; // 統一只顯示加入購物車，隱藏庫存數字
                 btn.disabled = false;
 
                 btn.style.background = "#4fc3f7"; 
@@ -2139,24 +2133,20 @@ let noticeText = product.notice ? product.notice : (mainProduct && mainProduct.n
 
 
 
-        function updateCardQty(pid, delta) {
-
+     function updateCardQty(pid, delta) {
             const input = document.getElementById(`qty-input-${pid}`);
-
             // 如果是規格商品，ID 會變，需要找到對應的 input
-
             if(input) {
-
                 const product = products.find(p => p.id === pid);
-
                 let currentVal = parseInt(input.value);
-
                 let newVal = currentVal + delta;
-
-                if (newVal >= 1 && newVal <= product.stock) input.value = newVal;
-
+                
+                if (newVal > product.stock) {
+                    showToast("老闆說庫存只剩這些了～ 🐟"); // 達到上限時跳出小提醒
+                } else if (newVal >= 1) {
+                    input.value = newVal;
+                }
             }
-
         }
 
 
