@@ -1447,29 +1447,7 @@
 
 
 
-        const fishDetails = {
-
-            'g1': {
-
-                hoverMedia: 'gold-2-guppy.jpg', 
-
-                gallery: ['gold-2-guppy.jpg', 'gold-3-guppy.jpg', 'gold-4-guppy.jpg'],
-
-                intro: '色澤金黃喜氣，寓意招財好風水，宛如缸中游動的小金條！<br>體長約3.5至4.5公分，圓尾基因強健好照顧，適應力高達4.5分。<br>室內燈照下璀璨亮眼，戶外俯視更顯金光閃爍，是新手也能輕鬆養的富貴魚種。<br>'
-
-            },
-
-            'g2': { 
-
-                hoverMedia: 'blue-hover.mp4', 
-
-                gallery: ['blue-1.jpg', 'blue-2.jpg'],
-
-                intro: '這是莫斯科藍，顏色非常深邃優雅。'
-
-            }
-
-        };
+       
 
 
 
@@ -1834,12 +1812,12 @@ if (validData.length > 0) {
             const mainProduct = products.find(p => p.id === mainId);
             const extraData = fishDetails[mainId] || {}; 
 
-            // 標題顯示
+           // 標題顯示
             let displayName = product.name.includes('-') ? product.name.split('-')[0] : product.name;
             document.getElementById('pdTitle').innerText = displayName;
             
-            // ✨ 介紹文案 (優先顯示目前選中規格的介紹，若空白則抓取主商品介紹)
-let introText = product.intro ? product.intro : (mainProduct && mainProduct.intro ? mainProduct.intro : extraData.intro);
+            // ✨ 介紹文案：完全由試算表抓取 (子規格有寫就用子規格，沒有就用主商品)
+            let introText = product.intro ? product.intro : (mainProduct && mainProduct.intro ? mainProduct.intro : "");
 document.getElementById('pdIntro').innerHTML = introText || "歡迎私訊詢問！";
 
 // ✨ 注意事項 (優先顯示目前選中規格的注意事項，若空白則抓取主商品)
@@ -1913,14 +1891,7 @@ let noticeText = product.notice ? product.notice : (mainProduct && mainProduct.n
                 }
             });
 
-            // 3. (保留舊功能) 放入額外相簿
-            if (extraData.gallery) {
-                extraData.gallery.forEach(url => {
-                    if (!galleryItems.find(i => i.src === url)) {
-                        galleryItems.push({ src: url, vid: null });
-                    }
-                });
-            }
+           
 
             // 如果完全沒照片，至少放一張 Logo
             if(galleryItems.length === 0) galleryItems.push({ src: 'logo.jpg', vid: null });
@@ -1991,10 +1962,9 @@ let noticeText = product.notice ? product.notice : (mainProduct && mainProduct.n
 
             // 👇👇👇 第二步：新增的動態更新商品介紹與注意事項從這裡開始 👇👇👇
             const mainProduct = products.find(p => p.id === mainId);
-            const extraData = fishDetails[mainId] || {};
 
             // 判斷：如果子規格有自己的介紹就用自己的，沒有就用主商品的
-            let introText = item.intro ? item.intro : (mainProduct && mainProduct.intro ? mainProduct.intro : extraData.intro);
+            let introText = item.intro ? item.intro : (mainProduct && mainProduct.intro ? mainProduct.intro : "");
             document.getElementById('pdIntro').innerHTML = introText || "歡迎私訊詢問！";
 
             // 判斷注意事項
