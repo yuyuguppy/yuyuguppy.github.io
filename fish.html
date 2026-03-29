@@ -1810,7 +1810,7 @@ if (validData.length > 0) {
             // 抓取主商品 ID
             const mainId = pid.split('-')[0];
             const mainProduct = products.find(p => p.id === mainId);
-            const extraData = fishDetails[mainId] || {}; 
+           
 
            // 標題顯示
             let displayName = product.name.includes('-') ? product.name.split('-')[0] : product.name;
