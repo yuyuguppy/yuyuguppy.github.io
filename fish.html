@@ -12,7 +12,15 @@
 
     <title>魚隻專區｜宇魚水族</title>
 
-    
+    <meta name="description" content="宇魚水族專營高品質孔雀魚、茉莉魚、米蝦及各式水族周邊用品。我們堅持專業純氧包裝，提供最安心的活體配送，滿額即享免運優惠！">
+    <meta name="keywords" content="宇魚水族,孔雀魚,茉莉魚,米蝦,水族館,活體配送,魚缸設備">
+    <meta name="author" content="宇魚水族">
+    <meta property="og:title" content="魚隻專區｜宇魚水族">
+    <meta property="og:description" content="高品質孔雀魚、茉莉魚與水族設備，提供專業純氧包裝配送，立刻來逛逛！">
+    <meta property="og:image" content="https://yuyuguppy.github.io/logo.jpg"> <!-- 這裡可以換成更吸睛的魚隻照片或店面圖 -->
+    <meta property="og:url" content="https://yuyuguppy.github.io/fish.html">
+    <meta property="og:type" content="website">
+    <link rel="canonical" href="https://yuyuguppy.github.io/fish.html">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
 
@@ -1174,7 +1182,7 @@
 
         <main class="product-area">
             <div class="area-header">
-                <div class="section-title" id="sectionTitle">全部商品</div>
+                <h1 class="section-title" id="sectionTitle" style="margin: 0; font-size: 24px;">全部商品</h1>
                 <div class="search-box">
                     <input type="text" class="search-input" placeholder="搜尋魚種或商品..." oninput="searchProducts()">
                     <div class="search-icon">🔍</div>
@@ -1696,7 +1704,7 @@ if (validData.length > 0) {
 
                         <div class="p-img-box">
 
-                            <img src="${p.img || 'logo.jpg'}" class="p-img" id="img-${p.id}" loading="lazy" onerror="this.src='logo.jpg'">
+                            <img src="${p.img || 'logo.jpg'}" alt="${displayName} - 宇魚水族" class="p-img" id="img-${p.id}" loading="lazy" onerror="this.src='logo.jpg'">
 
                             ${isSoldOut ? '<div class="sold-out-mask">SOLD OUT</div>' : ''}
 
