@@ -19,11 +19,11 @@
     content="RZWbgdVFF3PDwTFlQgsOgCwXRLJtV_KUD2tGEadfF48"
     >
 
-    <title>宇魚水族｜新竹新埔孔雀魚、水族用品與活體寄送</title>
+    <title>宇魚水族｜新竹新埔孔雀魚、鬥魚與水族用品專門店</title>
 
     <meta
         name="description"
-        content="宇魚水族位於新竹縣新埔鎮，專營孔雀魚、茉莉魚、米蝦與水族用品，提供新手飼養諮詢、活體黑貓配送、魚缸客製及到府安裝服務。"
+        content="宇魚水族位於新竹縣新埔鎮，專營孔雀魚、鬥魚、茉莉魚、米蝦與水族用品，提供新手飼養諮詢、活體黑貓配送、魚缸客製及到府安裝服務。"
     >
 
     <meta
@@ -58,12 +58,12 @@
 
     <meta
         property="og:title"
-        content="宇魚水族｜新竹新埔孔雀魚、水族用品與活體寄送"
+        content="宇魚水族｜新竹新埔孔雀魚、鬥魚與水族用品專門店"
     >
 
     <meta
         property="og:description"
-        content="新竹新埔水族專門店，提供孔雀魚、茉莉魚、米蝦、水族用品、活體配送、新手諮詢與魚缸客製服務。"
+        content="新竹新埔水族專門店，提供孔雀魚、鬥魚、茉莉魚、米蝦、水族用品、活體配送、新手諮詢與魚缸客製服務。"
     >
 
     <meta
@@ -88,12 +88,12 @@
 
     <meta
         name="twitter:title"
-        content="宇魚水族｜新竹新埔孔雀魚與水族專門店"
+        content="宇魚水族｜新竹新埔孔雀魚、鬥魚與水族專門店"
     >
 
     <meta
         name="twitter:description"
-        content="孔雀魚、茉莉魚、米蝦、水族用品、活體配送與魚缸客製服務。"
+        content="孔雀魚、鬥魚、茉莉魚、米蝦、水族用品、活體配送與魚缸客製服務。"
     >
 
     <meta
@@ -330,19 +330,46 @@
             .yuyu-announcement-bar { font-size: 13px; white-space: normal; padding: 5px; height: auto; min-height: 45px; }
             .daohui-dog-img { width: 50px; }
         }
-    </style>
+    
+
+        /* --- 聯絡我們 Modal --- */
+        #contactModal {
+            display: none;
+            position: fixed; 
+            top: 0; left: 0; 
+            width: 100%; height: 100%; 
+            background: rgba(0,0,0,0.8); 
+            z-index: 30000; 
+            justify-content: center; 
+            align-items: center;
+        }
+        .confirm-content {
+            background: #0d253f; border: 2px solid #64ffda; border-radius: 15px;
+            padding: 30px; width: 90%; max-width: 400px; text-align: center;
+            box-shadow: 0 0 30px rgba(100, 255, 218, 0.5); position: relative;
+        }
+        .confirm-title { font-size: 24px; color: #64ffda; font-weight: bold; margin-bottom: 20px; }
+        .confirm-msg { color: #fff; font-size: 16px; line-height: 1.6; margin-bottom: 25px; }
+        .yuge-promise-box {
+            background: rgba(255, 225, 0, 0.1); border: 1px solid #ffe100; border-radius: 10px;
+            padding: 15px; margin-top: 20px; text-align: center;
+            box-shadow: 0 0 10px rgba(255, 225, 0, 0.1); display: flex; flex-direction: column; align-items: center;
+        }
+        .yuge-text { color: #ffe100; font-size: 19px; font-weight: bold; line-height: 1.5; text-shadow: 1px 1px 2px rgba(0,0,0,0.8); }
+    
+</style>
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
       "@type": "PetStore",
       "name": "宇魚水族",
-      "image": "https://yuyuguppy.github.io/logo.jpg", 
-      "@id": "https://yuyuguppy.github.io/",
+      "image": "https://yuyuguppy.github.io/logo.jpg",
+      "@id": "https://yuyuguppy.github.io/#petstore",
       "url": "https://yuyuguppy.github.io/",
       "telephone": "0987397773",
       "address": {
         "@type": "PostalAddress",
-        "streetAddress": "義民路二段630巷9號 (三合院內)",
+        "streetAddress": "義民路二段630巷9號（三合院內）",
         "addressLocality": "新埔鎮",
         "addressRegion": "新竹縣",
         "postalCode": "305",
@@ -367,7 +394,12 @@
           "closes": "20:00"
         }
       ],
-      "description": "新竹新埔在地推薦水族館。把養魚變簡單，找回單純的快樂。專營優質孔雀魚、鬥魚、米蝦等多樣活體，以及各類水族周邊設備。老闆親切提供專業養魚諮詢，歡迎來店交流互動。",
+      "description": "宇魚水族位於新竹縣新埔鎮，專營孔雀魚、鬥魚、茉莉魚、米蝦與水族用品，提供新手飼養諮詢、活體配送、魚缸客製及到府安裝服務。",
+      "sameAs": [
+        "https://www.facebook.com/yuyuguppy",
+        "https://www.instagram.com/yuyuguppy_",
+        "https://www.tiktok.com/@yuyu_aqua1997"
+      ],
       "priceRange": "$$"
     }
     </script>
@@ -445,31 +477,6 @@
             </div>
         </div>
     </div>
-<style>
-        #contactModal {
-            display: none;
-            position: fixed; 
-            top: 0; left: 0; 
-            width: 100%; height: 100%; 
-            background: rgba(0,0,0,0.8); 
-            z-index: 30000; 
-            justify-content: center; 
-            align-items: center;
-        }
-        .confirm-content {
-            background: #0d253f; border: 2px solid #64ffda; border-radius: 15px;
-            padding: 30px; width: 90%; max-width: 400px; text-align: center;
-            box-shadow: 0 0 30px rgba(100, 255, 218, 0.5); position: relative;
-        }
-        .confirm-title { font-size: 24px; color: #64ffda; font-weight: bold; margin-bottom: 20px; }
-        .confirm-msg { color: #fff; font-size: 16px; line-height: 1.6; margin-bottom: 25px; }
-        .yuge-promise-box {
-            background: rgba(255, 225, 0, 0.1); border: 1px solid #ffe100; border-radius: 10px;
-            padding: 15px; margin-top: 20px; text-align: center;
-            box-shadow: 0 0 10px rgba(255, 225, 0, 0.1); display: flex; flex-direction: column; align-items: center;
-        }
-        .yuge-text { color: #ffe100; font-size: 19px; font-weight: bold; line-height: 1.5; text-shadow: 1px 1px 2px rgba(0,0,0,0.8); }
-    </style>
 
     <div id="contactModal">
         <div class="confirm-content" style="padding: 25px;">
@@ -508,7 +515,7 @@
             讓水族成為生活中最療癒的風景
         </div>
 
-        <a href="fish.html" class="link-card">🐠 活體魚隻專區 (孔雀魚、茉莉)</a>
+        <a href="fish.html" class="link-card">🐠 活體魚隻專區（孔雀魚、鬥魚、茉莉魚）</a>
         <a href="https://myship.7-11.com.tw/general/detail/GM2312087898760" target="_blank" class="link-card">🛒 水族周邊賣場 (隔離杯、飼料)</a>
         <a href="https://myship.7-11.com.tw/general/detail/GM2404054052893" target="_blank" class="link-card">❄️ 冷凍飼料賣場 (豐年蝦、赤蟲)</a>
         
@@ -746,17 +753,36 @@ document.addEventListener("DOMContentLoaded", function() {
 
             // 3. 將隨機選出的魚畫到畫面上
             selectedFishes.forEach((fish, index) => {
-                // 如果有橫線，切出簡稱
-                const shortName = fish.name.includes('-') ? fish.name.split('-')[0] : fish.name;
-                const imgSrc = fish.img || 'logo.jpg';
+                // 優先使用試算表的 display_name；舊資料沒有時才退回 name。
+                const shortName =
+                    fish.display_name && fish.display_name.trim()
+                        ? fish.display_name.trim()
+                        : (fish.name || '').trim();
 
-                // 產生卡片，帶入 cat 與 id 參數給 fish.html 接收
+                const imgSrc =
+                    fish.img && fish.img.trim()
+                        ? fish.img.trim()
+                        : 'logo.jpg';
+
+                // 優先使用 slug 建立商品網址；若沒有 slug，才使用舊 ID。
+                const productSlug =
+                    fish.slug && fish.slug.trim()
+                        ? fish.slug.trim()
+                        : (fish.id || '').trim();
+
                 const card = document.createElement('a');
-                card.href = `fish.html?cat=${fish.category}&id=${fish.id}`;
+                card.href = `fish.html?cat=${encodeURIComponent(fish.category)}&product=${encodeURIComponent(productSlug)}`;
                 card.className = 'beginner-card';
                 card.innerHTML = `
                     <div style="width: 110px; height: 110px; border-radius: 50%; overflow: hidden; margin-bottom: 8px; border: 2px solid #64ffda; background: #03101f;">
-                        <img src="${imgSrc}" style="width: 100%; height: 100%; object-fit: cover;" onerror="this.src='logo.jpg'">
+                        <img
+                            src="${imgSrc}"
+                            alt="${shortName}｜宇魚水族推薦商品"
+                            loading="lazy"
+                            decoding="async"
+                            style="width: 100%; height: 100%; object-fit: cover;"
+                            onerror="this.src='logo.jpg'"
+                        >
                     </div>
                     <span class="bg-fish-name">${shortName}</span>
                 `;
