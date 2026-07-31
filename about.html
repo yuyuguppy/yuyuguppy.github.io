@@ -1,10 +1,49 @@
 <!DOCTYPE html>
 <html lang="zh-TW">
 <head>
+    <!-- 基礎設定 -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>關於宇魚｜宇魚水族</title>
-    
+    <meta name="format-detection" content="telephone=no">
+
+    <!-- 關於頁 SEO -->
+    <title>關於宇魚水族｜新竹新埔三合院水族館與品牌故事</title>
+    <meta
+        name="description"
+        content="認識宇魚水族的品牌故事。我們從孔雀魚、鬥魚與水族飼養出發，在新竹新埔三合院打造新手友善、寵物友善的水族空間，推廣水族教育、魚友交流與專業飼養諮詢。"
+    >
+    <meta name="author" content="宇魚水族">
+    <meta name="robots" content="index, follow, max-image-preview:large">
+
+    <!-- 正式網址 -->
+    <link rel="canonical" href="https://yuyuguppy.github.io/about.html">
+
+    <!-- Open Graph：Facebook、LINE 等平台分享 -->
+    <meta property="og:locale" content="zh_TW">
+    <meta property="og:type" content="article">
+    <meta property="og:site_name" content="宇魚水族">
+    <meta
+        property="og:title"
+        content="關於宇魚水族｜新竹新埔三合院水族館與品牌故事"
+    >
+    <meta
+        property="og:description"
+        content="從孔雀魚與鬥魚飼養出發，認識宇魚水族如何在新竹新埔三合院打造新手友善、寵物友善的水族交流空間。"
+    >
+    <meta property="og:url" content="https://yuyuguppy.github.io/about.html">
+    <meta property="og:image" content="https://yuyuguppy.github.io/logo.jpg">
+    <meta property="og:image:alt" content="宇魚水族品牌故事與新竹新埔三合院水族空間">
+
+    <!-- X／Twitter 分享卡片 -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="關於宇魚水族｜品牌故事">
+    <meta
+        name="twitter:description"
+        content="認識新竹新埔三合院水族館宇魚水族的成立故事、孔雀魚與鬥魚飼養理念、水族教育及魚友交流。"
+    >
+    <meta name="twitter:image" content="https://yuyuguppy.github.io/logo.jpg">
+
+    <!-- 字體連線 -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@400;700&display=swap" rel="stylesheet">
@@ -284,8 +323,84 @@
             .yuyu-announcement-bar::-webkit-scrollbar { display: none; }
         }
 
+        /* --- 從原本 body 移回 head 的樣式 --- */
+.pet-friendly-card {
+                width: 100%; margin-bottom: 30px; padding: 20px;
+                background: linear-gradient(135deg, rgba(16, 42, 67, 0.9), rgba(3, 16, 31, 0.9));
+                border: 2px dashed #ffe100; border-radius: 16px;
+                box-sizing: border-box; text-align: center; position: relative;
+                box-shadow: 0 8px 20px rgba(0,0,0,0.4);
+            }
+            .pet-title {
+                font-size: 20px; color: #ffe100; margin-bottom: 12px; font-weight: bold;
+                display: flex; justify-content: center; align-items: center; gap: 10px;
+                font-family: 'Zen Maru Gothic', sans-serif;
+            }
+            .pet-text {
+                color: #f0f4f8; font-size: 15px; line-height: 1.6; text-align: justify;
+            }
+            .pet-highlight { color: #64ffda; font-weight: bold; }
+            .pet-tags {
+                margin-top: 15px; display: flex; justify-content: center; gap: 8px; flex-wrap: wrap;
+            }
+            .pet-tag {
+                background: rgba(100, 255, 218, 0.15); color: #64ffda;
+                padding: 4px 10px; border-radius: 20px; font-size: 13px; border: 1px solid rgba(100, 255, 218, 0.5);
+            }
+
+        /* --- 從原本 body 移回 head 的樣式 --- */
+/* --- 折疊問答區塊專屬樣式 --- */
+          .faq-section { width: 100%; margin: 40px auto 10px; box-sizing: border-box; }
+          .faq-title { color: #ffe100; font-size: 20px; font-weight: bold; margin-bottom: 20px; text-align: center; border-bottom: 2px dashed rgba(100, 255, 218, 0.3); padding-bottom: 10px; }
+          .faq-item { background: rgba(16, 42, 67, 0.75); border: 1px solid rgba(100, 255, 218, 0.4); border-radius: 10px; margin-bottom: 12px; overflow: hidden; box-shadow: 0 5px 15px rgba(0,0,0,0.2); }
+          .faq-item summary { padding: 15px; font-size: 16px; color: #64ffda; font-weight: bold; cursor: pointer; list-style: none; position: relative; display: flex; align-items: center; justify-content: space-between; }
+          .faq-item summary::-webkit-details-marker { display: none; }
+          .faq-item summary::after { content: '＋'; font-size: 20px; color: #ffe100; transition: 0.3s; }
+          .faq-item[open] summary::after { content: '－'; }
+          .faq-item[open] summary { border-bottom: 1px solid rgba(100, 255, 218, 0.2); background: rgba(100, 255, 218, 0.05); }
+          .faq-content { padding: 15px; color: #bcccdc; font-size: 15px; line-height: 1.6; text-align: justify; }
+          .faq-highlight { color: #f0f4f8; font-weight: bold; border-bottom: 1px solid #ffe100; }
     </style>
-    <script type="application/ld+json">
+        <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "AboutPage",
+      "@id": "https://yuyuguppy.github.io/about.html#aboutpage",
+      "url": "https://yuyuguppy.github.io/about.html",
+      "name": "關於宇魚水族｜新竹新埔三合院水族館與品牌故事",
+      "description": "認識宇魚水族從孔雀魚、鬥魚與水族飼養出發，在新竹新埔三合院打造新手友善、寵物友善水族空間的品牌故事。",
+      "inLanguage": "zh-TW",
+      "isPartOf": {
+        "@type": "WebSite",
+        "@id": "https://yuyuguppy.github.io/#website",
+        "name": "宇魚水族",
+        "url": "https://yuyuguppy.github.io/"
+      },
+      "about": {
+        "@type": "PetStore",
+        "@id": "https://yuyuguppy.github.io/#petstore",
+        "name": "宇魚水族",
+        "url": "https://yuyuguppy.github.io/",
+        "image": "https://yuyuguppy.github.io/logo.jpg",
+        "telephone": "0987397773",
+        "address": {
+          "@type": "PostalAddress",
+          "streetAddress": "義民路二段630巷9號（三合院內）",
+          "addressLocality": "新埔鎮",
+          "addressRegion": "新竹縣",
+          "postalCode": "305",
+          "addressCountry": "TW"
+        },
+        "sameAs": [
+          "https://www.facebook.com/yuyuguppy",
+          "https://www.instagram.com/yuyuguppy_",
+          "https://www.tiktok.com/@yuyu_aqua1997"
+        ]
+      }
+    }
+    </script>
+
+<script type="application/ld+json">
     {
       "@context": "https://schema.org",
       "@type": "FAQPage",
@@ -452,31 +567,7 @@
                 而且我們有<span class="story-highlight">大大的中庭</span>，來店賞魚就能<span class="story-highlight">不用擔心愛車要停哪</span>，可以放鬆慢慢逛。
             </div>
         </div>
-<style>
-            .pet-friendly-card {
-                width: 100%; margin-bottom: 30px; padding: 20px;
-                background: linear-gradient(135deg, rgba(16, 42, 67, 0.9), rgba(3, 16, 31, 0.9));
-                border: 2px dashed #ffe100; border-radius: 16px;
-                box-sizing: border-box; text-align: center; position: relative;
-                box-shadow: 0 8px 20px rgba(0,0,0,0.4);
-            }
-            .pet-title {
-                font-size: 20px; color: #ffe100; margin-bottom: 12px; font-weight: bold;
-                display: flex; justify-content: center; align-items: center; gap: 10px;
-                font-family: 'Zen Maru Gothic', sans-serif;
-            }
-            .pet-text {
-                color: #f0f4f8; font-size: 15px; line-height: 1.6; text-align: justify;
-            }
-            .pet-highlight { color: #64ffda; font-weight: bold; }
-            .pet-tags {
-                margin-top: 15px; display: flex; justify-content: center; gap: 8px; flex-wrap: wrap;
-            }
-            .pet-tag {
-                background: rgba(100, 255, 218, 0.15); color: #64ffda;
-                padding: 4px 10px; border-radius: 20px; font-size: 13px; border: 1px solid rgba(100, 255, 218, 0.5);
-            }
-        </style>
+
 
         <div class="pet-friendly-card">
             <div class="pet-title">🐾 新竹寵物友善水族館</div>
@@ -538,19 +629,7 @@
                 雖然身兼兩職，但正是這份對水族的純粹熱愛，支撐著我們前行。未來宇魚將繼續深耕，讓水族成為一種能讓心靈「深呼吸」的生活風格。
             </div>
         </div>
-<style>
-          /* --- 折疊問答區塊專屬樣式 --- */
-          .faq-section { width: 100%; margin: 40px auto 10px; box-sizing: border-box; }
-          .faq-title { color: #ffe100; font-size: 20px; font-weight: bold; margin-bottom: 20px; text-align: center; border-bottom: 2px dashed rgba(100, 255, 218, 0.3); padding-bottom: 10px; }
-          .faq-item { background: rgba(16, 42, 67, 0.75); border: 1px solid rgba(100, 255, 218, 0.4); border-radius: 10px; margin-bottom: 12px; overflow: hidden; box-shadow: 0 5px 15px rgba(0,0,0,0.2); }
-          .faq-item summary { padding: 15px; font-size: 16px; color: #64ffda; font-weight: bold; cursor: pointer; list-style: none; position: relative; display: flex; align-items: center; justify-content: space-between; }
-          .faq-item summary::-webkit-details-marker { display: none; }
-          .faq-item summary::after { content: '＋'; font-size: 20px; color: #ffe100; transition: 0.3s; }
-          .faq-item[open] summary::after { content: '－'; }
-          .faq-item[open] summary { border-bottom: 1px solid rgba(100, 255, 218, 0.2); background: rgba(100, 255, 218, 0.05); }
-          .faq-content { padding: 15px; color: #bcccdc; font-size: 15px; line-height: 1.6; text-align: justify; }
-          .faq-highlight { color: #f0f4f8; font-weight: bold; border-bottom: 1px solid #ffe100; }
-        </style>
+
 
         <div class="faq-section">
           <div class="faq-title">📖 宇哥的水族日常 Q&A</div>
