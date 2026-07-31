@@ -268,7 +268,18 @@
             line-height: 1.6;
         }
 
-        .beginner-section { width: 100%; max-width: 480px; margin: 30px 0; overflow: hidden; }
+        .intro-card { width: 100%; max-width: 380px; box-sizing: border-box; margin: 10px 0 8px; padding: 18px 20px; border: 1px solid rgba(100, 255, 218, 0.24); border-radius: 12px; background: rgba(16, 42, 67, 0.55); text-align: center; }
+        .intro-card p { margin: 0; color: #d7e3ef; font-size: 15px; line-height: 1.9; }
+        .intro-card strong { color: #ffe100; }
+        .content-heading { width: 100%; max-width: 480px; margin: 10px 0 16px; color: #f0f4f8; font-family: 'Zen Maru Gothic', sans-serif; font-size: 21px; text-align: center; }
+        .content-heading::after { content: ""; display: block; width: 42px; height: 3px; margin: 10px auto 0; border-radius: 4px; background: #64ffda; }
+        .services-grid { width: 100%; max-width: 480px; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; margin-bottom: 28px; }
+        .service-card { padding: 17px 12px; border: 1px solid rgba(100, 255, 218, 0.25); border-radius: 13px; background: rgba(16, 42, 67, 0.58); text-align: center; }
+        .service-icon { display: block; margin-bottom: 7px; font-size: 25px; }
+        .service-name { display: block; color: #64ffda; font-size: 15px; font-weight: 700; }
+        .service-note { display: block; margin-top: 5px; color: #aebccf; font-size: 12px; line-height: 1.5; }
+
+        .beginner-section { width: 100%; max-width: 480px; margin: 30px 0 0; overflow: hidden; }
         .section-header { text-align: left; color: #ffe100; font-size: 18px; font-weight: bold; margin-bottom: 15px; padding-left: 5px; display: flex; align-items: center; gap: 8px; }
         .beginner-scroll-container { display: flex; gap: 15px; overflow-x: auto; padding-bottom: 5px; padding-left: 5px; padding-right: 5px; scroll-snap-type: x mandatory; scroll-behavior: smooth; -webkit-overflow-scrolling: touch; scrollbar-width: none; }
         .beginner-scroll-container::-webkit-scrollbar { display: none; }
@@ -288,6 +299,9 @@
         .info-section { width: 100%; max-width: 380px; background: rgba(16, 42, 67, 0.75); border-radius: 12px; padding: 24px; margin-top: 20px; border: 1px solid rgba(51, 78, 104, 0.8); margin-bottom: 30px; }
         .info-title { color: #f0f4f8; font-weight: bold; margin-bottom: 12px; font-size: 18px; border-left: 4px solid #64ffda; padding-left: 10px; }
         .address-link { color: #64ffda; text-decoration: none; font-weight: bold; }
+        .contact-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 14px 0 20px; }
+        .contact-action { display: block; padding: 11px 8px; border: 1px solid rgba(100,255,218,.45); border-radius: 10px; color: #64ffda; background: rgba(100,255,218,.08); text-decoration: none; text-align: center; font-size: 14px; font-weight: 700; }
+        .contact-action:hover { background: rgba(100,255,218,.16); }
         .highlight { color: #ffbc00; font-weight: bold; }
         p { color: #bcccdc; line-height: 1.6; }
 
@@ -297,8 +311,10 @@
         .award-item { background: rgba(197, 160, 89, 0.1); border: 1px solid #C5A059; border-radius: 8px; padding: 12px 10px; text-align: left; font-size: 14px; color: #fff; display: flex; align-items: center; gap: 8px; }
         .award-icon { font-size: 18px; flex-shrink: 0; }
 
-        .reviews-section { width: 100%; max-width: 480px; margin-top: 20px; padding: 20px 0; background: rgba(100, 255, 218, 0.05); border: 2px solid rgba(100, 255, 218, 0.3); border-radius: 16px; height: 260px; overflow: hidden; position: relative; }
+        .reviews-section { width: 100%; max-width: 480px; margin-top: 8px; padding: 20px 0; background: rgba(100, 255, 218, 0.05); border: 2px solid rgba(100, 255, 218, 0.3); border-radius: 16px; height: 260px; overflow: hidden; position: relative; }
         .reviews-section .title { font-size: 18px; color: #64ffda; margin-bottom: 15px; font-weight: bold; text-align: center; }
+        .review-source { position: absolute; left: 0; right: 0; bottom: 8px; z-index: 2; text-align: center; }
+        .review-source a { display: inline-block; padding: 5px 12px; border-radius: 20px; color: #ffe100; background: rgba(3,16,31,.9); font-size: 12px; font-weight: 700; text-decoration: none; border: 1px solid rgba(255,225,0,.35); }
         .danmaku-lane { display: flex; position: absolute; left: 0; white-space: nowrap; animation: scroll-loop linear infinite; }
         .danmaku-item { font-size: 15px; color: #ffffff; padding: 6px 14px; margin-right: 50px; background: rgba(255, 255, 255, 0.15); border-radius: 20px; border: 1px solid rgba(255, 255, 255, 0.2); }
         .danmaku-lane.lane-1 { top: 50px; animation-duration: 45s; }
@@ -316,6 +332,10 @@
         .line-btn { display: inline-block; background-color: #06C755; color: white; padding: 10px 24px; border-radius: 50px; text-decoration: none; font-weight: bold; margin-top: 10px; }
 
         .counter-section { margin-top: 30px; margin-bottom: 40px; text-align: center; color: #9fb3c8; font-size: 16px; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 20px; width: 100%; max-width: 380px; }
+        .business-footer { width: 100%; max-width: 480px; box-sizing: border-box; margin-top: 30px; padding: 24px 22px; border-top: 1px solid rgba(100,255,218,.35); border-bottom: 1px solid rgba(100,255,218,.18); text-align: center; background: rgba(3,16,31,.38); }
+        .business-footer-title { color: #64ffda; font-family: 'Zen Maru Gothic', sans-serif; font-size: 19px; font-weight: 700; }
+        .business-footer p { margin: 10px 0 0; font-size: 14px; line-height: 1.8; }
+        .business-footer a { color: #d8e8f5; text-decoration: none; }
         #days-count { color: #64ffda; font-size: 28px; font-weight: bold; margin: 0 8px; }
 
         .back-to-top { position: fixed; bottom: 20px; right: 20px; background: none; border: none; z-index: 9999; opacity: 0; visibility: hidden; transition: all 0.4s ease; display: flex; flex-direction: column; align-items: center; cursor: pointer; }
@@ -329,6 +349,10 @@
         @media (max-width: 768px) {
             .yuyu-announcement-bar { font-size: 13px; white-space: normal; padding: 5px; height: auto; min-height: 45px; }
             .daohui-dog-img { width: 50px; }
+            .main-container { padding-left: 15px; padding-right: 15px; }
+            .intro-card { padding: 18px 17px; }
+            .services-grid { gap: 9px; }
+            .service-card { padding: 15px 8px; }
         }
     
 
@@ -515,11 +539,18 @@
             讓水族成為生活中最療癒的風景
         </div>
 
-        <a href="fish.html" class="link-card">🐠 活體魚隻專區（孔雀魚、茉莉魚）</a>
+        <a href="fish.html" class="link-card">🐠 活體魚隻專區（孔雀、茉莉魚）</a>
         <a href="https://myship.7-11.com.tw/general/detail/GM2312087898760" target="_blank" class="link-card">🛒 水族周邊賣場 (隔離杯、飼料)</a>
         <a href="https://myship.7-11.com.tw/general/detail/GM2404054052893" target="_blank" class="link-card">❄️ 冷凍飼料賣場 (豐年蝦、赤蟲)</a>
         
         <a href="https://www.facebook.com/yuyuguppy" target="_blank" class="link-card">💬 私訊粉專 (詢問各式水族問題)</a>
+
+        <section class="intro-card" aria-label="宇魚水族介紹">
+            <p>
+                宇魚水族是位於<strong>新竹縣</strong>的實體水族館，專營孔雀魚、鬥魚、茉莉魚、米蝦與水族用品。<br>
+                從挑選第一隻魚，到規劃一座適合生活的魚缸，我們都願意陪你慢慢開始。
+            </p>
+        </section>
 
        <div class="info-section">
             <div class="info-title">店址資訊</div>
@@ -529,16 +560,30 @@
                     (三合院內，點我開啟導航 🚗)
                 </a>
             </p>
+            <div class="contact-actions">
+                <a href="tel:0987397773" class="contact-action">📞 0987-397-773</a>
+                <a href="https://maps.app.goo.gl/2QDBuNmmoMHXF8GU8" target="_blank" class="contact-action">🗺️ 開啟導航</a>
+            </div>
             <div class="info-title">營業時間</div>
-            <p>平日：18:00 - 21:00<br>週末：12:00 - 20:00<br>
+            <p>星期三、五：18:00 - 21:00<br>星期六、日：12:00 - 20:00<br>
                <span style="color: #f57d7d;">固定店休：每週一、二、四</span></p>
 
-          <div class="info-title">重要公告 (時段調整)</div>
-                        <p style="margin-bottom: 5px; font-weight: bold; color: #f0f4f8;">🛑 特殊店休</p>
-            <p style="color: #f57d7d; margin-top: 0; line-height: 1.8;">
+          <div class="info-title" style="margin-bottom: 0;">重要公告 (時段調整)</div>
+            <p style="margin: 0; font-weight: bold; color: #f0f4f8; line-height: 1.8;">🛑 特殊店休</p>
+            <p style="color: #f57d7d; margin: 0; line-height: 1.8;">
                 8/15(六) - 8/16(日)：南下組缸 店休<br>
             </p>
         </div>
+
+        <h2 class="content-heading">我們提供的水族服務</h2>
+        <section class="services-grid" aria-label="宇魚水族服務項目">
+            <div class="service-card"><span class="service-icon">🐠</span><span class="service-name">水族活體選購</span><span class="service-note">孔雀魚、鬥魚、茉莉魚與米蝦</span></div>
+            <div class="service-card"><span class="service-icon">📦</span><span class="service-name">活體宅配</span><span class="service-note">專業純氧包裝・黑貓配送</span></div>
+            <div class="service-card"><span class="service-icon">🌱</span><span class="service-name">新手飼養諮詢</span><span class="service-note">依空間與預算規劃合適方式</span></div>
+            <div class="service-card"><span class="service-icon">🧊</span><span class="service-name">魚缸客製</span><span class="service-note">桌上缸、系統缸與底排設計</span></div>
+            <div class="service-card"><span class="service-icon">🛠️</span><span class="service-name">到府安裝</span><span class="service-note">管線、設備與整體配置</span></div>
+            <div class="service-card"><span class="service-icon">🧪</span><span class="service-name">水族用品</span><span class="service-note">飼料、濾材與實用周邊</span></div>
+        </section>
         <div class="awards-section">
             <div class="awards-title">🏆 宇魚獲獎經歷 🏆</div>
             <div class="awards-grid">
@@ -563,7 +608,7 @@
     <div class="slider-dots" id="guppyDots"></div>
 </div>
         <div class="reviews-section">
-            <div class="title">⭐️ 顧客真實經驗分享 ⭐️</div>
+            <div class="title">⭐️ Google 顧客真實經驗分享 ⭐️</div>
             <div class="danmaku-lane lane-1">
                 <span class="danmaku-item">孔雀魚種類齊全健康度好，老闆會挑選自己喜歡的品系去繁殖育種！</span>
                 <span class="danmaku-item">鬥魚漂亮又健康！老闆親切解釋，還會針對魚缸問題做建議，專業！</span>
@@ -583,6 +628,9 @@
                 <span class="danmaku-item">戶外有繁殖場專門育種，可以看到完整設計鬥魚牆展鰭的美貌。</span>
                 <span class="danmaku-item">不只是賣魚，還提供很多實用建議，少走很多冤枉路。</span>
                 <span class="danmaku-item">環境明亮整潔，是個舒服的選魚空間。</span>
+            </div>
+            <div class="review-source">
+                <a href="https://maps.app.goo.gl/2QDBuNmmoMHXF8GU8" target="_blank" rel="noopener noreferrer">前往 Google Maps 查看商家與評論 ↗</a>
             </div>
         </div>
 
@@ -620,6 +668,16 @@
                 </a>
             </div>
         </div>
+
+        <footer class="business-footer">
+            <div class="business-footer-title">宇魚水族｜新竹新埔實體水族館</div>
+            <p>
+                <a href="https://maps.app.goo.gl/2QDBuNmmoMHXF8GU8" target="_blank" rel="noopener noreferrer">新竹縣新埔鎮義民路二段630巷9號（三合院內）</a><br>
+                <a href="tel:0987397773">電話：0987-397-773</a><br>
+                星期三、五 18:00–21:00・星期六、日 12:00–20:00<br>
+                星期一、二、四固定店休
+            </p>
+        </footer>
 
         <div class="counter-section">
             <div class="counter-text">
@@ -823,5 +881,3 @@ document.addEventListener("DOMContentLoaded", function() {
     </script>
 </body>
 </html>
-
-
