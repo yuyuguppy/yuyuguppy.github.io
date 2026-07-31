@@ -11,17 +11,105 @@
 
     <meta name="format-detection" content="telephone=no">
 
-    <title>魚隻專區｜宇魚水族</title>
+    <!-- 商品列表頁基礎 SEO -->
+    <title>孔雀魚、茉莉魚、米蝦與水族活體專區｜宇魚水族</title>
 
-    <meta name="description" content="宇魚水族專營高品質孔雀魚、茉莉魚、米蝦及各式水族周邊用品。我們堅持專業純氧包裝，提供最安心的活體配送，滿額即享免運優惠！">
-    <meta name="keywords" content="宇魚水族,孔雀魚,茉莉魚,米蝦,水族館,活體配送,魚缸設備">
+    <meta
+        name="description"
+        content="宇魚水族提供孔雀魚、茉莉魚、米蝦、觀賞螺、底棲生物與水族用品，商品價格與庫存即時更新，並提供專業純氧包裝、黑貓活體配送與飼養諮詢。"
+    >
+
+    <meta
+        name="keywords"
+        content="宇魚水族,孔雀魚,茉莉魚,米蝦,觀賞螺,底棲魚,水族活體,新竹水族館,活體配送,魚缸設備"
+    >
+
     <meta name="author" content="宇魚水族">
-    <meta property="og:title" content="魚隻專區｜宇魚水族">
-    <meta property="og:description" content="高品質孔雀魚、茉莉魚與水族設備，提供專業純氧包裝配送，立刻來逛逛！">
-    <meta property="og:image" content="https://yuyuguppy.github.io/logo.jpg"> <!-- 這裡可以換成更吸睛的魚隻照片或店面圖 -->
-    <meta property="og:url" content="https://yuyuguppy.github.io/fish.html">
+
+    <meta
+        name="robots"
+        content="index, follow, max-image-preview:large, max-snippet:-1"
+    >
+
+    <link
+        rel="canonical"
+        href="https://yuyuguppy.github.io/fish.html"
+    >
+
+    <!-- Open Graph：Facebook、LINE 等平台分享 -->
+    <meta property="og:locale" content="zh_TW">
     <meta property="og:type" content="website">
-    <link rel="canonical" href="https://yuyuguppy.github.io/fish.html">
+    <meta property="og:site_name" content="宇魚水族">
+
+    <meta
+        property="og:title"
+        content="孔雀魚、茉莉魚、米蝦與水族活體專區｜宇魚水族"
+    >
+
+    <meta
+        property="og:description"
+        content="即時查看宇魚水族的孔雀魚、茉莉魚、米蝦、觀賞螺、底棲生物與水族商品庫存，提供專業活體包裝與配送。"
+    >
+
+    <meta
+        property="og:image"
+        content="https://yuyuguppy.github.io/logo.jpg"
+    >
+
+    <meta
+        property="og:image:alt"
+        content="宇魚水族活體魚隻與水族商品"
+    >
+
+    <meta
+        property="og:url"
+        content="https://yuyuguppy.github.io/fish.html"
+    >
+
+    <!-- X／Twitter 分享卡片 -->
+    <meta name="twitter:card" content="summary_large_image">
+
+    <meta
+        name="twitter:title"
+        content="孔雀魚、茉莉魚、米蝦與水族活體專區｜宇魚水族"
+    >
+
+    <meta
+        name="twitter:description"
+        content="即時查看宇魚水族的活體魚蝦、水族商品價格、庫存與商品介紹。"
+    >
+
+    <meta
+        name="twitter:image"
+        content="https://yuyuguppy.github.io/logo.jpg"
+    >
+
+    <!-- 商品列表頁結構化資料 -->
+    <script type="application/ld+json" id="collectionSchema">
+    {
+      "@context": "https://schema.org",
+      "@type": "CollectionPage",
+      "@id": "https://yuyuguppy.github.io/fish.html#collection",
+      "url": "https://yuyuguppy.github.io/fish.html",
+      "name": "宇魚水族活體與水族商品專區",
+      "description": "宇魚水族提供孔雀魚、茉莉魚、米蝦、觀賞螺、底棲生物與水族用品，商品價格與庫存即時更新。",
+      "isPartOf": {
+        "@type": "WebSite",
+        "@id": "https://yuyuguppy.github.io/#website",
+        "url": "https://yuyuguppy.github.io/",
+        "name": "宇魚水族"
+      },
+      "about": {
+        "@type": "PetStore",
+        "@id": "https://yuyuguppy.github.io/#petstore",
+        "name": "宇魚水族",
+        "url": "https://yuyuguppy.github.io/"
+      }
+    }
+    </script>
+
+    <!-- 開啟單一商品時由 JavaScript 動態填入 -->
+    <script type="application/ld+json" id="productSchema">{}</script>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
 
@@ -1143,7 +1231,7 @@
 
         <a href="index.html" class="logo-area">
 
-            <img src="logo.jpg" alt="宇魚" class="logo-img">
+            <img src="logo.jpg" alt="宇魚水族 Logo" class="logo-img">
 
             <span>宇魚水族</span>
 
@@ -1183,9 +1271,9 @@
 
         <main class="product-area">
             <div class="area-header">
-                <h1 class="section-title" id="sectionTitle" style="margin: 0; font-size: 24px;">全部商品</h1>
+                <h1 class="section-title" id="sectionTitle" style="margin: 0; font-size: 24px;">水族活體與商品專區</h1>
                 <div class="search-box">
-                    <input type="text" class="search-input" placeholder="搜尋魚種或商品..." oninput="searchProducts()">
+                    <input type="search" class="search-input" aria-label="搜尋水族商品" placeholder="搜尋魚種或商品..." oninput="searchProducts()">
                     <div class="search-icon">🔍</div>
                 </div>
             </div>
@@ -1401,7 +1489,7 @@
                 </div>
 
                 <div style="margin-top: 15px; background: #fff; padding: 10px; border-radius: 10px; display: inline-block;">
-                    <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://line.me/R/ti/p/@118rfvyo" alt="LINE QR Code" style="width: 140px; height: 140px; display: block;">
+                    <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://line.me/R/ti/p/@118rfvyo" alt="宇魚水族官方 LINE QR Code" style="width: 140px; height: 140px; display: block;">
                 </div>
                 
                 <div style="margin-top: 15px;">
@@ -1418,7 +1506,7 @@
 
     <div id="backToTop" class="back-to-top" onclick="scrollToTop()">
 
-        <img src="daohui.png" alt="島輝" class="daohui-dog-img">
+        <img src="daohui.png" alt="宇魚水族店寵島輝" class="daohui-dog-img">
 
         <span>回到最頂端</span>
 
@@ -1602,7 +1690,131 @@
         }
 
 
-        // 動態更新瀏覽器分頁標題、description 與社群分享資訊。
+        function setMetaName(name, content) {
+            let meta = document.querySelector(
+                `meta[name="${name}"]`
+            );
+
+            if (!meta) {
+                meta = document.createElement('meta');
+                meta.setAttribute('name', name);
+                document.head.appendChild(meta);
+            }
+
+            meta.setAttribute('content', content);
+        }
+
+
+        function setCanonicalUrl(url) {
+            let canonical = document.querySelector(
+                'link[rel="canonical"]'
+            );
+
+            if (!canonical) {
+                canonical = document.createElement('link');
+                canonical.setAttribute('rel', 'canonical');
+                document.head.appendChild(canonical);
+            }
+
+            canonical.setAttribute('href', url);
+        }
+
+
+        function getAbsoluteImageUrl(imageUrl) {
+            if (!imageUrl) {
+                return 'https://yuyuguppy.github.io/logo.jpg';
+            }
+
+            try {
+                return new URL(
+                    imageUrl,
+                    'https://yuyuguppy.github.io/'
+                ).href;
+            } catch (error) {
+                return 'https://yuyuguppy.github.io/logo.jpg';
+            }
+        }
+
+
+        function updateProductStructuredData(
+            product,
+            mainProduct,
+            productUrl,
+            cleanDescription
+        ) {
+            const schemaElement =
+                document.getElementById('productSchema');
+
+            if (!schemaElement) return;
+
+            const displayName =
+                product.display_name ||
+                (mainProduct && mainProduct.display_name) ||
+                product.name;
+
+            const variantText =
+                product.variant_name
+                    ? ` ${product.variant_name}`
+                    : '';
+
+            const productName =
+                `${displayName}${variantText}`.trim();
+
+            const imageUrls = [
+                product.img,
+                ...(product.more_images || [])
+            ]
+                .filter(Boolean)
+                .map(getAbsoluteImageUrl);
+
+            const uniqueImages = [...new Set(imageUrls)];
+
+            const availability =
+                product.stock > 0
+                    ? 'https://schema.org/InStock'
+                    : 'https://schema.org/OutOfStock';
+
+            const productSchema = {
+                '@context': 'https://schema.org',
+                '@type': 'Product',
+                '@id': `${productUrl}#product`,
+                name: productName,
+                description: cleanDescription,
+                sku: product.id,
+                url: productUrl,
+                image: uniqueImages.length > 0
+                    ? uniqueImages
+                    : ['https://yuyuguppy.github.io/logo.jpg'],
+                brand: {
+                    '@type': 'Brand',
+                    name: '宇魚水族'
+                },
+                seller: {
+                    '@type': 'PetStore',
+                    '@id': 'https://yuyuguppy.github.io/#petstore',
+                    name: '宇魚水族',
+                    url: 'https://yuyuguppy.github.io/'
+                },
+                offers: {
+                    '@type': 'Offer',
+                    url: productUrl,
+                    priceCurrency: 'TWD',
+                    price: String(product.price || 0),
+                    availability: availability,
+                    itemCondition: 'https://schema.org/NewCondition'
+                }
+            };
+
+            if (product.category) {
+                productSchema.category = product.category;
+            }
+
+            schemaElement.textContent =
+                JSON.stringify(productSchema);
+        }
+
+
+        // 動態更新瀏覽器分頁標題、description、canonical、社群分享資訊與 Product Schema。
         function updateProductMetadata(product, mainProduct) {
             const displayName =
                 product.display_name ||
@@ -1614,41 +1826,101 @@
                     ? ` ${product.variant_name}`
                     : '';
 
+            const productName =
+                `${displayName}${variantText}`.trim();
+
             const pageTitle =
-                `${displayName}${variantText}｜宇魚水族`;
+                `${productName}｜價格、庫存與購買｜宇魚水族`;
 
             const descriptionText =
                 product.intro ||
                 (mainProduct && mainProduct.intro) ||
-                `查看${displayName}${variantText}的價格、庫存、商品照片與購買資訊。宇魚水族提供專業水族諮詢與活體配送服務。`;
+                `查看${productName}的價格、庫存、商品照片與購買資訊。宇魚水族提供專業水族諮詢、純氧包裝與活體配送服務。`;
 
             const cleanDescription = String(descriptionText)
-                .replace(/<[^>]*>/g, '')
+                .replace(/<[^>]*>/g, ' ')
+                .replace(/&nbsp;/gi, ' ')
                 .replace(/\s+/g, ' ')
                 .trim()
                 .slice(0, 155);
 
+            const productUrl =
+                product.slug
+                    ? `https://yuyuguppy.github.io/fish.html?product=${encodeURIComponent(product.slug)}`
+                    : `https://yuyuguppy.github.io/fish.html?id=${encodeURIComponent(product.id)}`;
+
+            const imageUrl =
+                getAbsoluteImageUrl(
+                    product.img ||
+                    (mainProduct && mainProduct.img) ||
+                    'logo.jpg'
+                );
+
             document.title = pageTitle;
 
-            let descriptionMeta = document.querySelector(
-                'meta[name="description"]'
+            setMetaName(
+                'description',
+                cleanDescription
             );
 
-            if (!descriptionMeta) {
-                descriptionMeta = document.createElement('meta');
-                descriptionMeta.setAttribute('name', 'description');
-                document.head.appendChild(descriptionMeta);
-            }
+            setMetaProperty(
+                'og:type',
+                'product'
+            );
 
-            descriptionMeta.setAttribute('content', cleanDescription);
+            setMetaProperty(
+                'og:title',
+                pageTitle
+            );
 
-            setMetaProperty('og:title', pageTitle);
-            setMetaProperty('og:description', cleanDescription);
-            setMetaProperty('og:url', window.location.href);
+            setMetaProperty(
+                'og:description',
+                cleanDescription
+            );
 
-            if (product.img) {
-                setMetaProperty('og:image', product.img);
-            }
+            setMetaProperty(
+                'og:url',
+                productUrl
+            );
+
+            setMetaProperty(
+                'og:image',
+                imageUrl
+            );
+
+            setMetaProperty(
+                'og:image:alt',
+                `${productName}｜宇魚水族商品照片`
+            );
+
+            setMetaName(
+                'twitter:card',
+                'summary_large_image'
+            );
+
+            setMetaName(
+                'twitter:title',
+                pageTitle
+            );
+
+            setMetaName(
+                'twitter:description',
+                cleanDescription
+            );
+
+            setMetaName(
+                'twitter:image',
+                imageUrl
+            );
+
+            setCanonicalUrl(productUrl);
+
+            updateProductStructuredData(
+                product,
+                mainProduct,
+                productUrl,
+                cleanDescription
+            );
         }
 
 
@@ -2354,11 +2626,11 @@ let noticeText = product.notice ? product.notice : (mainProduct && mainProduct.n
             btn.classList.add('active');
 
            const titles = { 
-    'all': '📌 全部商品', 
+    'all': '📌 水族活體與商品專區', 
     'guppy': '🐟 孔雀魚專區', 
     'molly': '🐠 茉莉魚專區', 
     'shrimp': '🦐 蝦子、螺類、底棲', 
-    'addon': '🥫 加購專區',  // 新增這行對應標題
+    'addon': '🥫 加購專區',
     'tank': '🧊 魚缸專區' 
 };
             titleDom.innerText = titles[cat];
