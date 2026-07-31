@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 
 <html lang="zh-TW">
@@ -1452,49 +1453,203 @@
         let currentDiscount = 0;
 
         let currentPromoCode = "";
-
-
-
-       
-
-
-
        window.onload = function() {
-            // ✨ 1. 保留原本的 LIFF 初始化 (這段絕對不能刪，不然 LINE 結帳會壞掉喔！)
+            // 保留原本的 LIFF 初始化，LINE 結帳需要使用。
             liff.init({ liffId: "2009245186-01OMrGA7" })
                 .then(() => { console.log("LIFF 初始化成功"); })
                 .catch((err) => { console.error("LIFF 初始化失敗", err); });
-            
+
             init();
             loadCustomerData();
-            
-            const urlParams = new URLSearchParams(window.location.search);
-            const categoryParam = urlParams.get('cat');
-            
-            // ✨ 2. 原本的切換分類語法
-            if (categoryParam) {
-                setTimeout(() => {
-                    const targetBtn = document.querySelector(`.category-btn[onclick*="'${categoryParam}'"]`);
-                    if (targetBtn) { targetBtn.click(); }
-                }, 1000); 
-            }
-
-            // ✨ 3. 新增的：抓到首頁傳來的 ID 後，自動開啟該魚隻的商品視窗
-            const idParam = urlParams.get('id');
-            if (idParam) {
-                setTimeout(() => {
-                    // 打開商品詳細視窗
-                    openProductDetail(idParam);
-                    
-                    // 同步讓背景的卡片列表捲動到那隻魚的位置
-                    const targetImg = document.getElementById(`img-${idParam}`);
-                    if (targetImg) {
-                        targetImg.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                    }
-                }, 1200); // 稍微延遲一點點，等上方分類讀取完畢再彈出
-            }
         };
 
+
+        // 檢查試算表載入後的商品資料。
+        // 這個函式只會在瀏覽器 Console 顯示問題，不會修改試算表。
+        function validateProducts(productList) {
+            const allowedCategories = new Set([
+                'guppy',
+                'molly',
+                'shrimp',
+                'addon',
+                'tank',
+                'sub'
+            ]);
+
+            const usedIds = new Set();
+            const usedSlugs = new Set();
+
+            productList.forEach(product => {
+                if (usedIds.has(product.id)) {
+                    console.error(`商品 ID 重複：${product.id}`, product);
+                }
+                usedIds.add(product.id);
+
+                if (product.slug) {
+                    if (usedSlugs.has(product.slug)) {
+                        console.error(`商品 slug 重複：${product.slug}`, product);
+                    }
+                    usedSlugs.add(product.slug);
+                }
+
+                if (!allowedCategories.has(product.category)) {
+                    console.error(
+                        `商品分類錯誤：${product.id} / ${product.category}`,
+                        product
+                    );
+                }
+
+                if (!product.display_name) {
+                    console.warn(`商品缺少 display_name：${product.id}`, product);
+                }
+            });
+        }
+
+
+        // 只移除商品 ID 最後面的「-數字」，用來找到主商品。
+        function getMainProductId(productId) {
+            if (!productId) return '';
+            return productId.replace(/-\d+$/, '');
+        }
+
+
+        // 從網址尋找商品；優先使用 slug，也保留舊的 id 網址相容性。
+        function findProductFromUrl() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const slugParam = urlParams.get('product');
+            const idParam = urlParams.get('id');
+
+            if (slugParam) {
+                const productBySlug = products.find(
+                    product => product.slug === slugParam
+                );
+                if (productBySlug) return productBySlug;
+            }
+
+            if (idParam) {
+                const productById = products.find(
+                    product => product.id === idParam
+                );
+                if (productById) return productById;
+            }
+
+            return null;
+        }
+
+
+        // 試算表資料確定載入完成後，再依網址開啟商品。
+        function openProductFromUrl() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const categoryParam = urlParams.get('cat');
+
+            if (categoryParam) {
+                const targetBtn = document.querySelector(
+                    `.category-btn[onclick*="'${categoryParam}'"]`
+                );
+                if (targetBtn) {
+                    targetBtn.click();
+                }
+            }
+
+            const targetProduct = findProductFromUrl();
+            if (!targetProduct) return;
+
+            openProductDetail(targetProduct.id);
+
+            const mainId = getMainProductId(targetProduct.id);
+            const targetImg = document.getElementById(`img-${mainId}`);
+
+            if (targetImg) {
+                targetImg.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'center'
+                });
+            }
+        }
+
+
+        // 商品被開啟或切換規格時，更新網址列。
+        function updateProductUrl(product) {
+            if (!product || !product.slug) return;
+
+            const url = new URL(window.location.href);
+            url.searchParams.delete('id');
+            url.searchParams.set('product', product.slug);
+
+            history.replaceState(
+                {
+                    productId: product.id,
+                    slug: product.slug
+                },
+                '',
+                url
+            );
+        }
+
+
+        function setMetaProperty(propertyName, content) {
+            let meta = document.querySelector(
+                `meta[property="${propertyName}"]`
+            );
+
+            if (!meta) {
+                meta = document.createElement('meta');
+                meta.setAttribute('property', propertyName);
+                document.head.appendChild(meta);
+            }
+
+            meta.setAttribute('content', content);
+        }
+
+
+        // 動態更新瀏覽器分頁標題、description 與社群分享資訊。
+        function updateProductMetadata(product, mainProduct) {
+            const displayName =
+                product.display_name ||
+                (mainProduct && mainProduct.display_name) ||
+                product.name;
+
+            const variantText =
+                product.variant_name
+                    ? ` ${product.variant_name}`
+                    : '';
+
+            const pageTitle =
+                `${displayName}${variantText}｜宇魚水族`;
+
+            const descriptionText =
+                product.intro ||
+                (mainProduct && mainProduct.intro) ||
+                `查看${displayName}${variantText}的價格、庫存、商品照片與購買資訊。宇魚水族提供專業水族諮詢與活體配送服務。`;
+
+            const cleanDescription = String(descriptionText)
+                .replace(/<[^>]*>/g, '')
+                .replace(/\s+/g, ' ')
+                .trim()
+                .slice(0, 155);
+
+            document.title = pageTitle;
+
+            let descriptionMeta = document.querySelector(
+                'meta[name="description"]'
+            );
+
+            if (!descriptionMeta) {
+                descriptionMeta = document.createElement('meta');
+                descriptionMeta.setAttribute('name', 'description');
+                document.head.appendChild(descriptionMeta);
+            }
+
+            descriptionMeta.setAttribute('content', cleanDescription);
+
+            setMetaProperty('og:title', pageTitle);
+            setMetaProperty('og:description', cleanDescription);
+            setMetaProperty('og:url', window.location.href);
+
+            if (product.img) {
+                setMetaProperty('og:image', product.img);
+            }
+        }
 
 
         function init() {
@@ -1514,36 +1669,93 @@
                     skipEmptyLines: true,
 
                     complete: function(results) {
-
                         const sheetData = results.data;
 
-                        const validData = sheetData.filter(item => item.id && item.name);
+                        const validData = sheetData.filter(item => {
+                            return item.id && item.name;
+                        });
 
-                        
+                        if (validData.length > 0) {
+                            products = validData.map(item => {
+                                const rawVariantName = item.variant_name
+                                    ? item.variant_name.trim()
+                                    : '';
 
-                        // 找到 init() 裡面的 Papa.parse，把 results.data 的處理部分改成這樣：
+                                const cleanVariantName =
+                                    rawVariantName === '無規格'
+                                        ? ''
+                                        : rawVariantName;
 
-if (validData.length > 0) {
-    products = validData.map(item => ({
-        id: item.id.trim().replace(/[\r\n]+/g, ""),
-        name: item.name.trim(),
-        price: parseInt(String(item.price).replace(/[^0-9]/g, '')) || 0,
-        category: item.category ? item.category.trim() : 'guppy',
-        stock: parseInt(item.stock) || 0,
-        img: item.img ? item.img.trim() : '',
-        tag: item.tag ? item.tag.trim() : '',
-        origin_price: parseInt(String(item.origin_price).replace(/[^0-9]/g, '')) || 0,
-        intro: item.intro ? item.intro.trim() : '',
-        notice: item.notice ? item.notice.trim() : '',
-        // 👇👇👇 新增這一行：讀取更多照片，並用逗號切開變成陣列 👇👇👇
-        more_images: item.more_images ? item.more_images.split(',').map(s => s.trim()).filter(s => s) : []
-    }));
-}
+                                return {
+                                    id: item.id
+                                        ? item.id.trim().replace(/[\r\n]+/g, '')
+                                        : '',
+
+                                    name: item.name
+                                        ? item.name.trim().replace(/[\r\n]+/g, ' ')
+                                        : '',
+
+                                    slug: item.slug
+                                        ? item.slug.trim()
+                                        : item.id.trim(),
+
+                                    display_name: item.display_name
+                                        ? item.display_name.trim()
+                                        : item.name.trim(),
+
+                                    variant_name: cleanVariantName,
+
+                                    keywords: item.keywords
+                                        ? item.keywords.trim()
+                                        : '',
+
+                                    price: parseInt(
+                                        String(item.price || '').replace(/[^0-9]/g, '')
+                                    ) || 0,
+
+                                    category: item.category
+                                        ? item.category.trim().toLowerCase()
+                                        : 'guppy',
+
+                                    stock: parseInt(item.stock) || 0,
+
+                                    img: item.img
+                                        ? item.img.trim()
+                                        : '',
+
+                                    tag: item.tag
+                                        ? item.tag.trim().toUpperCase()
+                                        : '',
+
+                                    origin_price: parseInt(
+                                        String(item.origin_price || '').replace(/[^0-9]/g, '')
+                                    ) || 0,
+
+                                    intro: item.intro
+                                        ? item.intro.trim()
+                                        : '',
+
+                                    notice: item.notice
+                                        ? item.notice.trim()
+                                        : '',
+
+                                    more_images: item.more_images
+                                        ? item.more_images
+                                            .split(',')
+                                            .map(url => url.trim())
+                                            .filter(url => url)
+                                        : []
+                                };
+                            });
+                        }
+
+                        validateProducts(products);
 
                         document.getElementById('loading').style.display = 'none';
 
                         renderProducts('all');
 
+                        openProductFromUrl();
                     },
 
                     error: function(err) {
@@ -1576,20 +1788,35 @@ if (validData.length > 0) {
 
             
 
-            const searchTerm = document.querySelector('.search-input').value.toLowerCase();
-
-            
+            const searchTerm = document
+                .querySelector('.search-input')
+                .value
+                .trim()
+                .toLowerCase();
 
             let filtered = products.filter(p => {
-
                 const isNotSub = p.category !== 'sub';
 
-                const matchCat = filterCategory === 'all' || p.category === filterCategory;
+                const matchCat =
+                    filterCategory === 'all' ||
+                    p.category === filterCategory;
 
-                const matchSearch = p.name.toLowerCase().includes(searchTerm);
+                const searchableText = [
+                    p.name,
+                    p.display_name,
+                    p.variant_name,
+                    p.keywords,
+                    p.intro
+                ]
+                    .filter(Boolean)
+                    .join(' ')
+                    .toLowerCase();
+
+                const matchSearch =
+                    searchTerm === '' ||
+                    searchableText.includes(searchTerm);
 
                 return isNotSub && matchCat && matchSearch;
-
             });
 
             
@@ -1626,7 +1853,7 @@ if (validData.length > 0) {
 
                 // ✨ 1. 處理標題：把 "-75g" 切掉，只留前面 "無悔飼料"
 
-                let displayName = p.name.includes('-') ? p.name.split('-')[0] : p.name;
+                const displayName = p.display_name || p.name;
 
 
 
@@ -1642,13 +1869,13 @@ if (validData.length > 0) {
 
                     variantTags = `<div class="variant-tag-container">`;
 
-                    let mainBtnName = p.name.includes('-') ? p.name.split('-').pop() : '單件';
+                    const mainBtnName = p.variant_name || '單件';
 
                     variantTags += `<div class="v-tag active" id="vtag-${p.id}-${p.id}" onclick="event.stopPropagation(); updateExternalVariant('${p.id}', '${p.id}')">${mainBtnName}</div>`;
 
                     subVariants.forEach(v => {
 
-                        let vName = v.name.includes('-') ? v.name.split('-').pop() : v.name;
+                        const vName = v.variant_name || v.name;
 
                         variantTags += `<div class="v-tag" id="vtag-${p.id}-${v.id}" onclick="event.stopPropagation(); updateExternalVariant('${p.id}', '${v.id}')">${vName}</div>`;
 
@@ -1704,7 +1931,7 @@ if (validData.length > 0) {
 
                         <div class="p-img-box">
 
-                            <img src="${p.img || 'logo.jpg'}" alt="${displayName} - 宇魚水族" class="p-img" id="img-${p.id}" loading="lazy" onerror="this.src='logo.jpg'">
+                            <img src="${p.img || 'logo.jpg'}" alt="${displayName}${p.variant_name ? ` ${p.variant_name}` : ''}｜宇魚水族" class="p-img" id="img-${p.id}" loading="lazy" decoding="async" onerror="this.src='logo.jpg'">
 
                             ${isSoldOut ? '<div class="sold-out-mask">SOLD OUT</div>' : ''}
 
@@ -1787,6 +2014,7 @@ if (validData.length > 0) {
             const imgEl = document.getElementById(`img-${mainId}`);
             if (imgEl && item.img) {
                 imgEl.src = item.img;
+                imgEl.alt = `${item.display_name || item.name}${item.variant_name ? ` ${item.variant_name}` : ''}｜宇魚水族`;
             }
 
             // ✨ 關鍵修正：點擊卡片時，直接開啟「目前選中的規格 ID」
@@ -1815,14 +2043,20 @@ if (validData.length > 0) {
             const product = products.find(p => p.id === pid);
             if (!product) return;
 
-            // 抓取主商品 ID
-            const mainId = pid.split('-')[0];
-            const mainProduct = products.find(p => p.id === mainId);
-           
+            const mainId = getMainProductId(product.id);
+            const mainProduct =
+                products.find(p => p.id === mainId) ||
+                product;
 
-           // 標題顯示
-            let displayName = product.name.includes('-') ? product.name.split('-')[0] : product.name;
+            const displayName =
+                product.display_name ||
+                mainProduct.display_name ||
+                product.name;
+
             document.getElementById('pdTitle').innerText = displayName;
+
+            updateProductUrl(product);
+            updateProductMetadata(product, mainProduct);
             
             // ✨ 介紹文案：完全由試算表抓取 (子規格有寫就用子規格，沒有就用主商品)
             let introText = product.intro ? product.intro : (mainProduct && mainProduct.intro ? mainProduct.intro : "");
@@ -1848,13 +2082,13 @@ let noticeText = product.notice ? product.notice : (mainProduct && mainProduct.n
                 let html = `<div class="pd-section-title">📏 選擇規格</div><div class="variant-tag-container">`;
                 
                 // 主商品按鈕
-                let mainName = mainProduct ? (mainProduct.name.includes('-') ? mainProduct.name.split('-').pop() : '單件') : '單件';
+                const mainName = mainProduct.variant_name || '單件';
                 let activeClass = (product.id === mainId) ? 'active' : '';
                 html += `<div class="v-tag ${activeClass}" id="pdv-${mainId}" onclick="switchPdVariant('${mainId}', '${mainId}', true)">${mainName}</div>`;
                 
                 // 子規格按鈕
                 subVariants.forEach(v => {
-                    let vName = v.name.includes('-') ? v.name.split('-').pop() : v.name;
+                    const vName = v.variant_name || v.name;
                     let subActive = (product.id === v.id) ? 'active' : '';
                     html += `<div class="v-tag ${subActive}" id="pdv-${v.id}" onclick="switchPdVariant('${mainId}', '${v.id}', true)">${vName}</div>`;
                 });
@@ -1905,7 +2139,30 @@ let noticeText = product.notice ? product.notice : (mainProduct && mainProduct.n
             if(galleryItems.length === 0) galleryItems.push({ src: 'logo.jpg', vid: null });
 
             // 渲染相簿 HTML
-            gallery.innerHTML = galleryItems.map(i => `<img src="${i.src}" data-vid="${i.vid || ''}" loading="lazy">`).join('');
+            gallery.innerHTML = galleryItems.map((item, index) => {
+                const imageProduct =
+                    products.find(p => p.id === item.vid) ||
+                    product;
+
+                const imageName =
+                    imageProduct.display_name ||
+                    product.display_name ||
+                    product.name;
+
+                const imageVariant =
+                    imageProduct.variant_name
+                        ? ` ${imageProduct.variant_name}`
+                        : '';
+
+                return `<img
+                    src="${item.src}"
+                    data-vid="${item.vid || ''}"
+                    alt="${imageName}${imageVariant} 商品照片 ${index + 1}｜宇魚水族"
+                    loading="lazy"
+                    decoding="async"
+                    onerror="this.src='logo.jpg'"
+                >`;
+            }).join('');
             
             // 渲染下方圓點
             const dotsContainer = document.getElementById('pdDots');
@@ -1969,7 +2226,16 @@ let noticeText = product.notice ? product.notice : (mainProduct && mainProduct.n
             updatePdBtn(item);
 
             // 👇👇👇 第二步：新增的動態更新商品介紹與注意事項從這裡開始 👇👇👇
-            const mainProduct = products.find(p => p.id === mainId);
+            const mainProduct =
+                products.find(p => p.id === mainId) ||
+                item;
+
+            updateProductUrl(item);
+            updateProductMetadata(item, mainProduct);
+            document.getElementById('pdTitle').innerText =
+                item.display_name ||
+                mainProduct.display_name ||
+                item.name;
 
             // 判斷：如果子規格有自己的介紹就用自己的，沒有就用主商品的
             let introText = item.intro ? item.intro : (mainProduct && mainProduct.intro ? mainProduct.intro : "");
@@ -2139,7 +2405,7 @@ let noticeText = product.notice ? product.notice : (mainProduct && mainProduct.n
 
             // 嘗試抓取主商品的數量輸入框，如果找不到就預設 1
 
-            const mainId = pid.split('-')[0];
+            const mainId = getMainProductId(pid);
 
             const input = document.getElementById(`qty-input-${mainId}`);
 
