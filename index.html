@@ -473,63 +473,6 @@
         <a href="index.html" style="margin-top: 20px; border-top: 1px solid rgba(255,255,255,0.2);">🏠 回到首頁</a>
     </div>
 
-    <div id="termsModal" class="terms-modal">
-        <div class="terms-content">
-            <div class="terms-header">
-                <span class="terms-title">📜 宇魚水族 條款與細則</span>
-                <span class="close-terms" onclick="closeTerms()">×</span>
-            </div>
-            <div class="terms-body">
-                <h3>1. 活體不適用退換貨</h3>
-                <p>活體動物（魚蝦）屬於易腐敗商品，根據消保法規定，不適用於網購七天鑑賞期。除運送過程死亡外，活體售出後概不接受退換貨，請在下單前確認您已準備好飼養環境。</p>
-
-                <h3>2. 配送風險與責任</h3>
-                <p>我們堅持採用專業純氧包裝。若發生運送延遲或意外導致的損失，<span class="terms-highlight">由宇魚水族全權處理</span>，保障您的權益，請您放心。</p>
-
-                <h3>3. 死魚包賠政策</h3>
-                <p>為了確保責任歸屬，請您配合以下事項：</p>
-                <p>✅ <strong>開箱請務必「全程錄影」</strong>：從未拆封箱子開始錄影，直到檢查魚隻狀態。</p>
-                <p>✅ <strong>魚隻未拆袋</strong>：開箱檢查時若發現異狀（如死亡），<span class="terms-highlight" style="font-size: 16px;">請絕對不要拆開塑膠袋</span>，直接拍攝清楚的「袋內」狀況回報。</p>
-                <p>✅ <strong>立即回報</strong>：請於收件後 1 小時內，將影片與照片傳至 LINE 官方帳號。</p>
-                <p>若符合以上條件，我們將依死魚數量<span class="terms-highlight">退款</span>（不含運費）。</p>
-
-                <h3>4. 運費與貨到付款規範</h3>
-                <p>若您選擇貨到付款，請務必留意收件電話。若無故未取貨導致商品退回（造成活體死亡或耗損），本賣場將把您列入<span class="terms-highlight">黑名單</span>拒絕往來，並保留法律追訴權，依據民法請求損害賠償（包含運費、包材費及商品損失）。</p>
-
-                <h3 style="border-left: 3px solid #ff4d4d; color: #ff4d4d;">5. 其他聲明</h3>
-                <p>宇魚水族保有本條款最終解釋、修改與終止之權利，如有未盡事宜，將依本賣場最新公告為準。</p>
-            </div>
-        </div>
-    </div>
-
-    <div id="contactModal">
-        <div class="confirm-content" style="padding: 25px;">
-            <span onclick="closeContactModal()" style="position: absolute; right: 15px; top: 10px; font-size: 24px; cursor: pointer; color: #888;">✕</span>
-            <div class="confirm-title">💬 聯絡宇魚</div>
-            <div class="confirm-msg">
-                養魚遇到困難？想找特殊魚種？<br>
-                <span style="color: #64ffda; font-weight: bold;">歡迎隨時傳 LINE 給我們！</span>
-                
-                <div class="yuge-promise-box" style="margin-top: 15px; border: none; background: transparent; box-shadow: none; padding: 0;">
-                    <img src="boss.png" alt="店寵 島輝" style="width: 130px; height: auto; object-fit: contain; filter: drop-shadow(0 0 12px rgba(100, 255, 218, 0.5)); margin-bottom: 10px;">
-                    <div class="yuge-text" style="font-size: 18px;">
-                        我是島輝 🐶<br>
-                        <span style="font-size: 15px; color: #bcccdc; font-weight: normal;">(有事找宇魚，沒事可以來看我！)</span>
-                    </div>
-                </div>
-
-                <div style="margin-top: 15px; background: #fff; padding: 10px; border-radius: 10px; display: inline-block;">
-                    <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://line.me/R/ti/p/@118rfvyo" alt="LINE QR Code" style="width: 140px; height: 140px; display: block;">
-                </div>
-                
-                <div style="margin-top: 15px;">
-                    <a href="https://line.me/R/ti/p/@118rfvyo" style="color: #ffe100; text-decoration: none; font-size: 16px; font-weight: bold; border-bottom: 1px dashed #ffe100; padding-bottom: 2px;">
-                        📱 手機點此直接加 LINE
-                    </a>
-                </div>
-            </div>
-        </div>
-    </div>
     <div class="main-container">
         <img src="logo.jpg" alt="宇魚水族" class="avatar">
         
@@ -689,7 +632,66 @@
                 &copy; 2026 宇魚水族 All Rights Reserved.
             </div>
         </div>
-    </div> 
+    </div>
+
+    <!-- 彈出視窗放在首頁主內容之後，讓搜尋引擎優先讀取品牌與服務內容。 -->
+    <div id="termsModal" class="terms-modal">
+        <div class="terms-content">
+            <div class="terms-header">
+                <span class="terms-title">📜 宇魚水族 條款與細則</span>
+                <span class="close-terms" onclick="closeTerms()">×</span>
+            </div>
+            <div class="terms-body">
+                <h3>1. 活體不適用退換貨</h3>
+                <p>活體動物（魚蝦）屬於易腐敗商品，根據消保法規定，不適用於網購七天鑑賞期。除運送過程死亡外，活體售出後概不接受退換貨，請在下單前確認您已準備好飼養環境。</p>
+
+                <h3>2. 配送風險與責任</h3>
+                <p>我們堅持採用專業純氧包裝。若發生運送延遲或意外導致的損失，<span class="terms-highlight">由宇魚水族全權處理</span>，保障您的權益，請您放心。</p>
+
+                <h3>3. 死魚包賠政策</h3>
+                <p>為了確保責任歸屬，請您配合以下事項：</p>
+                <p>✅ <strong>開箱請務必「全程錄影」</strong>：從未拆封箱子開始錄影，直到檢查魚隻狀態。</p>
+                <p>✅ <strong>魚隻未拆袋</strong>：開箱檢查時若發現異狀（如死亡），<span class="terms-highlight" style="font-size: 16px;">請絕對不要拆開塑膠袋</span>，直接拍攝清楚的「袋內」狀況回報。</p>
+                <p>✅ <strong>立即回報</strong>：請於收件後 1 小時內，將影片與照片傳至 LINE 官方帳號。</p>
+                <p>若符合以上條件，我們將依死魚數量<span class="terms-highlight">退款</span>（不含運費）。</p>
+
+                <h3>4. 運費與貨到付款規範</h3>
+                <p>若您選擇貨到付款，請務必留意收件電話。若無故未取貨導致商品退回（造成活體死亡或耗損），本賣場將把您列入<span class="terms-highlight">黑名單</span>拒絕往來，並保留法律追訴權，依據民法請求損害賠償（包含運費、包材費及商品損失）。</p>
+
+                <h3 style="border-left: 3px solid #ff4d4d; color: #ff4d4d;">5. 其他聲明</h3>
+                <p>宇魚水族保有本條款最終解釋、修改與終止之權利，如有未盡事宜，將依本賣場最新公告為準。</p>
+            </div>
+        </div>
+    </div>
+
+    <div id="contactModal">
+        <div class="confirm-content" style="padding: 25px;">
+            <span onclick="closeContactModal()" style="position: absolute; right: 15px; top: 10px; font-size: 24px; cursor: pointer; color: #888;">✕</span>
+            <div class="confirm-title">💬 聯絡宇魚</div>
+            <div class="confirm-msg">
+                養魚遇到困難？想找特殊魚種？<br>
+                <span style="color: #64ffda; font-weight: bold;">歡迎隨時傳 LINE 給我們！</span>
+
+                <div class="yuge-promise-box" style="margin-top: 15px; border: none; background: transparent; box-shadow: none; padding: 0;">
+                    <img src="boss.png" alt="店寵 島輝" style="width: 130px; height: auto; object-fit: contain; filter: drop-shadow(0 0 12px rgba(100, 255, 218, 0.5)); margin-bottom: 10px;">
+                    <div class="yuge-text" style="font-size: 18px;">
+                        我是島輝 🐶<br>
+                        <span style="font-size: 15px; color: #bcccdc; font-weight: normal;">(有事找宇魚，沒事可以來看我！)</span>
+                    </div>
+                </div>
+
+                <div style="margin-top: 15px; background: #fff; padding: 10px; border-radius: 10px; display: inline-block;">
+                    <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://line.me/R/ti/p/@118rfvyo" alt="LINE QR Code" style="width: 140px; height: 140px; display: block;">
+                </div>
+
+                <div style="margin-top: 15px;">
+                    <a href="https://line.me/R/ti/p/@118rfvyo" style="color: #ffe100; text-decoration: none; font-size: 16px; font-weight: bold; border-bottom: 1px dashed #ffe100; padding-bottom: 2px;">
+                        📱 手機點此直接加 LINE
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <div id="backToTop" class="back-to-top" onclick="scrollToTop()">
         <img src="daohui.png" alt="島輝" class="daohui-dog-img">
