@@ -169,7 +169,7 @@
             
             font-size: 20px; /* 稍微加大一點點讓圓體更清楚 */
             white-space: nowrap; z-index: 1;
-            cursor: pointer; padding: 10px;
+            cursor: pointer; padding: 10px; text-decoration: none;
         }
 
         .header-mark-img { height: 40px; width: auto; object-fit: contain; z-index: 2; }
@@ -193,6 +193,8 @@
         .sidenav .closebtn {
             position: absolute; top: 5px; right: 15px; font-size: 36px; 
             margin-left: 0; border: none; z-index: 13001; padding: 0 10px;
+            width: auto; color: #f0f4f8; background: transparent;
+            line-height: 1; cursor: pointer;
         }
 
         .menu-overlay {
@@ -218,7 +220,11 @@
         }
         .terms-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #334e68; padding-bottom: 10px; margin-bottom: 15px; }
         .terms-title { font-size: 22px; color: #ffe100; font-weight: bold; }
-        .close-terms { color: #aaa; font-size: 28px; font-weight: bold; cursor: pointer; }
+        .close-terms, .close-contact {
+            color: #aaa; font-size: 28px; font-weight: bold; cursor: pointer;
+            border: 0; background: transparent; line-height: 1; padding: 5px 8px;
+        }
+        .close-terms:hover, .close-contact:hover { color: #fff; }
         .terms-body h3 { color: #64ffda; margin-top: 20px; font-size: 18px; border-left: 3px solid #ffe100; padding-left: 10px; }
         .terms-body p { font-size: 14px; color: #ddd; margin-bottom: 10px; text-align: justify; }
         .terms-highlight { color: #ff4d4d; font-weight: bold; }
@@ -346,6 +352,32 @@
         @keyframes wag { 0% { transform: rotate(0deg); } 25% { transform: rotate(-10deg); } 50% { transform: rotate(10deg); } 75% { transform: rotate(-5deg); } 100% { transform: rotate(0deg); } }
         .back-to-top:hover .daohui-dog-img, .back-to-top:active .daohui-dog-img { animation: wag 0.5s ease-in-out infinite; }
 
+        /* 鍵盤操作時顯示清楚的焦點框，不影響滑鼠點擊外觀。 */
+        a:focus-visible, button:focus-visible {
+            outline: 3px solid #ffe100;
+            outline-offset: 3px;
+        }
+
+        /* 桌面版只放寬中下段；首屏、定位卡與手機版維持原樣。 */
+        @media (min-width: 900px) {
+            .content-heading,
+            .services-grid,
+            .awards-section,
+            .beginner-section,
+            .reviews-section,
+            .business-footer {
+                max-width: 820px;
+            }
+
+            .services-grid {
+                grid-template-columns: repeat(3, minmax(0, 1fr));
+            }
+
+            .awards-grid {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+        }
+
         @media (max-width: 768px) {
             .yuyu-announcement-bar { font-size: 13px; white-space: normal; padding: 5px; height: auto; min-height: 45px; }
             .daohui-dog-img { width: 50px; }
@@ -436,100 +468,50 @@
     </div>
 
     <div class="mobile-sticky-header">
-        <button class="hamburger-btn" onclick="openNav()">
+        <button
+            type="button"
+            class="hamburger-btn"
+            onclick="openNav()"
+            aria-label="開啟選單"
+            aria-controls="mySidenav"
+            aria-expanded="false"
+        >
             <div class="bar"></div><div class="bar"></div><div class="bar"></div>
         </button>
         
-        <div class="mobile-header-title" onclick="window.location.href='index.html'">
+        <a href="index.html" class="mobile-header-title" aria-label="回到宇魚水族首頁">
             宇魚水族
-        </div>
+        </a>
 
         <img src="mark.png" alt="Logo" class="header-mark-img" onerror="this.style.display='none'">
     </div>
 
-    <div id="menuOverlay" class="menu-overlay" onclick="closeNav()"></div>
+    <div id="menuOverlay" class="menu-overlay" onclick="closeNav()" aria-hidden="true"></div>
 
-   <div id="mySidenav" class="sidenav">
-        <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">×</a>
+   <div id="mySidenav" class="sidenav" aria-hidden="true" inert>
+        <button type="button" class="closebtn" onclick="closeNav()" aria-label="關閉選單">×</button>
         
         <a href="about.html">📖 關於宇魚</a>
         <a href="portfolio.html">📸 精選作品集</a>
         
-        <button class="dropdown-btn">🐠 活體專區 
+        <button type="button" class="dropdown-btn" aria-expanded="false" aria-controls="liveFishMenu">🐠 活體專區 
             <i class="fa-caret-down">▼</i>
         </button>
-        <div class="dropdown-container">
+        <div class="dropdown-container" id="liveFishMenu">
             <a href="fish.html?cat=guppy">🔹 孔雀魚</a>
             <a href="fish.html?cat=molly">🔹 茉莉魚</a>
             <a href="fish.html?cat=shrimp">🔹 米蝦、螺類、其它</a>
         </div>
 
-        <a href="https://myship.7-11.com.tw/general/detail/GM2312087898760" target="_blank">🛒 硬體與飼料</a>
-        <a href="https://myship.7-11.com.tw/general/detail/GM2404054052893" target="_blank">❄️ 冷凍豐年蝦</a>
-        <a href="#" onclick="openTerms()">📜 條款與細則</a>
+        <a href="https://myship.7-11.com.tw/general/detail/GM2312087898760" target="_blank" rel="noopener noreferrer">🛒 硬體與飼料</a>
+        <a href="https://myship.7-11.com.tw/general/detail/GM2404054052893" target="_blank" rel="noopener noreferrer">❄️ 冷凍豐年蝦</a>
+        <a href="#termsModal" onclick="openTerms(); return false;">📜 條款與細則</a>
         
-        <a href="#" onclick="openContactModal()">💬 聯絡我們 (官方LINE)</a>
+        <a href="#contactModal" onclick="openContactModal(); return false;">💬 聯絡我們 (官方LINE)</a>
         
         <a href="index.html" style="margin-top: 20px; border-top: 1px solid rgba(255,255,255,0.2);">🏠 回到首頁</a>
     </div>
 
-    <div id="termsModal" class="terms-modal">
-        <div class="terms-content">
-            <div class="terms-header">
-                <span class="terms-title">📜 宇魚水族 條款與細則</span>
-                <span class="close-terms" onclick="closeTerms()">×</span>
-            </div>
-            <div class="terms-body">
-                <h3>1. 活體不適用退換貨</h3>
-                <p>活體動物（魚蝦）屬於易腐敗商品，根據消保法規定，不適用於網購七天鑑賞期。除運送過程死亡外，活體售出後概不接受退換貨，請在下單前確認您已準備好飼養環境。</p>
-
-                <h3>2. 配送風險與責任</h3>
-                <p>我們堅持採用專業純氧包裝。若發生運送延遲或意外導致的損失，<span class="terms-highlight">由宇魚水族全權處理</span>，保障您的權益，請您放心。</p>
-
-                <h3>3. 死魚包賠政策</h3>
-                <p>為了確保責任歸屬，請您配合以下事項：</p>
-                <p>✅ <strong>開箱請務必「全程錄影」</strong>：從未拆封箱子開始錄影，直到檢查魚隻狀態。</p>
-                <p>✅ <strong>魚隻未拆袋</strong>：開箱檢查時若發現異狀（如死亡），<span class="terms-highlight" style="font-size: 16px;">請絕對不要拆開塑膠袋</span>，直接拍攝清楚的「袋內」狀況回報。</p>
-                <p>✅ <strong>立即回報</strong>：請於收件後 1 小時內，將影片與照片傳至 LINE 官方帳號。</p>
-                <p>若符合以上條件，我們將依死魚數量<span class="terms-highlight">退款</span>（不含運費）。</p>
-
-                <h3>4. 運費與貨到付款規範</h3>
-                <p>若您選擇貨到付款，請務必留意收件電話。若無故未取貨導致商品退回（造成活體死亡或耗損），本賣場將把您列入<span class="terms-highlight">黑名單</span>拒絕往來，並保留法律追訴權，依據民法請求損害賠償（包含運費、包材費及商品損失）。</p>
-
-                <h3 style="border-left: 3px solid #ff4d4d; color: #ff4d4d;">5. 其他聲明</h3>
-                <p>宇魚水族保有本條款最終解釋、修改與終止之權利，如有未盡事宜，將依本賣場最新公告為準。</p>
-            </div>
-        </div>
-    </div>
-
-    <div id="contactModal">
-        <div class="confirm-content" style="padding: 25px;">
-            <span onclick="closeContactModal()" style="position: absolute; right: 15px; top: 10px; font-size: 24px; cursor: pointer; color: #888;">✕</span>
-            <div class="confirm-title">💬 聯絡宇魚</div>
-            <div class="confirm-msg">
-                養魚遇到困難？想找特殊魚種？<br>
-                <span style="color: #64ffda; font-weight: bold;">歡迎隨時傳 LINE 給我們！</span>
-                
-                <div class="yuge-promise-box" style="margin-top: 15px; border: none; background: transparent; box-shadow: none; padding: 0;">
-                    <img src="boss.png" alt="店寵 島輝" style="width: 130px; height: auto; object-fit: contain; filter: drop-shadow(0 0 12px rgba(100, 255, 218, 0.5)); margin-bottom: 10px;">
-                    <div class="yuge-text" style="font-size: 18px;">
-                        我是島輝 🐶<br>
-                        <span style="font-size: 15px; color: #bcccdc; font-weight: normal;">(有事找宇魚，沒事可以來看我！)</span>
-                    </div>
-                </div>
-
-                <div style="margin-top: 15px; background: #fff; padding: 10px; border-radius: 10px; display: inline-block;">
-                    <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://line.me/R/ti/p/@118rfvyo" alt="LINE QR Code" style="width: 140px; height: 140px; display: block;">
-                </div>
-                
-                <div style="margin-top: 15px;">
-                    <a href="https://line.me/R/ti/p/@118rfvyo" style="color: #ffe100; text-decoration: none; font-size: 16px; font-weight: bold; border-bottom: 1px dashed #ffe100; padding-bottom: 2px;">
-                        📱 手機點此直接加 LINE
-                    </a>
-                </div>
-            </div>
-        </div>
-    </div>
     <div class="main-container">
         <img src="logo.jpg" alt="宇魚水族" class="avatar">
         
@@ -539,11 +521,11 @@
             讓水族成為生活中最療癒的風景
         </div>
 
-        <a href="fish.html" class="link-card">🐠 活體魚隻專區（孔雀、茉莉魚）</a>
-        <a href="https://myship.7-11.com.tw/general/detail/GM2312087898760" target="_blank" class="link-card">🛒 水族周邊賣場 (隔離杯、飼料)</a>
-        <a href="https://myship.7-11.com.tw/general/detail/GM2404054052893" target="_blank" class="link-card">❄️ 冷凍飼料賣場 (豐年蝦、赤蟲)</a>
+        <a href="fish.html" class="link-card">🐠 活體魚隻專區（孔雀、茉莉）</a>
+        <a href="https://myship.7-11.com.tw/general/detail/GM2312087898760" target="_blank" rel="noopener noreferrer" class="link-card">🛒 水族周邊賣場 (隔離杯、飼料)</a>
+        <a href="https://myship.7-11.com.tw/general/detail/GM2404054052893" target="_blank" rel="noopener noreferrer" class="link-card">❄️ 冷凍飼料賣場 (豐年蝦、赤蟲)</a>
         
-        <a href="https://www.facebook.com/yuyuguppy" target="_blank" class="link-card">💬 私訊粉專 (詢問各式水族問題)</a>
+        <a href="https://www.facebook.com/yuyuguppy" target="_blank" rel="noopener noreferrer" class="link-card">💬 私訊粉專 (詢問各式水族問題)</a>
 
         <section class="intro-card" aria-label="宇魚水族介紹">
             <p>
@@ -555,14 +537,14 @@
        <div class="info-section">
             <div class="info-title">店址資訊</div>
             <p>
-                <a href="https://maps.app.goo.gl/2QDBuNmmoMHXF8GU8" target="_blank" class="address-link">
+                <a href="https://maps.app.goo.gl/2QDBuNmmoMHXF8GU8" target="_blank" rel="noopener noreferrer" class="address-link">
                     📍 新竹縣新埔鎮義民路二段630巷9號<br>
                     (三合院內，點我開啟導航 🚗)
                 </a>
             </p>
             <div class="contact-actions">
                 <a href="tel:0987397773" class="contact-action">📞 0987-397-773</a>
-                <a href="https://maps.app.goo.gl/2QDBuNmmoMHXF8GU8" target="_blank" class="contact-action">🗺️ 開啟導航</a>
+                <a href="https://maps.app.goo.gl/2QDBuNmmoMHXF8GU8" target="_blank" rel="noopener noreferrer" class="contact-action">🗺️ 開啟導航</a>
             </div>
             <div class="info-title">營業時間</div>
             <p>星期三、五：18:00 - 21:00<br>星期六、日：12:00 - 20:00<br>
@@ -636,13 +618,13 @@
         </div>
 
         <div class="social-icons-container">
-            <a href="https://www.facebook.com/share/1C4TmDLQcQ/?mibextid=wwXIfr" target="_blank" class="social-link" aria-label="Facebook">
+            <a href="https://www.facebook.com/share/1C4TmDLQcQ/?mibextid=wwXIfr" target="_blank" rel="noopener noreferrer" class="social-link" aria-label="Facebook">
                 <svg viewBox="0 0 24 24"><path d="M9.9 20h2.5v-7h2.3l.4-3h-2.7V8.5c0-.8.2-1.3 1.3-1.3h1.4V4.7c-.2 0-1.1-.1-2.1-.1-2.1 0-3.5 1.3-3.5 3.7v2H7v3h2.9v7z" fill-rule="evenodd" clip-rule="evenodd"/></svg>
             </a>
-            <a href="https://www.instagram.com/yuyuguppy_" target="_blank" class="social-link" aria-label="Instagram">
+            <a href="https://www.instagram.com/yuyuguppy_" target="_blank" rel="noopener noreferrer" class="social-link" aria-label="Instagram">
                 <svg viewBox="0 0 24 24"><path d="M12 2.2c3.2 0 3.6 0 4.8.1 1.2.1 1.9.3 2.3.5.5.2.9.5 1.3.9s.7.8.9 1.3c.2.4.4 1.1.5 2.3.1 1.2.1 1.6.1 4.8s0 3.6-.1 4.8c-.1 1.2-.3 1.9-.5 2.3-.2.5-.5.9-.9 1.3s-.8.7-1.3.9c-.4.2-1.1.4-2.3.5-1.2.1-1.6.1-4.8.1s-3.6 0-4.8-.1c-1.2-.1-1.9-.3-2.3-.5-.5-.2-.9-.5-1.3-.9s-.7-.8-.9-1.3c-.2-.4-.4-1.1-.5-2.3-.1-1.2-.1-1.6-.1-4.8s0-3.6.1-4.8c.1-1.2.3-1.9.5-2.3.2-.5.5-.9.9-1.3s.8-.7 1.3-.9c.4-.2 1.1-.4 2.3-.5 1.2-.1 1.6-.1 4.8-.1zm0-2.2c-3.3 0-3.7 0-5 .1-1.3.1-2.2.3-3 .6-.8.3-1.5.8-2.1 1.4-.6.6-1.1 1.3-1.4 2.1-.3.8-.5 1.7-.6 3-.1 1.3-.1 1.7-.1 5s0 3.7.1 5c.1 1.3.3 2.2.6 3 .3.8.8 1.5 1.4 2.1.6.6 1.3 1.1 2.1 1.4.8.3 1.7.5 3 .6 1.3.1 1.7.1 5 .1s3.7 0 5-.1c1.3-.1 2.2-.3 3-.6.8-.3 1.5-.8 2.1-1.4.6-.6 1.1-1.3 1.4-2.1.3-.8.5-1.7.6-3 .1-1.3.1-1.7.1-5s0-3.7-.1-5c-.1-1.3-.3-2.2-.6-3-.3-.8-.8-1.5-1.4-2.1-.6-.6-1.3-1.1-2.1-1.4-.8-.3-1.7-.5-3-.6-1.3-.1-1.7-.1-5-.1zm0 5.8c-3.4 0-6.2 2.8-6.2 6.2s2.8 6.2 6.2 6.2 6.2-2.8 6.2-6.2-2.8-6.2-6.2-6.2zm0 10.2c-2.2 0-4-1.8-4-4s1.8-4 4-4 4 1.8 4 4-1.8 4-4 4zm6.4-10.4c0 .8-.6 1.4-1.4 1.4-.8 0-1.4-.6-1.4-1.4 0-.8.6-1.4 1.4.8 0 1.4.6 1.4 1.4z"/></svg>
             </a>
-            <a href="https://www.tiktok.com/@yuyu_aqua1997?_r=1&_t=ZS-93FeeDkJwYx" target="_blank" class="social-link" aria-label="TikTok">
+            <a href="https://www.tiktok.com/@yuyu_aqua1997?_r=1&_t=ZS-93FeeDkJwYx" target="_blank" rel="noopener noreferrer" class="social-link" aria-label="TikTok">
                 <svg viewBox="0 0 24 24"><path d="M12.5 0v17c0 3.3-2.7 6-6 6s-6-2.7-6-6 2.7-6 6-6c.6 0 1.1.1 1.7.2V17c-.5-.1-1-.2-1.7-.2-1.7 0-3 1.3-3 3s1.3 3 3 3 3-1.3 3-3V6.5h4.2c.2 2.4 2.1 4.2 4.5 4.5v-4c-1.8-.2-3.2-1.6-3.4-3.5h-2.3z"/></svg>
             </a>
         </div>
@@ -658,13 +640,13 @@
                 宇&柏&魚友一起討論養魚大小事
             </div>
             
-            <a href="https://line.me/ti/g2/XODlP6o062essYHGk1dWKzToeRPb7RfMM9QvPA?utm_source=invitation&utm_medium=link_copy&utm_campaign=default" target="_blank" class="qr-code-container">
+            <a href="https://line.me/ti/g2/XODlP6o062essYHGk1dWKzToeRPb7RfMM9QvPA?utm_source=invitation&utm_medium=link_copy&utm_campaign=default" target="_blank" rel="noopener noreferrer" class="qr-code-container">
                 <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://line.me/ti/g2/XODlP6o062essYHGk1dWKzToeRPb7RfMM9QvPA?utm_source=invitation&utm_medium=link_copy&utm_campaign=default" 
                      alt="掃描加入宇魚水族 LINE 社群" class="qr-code-img">
             </a>
 
             <div>
-                <a href="https://line.me/ti/g2/XODlP6o062essYHGk1dWKzToeRPb7RfMM9QvPA?utm_source=invitation&utm_medium=link_copy&utm_campaign=default" target="_blank" class="line-btn">
+                <a href="https://line.me/ti/g2/XODlP6o062essYHGk1dWKzToeRPb7RfMM9QvPA?utm_source=invitation&utm_medium=link_copy&utm_campaign=default" target="_blank" rel="noopener noreferrer" class="line-btn">
                     點擊加入討論 💬
                 </a>
             </div>
@@ -689,12 +671,84 @@
                 &copy; 2026 宇魚水族 All Rights Reserved.
             </div>
         </div>
-    </div> 
+    </div>
 
-    <div id="backToTop" class="back-to-top" onclick="scrollToTop()">
+    <!-- 彈出視窗放在首頁主內容之後，讓搜尋引擎優先讀取品牌與服務內容。 -->
+    <div
+        id="termsModal"
+        class="terms-modal"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="termsModalTitle"
+        aria-hidden="true"
+    >
+        <div class="terms-content">
+            <div class="terms-header">
+                <span class="terms-title" id="termsModalTitle">📜 宇魚水族 條款與細則</span>
+                <button type="button" class="close-terms" onclick="closeTerms()" aria-label="關閉條款與細則">×</button>
+            </div>
+            <div class="terms-body">
+                <h3>1. 活體不適用退換貨</h3>
+                <p>活體動物（魚蝦）屬於易腐敗商品，根據消保法規定，不適用於網購七天鑑賞期。除運送過程死亡外，活體售出後概不接受退換貨，請在下單前確認您已準備好飼養環境。</p>
+
+                <h3>2. 配送風險與責任</h3>
+                <p>我們堅持採用專業純氧包裝。若發生運送延遲或意外導致的損失，<span class="terms-highlight">由宇魚水族全權處理</span>，保障您的權益，請您放心。</p>
+
+                <h3>3. 死魚包賠政策</h3>
+                <p>為了確保責任歸屬，請您配合以下事項：</p>
+                <p>✅ <strong>開箱請務必「全程錄影」</strong>：從未拆封箱子開始錄影，直到檢查魚隻狀態。</p>
+                <p>✅ <strong>魚隻未拆袋</strong>：開箱檢查時若發現異狀（如死亡），<span class="terms-highlight" style="font-size: 16px;">請絕對不要拆開塑膠袋</span>，直接拍攝清楚的「袋內」狀況回報。</p>
+                <p>✅ <strong>立即回報</strong>：請於收件後 1 小時內，將影片與照片傳至 LINE 官方帳號。</p>
+                <p>若符合以上條件，我們將依死魚數量<span class="terms-highlight">退款</span>（不含運費）。</p>
+
+                <h3>4. 運費與貨到付款規範</h3>
+                <p>若您選擇貨到付款，請務必留意收件電話。若無故未取貨導致商品退回（造成活體死亡或耗損），本賣場將把您列入<span class="terms-highlight">黑名單</span>拒絕往來，並保留法律追訴權，依據民法請求損害賠償（包含運費、包材費及商品損失）。</p>
+
+                <h3 style="border-left: 3px solid #ff4d4d; color: #ff4d4d;">5. 其他聲明</h3>
+                <p>宇魚水族保有本條款最終解釋、修改與終止之權利，如有未盡事宜，將依本賣場最新公告為準。</p>
+            </div>
+        </div>
+    </div>
+
+    <div
+        id="contactModal"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="contactModalTitle"
+        aria-hidden="true"
+    >
+        <div class="confirm-content" style="padding: 25px;">
+            <button type="button" class="close-contact" onclick="closeContactModal()" aria-label="關閉聯絡視窗" style="position: absolute; right: 15px; top: 10px;">✕</button>
+            <div class="confirm-title" id="contactModalTitle">💬 聯絡宇魚</div>
+            <div class="confirm-msg">
+                養魚遇到困難？想找特殊魚種？<br>
+                <span style="color: #64ffda; font-weight: bold;">歡迎隨時傳 LINE 給我們！</span>
+
+                <div class="yuge-promise-box" style="margin-top: 15px; border: none; background: transparent; box-shadow: none; padding: 0;">
+                    <img src="boss.png" alt="店寵 島輝" style="width: 130px; height: auto; object-fit: contain; filter: drop-shadow(0 0 12px rgba(100, 255, 218, 0.5)); margin-bottom: 10px;">
+                    <div class="yuge-text" style="font-size: 18px;">
+                        我是島輝 🐶<br>
+                        <span style="font-size: 15px; color: #bcccdc; font-weight: normal;">(有事找宇魚，沒事可以來看我！)</span>
+                    </div>
+                </div>
+
+                <div style="margin-top: 15px; background: #fff; padding: 10px; border-radius: 10px; display: inline-block;">
+                    <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://line.me/R/ti/p/@118rfvyo" alt="LINE QR Code" style="width: 140px; height: 140px; display: block;">
+                </div>
+
+                <div style="margin-top: 15px;">
+                    <a href="https://line.me/R/ti/p/@118rfvyo" style="color: #ffe100; text-decoration: none; font-size: 16px; font-weight: bold; border-bottom: 1px dashed #ffe100; padding-bottom: 2px;">
+                        📱 手機點此直接加 LINE
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <button type="button" id="backToTop" class="back-to-top" onclick="scrollToTop()" aria-label="回到頁面最頂端">
         <img src="daohui.png" alt="島輝" class="daohui-dog-img">
         <span>回到最頂端</span>
-    </div>
+    </button>
 
     <script>
         // --- 1. 倒數計時器 ---
@@ -707,16 +761,35 @@
         }
         calculateDays();
 
-        // --- 2. 漢堡選單開關邏輯 (含遮罩層) ---
+        // --- 2. 漢堡選單開關邏輯 (含遮罩層與鍵盤支援) ---
         function openNav() {
-            document.getElementById("mySidenav").style.width = "280px";
-            // 顯示遮罩層
+            const sideNav = document.getElementById("mySidenav");
+            const menuButton = document.querySelector(".hamburger-btn");
+
+            sideNav.style.width = "280px";
+            sideNav.removeAttribute("inert");
+            sideNav.setAttribute("aria-hidden", "false");
+            menuButton.setAttribute("aria-expanded", "true");
             document.getElementById("menuOverlay").style.display = "block";
+
+            requestAnimationFrame(() => {
+                sideNav.querySelector(".closebtn").focus();
+            });
         }
-        function closeNav() {
-            document.getElementById("mySidenav").style.width = "0";
-            // 隱藏遮罩層
+
+        function closeNav(restoreFocus = true) {
+            const sideNav = document.getElementById("mySidenav");
+            const menuButton = document.querySelector(".hamburger-btn");
+
+            sideNav.style.width = "0";
+            sideNav.setAttribute("inert", "");
+            sideNav.setAttribute("aria-hidden", "true");
+            menuButton.setAttribute("aria-expanded", "false");
             document.getElementById("menuOverlay").style.display = "none";
+
+            if (restoreFocus) {
+                menuButton.focus();
+            }
         }
 
         // --- 3. 下拉選單 ---
@@ -727,27 +800,64 @@
                 var dropdownContent = this.nextElementSibling;
                 if (dropdownContent.style.display === "block") {
                     dropdownContent.style.display = "none";
+                    this.setAttribute("aria-expanded", "false");
                 } else {
                     dropdownContent.style.display = "block";
+                    this.setAttribute("aria-expanded", "true");
                 }
             });
         }
 
         // --- 4. 條款 Modal ---
+        let modalReturnFocus = null;
+
         function openTerms() {
-            document.getElementById("termsModal").style.display = "block";
-            closeNav(); 
+            const menuButton = document.querySelector(".hamburger-btn");
+            const menuWasOpen = menuButton.getAttribute("aria-expanded") === "true";
+            const termsModal = document.getElementById("termsModal");
+
+            modalReturnFocus = menuWasOpen ? menuButton : document.activeElement;
+            closeNav(false);
+            termsModal.style.display = "block";
+            termsModal.setAttribute("aria-hidden", "false");
+
+            requestAnimationFrame(() => {
+                termsModal.querySelector(".close-terms").focus();
+            });
         }
+
         function closeTerms() {
-            document.getElementById("termsModal").style.display = "none";
+            const termsModal = document.getElementById("termsModal");
+            termsModal.style.display = "none";
+            termsModal.setAttribute("aria-hidden", "true");
+            if (modalReturnFocus && typeof modalReturnFocus.focus === "function") {
+                modalReturnFocus.focus();
+            }
         }
+
         // --- 聯絡我們 Modal 開關 ---
         function openContactModal() {
-            closeNav(); // 先關閉側邊選單
-            document.getElementById('contactModal').style.display = 'flex';
+            const menuButton = document.querySelector(".hamburger-btn");
+            const menuWasOpen = menuButton.getAttribute("aria-expanded") === "true";
+            const contactModal = document.getElementById("contactModal");
+
+            modalReturnFocus = menuWasOpen ? menuButton : document.activeElement;
+            closeNav(false);
+            contactModal.style.display = "flex";
+            contactModal.setAttribute("aria-hidden", "false");
+
+            requestAnimationFrame(() => {
+                contactModal.querySelector(".close-contact").focus();
+            });
         }
+
         function closeContactModal() {
-            document.getElementById('contactModal').style.display = 'none';
+            const contactModal = document.getElementById("contactModal");
+            contactModal.style.display = "none";
+            contactModal.setAttribute("aria-hidden", "true");
+            if (modalReturnFocus && typeof modalReturnFocus.focus === "function") {
+                modalReturnFocus.focus();
+            }
         }
 
         // --- 統一處理點擊空白處關閉 ---
@@ -755,12 +865,29 @@
             var termsModal = document.getElementById("termsModal");
             var contactModal = document.getElementById("contactModal");
             if (event.target == termsModal) {
-                termsModal.style.display = "none";
+                closeTerms();
             }
             if (event.target == contactModal) {
-                contactModal.style.display = "none";
+                closeContactModal();
             }
         }
+
+        // 按下 Esc 可依序關閉彈窗或側邊選單。
+        document.addEventListener("keydown", function(event) {
+            if (event.key !== "Escape") return;
+
+            const termsModal = document.getElementById("termsModal");
+            const contactModal = document.getElementById("contactModal");
+            const menuButton = document.querySelector(".hamburger-btn");
+
+            if (termsModal.style.display === "block") {
+                closeTerms();
+            } else if (contactModal.style.display === "flex") {
+                closeContactModal();
+            } else if (menuButton.getAttribute("aria-expanded") === "true") {
+                closeNav();
+            }
+        });
 
         // --- 5. 滾動偵測：只有回到頂部，移除海苔條自動收合 ---
         const backToTopBtn = document.getElementById('backToTop');
