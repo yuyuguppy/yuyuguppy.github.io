@@ -327,6 +327,22 @@
 
         .reviews-section { width: 100%; max-width: 480px; margin-top: 8px; padding: 20px 0; background: rgba(100, 255, 218, 0.05); border: 2px solid rgba(100, 255, 218, 0.3); border-radius: 16px; height: 260px; overflow: hidden; position: relative; }
         .reviews-section .title { font-size: 18px; color: #64ffda; margin-bottom: 15px; font-weight: bold; text-align: center; }
+        .external-review-card { width: 100%; max-width: 480px; box-sizing: border-box; margin: 18px 0 0; padding: 20px; border: 1px solid rgba(255,255,255,.22); border-radius: 16px; background: linear-gradient(145deg, rgba(16,42,67,.86), rgba(3,16,31,.9)); text-align: left; }
+        .external-review-label { margin-bottom: 12px; color: #64ffda; font-size: 18px; font-weight: 800; text-align: center; }
+        .external-review-profile { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-bottom: 13px; }
+        .external-review-profile strong { color: #fff; font-size: 16px; }
+        .external-review-profile span { color: #aebccf; font-size: 13px; }
+        .external-review-image-link { display: block; overflow: hidden; border: 1px solid rgba(255,255,255,.16); border-radius: 12px; background: #0d0d0d; }
+        .external-review-image { display: block; width: 100%; height: 380px; object-fit: cover; object-position: top; }
+        .external-review-caption { margin: 8px 0 0; color: #8fa4b8; font-size: 12px; text-align: center; }
+        .external-review-quote { margin: 17px 0 10px; padding: 0 0 0 15px; border-left: 3px solid #ffe100; color: #f0f4f8; font-size: 15px; line-height: 1.9; }
+        .external-review-summary { margin: 0 0 15px; color: #bcccdc; font-size: 14px; line-height: 1.8; }
+        .external-review-video-wrap { margin: 17px 0; padding-top: 16px; border-top: 1px solid rgba(255,255,255,.14); }
+        .external-review-video-title { margin: 0 0 10px; color: #ffe100; font-size: 16px; text-align: center; }
+        .external-review-video { display: block; width: 100%; max-height: 680px; aspect-ratio: 720 / 1268; border: 1px solid rgba(255,255,255,.18); border-radius: 12px; background: #000; object-fit: contain; }
+        .external-review-video-note { margin: 9px 0 0; color: #aebccf; font-size: 13px; line-height: 1.7; text-align: center; }
+        .threads-button { display: block; padding: 11px 14px; border: 1px solid rgba(255,255,255,.36); border-radius: 10px; color: #fff; background: rgba(255,255,255,.07); text-align: center; text-decoration: none; font-weight: 800; }
+        .threads-button:hover { background: rgba(255,255,255,.14); }
         .review-source { position: absolute; left: 0; right: 0; bottom: 8px; z-index: 2; text-align: center; }
         .review-source a { display: inline-block; padding: 5px 12px; border-radius: 20px; color: #ffe100; background: rgba(3,16,31,.9); font-size: 12px; font-weight: 700; text-decoration: none; border: 1px solid rgba(255,225,0,.35); }
         .danmaku-lane { display: flex; position: absolute; left: 0; white-space: nowrap; animation: scroll-loop linear infinite; }
@@ -465,6 +481,19 @@
         "https://www.tiktok.com/@yuyu_aqua1997"
       ],
       "priceRange": "$$"
+    }
+    </script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "VideoObject",
+      "name": "魚友 Shin 走訪宇魚水族｜三合院水族店與100分考卷換鬥魚",
+      "description": "魚友 Shin 實際走訪新竹新埔三合院裡的宇魚水族，影片記錄店內環境、100分考卷換鬥魚活動、小朋友拍立得紀念牆，以及宇哥投入水族品系研究與比賽的故事。",
+      "thumbnailUrl": "https://yuyuguppy.github.io/threads-shin-video-poster.jpg",
+      "uploadDate": "2026-06-21",
+      "duration": "PT42S",
+      "contentUrl": "https://yuyuguppy.github.io/threads-shin-video.mp4",
+      "embedUrl": "https://yuyuguppy.github.io/#threadsReviewTitle"
     }
     </script>
 </head>
@@ -637,6 +666,29 @@
                 <a href="https://maps.app.goo.gl/2QDBuNmmoMHXF8GU8" target="_blank" rel="noopener noreferrer">前往 Google Maps 查看商家與評論 ↗</a>
             </div>
         </div>
+
+        <article class="external-review-card" aria-labelledby="threadsReviewTitle">
+            <div class="external-review-label" id="threadsReviewTitle">🧵 魚友 Threads 公開推薦</div>
+            <div class="external-review-profile">
+                <strong>Shin 的來店分享</strong>
+                <span>@shin231251</span>
+            </div>
+            <a class="external-review-image-link" href="threads-shin-review.jpg" target="_blank" aria-label="查看 Shin 推薦宇魚水族的完整 Threads 貼文截圖">
+                <img class="external-review-image" src="threads-shin-review.jpg" loading="lazy" decoding="async" alt="Threads 使用者 Shin 分享宇魚水族三合院、100分考卷換鬥魚活動與老闆熱愛養魚的推薦貼文截圖">
+            </a>
+            <p class="external-review-caption">點擊圖片可查看完整貼文截圖</p>
+            <blockquote class="external-review-quote">「今天跟先生跑到新竹一間藏在三合院裡的水族店……本來以為只是陪先生來看魚，結果最後吸引我的，反而是老闆聊起魚時眼睛發亮的樣子。」</blockquote>
+            <p class="external-review-summary">魚友 Shin 分享來到新竹三合院裡的宇魚水族，看到「100分考卷換一隻價值300元鬥魚」活動、小朋友換魚的拍立得紀念牆，以及宇哥在工程師工作之外，持續照顧魚隻、研究品系與參加比賽的熱情。</p>
+            <div class="external-review-video-wrap">
+                <h3 class="external-review-video-title">🎬 Shin 眼中的宇魚水族</h3>
+                <video class="external-review-video" controls playsinline preload="metadata" poster="threads-shin-video-poster.jpg" aria-label="魚友 Shin 走訪宇魚水族的直式推薦影片">
+                    <source src="threads-shin-video.mp4" type="video/mp4">
+                    您的瀏覽器無法播放這段影片，請使用下方按鈕前往 Threads 查看原始內容。
+                </video>
+                <p class="external-review-video-note">42秒直式短片｜記錄三合院店面、100分考卷換鬥魚活動與來店體驗</p>
+            </div>
+            <a class="threads-button" href="https://www.threads.com/@shin231251/post/DZ1LbOrGdMK" target="_blank" rel="noopener noreferrer">前往 Threads 查看 Shin 的原始推薦 ↗</a>
+        </article>
 
         <div class="social-icons-container">
             <a href="https://www.facebook.com/share/1C4TmDLQcQ/?mibextid=wwXIfr" target="_blank" rel="noopener noreferrer" class="social-link" aria-label="Facebook">
