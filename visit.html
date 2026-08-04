@@ -1,12 +1,12 @@
 <!DOCTYPE html>
-<html lang="zh-TW">
+<html lang="zh-Hant-TW">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="format-detection" content="telephone=no">
 
-    <title>北台灣魚友來店指南｜交通、停車與來店須知｜宇魚水族</title>
-    <meta name="description" content="宇魚水族位於新竹縣新埔鎮三合院內，整理地址導航、營業時間、停車方式、第一次挑魚準備、寵物同行與來店常見問題，方便新竹、竹北、桃園及北台灣魚友規劃行程。">
+    <title>宇魚水族交通與來店指南｜國道、入口、停車與來店須知</title>
+    <meta name="description" content="宇魚水族位於新竹縣新埔鎮三合院內，整理國道1號竹北交流道、國道3號竹林交流道、Google Maps導航、入口辨識、停車方式、營業時間與來店須知，方便全台魚友規劃行程。">
     <meta name="author" content="宇魚水族">
     <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">
     <link rel="canonical" href="https://yuyuguppy.github.io/visit.html">
@@ -14,11 +14,11 @@
     <meta property="og:locale" content="zh_TW">
     <meta property="og:type" content="website">
     <meta property="og:site_name" content="宇魚水族">
-    <meta property="og:title" content="北台灣魚友來店指南｜宇魚水族">
-    <meta property="og:description" content="第一次來宇魚水族？查看新竹新埔三合院店址、導航、停車、營業時間與挑魚須知。">
+    <meta property="og:title" content="宇魚水族交通與來店指南">
+    <meta property="og:description" content="從全台開車來宇魚水族：查看國道交流道、三合院入口、停車動線、營業時間與挑魚須知。">
     <meta property="og:url" content="https://yuyuguppy.github.io/visit.html">
     <meta property="og:image" content="https://yuyuguppy.github.io/logo.jpg">
-    <meta property="og:image:alt" content="宇魚水族北台灣魚友來店指南">
+    <meta property="og:image:alt" content="宇魚水族交通、入口與停車來店指南">
     <meta name="twitter:card" content="summary_large_image">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -33,8 +33,8 @@
           "@type": "WebPage",
           "@id": "https://yuyuguppy.github.io/visit.html#webpage",
           "url": "https://yuyuguppy.github.io/visit.html",
-          "name": "北台灣魚友來店指南｜交通、停車與來店須知｜宇魚水族",
-          "description": "宇魚水族地址導航、營業時間、停車方式、第一次挑魚準備、寵物同行與來店常見問題。",
+          "name": "宇魚水族交通與來店指南｜國道、入口、停車與來店須知",
+          "description": "宇魚水族國道交流道、地址導航、營業時間、入口辨識、停車方式、第一次挑魚準備與來店常見問題。",
           "inLanguage": "zh-TW",
           "about": { "@id": "https://yuyuguppy.github.io/#petstore" },
           "breadcrumb": { "@id": "https://yuyuguppy.github.io/visit.html#breadcrumb" }
@@ -44,7 +44,7 @@
           "@id": "https://yuyuguppy.github.io/visit.html#breadcrumb",
           "itemListElement": [
             { "@type": "ListItem", "position": 1, "name": "宇魚水族", "item": "https://yuyuguppy.github.io/" },
-            { "@type": "ListItem", "position": 2, "name": "北台灣魚友來店指南", "item": "https://yuyuguppy.github.io/visit.html" }
+            { "@type": "ListItem", "position": 2, "name": "交通與來店指南", "item": "https://yuyuguppy.github.io/visit.html" }
           ]
         },
         {
@@ -105,6 +105,11 @@
               "@type": "Question",
               "name": "帶著現有魚缸照片來詢問可以嗎？",
               "acceptedAnswer": { "@type": "Answer", "text": "可以。建議一併準備魚缸尺寸、過濾設備、目前魚隻數量、開缸時間及遇到的問題，會更容易判斷適合的處理方式。" }
+            },
+            {
+              "@type": "Question",
+              "name": "開車到宇魚水族建議從哪個交流道下？",
+              "acceptedAnswer": { "@type": "Answer", "text": "行駛國道1號可由竹北交流道（91公里）下；從台北、桃園方向行駛國道3號南下，可由竹林交流道（90公里）下往芎林、新埔方向；從台中、苗栗方向行駛國道3號北上，可在新竹系統轉國道1號北上，再由竹北交流道下。交流道下來後請開啟Google Maps導航宇魚水族，並依即時路況行駛。" }
             }
           ]
         }
@@ -189,9 +194,17 @@
         .map-box .pin { display: block; font-size: 55px; }
         .photo-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
         .photo-card { overflow: hidden; margin: 0; border: 1px solid var(--line); border-radius: 16px; background: rgba(3,16,31,.75); }
-        .photo-card img { width: 100%; aspect-ratio: 4 / 3; object-fit: cover; display: block; }
-        .photo-placeholder { display: none; width: 100%; aspect-ratio: 4 / 3; align-items: center; justify-content: center; padding: 20px; color: var(--muted); background: linear-gradient(145deg, rgba(100,255,218,.08), rgba(3,16,31,.9)); text-align: center; }
+        .photo-card > a { display: block; background: #071321; }
+        .photo-card img { display: block; width: 100%; height: auto; object-fit: contain; }
+        .photo-placeholder { display: none; width: 100%; aspect-ratio: 3 / 5; align-items: center; justify-content: center; padding: 20px; color: var(--muted); background: linear-gradient(145deg, rgba(100,255,218,.08), rgba(3,16,31,.9)); text-align: center; }
         .photo-card figcaption { padding: 12px 14px; color: #d7e3ef; font-size: 14px; }
+        .route-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 13px; margin-top: 18px; }
+        .route-card { padding: 18px; border: 1px solid var(--line); border-radius: 15px; background: rgba(3,16,31,.58); }
+        .route-badge { display: inline-block; margin-bottom: 9px; padding: 4px 9px; border-radius: 999px; color: #03101f; background: var(--yellow); font-size: 12px; font-weight: 900; }
+        .route-card h3 { margin: 0 0 8px; color: var(--aqua); font-size: 18px; }
+        .route-card p { margin: 0; color: #d7e3ef; font-size: 14px; }
+        .route-tip { margin-top: 16px; padding: 16px 18px; border-left: 4px solid var(--aqua); border-radius: 10px; background: rgba(100,255,218,.08); }
+        .route-source { margin: 12px 0 0; color: var(--muted); font-size: 12px; }
         .steps { counter-reset: visit-step; display: grid; gap: 12px; padding: 0; list-style: none; }
         .steps li { position: relative; padding: 17px 18px 17px 62px; border-radius: 14px; background: rgba(3,16,31,.58); }
         .steps li::before { counter-increment: visit-step; content: counter(visit-step); position: absolute; left: 17px; top: 17px; display: grid; place-items: center; width: 30px; height: 30px; border-radius: 50%; background: var(--aqua); color: #03101f; font-weight: 800; }
@@ -209,6 +222,7 @@
             .quick-grid { grid-template-columns: repeat(2, 1fr); }
             .location-grid, .two-col { grid-template-columns: 1fr; }
             .photo-grid { grid-template-columns: 1fr; }
+            .route-grid { grid-template-columns: 1fr; }
             .checklist { grid-template-columns: 1fr; }
             .top-links a:first-child { display: none; }
         }
@@ -231,12 +245,12 @@
     </header>
 
     <main class="wrap">
-        <nav class="breadcrumb" aria-label="麵包屑"><a href="index.html">首頁</a> › 北台灣魚友來店指南</nav>
+        <nav class="breadcrumb" aria-label="麵包屑"><a href="index.html">首頁</a> › 交通與來店指南</nav>
 
         <section class="hero">
             <div class="eyebrow">新竹新埔・三合院裡的水族店</div>
-            <h1>北台灣魚友來店指南</h1>
-            <p class="lead">第一次來宇魚水族，不用擔心找不到入口或不知道該準備什麼。這裡整理導航、停車、營業時間與挑魚前的實用提醒，讓你從出發到挑魚都更輕鬆。</p>
+            <h1>宇魚水族交通與來店指南</h1>
+            <p class="lead">不論從台灣哪裡出發，這裡都整理好國道交流道、Google Maps導航、入口辨識、停車動線、營業時間與挑魚前提醒，讓你從下交流道到抵達三合院都更安心。</p>
             <div class="hero-actions">
                 <a class="button" href="https://maps.app.goo.gl/2QDBuNmmoMHXF8GU8" target="_blank" rel="noopener noreferrer">📍 開啟 Google Maps 導航</a>
                 <a class="button secondary" href="https://line.me/R/ti/p/@118rfvyo" target="_blank" rel="noopener noreferrer">💬 出發前詢問宇魚</a>
@@ -267,24 +281,51 @@
             </div>
         </section>
 
+        <section class="section" id="driving">
+            <h2>開車來店與國道路線</h2>
+            <p class="section-intro">多數客人會開車來店。下交流道後，請以 Google Maps 搜尋「宇魚水族」並依即時路況行駛；接近店址時，再對照下方三張入口與停車導引圖。</p>
+            <div class="route-grid">
+                <div class="route-card">
+                    <span class="route-badge">國道1號</span>
+                    <h3>南下、北上皆可走竹北交流道</h3>
+                    <p>由<strong>竹北交流道（91公里）</strong>下，選擇往竹北／芎林方向，再依導航往新埔、義民路方向前進。</p>
+                </div>
+                <div class="route-card">
+                    <span class="route-badge">國道3號南下</span>
+                    <h3>台北、桃園方向可走竹林交流道</h3>
+                    <p>由<strong>竹林交流道（90公里）</strong>下，往芎林方向行駛，再依導航前往新埔鎮義民路二段。</p>
+                </div>
+                <div class="route-card">
+                    <span class="route-badge">國道3號北上</span>
+                    <h3>台中、苗栗方向可轉國道1號</h3>
+                    <p>在<strong>新竹系統交流道</strong>轉國道1號北上，再由竹北交流道下；轉接後依導航前往宇魚水族。</p>
+                </div>
+            </div>
+            <div class="route-tip"><strong>導航到附近後請注意：</strong>看到鐵橋依第一張圖彎入，過橋後沿斜坡直走到底，即可抵達三合院內的大型停車空間。山區或鄉間小路可能因即時路況改道，請勿只依文字路線行駛。</div>
+            <p class="route-source">交流道名稱與里程參考：<a href="https://www.freeway.gov.tw/Publish.aspx?cnid=1906&p=4617" target="_blank" rel="noopener noreferrer">交通部高速公路局國道1號交流道資料</a>、<a href="https://www.freeway.gov.tw/Publish.aspx?cnid=1906&p=4622" target="_blank" rel="noopener noreferrer">國道3號交流道資料</a>。</p>
+            <div class="hero-actions">
+                <a class="button" href="https://maps.app.goo.gl/2QDBuNmmoMHXF8GU8" target="_blank" rel="noopener noreferrer">🚗 開啟即時開車導航</a>
+            </div>
+        </section>
+
         <section class="section" id="photos">
-            <h2>入口與停車位置</h2>
-            <p class="section-intro">照片位置已先保留。之後將入口與停車照片使用下列指定檔名上傳，這裡就會自動顯示。</p>
+            <h2>最後一段路：入口與停車圖解</h2>
+            <p class="section-intro">三張圖片會完整等比例顯示，不再裁切。抵達義民路二段附近後，依照圖片順序行駛；點擊圖片可以另外開啟原尺寸查看。</p>
             <div class="photo-grid">
                 <figure class="photo-card">
-                    <img src="visit-entrance.jpg" alt="宇魚水族三合院入口辨識照片" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+                    <a href="visit-entrance.jpg" target="_blank" aria-label="開啟宇魚水族鐵橋入口完整導引圖"><img src="visit-entrance.jpg" alt="前往宇魚水族看到鐵橋後依箭頭彎入的入口導引圖" loading="lazy" decoding="async" onerror="this.parentElement.style.display='none';this.parentElement.nextElementSibling.style.display='flex'"></a>
                     <div class="photo-placeholder">📷 入口照片準備中<br>檔名：visit-entrance.jpg</div>
-                    <figcaption>入口辨識：抵達附近時可對照這張照片。</figcaption>
+                    <figcaption><strong>① 看到鐵橋：</strong>依照黃色箭頭彎進來。</figcaption>
                 </figure>
                 <figure class="photo-card">
-                    <img src="visit-parking.jpg" alt="宇魚水族來店停車位置照片" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+                    <a href="visit-parking.jpg" target="_blank" aria-label="開啟宇魚水族斜坡完整導引圖"><img src="visit-parking.jpg" alt="前往宇魚水族過橋後往下開並沿斜坡直走到底的導引圖" loading="lazy" decoding="async" onerror="this.parentElement.style.display='none';this.parentElement.nextElementSibling.style.display='flex'"></a>
                     <div class="photo-placeholder">📷 停車照片準備中<br>檔名：visit-parking.jpg</div>
-                    <figcaption>直行下斜坡：過橋後繼續往斜坡下開50公尺。</figcaption>
+                    <figcaption><strong>② 通過鐵橋：</strong>往下開，沿斜坡直走到底。</figcaption>
                 </figure>
                 <figure class="photo-card">
-                    <img src="visit-courtyard.jpg" alt="宇魚水族新埔三合院中庭照片" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+                    <a href="visit-courtyard.jpg" target="_blank" aria-label="開啟宇魚水族三合院停車場完整導引圖"><img src="visit-courtyard.jpg" alt="宇魚水族三合院內大型停車空間與店門入口導引圖" loading="lazy" decoding="async" onerror="this.parentElement.style.display='none';this.parentElement.nextElementSibling.style.display='flex'"></a>
                     <div class="photo-placeholder">📷 三合院照片準備中<br>檔名：visit-courtyard.jpg</div>
-                    <figcaption>停車位置：抵達後請依現場空間與動線停放。</figcaption>
+                    <figcaption><strong>③ 抵達三合院：</strong>依現場動線停車，店門入口如圖示。</figcaption>
                 </figure>
             </div>
         </section>
@@ -352,6 +393,7 @@
             <details><summary>可以只詢問問題，不一定要買東西嗎？</summary><p>可以。若家裡魚缸遇到水質、病魚或設備問題，準備清楚的照片與基本資料，會更容易一起判斷。</p></details>
             <details><summary>可以帶狗狗或貓咪一起來嗎？</summary><p>可以。宇魚是寵物友善空間，但同行寵物仍請由飼主全程照顧，並視現場其他動物與來客狀況保持適當距離。</p></details>
             <details><summary>鬥魚為什麼沒有全部放在活體專區？</summary><p>每隻鬥魚的花色與狀態都不相同，主要提供現場挑選或私訊觀看實際影片。想找特定色系，可以先聯絡宇魚。</p></details>
+            <details><summary>開車來宇魚水族，建議從哪個交流道下？</summary><p>走國道1號可由竹北交流道下；從台北、桃園方向走國道3號南下，可由竹林交流道下；從台中、苗栗方向走國道3號北上，可在新竹系統轉國道1號北上，再由竹北交流道下。請搭配即時導航，抵達附近後對照入口圖片。</p></details>
         </section>
 
         <section class="section final-cta">
