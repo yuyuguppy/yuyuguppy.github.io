@@ -490,6 +490,7 @@ def write_sitemap(root: Path, mains: list[dict[str, str]]) -> None:
         (f"{SITE}/fish.html", "daily", "0.9"),
         (f"{SITE}/about.html", "monthly", "0.7"),
         (f"{SITE}/portfolio.html", "monthly", "0.8"),
+        (f"{SITE}/visit.html", "monthly", "0.8"),
     ]
     urls = []
     for url, freq, priority in fixed:
