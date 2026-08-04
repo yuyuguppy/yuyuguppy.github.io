@@ -285,6 +285,14 @@
         .service-name { display: block; color: #64ffda; font-size: 15px; font-weight: 700; }
         .service-note { display: block; margin-top: 5px; color: #aebccf; font-size: 12px; line-height: 1.5; }
 
+        .visit-guide-card { width: 100%; max-width: 480px; box-sizing: border-box; margin: 0 0 28px; padding: 20px; border: 1px solid rgba(255, 225, 0, 0.42); border-radius: 15px; background: linear-gradient(135deg, rgba(255, 225, 0, 0.08), rgba(100, 255, 218, 0.08)); text-align: left; }
+        .visit-guide-card h2 { margin: 0 0 8px; color: #ffe100; font-family: 'Zen Maru Gothic', sans-serif; font-size: 20px; }
+        .visit-guide-card p { margin: 0 0 14px; color: #d7e3ef; font-size: 14px; line-height: 1.75; }
+        .visit-guide-features { display: flex; flex-wrap: wrap; gap: 7px; margin-bottom: 15px; }
+        .visit-guide-features span { padding: 5px 9px; border: 1px solid rgba(100,255,218,.28); border-radius: 999px; color: #bcccdc; background: rgba(3,16,31,.38); font-size: 12px; }
+        .visit-guide-button { display: block; padding: 11px 14px; border-radius: 10px; color: #03101f; background: #64ffda; text-align: center; text-decoration: none; font-weight: 800; }
+        .visit-guide-button:hover { background: #8dffe5; }
+
         .beginner-section { width: 100%; max-width: 480px; margin: 30px 0 0; overflow: hidden; }
         .section-header { text-align: left; color: #ffe100; font-size: 18px; font-weight: bold; margin-bottom: 15px; padding-left: 5px; display: flex; align-items: center; gap: 8px; }
         .beginner-scroll-container { display: flex; gap: 15px; overflow-x: auto; padding-bottom: 5px; padding-left: 5px; padding-right: 5px; scroll-snap-type: x mandatory; scroll-behavior: smooth; -webkit-overflow-scrolling: touch; scrollbar-width: none; }
@@ -492,6 +500,7 @@
         <button type="button" class="closebtn" onclick="closeNav()" aria-label="關閉選單">×</button>
         
         <a href="about.html">📖 關於宇魚</a>
+        <a href="visit.html">📍 交通、停車與來店指南</a>
         <a href="portfolio.html">📸 精選作品集</a>
         
         <button type="button" class="dropdown-btn" aria-expanded="false" aria-controls="liveFishMenu">🐠 活體專區 
@@ -557,6 +566,18 @@
                 8/29(六)：12:00~17:00<br>
             </p>
         </div>
+
+        <section class="visit-guide-card" aria-labelledby="visitGuideTitle">
+            <h2 id="visitGuideTitle">📍 第一次來宇魚？</h2>
+            <p>入口怎麼找、車停哪裡、第一次挑魚要準備什麼？出發前先看完整來店指南，從導航到挑魚都更安心。</p>
+            <div class="visit-guide-features" aria-label="來店指南內容">
+                <span>🚗 停車與入口</span>
+                <span>🕒 營業時間</span>
+                <span>🌱 新手準備</span>
+                <span>🐶 寵物友善</span>
+            </div>
+            <a class="visit-guide-button" href="visit.html">查看北台灣魚友來店指南 →</a>
+        </section>
 
         <h2 class="content-heading">我們提供的水族服務</h2>
         <section class="services-grid" aria-label="宇魚水族服務項目">
