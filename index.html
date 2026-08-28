@@ -324,6 +324,16 @@
         .awards-grid { display: grid; grid-template-columns: 1fr; gap: 10px; }
         .award-item { background: rgba(197, 160, 89, 0.1); border: 1px solid #C5A059; border-radius: 8px; padding: 12px 10px; text-align: left; font-size: 14px; color: #fff; display: flex; align-items: center; gap: 8px; }
         .award-icon { font-size: 18px; flex-shrink: 0; }
+        .award-item-wide {
+    grid-column: 1 / -1;
+}
+
+.award-result {
+    display: block;
+    margin-top: 4px;
+    color: #ffd54f;
+    font-weight: bold;
+}
 
         .reviews-section { width: 100%; max-width: 480px; margin-top: 8px; padding: 20px 0; background: rgba(100, 255, 218, 0.05); border: 2px solid rgba(100, 255, 218, 0.3); border-radius: 16px; height: 260px; overflow: hidden; position: relative; }
         .reviews-section .title { font-size: 18px; color: #64ffda; margin-bottom: 15px; font-weight: bold; text-align: center; }
@@ -621,7 +631,13 @@
         <div class="awards-section">
             <div class="awards-title">🏆 宇魚獲獎經歷 🏆</div>
             <div class="awards-grid">
-                <div class="award-item"><span class="award-icon">🥇</span>2026 VIVID International Guppy Championship 馬賽克組 冠軍</div>
+                <div class="award-item award-item-wide">
+    <span class="award-icon">🥇</span>
+    <span>
+        2026 VIVID International Guppy Championship
+        <span class="award-result">馬賽克組 冠軍</span>
+    </span>
+</div>
                 <div class="award-item"><span class="award-icon">🥉</span>2026第十九屆世界孔雀魚競美大賽 大耳組2ND RUNNER-UP</div>
                 <div class="award-item"><span class="award-icon">🥉</span>2026 世界盃孔雀魚大賽 雙劍組季軍</div>
                 <div class="award-item"><span class="award-icon">🥇</span>2024 世界孔雀魚競美大賽 劍尾組冠軍</div>
