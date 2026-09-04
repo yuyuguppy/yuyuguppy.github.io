@@ -451,50 +451,72 @@
     
 </style>
     <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "PetStore",
+  "name": "宇魚水族",
+  "image": "https://yuyuguppy.github.io/logo.jpg",
+  "@id": "https://yuyuguppy.github.io/#petstore",
+  "url": "https://yuyuguppy.github.io/",
+  "telephone": "0987397773",
+  "address": {
+    "@type": "PostalAddress",
+    "streetAddress": "義民路二段630巷9號（三合院內）",
+    "addressLocality": "新埔鎮",
+    "addressRegion": "新竹縣",
+    "postalCode": "305",
+    "addressCountry": "TW"
+  },
+  "geo": {
+    "@type": "GeoCoordinates",
+    "latitude": 24.8403964,
+    "longitude": 121.0443522
+  },
+  "openingHoursSpecification": [
     {
-      "@context": "https://schema.org",
-      "@type": "PetStore",
-      "name": "宇魚水族",
-      "image": "https://yuyuguppy.github.io/logo.jpg",
-      "@id": "https://yuyuguppy.github.io/#petstore",
-      "url": "https://yuyuguppy.github.io/",
-      "telephone": "0987397773",
-      "address": {
-        "@type": "PostalAddress",
-        "streetAddress": "義民路二段630巷9號（三合院內）",
-        "addressLocality": "新埔鎮",
-        "addressRegion": "新竹縣",
-        "postalCode": "305",
-        "addressCountry": "TW"
-      },
-      "geo": {
-        "@type": "GeoCoordinates",
-        "latitude": 24.8403964,
-        "longitude": 121.0443522
-      },
-      "openingHoursSpecification": [
-        {
-          "@type": "OpeningHoursSpecification",
-          "dayOfWeek": ["Wednesday", "Friday"],
-          "opens": "18:00",
-          "closes": "21:00"
-        },
-        {
-          "@type": "OpeningHoursSpecification",
-          "dayOfWeek": ["Saturday", "Sunday"],
-          "opens": "12:00",
-          "closes": "20:00"
-        }
+      "@type": "OpeningHoursSpecification",
+      "dayOfWeek": [
+        "Wednesday",
+        "Friday"
       ],
-      "description": "宇魚水族位於新竹縣新埔鎮，專營純品系孔雀魚、鬥魚、茉莉魚、米蝦與水族用品，提供新手飼養諮詢、活體配送、魚缸客製及到府安裝服務。",
-      "sameAs": [
-        "https://www.facebook.com/yuyuguppy",
-        "https://www.instagram.com/yuyuguppy_",
-        "https://www.tiktok.com/@yuyu_aqua1997"
+      "opens": "18:00",
+      "closes": "21:00"
+    },
+    {
+      "@type": "OpeningHoursSpecification",
+      "dayOfWeek": [
+        "Saturday",
+        "Sunday"
       ],
-      "priceRange": "$$"
+      "opens": "12:00",
+      "closes": "20:00"
     }
-    </script>
+  ],
+  "description": "宇魚水族位於新竹縣新埔鎮，專營純品系孔雀魚、鬥魚、茉莉魚、米蝦與水族用品，提供新手飼養諮詢、活體配送、魚缸客製及到府安裝服務。",
+  "sameAs": [
+    "https://www.facebook.com/yuyuguppy",
+    "https://www.instagram.com/yuyuguppy_",
+    "https://www.tiktok.com/@yuyu_aqua1997"
+  ],
+  "priceRange": "$$",
+  "specialOpeningHoursSpecification": [
+    {
+      "@type": "OpeningHoursSpecification",
+      "validFrom": "2026-09-25",
+      "validThrough": "2026-09-27",
+      "opens": "12:00",
+      "closes": "17:00"
+    },
+    {
+      "@type": "OpeningHoursSpecification",
+      "validFrom": "2026-09-28",
+      "validThrough": "2026-09-30",
+      "opens": "00:00",
+      "closes": "00:00"
+    }
+  ]
+}
+</script>
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
@@ -539,13 +561,15 @@
 
    <div id="mySidenav" class="sidenav" aria-hidden="true" inert>
         <button type="button" class="closebtn" onclick="closeNav()" aria-label="關閉選單">×</button>
-        
+        <a href="index.html" aria-current="page">🏠 回到首頁</a>
         <a href="about.html">📖 關於宇魚</a>
-        <a href="visit.html">📍 交通、停車與來店指南</a>
         <a href="portfolio.html">📸 精選作品集</a>
-        <a href="betta.html">🐠 鬥魚專區・活動故事</a>
+        <a href="fish.html">🐠 活體專區</a>
+        <a href="betta.html">🐟 鬥魚專區</a>
+        <a href="visit.html">📍 交通與來店指南</a>
         
-        <button type="button" class="dropdown-btn" aria-expanded="false" aria-controls="liveFishMenu">🐠 活體專區 
+        
+        <button type="button" class="dropdown-btn" aria-expanded="false" aria-controls="liveFishMenu">🐠 依分類挑選 
             <i class="fa-caret-down">▼</i>
         </button>
         <div class="dropdown-container" id="liveFishMenu">
@@ -560,7 +584,6 @@
         
         <a href="#contactModal" onclick="openContactModal(); return false;">💬 聯絡我們 (官方LINE)</a>
         
-        <a href="index.html" style="margin-top: 20px; border-top: 1px solid rgba(255,255,255,0.2);">🏠 回到首頁</a>
     </div>
 
     <div class="main-container">
@@ -602,11 +625,11 @@
             <p>星期三、五：18:00 - 21:00<br>星期六、日：12:00 - 20:00<br>
                <span style="color: #f57d7d;">固定店休：每週一、二、四</span></p>
 
-          <div class="info-title" style="margin-bottom: 0;">重要公告 (時段調整)</div>
-            <p style="margin: 0; font-weight: bold; color: #f0f4f8; line-height: 1.8;">🛑 特殊店休</p>
+          <div class="info-title" style="margin-bottom: 0;">重要公告（2026 中秋連假）</div>
+            <p style="margin: 0; font-weight: bold; color: #f0f4f8; line-height: 1.8;">🕒 營業時間調整</p>
             <p style="color: #f57d7d; margin: 0; line-height: 1.8;">
-                8/29(六)：12:00~15:00<br>
-                9/30(三)店休<br>
+                9/25（五）～9/27（日）：12:00–17:00<br>
+                9/28（一）～9/30（三）：店休<br>
             </p>
         </div>
 
@@ -748,6 +771,11 @@
     <div class="section-header">🔥 推薦精選</div>
     <div class="beginner-scroll-container" id="guppyScroll"></div>
     <div class="slider-dots" id="guppyDots"></div>
+   <div id="recommendationFallback" style="text-align:center;padding:16px 10px;line-height:1.8;">
+       <p id="recommendationStatus" role="status">推薦商品載入中，也可以直接查看全部商品或詢問我們。</p>
+       <a class="contact-action" href="fish.html" style="display:inline-block;margin:4px;">查看全部商品</a>
+       <a class="contact-action" href="https://line.me/R/ti/p/@118rfvyo" target="_blank" rel="noopener noreferrer" style="display:inline-block;margin:4px;">官方 LINE 詢問</a>
+   </div>
 </div>
         <div class="reviews-section">
             <div class="title">⭐️ Google 顧客真實經驗分享 ⭐️</div>
@@ -1096,12 +1124,29 @@ document.addEventListener("DOMContentLoaded", function() {
     const googleSheetID = "1a0w_rwgHkmewRXDZ1nG1Tiito3qaK9huNO7xzOmc0BI"; // 宇魚的雲端資料庫
     const sheetUrl = `https://docs.google.com/spreadsheets/d/${googleSheetID}/export?format=csv`;
 
+    const fallback = document.getElementById('recommendationFallback');
+    const status = document.getElementById('recommendationStatus');
+    const showFallback = (message) => {
+        fallback.hidden = false;
+        status.textContent = message;
+    };
+    const timeout = setTimeout(() => showFallback('推薦商品暫時載入較慢，請先查看全部商品或聯絡我們。'), 12000);
+    if (!window.Papa || typeof window.Papa.parse !== 'function') {
+        clearTimeout(timeout);
+        showFallback('推薦商品暫時無法載入，請查看全部商品或聯絡我們。');
+        return;
+    }
     Papa.parse(sheetUrl, {
         download: true,
         header: true,
         skipEmptyLines: true,
         complete: function(results) {
-            const data = results.data;
+            clearTimeout(timeout);
+            const data = Array.isArray(results.data) ? results.data : [];
+            if (results.errors && results.errors.length) {
+                showFallback('推薦資料暫時無法完整讀取，請查看全部商品或聯絡我們。');
+                return;
+            }
 
             // 1. 過濾出有庫存、不是子規格、且為活體魚隻 (guppy 或 molly)
             const inStockFishes = data.filter(item => {
@@ -1114,6 +1159,10 @@ document.addEventListener("DOMContentLoaded", function() {
             // 2. 隨機打亂陣列，並取前 6 隻
             const shuffled = inStockFishes.sort(() => 0.5 - Math.random());
             const selectedFishes = shuffled.slice(0, 6);
+            if (!selectedFishes.length) {
+                showFallback('目前沒有可顯示的推薦商品，歡迎查看全部商品或詢問當下魚況。');
+                return;
+            }
 
             const slider = document.getElementById('guppyScroll');
             const dotsContainer = document.getElementById('guppyDots');
@@ -1184,6 +1233,11 @@ document.addEventListener("DOMContentLoaded", function() {
                     }
                 });
             });
+            fallback.hidden = true;
+        },
+        error: function() {
+            clearTimeout(timeout);
+            showFallback('推薦商品暫時無法載入，請查看全部商品或聯絡我們。');
         }
     });
 });

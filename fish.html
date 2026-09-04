@@ -735,6 +735,12 @@
 
 
 
+        #orderConfirmModal .confirm-content {
+            box-sizing: border-box;
+            max-height: 92vh;
+            max-height: 92dvh;
+            overflow-y: auto;
+        }
         #orderConfirmModal {
 
             display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
@@ -1933,11 +1939,15 @@
 
    <div id="mySidenav" class="sidenav">
         <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">×</a>
+        <a href="index.html">🏠 回到首頁</a>
         <a href="about.html">📖 關於宇魚</a>
-        
         <a href="portfolio.html">📸 精選作品集</a>
+        <a href="fish.html" aria-current="page">🐠 活體專區</a>
+        <a href="betta.html">🐟 鬥魚專區</a>
+        <a href="visit.html">📍 交通與來店指南</a>
+        
 
-        <button class="dropdown-btn">🐠 活體專區 
+        <button class="dropdown-btn">🐠 依分類挑選 
             <i class="fa-caret-down">▼</i>
         </button>
         <div class="dropdown-container">
@@ -1950,7 +1960,6 @@
         <a href="https://myship.7-11.com.tw/general/detail/GM2404054052893" target="_blank">❄️ 冷凍豐年蝦</a>
         <a href="#" onclick="openTerms()">📜 條款與細則</a>
         <a href="#" onclick="openContactModal()">💬 聯絡我們 (官方LINE)</a>
-        <a href="index.html" style="margin-top: 20px; border-top: 1px solid rgba(255,255,255,0.2);">🏠 回到首頁</a>
     </div>
 
 
@@ -4006,6 +4015,12 @@
             <div class="confirm-title">🎉 訂單準備好了！</div>
             <div class="confirm-msg">
                 </div>
+            <details style="margin:12px 0;text-align:left;">
+                <summary style="cursor:pointer;color:#64ffda;">查看／手動複製訂單明細</summary>
+                <textarea id="orderDraftText" aria-label="訂單明細，可手動複製" readonly style="box-sizing:border-box;width:100%;height:160px;margin-top:10px;font:14px/1.6 sans-serif;"></textarea>
+            </details>
+            <p style="font-size:14px;line-height:1.7;">跳轉或複製後，請在 LINE 按「傳送」。購物車會保留，並不代表已成立訂單；請以宇魚回覆確認為準。</p>
+            <a href="https://line.me/R/ti/p/@118rfvyo" target="_blank" rel="noopener noreferrer" style="display:block;margin:12px 0;color:#64ffda;">開啟宇魚官方 LINE</a>
             <button class="confirm-btn" onclick="finalSubmit()">🚀 確認送出</button>
             <button class="confirm-cancel" onclick="closeConfirmModal()">再檢查一下</button>
         </div>
@@ -4565,7 +4580,7 @@
                         document.getElementById('loading').style.display = 'none';
 
                         renderProducts('all');
-
+                        restoreCartDraft();
                         openProductFromUrl();
                     },
 
@@ -5278,6 +5293,50 @@ let noticeText = product.notice ? product.notice : (mainProduct && mainProduct.n
 
 
 
+        // One price calculation path for cart display and the outgoing order.
+        function calculateCartTotals() {
+            const subtotal = cart.reduce((sum, item) => sum + item.price * item.qty, 0);
+            const validPromo = currentPromoCode === "yuyu1380" && subtotal >= 1380;
+            currentDiscount = validPromo ? 100 : 0;
+            if (currentPromoCode && !validPromo) {
+                currentPromoCode = "";
+                document.getElementById('promoMessage').textContent = '商品金額未達優惠門檻，折扣已取消；達標後可重新套用。';
+            }
+            const isFreeShipping = subtotal >= FREE_SHIPPING_THRESHOLD;
+            const shippingFee = cart.length ? (isFreeShipping ? 0 : SHIPPING_COST) : 0;
+            return { subtotal, isFreeShipping, shippingFee, finalTotal: Math.max(0, subtotal + shippingFee - currentDiscount) };
+        }
+
+        // Keep item IDs/quantities in this tab only; never add customer details here.
+        const CART_DRAFT_KEY = 'yuyu_cart_draft_v1';
+        function saveCartDraft() {
+            try {
+                if (!cart.length) { sessionStorage.removeItem(CART_DRAFT_KEY); return; }
+                sessionStorage.setItem(CART_DRAFT_KEY, JSON.stringify({
+                    items: cart.map(item => ({ id: item.id, qty: item.qty })),
+                    promo: currentPromoCode
+                }));
+            } catch (_) { /* The in-memory cart remains usable if storage is unavailable. */ }
+        }
+        function restoreCartDraft() {
+            try {
+                const draft = JSON.parse(sessionStorage.getItem(CART_DRAFT_KEY) || 'null');
+                if (!draft || !Array.isArray(draft.items)) return;
+                const seen = new Set();
+                cart = draft.items.flatMap(saved => {
+                    if (!saved || seen.has(saved.id)) return [];
+                    const product = products.find(p => p.id === saved.id);
+                    if (!product || product.stock <= 0 || !Number.isInteger(saved.qty) || saved.qty <= 0) return [];
+                    seen.add(saved.id);
+                    return [{ id: product.id, name: product.name, price: product.price, qty: Math.min(saved.qty, product.stock) }];
+                });
+                currentPromoCode = draft.promo === 'yuyu1380' ? draft.promo : '';
+                document.getElementById('promoCodeInput').value = currentPromoCode;
+                updateCartUI();
+                if (cart.length) showToast('已恢復本分頁購物車，價格與數量已依目前資料更新');
+            } catch (_) { /* Ignore an unreadable draft; do not block shopping. */ }
+        }
+
         function applyPromoCode() {
 
             const inputCode = document.getElementById('promoCodeInput').value.trim();
@@ -5333,6 +5392,10 @@ let noticeText = product.notice ? product.notice : (mainProduct && mainProduct.n
 
 
         function updateCartUI() {
+            const totals = calculateCartTotals();
+            saveCartDraft();
+            document.getElementById('discountRow').style.display = currentDiscount > 0 ? 'flex' : 'none';
+            document.getElementById('discountValue').innerText = currentDiscount;
 
             const totalCount = cart.reduce((sum, item) => sum + item.qty, 0);
 
@@ -5398,11 +5461,8 @@ let noticeText = product.notice ? product.notice : (mainProduct && mainProduct.n
 
 
 
-            const isFreeShipping = subtotal >= FREE_SHIPPING_THRESHOLD;
-
-            const finalShipping = isFreeShipping ? 0 : SHIPPING_COST;
-
-            const finalTotal = subtotal + finalShipping - currentDiscount; 
+            const isFreeShipping = totals.isFreeShipping;
+            const finalTotal = totals.finalTotal;
 
 
 
@@ -5462,6 +5522,8 @@ let noticeText = product.notice ? product.notice : (mainProduct && mainProduct.n
 
 
         function prepareOrder() {
+            if (!cart.length) { alert('請先選擇商品。'); return; }
+            updateCartUI();
             const name = document.getElementById('custName').value.trim();
             const phone = document.getElementById('custPhone').value.trim();
             const addr = document.getElementById('custAddr').value.trim();
@@ -5473,10 +5535,7 @@ let noticeText = product.notice ? product.notice : (mainProduct && mainProduct.n
             localStorage.setItem('yuyu_customer', JSON.stringify({ name, phone, addr }));
 
             const paymentText = payment === 'atm' ? '🏧 銀行匯款' : '🚚 貨到付款';
-            let subtotal = cart.reduce((sum, item) => sum + item.price * item.qty, 0);
-            const isFreeShipping = subtotal >= FREE_SHIPPING_THRESHOLD;
-            const shippingFee = isFreeShipping ? 0 : SHIPPING_COST;
-            const finalTotal = subtotal + shippingFee - currentDiscount; 
+            const { subtotal, isFreeShipping, shippingFee, finalTotal } = calculateCartTotals();
 
             let message = `嗨宇哥！我要下單：\n------------------\n`;
             cart.forEach(item => { message += `${item.name} x ${item.qty} = ${item.price * item.qty}\n`; });
@@ -5537,44 +5596,45 @@ let noticeText = product.notice ? product.notice : (mainProduct && mainProduct.n
                 document.querySelector('.confirm-btn').innerText = "💻 若用電腦版 LINE，請點此複製文字";
             }
 
+            document.getElementById('orderDraftText').value = pendingOrderMessage;
             document.getElementById('orderConfirmModal').style.display = 'flex';
         }
 
+        let orderSending = false;
         function finalSubmit() {
-            const lineID = "@118rfvyo"; 
+            const lineID = "@118rfvyo";
             const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
-
+            if (!pendingOrderMessage || orderSending) return;
+            saveCartDraft();
             if (liff.isInClient()) {
-                // 在 LINE 裡面：透過 LIFF 直接傳送
+                orderSending = true;
+                const button = document.querySelector('#orderConfirmModal .confirm-btn');
+                button.disabled = true;
                 liff.sendMessages([{ type: 'text', text: pendingOrderMessage }]).then(() => {
-                    cart = []; currentDiscount = 0; currentPromoCode = ""; updateCartUI();
+                    // Clear only after LINE confirms the message was sent.
+                    cart = []; currentDiscount = 0; currentPromoCode = ""; pendingOrderMessage = ""; updateCartUI();
+                    document.getElementById('promoCodeInput').value = '';
+                    document.getElementById('promoMessage').textContent = '';
                     closeCart(); document.getElementById('orderConfirmModal').style.display = 'none';
-                    liff.closeWindow(); 
-                }).catch((error) => { alert("訂單傳送失敗，請聯繫我們：" + error); });
-
+                    liff.closeWindow();
+                }).catch((error) => {
+                    alert("訂單傳送失敗，購物車已保留，請重試或聯繫我們：" + error);
+                }).finally(() => { orderSending = false; button.disabled = false; });
             } else if (isMobile) {
-                // 一般手機瀏覽器：利用 oaMessage 捷徑跳轉，並把訂單文字當參數傳過去
-                let lineUrl = `https://line.me/R/oaMessage/${lineID}/?${encodeURIComponent(pendingOrderMessage)}`;
-                window.location.href = lineUrl;
-                
-                setTimeout(() => {
-                    cart = []; currentDiscount = 0; currentPromoCode = ""; updateCartUI();
-                    closeCart(); document.getElementById('orderConfirmModal').style.display = 'none';
-                }, 500);
-
+                // Opening LINE does not prove the customer pressed Send.
+                window.location.href = `https://line.me/R/oaMessage/${lineID}/?${encodeURIComponent(pendingOrderMessage)}`;
             } else {
-                // 電腦版：如果客人不掃 QR Code，選擇點擊按鈕，就幫他複製文字讓他貼在電腦版 LINE
+                if (!navigator.clipboard || !navigator.clipboard.writeText) {
+                    alert('請在下方訂單明細框手動複製，再貼到宇魚水族官方 LINE 傳送。');
+                    return;
+                }
                 navigator.clipboard.writeText(pendingOrderMessage).then(() => {
-                    alert("✅ 訂單明細已複製！\n請打開您的電腦版 LINE，貼上並傳送給宇魚水族！");
-                    cart = []; currentDiscount = 0; currentPromoCode = ""; updateCartUI();
-                    closeCart(); document.getElementById('orderConfirmModal').style.display = 'none';
-                }).catch(err => {
-                    alert('複製失敗，請手動框選文字複製。');
+                    alert("✅ 訂單明細已複製！\n請貼到宇魚水族官方 LINE 並按傳送。\n購物車已保留，尚未代表訂單送出。");
+                }).catch(() => {
+                    alert('複製失敗，請在下方訂單明細框手動複製。購物車已保留。');
                 });
             }
         }
-
-
 
         function closeConfirmModal() { document.getElementById('orderConfirmModal').style.display = 'none'; }
 
