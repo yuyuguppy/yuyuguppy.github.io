@@ -736,15 +736,37 @@
 
 
         #orderConfirmModal [hidden] { display: none !important; }
-        #orderConfirmModal .confirm-content { max-width: 500px; }
-        #orderQrCanvas { display: block; max-width: 100%; height: auto; margin: 16px auto; image-rendering: pixelated; }
-        #orderHandoffIntro, #orderQrHint { font-size: 16px; line-height: 1.8; }
-        #orderHandoffStatus { font-size: 15px; line-height: 1.8; color: #ffe100; }
-        #orderConfirmModal .confirm-content {
-            box-sizing: border-box;
-            max-height: 92vh;
-            max-height: 92dvh;
-            overflow-y: auto;
+        #orderConfirmModal .confirm-content { position:relative; box-sizing:border-box; width:calc(100% - 28px); max-width:720px; padding:24px; max-height:calc(100dvh - 24px); overflow-y:auto; }
+        #orderConfirmModal .confirm-title { margin:0 30px 18px; font-size:24px; line-height:1.4; }
+        #orderConfirmModal .order-close { position:absolute; right:8px; top:6px; width:44px; height:44px; border:0; background:transparent; color:#bcccdc; font-size:28px; cursor:pointer; }
+        #orderConfirmModal .order-handoff-grid { display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1.4fr); gap:20px; align-items:center; }
+        #orderConfirmModal .order-dog img { display:block; width:100%; max-width:200px; height:200px; object-fit:contain; margin:auto; }
+        #orderConfirmModal .order-dog p { margin:10px 0 0; font-size:16px; color:#ffe100; font-weight:700; }
+        #orderConfirmModal #orderQrCanvas { display:block; width:min(300px,44vh); width:min(300px,44dvh); max-width:100%; height:auto; margin:10px auto; image-rendering:pixelated; }
+        #orderConfirmModal #orderHandoffIntro { margin:0 0 6px; color:#fff; font-size:18px; font-weight:700; line-height:1.5; }
+        #orderConfirmModal #orderQrHint { font-size:14px; line-height:1.5; margin:8px 0 0; color:#bcccdc; }
+        #orderConfirmModal #orderHandoffStatus { color:#ffe100; font-size:14px; line-height:1.5; margin:6px 0; }
+        #orderConfirmModal #orderHandoffStatus:empty { display:none; }
+        #orderConfirmModal .confirm-btn { margin:12px 0 0; padding:14px 12px; font-size:18px; }
+        #orderConfirmModal .confirm-btn:hover { transform:none; }
+        #orderConfirmModal .order-facebook { margin:16px 0 0; font-size:14px; line-height:1.6; color:#bcccdc; }
+        #orderConfirmModal .order-facebook a { color:#64ffda; text-underline-offset:3px; }
+        #orderConfirmModal #orderDraftText { width:100%; height:90px; box-sizing:border-box; font:16px/1.5 sans-serif; }
+        #orderConfirmModal.order-mobile .confirm-content { max-width:390px; }
+        #orderConfirmModal.order-mobile .order-handoff-grid { grid-template-columns:1fr; gap:12px; }
+        #orderConfirmModal.order-mobile .order-dog img { height:min(160px,26dvh); }
+        #orderConfirmModal.order-mobile #orderHandoffIntro { display:none; }
+        #orderConfirmModal.order-mobile .order-dog p { margin-top:6px; }
+        @media (max-width:560px) {
+            #orderConfirmModal .order-handoff-grid { grid-template-columns:1fr; gap:12px; }
+            #orderConfirmModal .confirm-content { padding:20px 16px; }
+            #orderConfirmModal .order-dog img { height:110px; }
+        }
+        @media (max-height:600px) and (min-width:561px) {
+            #orderConfirmModal .confirm-content { padding:16px 24px; }
+            #orderConfirmModal .confirm-title { margin-bottom:8px; }
+            #orderConfirmModal .order-dog img { height:140px; }
+            #orderConfirmModal .order-facebook { margin-top:8px; }
         }
         #orderConfirmModal {
 
@@ -4017,22 +4039,28 @@
 
 <div id="orderConfirmModal" role="dialog" aria-modal="true" aria-labelledby="orderHandoffTitle">
         <div class="confirm-content">
-            <div class="confirm-title" id="orderHandoffTitle">訂單準備好了，最後一步</div>
-            <p id="orderHandoffIntro"></p>
-            <div id="orderQrArea" hidden>
-                <canvas id="orderQrCanvas" role="img" aria-label="用手機掃描，前往宇魚官方 LINE 並帶入訂單"></canvas>
-                <p id="orderQrHint">手機掃碼 → 確認明細 → 在 LINE 按「傳送」</p>
+            <button type="button" class="order-close" onclick="closeConfirmModal()" aria-label="返回修改訂單">×</button>
+            <h2 class="confirm-title" id="orderHandoffTitle">訂單準備好了！</h2>
+            <div class="order-handoff-grid">
+                <div class="order-dog">
+                    <img src="boss.png" alt="宇魚水族店狗島輝" width="200" height="200">
+                    <p>島輝陪你等美魚回家 🐶</p>
+                </div>
+                <div class="order-actions">
+                    <p id="orderHandoffIntro"></p>
+                    <div id="orderQrArea" hidden>
+                        <canvas id="orderQrCanvas" role="img" aria-label="掃碼開啟宇魚官方 LINE 並帶入訂單"></canvas>
+                    </div>
+                    <button type="button" class="confirm-btn" id="orderLineButton" onclick="finalSubmit()">前往 LINE 傳送訂單</button>
+                    <p id="orderQrHint">訂單會帶入 LINE，按「傳送」即可。</p>
+                    <p id="orderHandoffStatus" role="status" aria-live="polite"></p>
+                    <button type="button" class="confirm-cancel" id="orderCopyButton" onclick="copyOrderText()" hidden>複製訂單</button>
+                    <div id="orderDraftDetails" hidden>
+                        <textarea id="orderDraftText" aria-label="訂單明細，可手動複製" readonly></textarea>
+                    </div>
+                </div>
             </div>
-            <p id="orderHandoffStatus" role="status" aria-live="polite"></p>
-            <button type="button" class="confirm-btn" id="orderLineButton" onclick="finalSubmit()">前往宇魚 LINE，確認訂單</button>
-            <button type="button" class="confirm-cancel" id="orderCopyButton" onclick="copyOrderText()">複製訂單明細（備援）</button>
-            <details id="orderDraftDetails" style="margin:16px 0;text-align:left;">
-                <summary style="cursor:pointer;color:#64ffda;">查看／手動複製訂單明細</summary>
-                <textarea id="orderDraftText" aria-label="訂單明細，可手動複製" readonly style="box-sizing:border-box;width:100%;height:180px;margin-top:10px;font:16px/1.6 sans-serif;"></textarea>
-            </details>
-            <a href="https://line.me/R/oaMessage/%40118rfvyo" target="_blank" rel="noopener noreferrer" style="display:block;margin:12px 0;color:#64ffda;">開啟官方 LINE（不帶入明細）</a>
-            <p style="font-size:14px;line-height:1.7;">請確認收件對象為「宇魚水族」，並在 LINE 按「傳送」。網站不會自動傳訊，也無法確認是否送出；購物車會保留，訂單以宇魚回覆確認為準。</p>
-            <button type="button" class="confirm-cancel" onclick="closeConfirmModal()">返回檢查訂單</button>
+            <p class="order-facebook">若無法順利跳轉至官方 LINE，請<a href="https://www.facebook.com/yuyuguppy" target="_blank" rel="noopener noreferrer">私訊臉書粉專</a>。</p>
         </div>
     </div>
 
@@ -7909,38 +7937,37 @@ let noticeText = product.notice ? product.notice : (mainProduct && mainProduct.n
         }
         function showOrderHandoff() {
             const mobile = isOrderMobile();
+            const modal = document.getElementById('orderConfirmModal');
+            modal.classList.toggle('order-mobile', mobile);
             const qrArea = document.getElementById('orderQrArea');
             const canvas = document.getElementById('orderQrCanvas');
-            const status = document.getElementById('orderHandoffStatus');
             const lineButton = document.getElementById('orderLineButton');
             const copyButton = document.getElementById('orderCopyButton');
-            status.textContent = '';
+            document.getElementById('orderHandoffStatus').textContent = '';
+            document.getElementById('orderDraftDetails').hidden = true;
             qrArea.hidden = true;
             canvas.width = canvas.height = 0;
-            document.getElementById('orderDraftDetails').open = false;
             lineButton.hidden = !mobile;
-            copyButton.textContent = mobile ? '明細沒有出現？複製訂單' : '使用電腦版 LINE：複製訂單';
-            copyButton.className = mobile ? 'confirm-cancel' : 'confirm-btn';
-            document.getElementById('orderHandoffIntro').textContent = mobile
-                ? '前往宇魚官方 LINE，會自動帶入訂單明細。請確認後按「傳送」，宇哥收到後會再確認。'
-                : '用手機 LINE 接續下單：掃描下方 QR Code，確認明細後按「傳送」。';
+            copyButton.hidden = true;
+            document.getElementById('orderHandoffIntro').textContent = '用手機掃碼，前往 LINE';
             if (!mobile) {
                 try {
                     paintOrderQr(canvas, orderLineUrl());
+                    canvas.style.width = '';
                     qrArea.hidden = false;
                 } catch (_) {
-                    status.textContent = '訂單內容較長或 QR Code 暫時無法產生，請改用下方「複製訂單」，在電腦版 LINE 貼上並傳送。明細不會被截短。';
-                    document.getElementById('orderHandoffIntro').textContent = '請複製訂單，開啟電腦版 LINE，找到「宇魚水族」後貼上並按傳送。';
-                    document.getElementById('orderDraftDetails').open = true;
+                    document.getElementById('orderHandoffIntro').textContent = '請改用電腦版 LINE';
+                    document.getElementById('orderHandoffStatus').textContent = 'QR Code 無法顯示，請複製訂單並貼上傳送。';
+                    copyButton.hidden = false;
+                    lineButton.hidden = false;
                 }
             }
-            document.getElementById('orderConfirmModal').style.display = 'flex';
-            (mobile ? lineButton : copyButton).focus();
+            modal.style.display = 'flex';
+            (mobile ? lineButton : modal.querySelector('.order-close')).focus();
         }
         function finalSubmit() {
             if (!pendingOrderMessage) return;
             saveCartDraft();
-            document.getElementById('orderHandoffStatus').textContent = '請在宇魚官方 LINE 按「傳送」。若沒有明細，可返回此頁複製；購物車已保留。';
             window.location.href = orderLineUrl();
         }
         async function copyOrderText() {
@@ -7950,13 +7977,13 @@ let noticeText = product.notice ? product.notice : (mainProduct && mainProduct.n
             try {
                 if (!navigator.clipboard || !navigator.clipboard.writeText) throw new Error('Clipboard unavailable');
                 await navigator.clipboard.writeText(pendingOrderMessage);
-                status.textContent = '明細已複製，尚未送出。請開啟 LINE，找到「宇魚水族」，貼上並按「傳送」。購物車已保留。';
+                status.textContent = '已複製，請到 LINE 貼上並傳送。';
             } catch (_) {
-                document.getElementById('orderDraftDetails').open = true;
+                document.getElementById('orderDraftDetails').hidden = false;
                 const textarea = document.getElementById('orderDraftText');
                 textarea.focus();
                 textarea.select();
-                status.textContent = '無法自動複製，已選取完整明細。電腦請按 Ctrl+C（Mac 按 ⌘C），手機可長按複製，再到宇魚官方 LINE 貼上傳送。';
+                status.textContent = '請手動複製下方明細，到 LINE 貼上傳送。';
             }
         }
 
