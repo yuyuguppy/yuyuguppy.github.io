@@ -24,3 +24,73 @@ nav a:hover,.text-link:hover{color:#66301e}.space-section{border-top-color:#dec7
 .visit{border-top-color:#d7b394}.footer{border-top-color:#dfc6ac}a:focus-visible,button:focus-visible,summary:focus-visible{outline-color:#854023}.skip{background:#963f27;color:#fff}
 dialog{background:#fff9ef;border-color:#c79874;box-shadow:0 20px 80px #0005}dialog::backdrop{background:#27170de0}dialog p{color:#70594b}#close-photo{color:#6c3423}
 @media(max-width:760px){.hero{gap:30px;padding-bottom:48px}.hero h1{font-size:2.15rem}.hero-photo{transform:none;border-width:6px}.story-band{border-radius:28px 28px 0 0}.story-intro h2{font-size:1.9rem}.story-lead{font-size:1.3rem}.memory-card figcaption{font-size:12px}.care-reminder{padding:20px;margin-bottom:44px}.habitat-grid{grid-template-columns:1fr;gap:16px}.habitat-grid article{padding:22px}.habitat{margin-bottom:44px}}
+
+/* Desktop reading comfort. Keep the existing mobile and warm story styles. */
+@media (min-width: 900px) {
+  body {
+    --muted: #574033;
+    font-size: 18px;
+    font-weight: 600;
+    line-height: 1.9;
+  }
+
+  .lead,
+  .habitat-grid p {
+    font-size: 18px;
+  }
+
+  .story-link,
+  .note,
+  .section-heading > p,
+  .more-row p,
+  .space-section figcaption,
+  .hero-photo figcaption span,
+  .fish-grid figcaption,
+  .memory-card figcaption,
+  .footer p,
+  .footer > a:last-child,
+  .care-sources,
+  dialog p {
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 1.85;
+    color: #574033;
+  }
+
+  /* The rounded caption font is loaded at 500 and 700. */
+  .memory-card figcaption,
+  .hero-photo figcaption {
+    font-weight: 700;
+  }
+
+  .brand span,
+  nav,
+  .eyebrow {
+    font-size: 16px;
+    font-weight: 700;
+  }
+
+  h3,
+  .faq summary {
+    font-size: 21px;
+    font-weight: 700;
+    line-height: 1.65;
+  }
+
+  .care-sources summary {
+    font-weight: 700;
+  }
+
+  .ref {
+    font-size: 14px;
+    font-weight: 700;
+  }
+
+  /* Preserve the editorial serif hierarchy instead of bolding every title. */
+  .hero h1,
+  .story-intro h2,
+  .story-lead,
+  .memories h2 {
+    font-weight: 600;
+  }
+}
