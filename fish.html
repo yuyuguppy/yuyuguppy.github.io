@@ -431,6 +431,16 @@
 
         .search-icon { position: absolute; right: 10px; top: 50%; transform: translateY(-50%); color: #64ffda; pointer-events: none; }
 
+        .stock-filter-row { display: flex; justify-content: flex-end; margin: -8px 0 18px; }
+        .stock-filter {
+            display: inline-flex; align-items: center; gap: 8px; padding: 8px 12px;
+            border: 1px solid rgba(100,255,218,.4); border-radius: 999px;
+            background: rgba(100,255,218,.08); color: #e5fff8;
+            font-family: 'Zen Maru Gothic', sans-serif; font-size: 14px; font-weight: 700;
+            cursor: pointer; user-select: none;
+        }
+        .stock-filter input { width: 17px; height: 17px; accent-color: #64ffda; }
+
 
 
         /* --- 商品列表與卡片設計 --- */
@@ -2023,7 +2033,7 @@
 
                 <p>✅ <strong>立即回報</strong>：請於收件後 1 小時內，將影片與照片傳至 LINE 官方帳號。</p>
 
-                <p>若符合以上條件，我們將依死魚數量退款 <span class="terms-highlight">（不含運費）</span>，或於下次購物時補寄。</p>
+                <p>若符合以上條件，我們將依死魚數量退款 <span class="terms-highlight">（不含運費）</span>。</p>
 
                 <h3>4. 運費與貨到付款規範</h3>
 
@@ -2090,6 +2100,13 @@
             
             <div style="background: rgba(100, 255, 218, 0.1); border-left: 4px solid #64ffda; color: #bcccdc; padding: 12px 15px; margin-bottom: 20px; border-radius: 4px; font-size: 15px; line-height: 1.5;">
                 💬 任何魚隻相關問題，或想看實際游動的細節影片，都歡迎隨時 <a href="#" onclick="openContactModal(); return false;" style="color: #ffe100; text-decoration: underline; font-weight: bold;">私訊官方 LINE</a> 喔！
+            </div>
+
+            <div class="stock-filter-row">
+                <label class="stock-filter">
+                    <input id="inStockOnly" type="checkbox" onchange="toggleInStockOnly(this.checked)">
+                    只顯示目前有貨
+                </label>
             </div>
 
             <div id="loading" style="text-align:center; color:#64ffda; padding:20px; display:none;">
@@ -4060,7 +4077,7 @@
                     </div>
                 </div>
             </div>
-            <p class="order-facebook">若無法順利跳轉至官方 LINE，請<a href="https://www.facebook.com/share/1bqBFbA131/?mibextid=wwXIfr" target="_blank" rel="noopener noreferrer">私訊臉書粉專</a>。</p>
+            <p class="order-facebook">若無法順利跳轉至官方 LINE，請<a href="https://www.facebook.com/Yuyuquppy/" target="_blank" rel="noopener noreferrer">私訊臉書粉專</a>。</p>
         </div>
     </div>
 
@@ -6443,6 +6460,7 @@ var qrcode = function() {
         const FREE_SHIPPING_THRESHOLD = 2000;
 
         let currentCategory = 'all';
+        let showInStockOnly = false;
 
         let pendingOrderMessage = ""; 
 
@@ -6993,7 +7011,9 @@ var qrcode = function() {
                     searchTerm === '' ||
                     searchableText.includes(searchTerm);
 
-                return isNotSub && matchCat && matchSearch;
+                const matchStock = !showInStockOnly || p.stock > 0;
+
+                return isNotSub && matchCat && matchSearch && matchStock;
             });
 
             
@@ -7557,6 +7577,11 @@ let noticeText = product.notice ? product.notice : (mainProduct && mainProduct.n
 
 
         function searchProducts() { renderProducts(currentCategory); }
+
+        function toggleInStockOnly(checked) {
+            showInStockOnly = checked;
+            renderProducts(currentCategory);
+        }
 
 
 
