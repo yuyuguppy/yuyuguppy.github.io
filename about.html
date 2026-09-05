@@ -428,6 +428,16 @@
       }]
     }
     </script>
+    <style id="daohui-back-to-top-style">
+        .back-to-top { position: fixed; bottom: 20px; right: 20px; background: none; border: none; z-index: 9999; opacity: 0; visibility: hidden; transition: all 0.4s ease; display: flex; flex-direction: column; align-items: center; cursor: pointer; }
+        .back-to-top.show { opacity: 1; visibility: visible; transform: translateY(0); }
+        .daohui-dog-img { width: 60px; height: auto; border-radius: 8px; border: 2px solid #64ffda; box-shadow: 0 4px 10px rgba(0,0,0,0.6); }
+        .back-to-top span { margin-top: 5px; color: #64ffda; font-size: 13px; font-weight: bold; text-shadow: 0 2px 4px rgba(0,0,0,0.8); }
+        @keyframes daohui-wag { 0% { transform: rotate(0deg); } 25% { transform: rotate(-10deg); } 50% { transform: rotate(10deg); } 75% { transform: rotate(-5deg); } 100% { transform: rotate(0deg); } }
+        .back-to-top:hover .daohui-dog-img, .back-to-top:active .daohui-dog-img { animation: daohui-wag 0.5s ease-in-out infinite; }
+        @media (max-width: 768px) { .daohui-dog-img { width: 50px; } }
+        @media (prefers-reduced-motion: reduce) { .back-to-top { transition: none; } .back-to-top:hover .daohui-dog-img, .back-to-top:active .daohui-dog-img { animation: none; } }
+    </style>
 </head>
 <body>
 
@@ -776,6 +786,24 @@
             initGallery('baseGalleryScroll', 'baseGalleryDots');   
             initGallery('eventGalleryScroll', 'eventGalleryDots'); 
         });
+    </script>
+    <button type="button" class="back-to-top" aria-label="回到頁面最頂端">
+        <img src="daohui.png" alt="" class="daohui-dog-img">
+        <span>回到最頂端</span>
+    </button>
+    <script>
+        (function () {
+            const backToTopButton = document.querySelector('.back-to-top');
+            if (!backToTopButton) return;
+            function updateBackToTop() {
+                backToTopButton.classList.toggle('show', window.scrollY > 300);
+            }
+            window.addEventListener('scroll', updateBackToTop, { passive: true });
+            backToTopButton.addEventListener('click', function () {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            });
+            updateBackToTop();
+        }());
     </script>
     <script src="/yuyu-menu.js?v=1"></script>
 </body>
