@@ -15,6 +15,9 @@
   <meta property="og:url" content="https://yuyuguppy.github.io/guides/guppy-care.html">
   <meta property="og:image" content="https://yuyuguppy.github.io/logo.jpg">
   <meta name="twitter:card" content="summary_large_image">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@500;700&display=swap" rel="stylesheet">
   <script type="application/ld+json">
   {
     "@context":"https://schema.org",
@@ -50,81 +53,121 @@
   }
   </script>
   <style>
-    :root{color-scheme:dark;--bg:#03101f;--panel:#0d253f;--aqua:#64ffda;--yellow:#ffe100;--text:#f0f4f8;--muted:#bcccdc}
+    :root{
+      color-scheme:light;
+      --bg:#fff9ef;
+      --panel:#fffdf8;
+      --ink:#4f3528;
+      --muted:#755c4c;
+      --accent:#a45435;
+      --accent-2:#8b462d;
+      --soft:#f8e6cf;
+      --soft-2:#fff2df;
+      --line:#e6cdb5;
+      --yellow:#9b642e;
+    }
     *{box-sizing:border-box}
-    body{margin:0;background:radial-gradient(circle at 50% 5%,#1a3c5e 0%,#03101f 72%);color:var(--text);font-family:"Microsoft JhengHei",sans-serif;line-height:1.85}
-    a{color:var(--aqua)}
-    .wrap{width:min(860px,calc(100% - 32px));margin:auto;padding:24px 0 64px}
-    .top{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:24px}
-    .brand{display:flex;align-items:center;gap:10px;text-decoration:none;font-weight:800;font-size:20px}
-    .brand img{width:44px;height:44px;border-radius:50%;object-fit:cover}
-    .back{border:1px solid var(--aqua);border-radius:999px;padding:7px 13px;text-decoration:none}
-    .breadcrumb{color:#8fa4b8;font-size:14px;margin-bottom:18px}
-    .hero,.card,.cta{background:rgba(13,37,63,.94);border:1px solid rgba(100,255,218,.25);border-radius:18px;padding:clamp(20px,4vw,34px);box-shadow:0 12px 30px rgba(0,0,0,.22)}
-    .eyebrow{color:var(--yellow);font-weight:800}
-    h1{font-size:clamp(30px,6vw,48px);line-height:1.28;margin:8px 0 14px}
-    .lead{font-size:17px;color:#d7e3ef;margin:0}
-    .quick{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:18px 0 0}
-    .quick div{background:#071827;border-radius:12px;padding:12px;text-align:center;border:1px solid rgba(255,255,255,.08)}
-    .quick strong{display:block;color:var(--aqua);font-size:14px}
-    .quick span{font-size:13px;color:var(--muted)}
-    .card{margin-top:20px}
-    .card h2{margin:0 0 12px;color:var(--aqua);font-size:25px;line-height:1.4}
-    .card h3{color:var(--yellow);margin-top:20px}
-    .card p{color:#d9e5ef}
-    .tip{border-left:4px solid var(--yellow);background:rgba(255,225,0,.07);padding:14px 16px;border-radius:8px;margin:16px 0}
-    .tip strong{color:var(--yellow)}
-    ul{padding-left:22px}
-    li{margin:8px 0}
-    .quote{font-size:19px;color:#fff;font-weight:700;text-align:center;padding:10px 6px}
-    .cta{margin-top:24px;text-align:center}
-    .cta h2{color:var(--yellow);margin-top:0}
+    html{scroll-behavior:smooth}
+    body{
+      margin:0;
+      background:radial-gradient(ellipse at 90% 0,#f7d7b6,transparent 38%),var(--bg);
+      color:var(--ink);
+      font-family:"Zen Maru Gothic","Microsoft JhengHei",sans-serif;
+      font-size:16px;
+      line-height:1.9;
+    }
+    a{color:var(--accent-2)}
+    .wrap{width:min(860px,calc(100% - 32px));margin:auto;padding:28px 0 72px}
+    .breadcrumb{font-size:13px;color:#8a6f5e;margin:8px 0 18px}
+    .hero,.card,.cta{
+      background:rgba(255,253,248,.96);
+      border:1px solid var(--line);
+      border-radius:22px;
+      padding:clamp(20px,4vw,34px);
+      box-shadow:0 10px 28px rgba(120,66,32,.08);
+    }
+    .hero{background:linear-gradient(145deg,#fffaf2,#fff0db)}
+    .eyebrow{color:var(--yellow);font-weight:700;font-size:13px;letter-spacing:.06em;margin-bottom:8px}
+    h1,h2,h3{font-family:"Zen Maru Gothic","Microsoft JhengHei",sans-serif;text-wrap:balance}
+    h1{font-size:clamp(30px,7vw,46px);line-height:1.45;margin:6px 0 14px;color:#6b402b}
+    .lead{font-size:17px;color:#6d5547;margin:0}
+    .quick{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:20px 0 0}
+    .quick div{background:#fffaf3;border:1px solid #ead4be;border-radius:14px;padding:13px 10px;text-align:center}
+    .quick strong{display:block;color:var(--accent);font-size:14px;margin-bottom:2px}
+    .quick span{font-size:12px;color:#7c6454}
+    .card{margin-top:18px}
+    .card h2{margin:0 0 12px;color:#8e452e;font-size:24px;line-height:1.5}
+    .card h3{color:#8e5a2e;margin:22px 0 8px;font-size:18px}
+    .card p{color:#624d40;margin:10px 0}
+    .tip{border-left:4px solid #b7683f;background:#fff3e2;padding:14px 16px;border-radius:0 12px 12px 0;margin:16px 0;color:#664b3b}
+    .tip strong{color:#8e452e}
+    .quote{font-size:18px;color:#70432d;font-weight:700;text-align:center;padding:10px 8px;margin-top:16px}
+    .cta{margin-top:22px;text-align:center;background:linear-gradient(145deg,#f9e4ca,#fff6e8)}
+    .cta h2{color:#7f402a;margin-top:0}
     .buttons{display:flex;flex-wrap:wrap;gap:10px;justify-content:center}
-    .button{display:inline-block;text-decoration:none;padding:11px 18px;border-radius:999px;background:var(--aqua);color:#03101f;font-weight:800}
-    .button.secondary{background:transparent;color:var(--aqua);border:1px solid var(--aqua)}
-    .note{font-size:13px;color:#8fa4b8;margin-top:18px}
-    @media(max-width:680px){.quick{grid-template-columns:repeat(2,1fr)}.top{align-items:flex-start}.back{font-size:13px}}
+    .button{display:inline-block;text-decoration:none;padding:12px 18px;border-radius:999px;background:#985036;color:#fffaf3;font-weight:700}
+    .button.secondary{background:#fffaf3;color:#8b462d;border:1px solid #bd805e}
+    .note{font-size:13px;color:#8a7060;margin-top:18px}
+    .back-to-top{position:fixed;bottom:18px;right:14px;background:none;border:none;z-index:9999;opacity:0;visibility:hidden;transition:all .35s ease;display:flex;flex-direction:column;align-items:center;cursor:pointer;padding:0}
+    .back-to-top.show{opacity:1;visibility:visible}
+    .daohui-dog-img{width:52px;height:auto;border-radius:10px;border:2px solid #b56f4b;box-shadow:0 4px 10px rgba(90,48,28,.25)}
+    .back-to-top span{margin-top:4px;color:#8b462d;font:700 12px/1.3 "Zen Maru Gothic","Microsoft JhengHei",sans-serif;text-shadow:0 1px 0 #fff8ee}
+    @media(max-width:680px){
+      body{font-size:15px;line-height:1.85}
+      .wrap{width:calc(100% - 22px);padding:18px 0 56px}
+      .breadcrumb{margin:6px 4px 12px}
+      .hero,.card,.cta{border-radius:18px;padding:19px 17px}
+      h1{font-size:30px;line-height:1.45}
+      .lead{font-size:15.5px}
+      .quick{grid-template-columns:repeat(2,1fr);gap:8px}
+      .quick div{padding:11px 7px}
+      .card{margin-top:12px}
+      .card h2{font-size:21px}
+      .card h3{font-size:17px}
+      .tip{padding:12px 13px}
+      .quote{font-size:16px;padding:8px 4px}
+      .buttons{display:grid;grid-template-columns:1fr}
+      .button{width:100%}
+      .daohui-dog-img{width:48px}
+      .back-to-top{right:10px;bottom:14px}
+    }
+    @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.back-to-top{transition:none}}
   </style>
 </head>
 <body>
   <main class="wrap">
-    <header class="top">
-      <a class="brand" href="../index.html"><img src="../logo.jpg" alt="宇魚水族標誌">宇魚水族</a>
-      <a class="back" href="../index.html">回首頁</a>
-    </header>
-
     <nav class="breadcrumb" aria-label="麵包屑"><a href="../index.html">首頁</a> › 孔雀魚新手飼養指南</nav>
 
     <article>
       <header class="hero">
-        <div class="eyebrow">新手養魚指南｜我們平常最常回答的問題</div>
+        <div class="eyebrow">🐟 新手養魚指南｜慢慢來，就會越養越順</div>
         <h1>孔雀魚新手飼養完整指南</h1>
-        <p class="lead">水溫、魚缸、餵食、換水，到新魚剛到家怎麼處理。這篇不是想把養魚講得很難，而是把幾個真的容易出錯的地方先做好，後面就會順很多。</p>
+        <p class="lead">水溫、魚缸、餵食、換水，到新魚剛到家怎麼處理。先把幾個真的容易出錯的地方顧好，不用一開始就把事情搞得很複雜。</p>
         <div class="quick">
           <div><strong>水溫</strong><span>穩定比追數字重要</span></div>
-          <div><strong>魚缸</strong><span>新手可從一尺缸開始</span></div>
-          <div><strong>餵食</strong><span>先一天一次</span></div>
-          <div><strong>換水</strong><span>至少每週整理一次</span></div>
+          <div><strong>魚缸</strong><span>一尺缸很好開始</span></div>
+          <div><strong>餵食</strong><span>先一天一次就好</span></div>
+          <div><strong>換水</strong><span>每週固定整理</span></div>
         </div>
       </header>
 
       <section class="card">
-        <h2>1. 孔雀魚適合幾度水溫？</h2>
+        <h2>🌡️ 孔雀魚適合幾度水溫？</h2>
         <p>現在的孔雀魚經過長時間人工繁殖，對台灣一般家庭環境的適應力其實不差。比起一直追求「一定要幾度」，我們更在意的是<strong>不要讓水溫短時間大幅變化</strong>。</p>
         <p>魚是外溫動物，溫度突然升降時，身體需要時間適應。冬天天氣冷一點，常見的只是活動力或食慾變差；如果遇到寒流或環境真的偏冷，再用加溫棒幫忙穩定就好。</p>
-        <div class="tip"><strong>我們比較喜歡的區間：</strong>如果環境能穩定在約 25～28°C，通常會是孔雀魚活動、吃食都比較舒服的狀態。</div>
+        <div class="tip"><strong>如果可以的話：</strong>環境穩定在約 25～28°C，通常會是孔雀魚活動、吃食都比較舒服的狀態。</div>
       </section>
 
       <section class="card">
-        <h2>2. 新手魚缸多大比較剛好？</h2>
+        <h2>🏠 新手魚缸多大比較剛好？</h2>
         <p>剛開始，我們通常會建議先從<strong>一尺左右的魚缸</strong>開始，再挑 2～3 對自己真的喜歡的孔雀魚。</p>
         <p>現在的孔雀魚品系已經很多，顏色、花紋、尾型都有不同風格，不一定要塞很多魚才會漂亮。反而魚少一點，更容易觀察每一隻的狀態。</p>
-        <p>一開始也不用急著把魚缸塞滿裝飾。先把魚養穩，確定自己已經抓到餵食、換水和清潔的節奏，再慢慢把喜歡的造景加進去。</p>
-        <div class="tip"><strong>為什麼是一尺缸？</strong>太小的缸水體少，水溫、水質比較容易波動；太大的缸雖然更穩，但對剛入門的人來說，重量、清潔和整理也會比較吃力。一尺左右通常是很舒服的起點。</div>
+        <p>一開始也不用急著把魚缸塞滿裝飾。先把魚養穩，確定自己抓到餵食、換水和清潔的節奏，再慢慢把喜歡的造景加進去。</p>
+        <div class="tip"><strong>為什麼是一尺缸？</strong>太小的缸水體少，水溫、水質比較容易波動；太大的缸雖然更穩，但重量、清潔和整理也會比較吃力。一尺左右通常是很舒服的起點。</div>
       </section>
 
       <section class="card">
-        <h2>3. 孔雀魚一天餵幾次？</h2>
+        <h2>🍽️ 孔雀魚一天餵幾次？</h2>
         <p>剛開始可以先<strong>一天一次</strong>，用顆粒飼料當主食。每次不用很多，以魚能在短時間吃完，或看到肚子微微鼓起來就差不多了。</p>
         <p>我們會習慣每週安排一天停餵，這天也剛好拿來整理魚缸、換水。這是我們自己的管理習慣，不是每個魚缸都一定要照表操課。</p>
         <p>等魚缸穩定之後，可以慢慢加入剛孵化的豐年蝦無節幼蟲，讓餌料更多元。</p>
@@ -132,43 +175,59 @@
       </section>
 
       <section class="card">
-        <h2>4. 多久換一次水？</h2>
+        <h2>💧 多久換一次水？</h2>
         <p>換水沒有一個所有魚缸都通用的固定比例，還是要看<strong>飼養密度、餵食量、過濾系統和魚缸大小</strong>。</p>
-        <p>我們自己的基本原則是：<strong>至少每週做一次例行換水與整理</strong>。如果魚很多、餵得比較多，或水質變化比較快，就要再增加頻率。</p>
-        <p>如果母魚剛生產、仔魚突然變多，魚缸的整體生物負荷也會增加。這時可以看水質、殘餌和髒污狀況，適度做部分換水，不用等到水明顯混濁才處理。</p>
+        <p>我們自己的基本原則是：<strong>至少每週做一次例行換水與整理</strong>。如果魚很多、餵得比較多，或水質變化比較快，就再增加頻率。</p>
+        <p>如果母魚剛生產、仔魚突然變多，魚缸的整體生物負荷也會增加。這時看水質、殘餌和髒污狀況，適度做部分換水，不用等到水明顯混濁才處理。</p>
       </section>
 
       <section class="card">
-        <h2>5. 新手最常出錯的 3 件事</h2>
+        <h2>🙈 新手最常踩到的 3 個雷</h2>
         <h3>① 新魚剛到家，就急著餵</h3>
         <p>新魚換環境後常常還在緊迫、適應。先讓牠安定下來，隔天確認游動、狀態都正常，再開始少量餵食即可。</p>
 
-        <h3>② 換水沒有先除氯</h3>
-        <p>自來水換進魚缸前，一定要先做好除氯處理。不要因為水看起來很乾淨，就忽略這個步驟。</p>
+        <h3>② 換水忘了先除氯</h3>
+        <p>自來水換進魚缸前，一定要先做好除氯處理。水看起來很乾淨，不代表可以直接倒進去。</p>
 
         <h3>③ 魚養太多、環境做太複雜</h3>
         <p>過高的密度和太複雜的環境，常常才是很多問題的源頭。東西越多，不代表越好養；魚太多，也不代表魚缸越漂亮。</p>
 
-        <p class="quote">「養魚是興趣，不要把它變成替自己找麻煩。有時候越簡單，反而越順利。」</p>
+        <p class="quote">「養魚是興趣，不要把它變成替自己找麻煩。<br>有時候越簡單，反而越順利。」</p>
       </section>
 
       <section class="card">
-        <h2>6. 孔雀魚到底算不算好養？</h2>
-        <p>我們不太會直接跟新手說「孔雀魚很好養」。因為任何魚只要水質、換水、餵食或密度出了問題，都一樣可能養不好。</p>
+        <h2>✨ 孔雀魚到底算不算好養？</h2>
+        <p>我們不太會直接跟新手說「孔雀魚很好養」。任何魚只要水質、換水、餵食或密度出了問題，都一樣可能養不好。</p>
         <p>但只要幾個重要步驟有做到，像是<strong>水質穩定、正確除氯、不要過量餵食、不要養得太密</strong>，孔雀魚其實是一種成就感很高的魚。</p>
         <p>尤其牠們繁殖週期頻繁，從母魚懷孕、生產，到仔魚慢慢長大，都能親眼觀察。家裡如果有小朋友，一起看魚吃飯、成長、繁殖，常常會看到很多課本上很難真正感受到的生命過程。</p>
       </section>
 
       <section class="cta">
         <h2>想開始養孔雀魚？</h2>
-        <p>先不用一次準備到最滿。挑自己真的喜歡的魚、把基本環境顧穩，再一步一步加上去就好。</p>
+        <p>不用一次準備到最滿。挑自己真的喜歡的魚、把基本環境顧穩，再一步一步加上去就好。</p>
         <div class="buttons">
-          <a class="button" href="../fish.html?cat=guppy">查看目前孔雀魚</a>
+          <a class="button" href="../fish.html?cat=guppy">看看現在有哪些孔雀魚</a>
           <a class="button secondary" href="https://line.me/R/ti/p/@118rfvyo" target="_blank" rel="noopener noreferrer">有問題直接問我們</a>
         </div>
-        <p class="note">這篇整理自宇魚水族平常與新手魚友分享的實際飼養方式；不同魚缸條件仍需依水質、密度與魚隻狀況調整。</p>
+        <p class="note">這篇整理自我們平常和新手魚友分享的實際飼養方式；每個魚缸條件不同，還是要依水質、密度與魚隻狀況調整。</p>
       </section>
     </article>
   </main>
+
+  <button type="button" class="back-to-top" aria-label="回到頁面最頂端">
+    <img src="../daohui.png" alt="" class="daohui-dog-img">
+    <span>回到最頂端</span>
+  </button>
+  <script>
+    (function(){
+      const button=document.querySelector('.back-to-top');
+      if(!button)return;
+      function toggle(){button.classList.toggle('show',window.scrollY>300)}
+      window.addEventListener('scroll',toggle,{passive:true});
+      button.addEventListener('click',()=>window.scrollTo({top:0,behavior:'smooth'}));
+      toggle();
+    })();
+  </script>
+  <script src="/yuyu-menu.js?v=1"></script>
 </body>
 </html>
