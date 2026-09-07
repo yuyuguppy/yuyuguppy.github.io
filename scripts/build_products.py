@@ -492,6 +492,16 @@ def write_sitemap(root: Path, mains: list[dict[str, str]]) -> None:
         (f"{SITE}/portfolio.html", "monthly", "0.8"),
         (f"{SITE}/visit.html", "monthly", "0.8"),
         (f"{SITE}/guides/guppy-care.html", "monthly", "0.8"),\n        (f"{SITE}/guides/guppy-clamped-fins.html", "monthly", "0.7"),
+        (f"{SITE}/guides/guppy-symptoms.html", "monthly", "0.7"),
+        (f"{SITE}/guides/guppy-water-mold.html", "monthly", "0.7"),
+        (f"{SITE}/guides/guppy-white-spot.html", "monthly", "0.7"),
+        (f"{SITE}/guides/guppy-fin-damage.html", "monthly", "0.7"),
+        (f"{SITE}/guides/guppy-tail-bleeding.html", "monthly", "0.7"),
+        (f"{SITE}/guides/guppy-white-feces.html", "monthly", "0.7"),
+        (f"{SITE}/guides/guppy-sunken-belly.html", "monthly", "0.7"),
+        (f"{SITE}/guides/guppy-dropsy.html", "monthly", "0.7"),
+        (f"{SITE}/guides/guppy-columnaris.html", "monthly", "0.7"),
+        (f"{SITE}/guides/guppy-birth-problems.html", "monthly", "0.7"),
     ]
     urls = []
     for url, freq, priority in fixed:
