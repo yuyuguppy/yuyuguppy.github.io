@@ -275,6 +275,9 @@
         .intro-title { margin: 0 0 10px; color: #64ffda; font-family: 'Zen Maru Gothic', sans-serif; font-size: 19px; }
         .intro-card p { margin: 0; color: #d7e3ef; font-size: 15px; line-height: 1.9; }
         .intro-card strong { color: #ffe100; }
+        .keep-together { white-space: nowrap; }
+        .mobile-line-break { display: none; }
+        @media (max-width: 680px) { .mobile-line-break { display: inline; } }
         .content-heading { width: 100%; max-width: 480px; margin: 10px 0 16px; color: #f0f4f8; font-family: 'Zen Maru Gothic', sans-serif; font-size: 21px; text-align: center; }
         .content-heading::after { content: ""; display: block; width: 42px; height: 3px; margin: 10px auto 0; border-radius: 4px; background: #64ffda; }
         .services-grid { width: 100%; max-width: 480px; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; margin-bottom: 28px; }
@@ -636,7 +639,7 @@
 
         <section class="intro-card" aria-label="宇魚水族介紹">
             <p>
-                宇魚水族是位於<strong>新竹縣</strong>的實體水族館，專營孔雀魚、鬥魚、茉莉魚、米蝦與水族用品。<br>
+                宇魚水族是位於<strong>新竹縣</strong>的實體水族館，專營<span class="mobile-line-break"><br></span><span class="keep-together">孔雀魚、鬥魚</span>、茉莉魚、米蝦與水族用品。<br>
                 從挑選第一隻魚，到規劃一座適合生活的魚缸，我們都願意陪你慢慢開始。
             </p>
         </section>
