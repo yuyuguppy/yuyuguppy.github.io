@@ -77,13 +77,14 @@
     drawer.appendChild(close);
     const nav = document.createElement('nav'); nav.setAttribute('aria-label', '主要導覽'); drawer.appendChild(nav);
     const links = [
-      ['index.html','🏠 回到首頁'],['about.html','📖 關於宇魚'],
-      ['fish.html','🐠 活體專區'],['betta.html','🐟 鬥魚專區'],
-      ['portfolio.html','📸 精選作品集'],['visit.html','📍 交通與來店指南']
+      ['index.html','🏠 回到首頁'],['fish.html','🐠 活體專區'],
+      ['guides/','📚 養魚知識庫'],['betta.html','🐟 鬥魚專區'],
+      ['about.html','📖 關於宇魚'],['portfolio.html','📸 精選作品集'],
+      ['visit.html','📍 交通與來店指南']
     ];
     for (const [path, label] of links) {
       const a = document.createElement('a'); a.href = url(path); a.textContent = label;
-      if (page === path) a.setAttribute('aria-current', 'page');
+      if (page === path || (path === 'guides/' && location.pathname.includes('/guides/'))) a.setAttribute('aria-current', 'page');
       nav.appendChild(a);
     }
     const divider = document.createElement('hr'); divider.className = 'yuyu-menu-divider'; nav.appendChild(divider);
