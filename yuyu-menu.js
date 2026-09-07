@@ -7,7 +7,7 @@
   function init() {
     if (document.getElementById('yuyu-menu-style')) return;
     const page = location.pathname.split('/').pop() || 'index.html';
-    const warm = page === 'betta.html' || page === 'guppy-care.html';
+    const warm = page === 'betta.html' || page === 'guppy-care.html' || page === 'guppy-clamped-fins.html';
     const font = document.createElement('link');
     font.rel = 'stylesheet';
     font.href = 'https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@700&display=swap';
