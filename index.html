@@ -309,6 +309,9 @@
         .guide-feature-tags { display:flex; flex-wrap:wrap; gap:7px; margin-bottom:14px; }
         .guide-feature-tags span { padding:5px 9px; border-radius:999px; background:rgba(100,255,218,.08); border:1px solid rgba(100,255,218,.24); color:#bcccdc; font-size:12px; }
         .guide-feature-button { display:block; padding:11px 14px; border-radius:10px; background:#64ffda; color:#03101f; text-decoration:none; text-align:center; font-weight:800; }
+        .guide-feature-links{display:grid;grid-template-columns:1fr 1fr;gap:9px}
+        .guide-feature-links .guide-feature-button:nth-child(2){background:transparent;color:#64ffda;border:1px solid rgba(100,255,218,.55)}
+        @media(max-width:420px){.guide-feature-links{grid-template-columns:1fr}}
 
         .beginner-section { width: 100%; max-width: 480px; margin: 30px 0 0; overflow: hidden; }
         .section-header { text-align: left; color: #ffe100; font-size: 18px; font-weight: bold; margin-bottom: 15px; padding-left: 5px; display: flex; align-items: center; gap: 8px; }
@@ -819,12 +822,15 @@
 </div>
 </div>
 
-       <section class="guide-feature-card" aria-labelledby="guppyGuideHomeTitle">
+       <section class="guide-feature-card" aria-labelledby="guideHomeTitle">
             <div class="guide-kicker">📘 新手養魚指南</div>
-            <h2 id="guppyGuideHomeTitle">孔雀魚新手飼養完整指南</h2>
-            <p>從水溫、魚缸大小、一天餵幾次，到換水與新魚剛入缸最容易出錯的地方，整理成一篇可以直接照著看的入門指南。</p>
-            <div class="guide-feature-tags"><span>水溫</span><span>一尺缸</span><span>餵食</span><span>換水</span><span>新魚入缸</span></div>
-            <a class="guide-feature-button" href="guides/guppy-care.html">閱讀孔雀魚完整指南 →</a>
+            <h2 id="guideHomeTitle">第一次養魚，可以慢慢看。</h2>
+            <p>不用一次把所有知識背起來。先選你正在養的魚，我們把最常遇到的水溫、餵食、換水和日常問題整理在一起。</p>
+            <div class="guide-feature-tags"><span>水溫</span><span>魚缸</span><span>餵食</span><span>換水</span><span>新魚到家</span></div>
+            <div class="guide-feature-links">
+                <a class="guide-feature-button" href="guides/guppy-care.html">孔雀魚指南 →</a>
+                <a class="guide-feature-button" href="guides/betta-care.html">鬥魚指南 →</a>
+            </div>
         </section>
 
        <div class="beginner-section">
