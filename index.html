@@ -1,13 +1,16 @@
 <!DOCTYPE html>
 <html lang="zh-TW">
 
+
 <head>
     <meta charset="UTF-8">
+
 
     <meta
         name="viewport"
         content="width=device-width, initial-scale=1.0"
     >
+
 
     <meta
         name="format-detection"
@@ -19,86 +22,105 @@
     content="RZWbgdVFF3PDwTFlQgsOgCwXRLJtV_KUD2tGEadfF48"
     >
 
+
     <title>宇魚水族｜新竹孔雀魚、鬥魚、茉莉魚專門店</title>
+
 
     <meta
         name="description"
         content="宇魚水族位於新竹縣新埔鎮，專營孔雀魚、鬥魚、茉莉魚、米蝦與水族用品，提供新手飼養諮詢、活體黑貓配送、魚缸客製及到府安裝服務。"
     >
 
+
     <meta
         name="author"
         content="宇魚水族"
     >
+
 
     <meta
         name="robots"
         content="index, follow, max-image-preview:large"
     >
 
+
     <link
         rel="canonical"
         href="https://yuyuguppy.github.io/"
     >
+
 
     <meta
         property="og:locale"
         content="zh_TW"
     >
 
+
     <meta
         property="og:type"
         content="website"
     >
+
 
     <meta
         property="og:site_name"
         content="宇魚水族"
     >
 
+
     <meta
     property="og:title"
     content="宇魚水族｜新竹孔雀魚、鬥魚、茉莉魚專門店"
     >
+
 
     <meta
         property="og:description"
         content="新竹新埔水族專門店，提供孔雀魚、鬥魚、茉莉魚、米蝦、水族用品、活體配送、新手諮詢與魚缸客製服務。"
     >
 
+
     <meta
         property="og:url"
         content="https://yuyuguppy.github.io/"
     >
+
 
     <meta
         property="og:image"
         content="https://yuyuguppy.github.io/logo.jpg"
     >
 
+
     <meta
         property="og:image:alt"
         content="宇魚水族品牌標誌"
     >
+
 
     <meta
         name="twitter:card"
         content="summary_large_image"
     >
 
+
     <meta name="twitter:description" content="宇魚水族位於新竹縣，提供孔雀魚、鬥魚、茉莉魚、米蝦、水族用品與新手飼養諮詢。">
+
 
    <meta
     name="twitter:title"
     content="宇魚水族｜新竹孔雀魚、鬥魚、茉莉魚專門店"
 >
 
+
     <meta
         name="twitter:image"
         content="https://yuyuguppy.github.io/logo.jpg"
     >
 
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
+
 
     <link
         rel="preconnect"
@@ -106,12 +128,15 @@
         crossorigin
     >
 
+
     <link
         href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@500;700&display=swap"
         rel="stylesheet"
     >
 
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.2/papaparse.min.js"></script>
+
 
     <style>
         /* --- 全域設定 --- */
@@ -126,6 +151,7 @@
             padding-top: 95px; 
         }
 
+
         /* --- 1. 黃色公告欄 --- */
         .yuyu-announcement-bar {
             background-color: #ffe100; color: #000; text-align: center; 
@@ -139,6 +165,7 @@
             white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
         }
 
+
         /* --- 2. 手機版專用導覽列 --- */
         .mobile-sticky-header {
             position: fixed; top: 45px; left: 0; width: 100%; height: 50px;
@@ -147,6 +174,7 @@
             justify-content: space-between; padding: 0 15px;
             box-sizing: border-box; box-shadow: 0 4px 10px rgba(0,0,0,0.3);
         }
+
 
         .hamburger-btn {
             background: transparent; border: none; cursor: pointer;
@@ -169,7 +197,9 @@
             cursor: pointer; padding: 10px; text-decoration: none;
         }
 
+
         .header-mark-img { height: 40px; width: auto; object-fit: contain; z-index: 2; }
+
 
         /* --- 側邊選單 (Sidenav) --- */
         .sidenav {
@@ -194,15 +224,18 @@
             line-height: 1; cursor: pointer;
         }
 
+
         .menu-overlay {
             display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background-color: rgba(0, 0, 0, 0.7); z-index: 12500; backdrop-filter: blur(2px);
         }
 
+
         .dropdown-container { display: none; background-color: rgba(0,0,0,0.3); padding-left: 20px; }
         .dropdown-container a { font-size: 16px; color: #bcccdc; }
         .dropdown-container a:hover { color: #64ffda; }
         .fa-caret-down { float: right; padding-right: 8px; }
+
 
         /* --- 條款 Modal --- */
         .terms-modal {
@@ -226,6 +259,7 @@
         .terms-body p { font-size: 14px; color: #ddd; margin-bottom: 10px; text-align: justify; }
         .terms-highlight { color: #ff4d4d; font-weight: bold; }
 
+
         /* --- 背景氣泡 --- */
         .bg-bubbles { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; overflow: hidden; pointer-events: none; }
         .bg-bubbles li {
@@ -244,6 +278,7 @@
         .bg-bubbles li:nth-child(9) { left: 25%; width: 45px; height: 45px; animation-duration: 16s; animation-delay: 6s; }
         .bg-bubbles li:nth-child(10) { left: 60%; width: 25px; height: 25px; animation-duration: 22s; animation-delay: 2s; }
         @keyframes rise { 0% { transform: translateY(0); opacity: 0; } 10% { opacity: 0.6; } 100% { transform: translateY(-120vh); opacity: 0; } }
+
 
         .main-container { width: 100%; padding: 40px 20px; display: flex; flex-direction: column; align-items: center; box-sizing: border-box; z-index: 10; position: relative; }
         
@@ -266,10 +301,12 @@
             font-family: 'Zen Maru Gothic', sans-serif;
             font-weight: 500;
 
+
             text-align: center; color: #aebccf; 
             margin-bottom: 30px; font-size: 16px; 
             line-height: 1.6;
         }
+
 
         .intro-card { width: 100%; max-width: 480px; box-sizing: border-box; margin: 10px 0 8px; padding: 18px 20px; border: 1px solid rgba(100, 255, 218, 0.24); border-radius: 12px; background: rgba(16, 42, 67, 0.55); text-align: center; }
         .intro-title { margin: 0 0 10px; color: #64ffda; font-family: 'Zen Maru Gothic', sans-serif; font-size: 19px; }
@@ -292,6 +329,7 @@
         .visit-guide-button { display: block; padding: 11px 14px; border-radius: 10px; color: #03101f; background: #64ffda; text-align: center; text-decoration: none; font-weight: 800; }
         .visit-guide-button:hover { background: #8dffe5; }
 
+
         .guide-feature-card { width:100%; max-width:480px; box-sizing:border-box; margin:18px 0 8px; padding:20px; border:1px solid rgba(100,255,218,.35); border-radius:16px; background:linear-gradient(145deg,rgba(16,42,67,.88),rgba(3,16,31,.92)); text-align:left; }
         .guide-feature-card .guide-kicker { color:#ffe100; font-size:13px; font-weight:800; margin-bottom:6px; }
         .guide-feature-card h2 { margin:0 0 8px; color:#64ffda; font-family:'Zen Maru Gothic',sans-serif; font-size:20px; }
@@ -303,6 +341,7 @@
         .guide-feature-links .guide-feature-button:nth-child(2){background:transparent;color:#64ffda;border:1px solid rgba(100,255,218,.55)}
         @media(max-width:420px){.guide-feature-links{grid-template-columns:1fr}}
 
+
         .beginner-section { width: 100%; max-width: 480px; margin: 30px 0 0; overflow: hidden; }
         .section-header { text-align: left; color: #ffe100; font-size: 18px; font-weight: bold; margin-bottom: 15px; padding-left: 5px; display: flex; align-items: center; gap: 8px; }
         .beginner-scroll-container { display: flex; gap: 15px; overflow-x: auto; padding-bottom: 5px; padding-left: 5px; padding-right: 5px; scroll-snap-type: x mandatory; scroll-behavior: smooth; -webkit-overflow-scrolling: touch; scrollbar-width: none; }
@@ -313,12 +352,15 @@
         .bg-fish-name { font-weight: bold; font-size: 15px; color: #64ffda; margin-bottom: 4px; }
         .bg-fish-desc { font-size: 11px; color: #ccc; }
 
+
         .slider-dots { display: flex; justify-content: center; margin-top: 15px; gap: 8px; }
         .dot { width: 8px; height: 8px; background-color: rgba(255, 255, 255, 0.3); border-radius: 50%; cursor: pointer; transition: all 0.3s; }
         .dot.active { background-color: #FA8072; width: 24px; border-radius: 4px; }
 
+
         .link-card { width: 100%; max-width: 380px; background: rgba(100, 255, 218, 0.05); border: 1px solid rgba(100, 255, 218, 0.6); border-radius: 10px; padding: 16px; margin-bottom: 16px; text-decoration: none; color: #64ffda; font-weight: bold; text-align: center; display: block; box-sizing: border-box; }
         .link-card:hover { background: rgba(100, 255, 218, 0.15); }
+
 
         .info-section { width: 100%; max-width: 380px; background: rgba(16, 42, 67, 0.75); border-radius: 12px; padding: 24px; margin-top: 20px; border: 1px solid rgba(51, 78, 104, 0.8); margin-bottom: 30px; }
         .info-title { color: #f0f4f8; font-weight: bold; margin-bottom: 12px; font-size: 18px; border-left: 4px solid #64ffda; padding-left: 10px; }
@@ -328,6 +370,7 @@
         .contact-action:hover { background: rgba(100,255,218,.16); }
         .highlight { color: #ffbc00; font-weight: bold; }
         p { color: #bcccdc; line-height: 1.6; }
+
 
         .awards-section { width: 100%; max-width: 480px; margin-bottom: 20px; padding: 20px; background: rgba(0, 0, 0, 0.3); border-radius: 16px; border: 1px solid rgba(197, 160, 89, 0.3); box-sizing: border-box; }
         .awards-title { font-size: 18px; color: #C5A059; margin-bottom: 15px; font-weight: bold; text-align: center; }
@@ -339,9 +382,11 @@
     line-height: 1.35;
 }
 
+
 .award-event {
     display: block;
 }
+
 
 .award-result {
     display: block;
@@ -352,6 +397,7 @@
 .award-proof{margin:14px 0 0;padding:12px 14px;border-top:1px solid rgba(197,160,89,.28);color:#c8d2df;font-size:12px;line-height:1.75;text-align:left}
 .award-proof strong{color:#ffd54f}
 .award-proof a{color:#64ffda}
+
 
         .reviews-section { width: 100%; max-width: 480px; margin-top: 8px; padding: 20px 0; background: rgba(100, 255, 218, 0.05); border: 2px solid rgba(100, 255, 218, 0.3); border-radius: 16px; height: 260px; overflow: hidden; position: relative; }
         .reviews-section .title { font-size: 18px; color: #64ffda; margin-bottom: 15px; font-weight: bold; text-align: center; }
@@ -381,6 +427,7 @@
         .danmaku-lane.lane-4 { top: 200px; animation-duration: 60s; }
         @keyframes scroll-loop { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
 
+
         .social-icons-container { display: flex; justify-content: center; gap: 25px; margin-top: 30px; margin-bottom: 10px; }
         .social-link { width: 50px; height: 50px; border-radius: 50%; background: rgba(100, 255, 218, 0.1); border: 1px solid rgba(100, 255, 218, 0.4); display: flex; align-items: center; justify-content: center; }
         .social-link svg { width: 24px; height: 24px; fill: #64ffda; }
@@ -389,6 +436,7 @@
         .qr-code-img { width: 150px; height: 150px; }
         .line-btn { display: inline-block; background-color: #06C755; color: white; padding: 10px 24px; border-radius: 50px; text-decoration: none; font-weight: bold; margin-top: 10px; }
 
+
         .counter-section { margin-top: 30px; margin-bottom: 40px; text-align: center; color: #9fb3c8; font-size: 16px; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 20px; width: 100%; max-width: 380px; }
         .business-footer { width: 100%; max-width: 480px; box-sizing: border-box; margin-top: 30px; padding: 24px 22px; border-top: 1px solid rgba(100,255,218,.35); border-bottom: 1px solid rgba(100,255,218,.18); text-align: center; background: rgba(3,16,31,.38); }
         .business-footer-title { color: #64ffda; font-family: 'Zen Maru Gothic', sans-serif; font-size: 19px; font-weight: 700; }
@@ -396,19 +444,23 @@
         .business-footer a { color: #d8e8f5; text-decoration: none; }
         #days-count { color: #64ffda; font-size: 28px; font-weight: bold; margin: 0 8px; }
 
+
         .back-to-top { position: fixed; bottom: 20px; right: 20px; background: none; border: none; z-index: 9999; opacity: 0; visibility: hidden; transition: all 0.4s ease; display: flex; flex-direction: column; align-items: center; cursor: pointer; }
         .back-to-top.show { opacity: 1; visibility: visible; transform: translateY(0); }
         .daohui-dog-img { width: 60px; height: auto; border-radius: 8px; border: 2px solid #64ffda; box-shadow: 0 4px 10px rgba(0,0,0,0.6); }
         .back-to-top span { margin-top: 5px; color: #64ffda; font-size: 13px; font-weight: bold; text-shadow: 0 2px 4px rgba(0,0,0,0.8); }
 
+
         @keyframes wag { 0% { transform: rotate(0deg); } 25% { transform: rotate(-10deg); } 50% { transform: rotate(10deg); } 75% { transform: rotate(-5deg); } 100% { transform: rotate(0deg); } }
         .back-to-top:hover .daohui-dog-img, .back-to-top:active .daohui-dog-img { animation: wag 0.5s ease-in-out infinite; }
+
 
         /* 鍵盤操作時顯示清楚的焦點框，不影響滑鼠點擊外觀。 */
         a:focus-visible, button:focus-visible {
             outline: 3px solid #ffe100;
             outline-offset: 3px;
         }
+
 
         /* 桌面版放寬主要內容，手機版維持原本單欄閱讀感。 */
         @media (min-width: 900px) {
@@ -428,6 +480,7 @@
                 max-width: 820px;
             }
 
+
             .link-card { max-width: 680px; }
             .intro-card, .info-section { max-width: 720px; box-sizing: border-box; }
             .external-review-card { max-width: 680px; }
@@ -438,14 +491,17 @@
             .guide-feature-card h2,
             .guide-feature-card p { text-align: center; }
 
+
             .services-grid {
                 grid-template-columns: repeat(3, minmax(0, 1fr));
             }
+
 
             .awards-grid {
                 grid-template-columns: repeat(2, minmax(0, 1fr));
             }
         }
+
 
         @media (max-width: 768px) {
             .yuyu-announcement-bar { font-size: 13px; white-space: normal; padding: 5px; height: auto; min-height: 45px; }
@@ -459,6 +515,7 @@
             .external-review-video { width: min(100%, 360px); }
         }
     
+
 
         /* --- 聯絡我們 Modal --- */
         #contactModal {
@@ -584,9 +641,11 @@
 <body>
     <ul class="bg-bubbles"><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li></ul>
 
+
     <div class="yuyu-announcement-bar">
         🚀 活體訂單2000元免運、常溫賣場660免運、冷凍賣場990免運
     </div>
+
 
     <div class="mobile-sticky-header">
         <button
@@ -604,10 +663,13 @@
             宇魚水族
         </a>
 
+
         <img src="mark.png" alt="Logo" class="header-mark-img" onerror="this.style.display='none'">
     </div>
 
+
     <div id="menuOverlay" class="menu-overlay" onclick="closeNav()" aria-hidden="true"></div>
+
 
    <div id="mySidenav" class="sidenav" aria-hidden="true" inert>
         <button type="button" class="closebtn" onclick="closeNav()" aria-label="關閉選單">×</button>
@@ -628,6 +690,7 @@
             <a href="fish.html?cat=shrimp">🔹 米蝦、螺類、其它</a>
         </div>
 
+
         <a href="https://myship.7-11.com.tw/general/detail/GM2312087898760" target="_blank" rel="noopener noreferrer">🛒 硬體與飼料</a>
         <a href="https://myship.7-11.com.tw/general/detail/GM2404054052893" target="_blank" rel="noopener noreferrer">❄️ 冷凍豐年蝦</a>
         <a href="#termsModal" onclick="openTerms(); return false;">📜 條款與細則</a>
@@ -635,6 +698,7 @@
         <a href="#contactModal" onclick="openContactModal(); return false;">💬 聯絡我們 (官方LINE)</a>
         
     </div>
+
 
     <div class="main-container">
         <img src="logo.jpg" alt="宇魚水族" class="avatar">
@@ -645,11 +709,13 @@
             讓水族成為生活中最療癒的風景
         </div>
 
+
         <a href="fish.html" class="link-card">🐠 活體魚隻專區(孔雀、茉莉魚)</a>
         <a href="https://myship.7-11.com.tw/general/detail/GM2312087898760" target="_blank" rel="noopener noreferrer" class="link-card">🛒 水族周邊賣場 (隔離杯、飼料)</a>
         <a href="https://myship.7-11.com.tw/general/detail/GM2404054052893" target="_blank" rel="noopener noreferrer" class="link-card">❄️ 冷凍飼料賣場 (豐年蝦、赤蟲)</a>
         
         <a href="https://www.facebook.com/Yuyuquppy/" target="_blank" rel="noopener noreferrer" class="link-card">💬 私訊粉專 (詢問各式水族問題)</a>
+
 
         <section class="intro-card" aria-label="宇魚水族介紹">
             <p>
@@ -657,6 +723,7 @@
                 從挑選第一隻魚，到規劃一座適合生活的魚缸，<span class="mobile-line-break"><br></span><span class="keep-together">我們都願意陪你慢慢開始。</span>
             </p>
         </section>
+
 
        <div class="info-section">
             <div class="info-title">店址資訊</div>
@@ -674,13 +741,16 @@
             <p>星期三、五：18:00 - 21:00<br>星期六、日：12:00 - 20:00<br>
                <span style="color: #f57d7d;">固定店休：每週一、二、四</span></p>
 
-          <div class="info-title" style="margin-bottom: 0;">重要公告（2026 中秋連假）</div>
+
+          <div class="info-title" style="margin-bottom: 0;">重要公告（營業時間調整）</div>
             <p style="margin: 0; font-weight: bold; color: #f0f4f8; line-height: 1.8;">🕒 營業時間調整</p>
             <p style="color: #f57d7d; margin: 0; line-height: 1.8;">
+                9/12（六）：12:00–17:00<br>
                 9/25（五）～9/27（日）：12:00–17:00<br>
                 9/28（一）～9/30（三）：店休<br>
             </p>
         </div>
+
 
         <section class="visit-guide-card" aria-labelledby="visitGuideTitle">
             <h2 id="visitGuideTitle">📍 第一次來宇魚？</h2>
@@ -694,6 +764,7 @@
             <a class="visit-guide-button" href="visit.html">查看交通與來店指南 →</a>
         </section>
 
+
         <section class="visit-guide-card" aria-labelledby="bettaGuideTitle">
 <h2 id="bettaGuideTitle">🐠 一隻鬥魚，一段養魚的開始</h2>
 <div style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;width:100%;max-width:440px;margin:10px auto 14px;align-items:center;">
@@ -705,6 +776,7 @@
 <p>只要我們還有能力，這個活動就會繼續辦下去。</p>
 <a href="betta.html#story" class="visit-guide-button">走進鬥魚專區・看看故事 →</a>
 </section>
+
 
 <h2 class="content-heading">我們提供的水族服務</h2>
         <section class="services-grid" aria-label="宇魚水族服務項目">
@@ -719,6 +791,7 @@
             <div class="awards-title">🏆 宇魚獲獎經歷 🏆</div>
             <div class="awards-grid">
 
+
     <div class="award-item"
          title="2026 VIVID International Guppy Championship 馬賽克組 冠軍">
         <span class="award-icon">🥇</span>
@@ -728,6 +801,7 @@
         </span>
     </div>
 
+
     <div class="award-item">
         <span class="award-icon">🥉</span>
         <span class="award-copy">
@@ -735,6 +809,7 @@
             <span class="award-result">大耳組 2ND RUNNER-UP</span>
         </span>
     </div>
+
 
     <div class="award-item">
         <span class="award-icon">🥉</span>
@@ -744,6 +819,7 @@
         </span>
     </div>
 
+
     <div class="award-item">
         <span class="award-icon">🥇</span>
         <span class="award-copy">
@@ -751,6 +827,7 @@
             <span class="award-result">劍尾組 冠軍</span>
         </span>
     </div>
+
 
     <div class="award-item">
         <span class="award-icon">🥇</span>
@@ -760,6 +837,7 @@
         </span>
     </div>
 
+
     <div class="award-item">
         <span class="award-icon">🥈</span>
         <span class="award-copy">
@@ -767,6 +845,7 @@
             <span class="award-result">幼魚組 亞軍</span>
         </span>
     </div>
+
 
     <div class="award-item">
         <span class="award-icon">🥈</span>
@@ -776,6 +855,7 @@
         </span>
     </div>
 
+
     <div class="award-item">
         <span class="award-icon">🥈</span>
         <span class="award-copy">
@@ -783,6 +863,7 @@
             <span class="award-result">幼魚組 亞軍</span>
         </span>
     </div>
+
 
     <div class="award-item">
         <span class="award-icon">🥈</span>
@@ -792,6 +873,7 @@
         </span>
     </div>
 
+
     <div class="award-item">
         <span class="award-icon">🥉</span>
         <span class="award-copy">
@@ -799,6 +881,7 @@
             <span class="award-result">長鰭組 季軍</span>
         </span>
     </div>
+
 
     <div class="award-item">
         <span class="award-icon">🏅</span>
@@ -808,6 +891,7 @@
         </span>
     </div>
 
+
     <div class="award-item">
         <span class="award-icon">🤝</span>
         <span class="award-copy">
@@ -816,9 +900,11 @@
         </span>
     </div>
 
+
 </div>
 <p class="award-proof"><strong>國際賽官方成績可交叉查證：</strong>VIGC Online Contest 成績表可見 Po-Han, Huang（柏哥・Taiwan）參賽紀錄，包括 Mosaic Delta Tail 77.9、Top/Bottom Sword Tail 77.8、Spade/Spear/Pintail 74.7。<br><a href="https://www.vividguppy.com/" target="_blank" rel="noopener noreferrer">查看 VIVID Guppy 官方網站 ↗</a>　<a href="https://www.facebook.com/share/p/1EHZGz19BM/" target="_blank" rel="noopener noreferrer">查看官方公開貼文 ↗</a></p>
 </div>
+
 
        <section class="guide-feature-card" aria-labelledby="guideHomeTitle">
             <div class="guide-kicker">📚 養魚知識庫</div>
@@ -827,6 +913,7 @@
             <div class="guide-feature-tags"><span>孔雀魚</span><span>鬥魚</span><span>茉莉魚</span><span>常見狀況</span></div>
             <a class="guide-feature-button" href="guides/">打開養魚知識庫 →</a>
         </section>
+
 
        <div class="beginner-section">
     <div class="section-header">🔥 推薦精選</div>
@@ -865,6 +952,7 @@
             </div>
         </div>
 
+
         <article class="external-review-card" aria-labelledby="threadsReviewTitle">
             <div class="external-review-label" id="threadsReviewTitle">🧵 魚友 Threads 公開推薦</div>
             <div class="external-review-profile">
@@ -887,6 +975,7 @@
             <a class="threads-button" href="https://www.threads.com/@shin231251/post/DZ1LbOrGdMK" target="_blank" rel="noopener noreferrer">前往 Threads 查看 Shin 的原始推薦 ↗</a>
         </article>
 
+
         <article class="external-review-card" aria-labelledby="tsumiiReviewTitle">
             <div class="external-review-label" id="tsumiiReviewTitle">🌐 第三方水族網站介紹</div>
             <div class="external-review-profile">
@@ -896,6 +985,7 @@
             <p class="external-review-summary">水族筆記介紹宇魚以孔雀魚為主，並提到魚隻健康、品系選擇、飼養說明，以及對新手魚友的友善服務。這是外部網站對宇魚水族的公開介紹，提供不同於官網與顧客評論的第三方參考。</p>
             <a class="threads-button" href="https://fish.tsumii.com/%E5%AE%87%E9%AD%9A%E6%B0%B4%E6%97%8F%EF%BC%88%E5%AD%94%E9%9B%80%E9%AD%9A%E5%B0%88%E8%B3%A3%E5%BA%97%EF%BC%89%E9%81%8E%E6%A9%8B%E5%BE%8C%E9%80%B2%E9%9B%BB%E5%8B%95%E9%96%80%E4%B8%8B%E6%96%9C%E5%9D%A1/" target="_blank" rel="noopener noreferrer">前往水族筆記查看完整介紹 ↗</a>
         </article>
+
 
         <div class="social-icons-container">
             <a href="https://www.facebook.com/Yuyuquppy/" target="_blank" rel="noopener noreferrer" class="social-link" aria-label="Facebook">
@@ -908,6 +998,7 @@
                 <svg viewBox="0 0 24 24"><path d="M12.5 0v17c0 3.3-2.7 6-6 6s-6-2.7-6-6 2.7-6 6-6c.6 0 1.1.1 1.7.2V17c-.5-.1-1-.2-1.7-.2-1.7 0-3 1.3-3 3s1.3 3 3 3 3-1.3 3-3V6.5h4.2c.2 2.4 2.1 4.2 4.5 4.5v-4c-1.8-.2-3.2-1.6-3.4-3.5h-2.3z"/></svg>
             </a>
         </div>
+
 
         <div class="line-community-card">
             <div class="line-title">
@@ -925,12 +1016,14 @@
                      alt="掃描加入宇魚水族 LINE 社群" class="qr-code-img">
             </a>
 
+
             <div>
                 <a href="https://line.me/ti/g2/XODlP6o062essYHGk1dWKzToeRPb7RfMM9QvPA?utm_source=invitation&utm_medium=link_copy&utm_campaign=default" target="_blank" rel="noopener noreferrer" class="line-btn">
                     點擊加入討論 💬
                 </a>
             </div>
         </div>
+
 
         <footer class="business-footer">
             <div class="business-footer-title">宇魚水族｜新竹新埔實體水族館</div>
@@ -942,6 +1035,7 @@
             </p>
         </footer>
 
+
         <div class="counter-section">
             <div class="counter-text">
                 宇魚伴游第 <span id="days-count">0</span> 個日子
@@ -952,6 +1046,7 @@
             </div>
         </div>
     </div>
+
 
     <!-- 彈出視窗放在首頁主內容之後，讓搜尋引擎優先讀取品牌與服務內容。 -->
     <div
@@ -971,8 +1066,10 @@
                 <h3>1. 活體不適用退換貨</h3>
                 <p>活體動物（魚蝦）屬於易腐敗商品，根據消保法規定，不適用於網購七天鑑賞期。除運送過程死亡外，活體售出後概不接受退換貨，請在下單前確認您已準備好飼養環境。</p>
 
+
                 <h3>2. 配送風險與責任</h3>
                 <p>我們堅持採用專業純氧包裝。若發生運送延遲或意外導致的損失，<span class="terms-highlight">由宇魚水族全權處理</span>，保障您的權益，請您放心。</p>
+
 
                 <h3>3. 死魚包賠政策</h3>
                 <p>為了確保責任歸屬，請您配合以下事項：</p>
@@ -981,14 +1078,17 @@
                 <p>✅ <strong>立即回報</strong>：請於收件後 1 小時內，將影片與照片傳至 LINE 官方帳號。</p>
                 <p>若符合以上條件，我們將依死魚數量<span class="terms-highlight">退款</span>（不含運費）。</p>
 
+
                 <h3>4. 運費與貨到付款規範</h3>
                 <p>若您選擇貨到付款，請務必留意收件電話。若無故未取貨導致商品退回（造成活體死亡或耗損），本賣場將把您列入<span class="terms-highlight">黑名單</span>拒絕往來，並保留法律追訴權，依據民法請求損害賠償（包含運費、包材費及商品損失）。</p>
+
 
                 <h3 style="border-left: 3px solid #ff4d4d; color: #ff4d4d;">5. 其他聲明</h3>
                 <p>宇魚水族保有本條款最終解釋、修改與終止之權利，如有未盡事宜，將依本賣場最新公告為準。</p>
             </div>
         </div>
     </div>
+
 
     <div
         id="contactModal"
@@ -1004,6 +1104,7 @@
                 養魚遇到困難？想找特殊魚種？<br>
                 <span style="color: #64ffda; font-weight: bold;">歡迎隨時傳 LINE 給我們！</span>
 
+
                 <div class="yuge-promise-box" style="margin-top: 15px; border: none; background: transparent; box-shadow: none; padding: 0;">
                     <img src="boss.png" alt="店寵 島輝" style="width: 130px; height: auto; object-fit: contain; filter: drop-shadow(0 0 12px rgba(100, 255, 218, 0.5)); margin-bottom: 10px;">
                     <div class="yuge-text" style="font-size: 18px;">
@@ -1012,9 +1113,11 @@
                     </div>
                 </div>
 
+
                 <div style="margin-top: 15px; background: #fff; padding: 10px; border-radius: 10px; display: inline-block;">
                     <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://line.me/R/ti/p/@118rfvyo" alt="LINE QR Code" style="width: 140px; height: 140px; display: block;">
                 </div>
+
 
                 <div style="margin-top: 15px;">
                     <a href="https://line.me/R/ti/p/@118rfvyo" style="color: #ffe100; text-decoration: none; font-size: 16px; font-weight: bold; border-bottom: 1px dashed #ffe100; padding-bottom: 2px;">
@@ -1025,10 +1128,12 @@
         </div>
     </div>
 
+
     <button type="button" id="backToTop" class="back-to-top" onclick="scrollToTop()" aria-label="回到頁面最頂端">
         <img src="daohui.png" alt="島輝" class="daohui-dog-img">
         <span>回到最頂端</span>
     </button>
+
 
     <script>
         // --- 1. 倒數計時器 ---
@@ -1041,10 +1146,12 @@
         }
         calculateDays();
 
+
         // --- 2. 漢堡選單開關邏輯 (含遮罩層與鍵盤支援) ---
         function openNav() {
             const sideNav = document.getElementById("mySidenav");
             const menuButton = document.querySelector(".hamburger-btn");
+
 
             sideNav.style.width = "280px";
             sideNav.removeAttribute("inert");
@@ -1052,14 +1159,17 @@
             menuButton.setAttribute("aria-expanded", "true");
             document.getElementById("menuOverlay").style.display = "block";
 
+
             requestAnimationFrame(() => {
                 sideNav.querySelector(".closebtn").focus();
             });
         }
 
+
         function closeNav(restoreFocus = true) {
             const sideNav = document.getElementById("mySidenav");
             const menuButton = document.querySelector(".hamburger-btn");
+
 
             sideNav.style.width = "0";
             sideNav.setAttribute("inert", "");
@@ -1067,10 +1177,12 @@
             menuButton.setAttribute("aria-expanded", "false");
             document.getElementById("menuOverlay").style.display = "none";
 
+
             if (restoreFocus) {
                 menuButton.focus();
             }
         }
+
 
         // --- 3. 下拉選單 ---
         var dropdown = document.getElementsByClassName("dropdown-btn");
@@ -1088,23 +1200,28 @@
             });
         }
 
+
         // --- 4. 條款 Modal ---
         let modalReturnFocus = null;
+
 
         function openTerms() {
             const menuButton = document.querySelector(".hamburger-btn");
             const menuWasOpen = menuButton.getAttribute("aria-expanded") === "true";
             const termsModal = document.getElementById("termsModal");
 
+
             modalReturnFocus = menuWasOpen ? menuButton : document.activeElement;
             closeNav(false);
             termsModal.style.display = "block";
             termsModal.setAttribute("aria-hidden", "false");
 
+
             requestAnimationFrame(() => {
                 termsModal.querySelector(".close-terms").focus();
             });
         }
+
 
         function closeTerms() {
             const termsModal = document.getElementById("termsModal");
@@ -1115,21 +1232,25 @@
             }
         }
 
+
         // --- 聯絡我們 Modal 開關 ---
         function openContactModal() {
             const menuButton = document.querySelector(".hamburger-btn");
             const menuWasOpen = menuButton.getAttribute("aria-expanded") === "true";
             const contactModal = document.getElementById("contactModal");
 
+
             modalReturnFocus = menuWasOpen ? menuButton : document.activeElement;
             closeNav(false);
             contactModal.style.display = "flex";
             contactModal.setAttribute("aria-hidden", "false");
 
+
             requestAnimationFrame(() => {
                 contactModal.querySelector(".close-contact").focus();
             });
         }
+
 
         function closeContactModal() {
             const contactModal = document.getElementById("contactModal");
@@ -1139,6 +1260,7 @@
                 modalReturnFocus.focus();
             }
         }
+
 
         // --- 統一處理點擊空白處關閉 ---
         window.onclick = function(event) {
@@ -1152,13 +1274,16 @@
             }
         }
 
+
         // 按下 Esc 可依序關閉彈窗或側邊選單。
         document.addEventListener("keydown", function(event) {
             if (event.key !== "Escape") return;
 
+
             const termsModal = document.getElementById("termsModal");
             const contactModal = document.getElementById("contactModal");
             const menuButton = document.querySelector(".hamburger-btn");
+
 
             if (termsModal.style.display === "block") {
                 closeTerms();
@@ -1169,11 +1294,13 @@
             }
         });
 
+
         // --- 5. 滾動偵測：只有回到頂部，移除海苔條自動收合 ---
         const backToTopBtn = document.getElementById('backToTop');
         
         window.addEventListener('scroll', function() {
             let currentScroll = window.pageYOffset || document.documentElement.scrollTop;
+
 
             // 回到頂部按鈕 (島輝)
             if (currentScroll > 300) {
@@ -1183,6 +1310,7 @@
             }
         });
 
+
         function scrollToTop() {
             window.scrollTo({
                 top: 0,
@@ -1190,10 +1318,12 @@
             });
         }
 
+
        // --- 6. 即時隨機推薦有庫存的魚隻 ---
 document.addEventListener("DOMContentLoaded", function() {
     const googleSheetID = "1a0w_rwgHkmewRXDZ1nG1Tiito3qaK9huNO7xzOmc0BI"; // 宇魚的雲端資料庫
     const sheetUrl = `https://docs.google.com/spreadsheets/d/${googleSheetID}/export?format=csv`;
+
 
     const fallback = document.getElementById('recommendationFallback');
     const status = document.getElementById('recommendationStatus');
@@ -1219,6 +1349,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 return;
             }
 
+
             // 1. 過濾出有庫存、不是子規格、且為活體魚隻 (guppy 或 molly)
             const inStockFishes = data.filter(item => {
                 const stock = parseInt(item.stock) || 0;
@@ -1226,6 +1357,7 @@ document.addEventListener("DOMContentLoaded", function() {
                        item.category !== 'sub' && 
                        (item.category === 'guppy' || item.category === 'molly');
             });
+
 
             // 2. 隨機打亂陣列，並取前 6 隻
             const shuffled = inStockFishes.sort(() => 0.5 - Math.random());
@@ -1235,8 +1367,10 @@ document.addEventListener("DOMContentLoaded", function() {
                 return;
             }
 
+
             const slider = document.getElementById('guppyScroll');
             const dotsContainer = document.getElementById('guppyDots');
+
 
             // 3. 將隨機選出的魚畫到畫面上
             selectedFishes.forEach((fish, index) => {
@@ -1246,16 +1380,19 @@ document.addEventListener("DOMContentLoaded", function() {
                         ? fish.display_name.trim()
                         : (fish.name || '').trim();
 
+
                 const imgSrc =
                     fish.img && fish.img.trim()
                         ? fish.img.trim()
                         : 'logo.jpg';
+
 
                 // 優先使用 slug 建立商品網址；若沒有 slug，才使用舊 ID。
                 const productSlug =
                     fish.slug && fish.slug.trim()
                         ? fish.slug.trim()
                         : (fish.id || '').trim();
+
 
                 const card = document.createElement('a');
                 card.href = `fish.html?cat=${encodeURIComponent(fish.category)}&product=${encodeURIComponent(productSlug)}`;
@@ -1275,6 +1412,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 `;
                 slider.appendChild(card);
 
+
                 // 產生圓點
                 const dot = document.createElement('div');
                 dot.classList.add('dot');
@@ -1287,14 +1425,17 @@ document.addEventListener("DOMContentLoaded", function() {
                 dotsContainer.appendChild(dot);
             });
 
+
             // 4. 監聽滑動事件，更新點點狀態
             slider.addEventListener('scroll', () => {
                 const scrollCenter = slider.scrollLeft + (slider.offsetWidth / 2);
                 const cards = slider.querySelectorAll('.beginner-card');
 
+
                 cards.forEach((card, index) => {
                     const cardLeft = card.offsetLeft - slider.offsetLeft;
                     const cardRight = cardLeft + card.offsetWidth;
+
 
                     if (cardLeft <= scrollCenter && cardRight > scrollCenter) {
                         document.querySelectorAll('.dot').forEach(d => d.classList.remove('active'));
