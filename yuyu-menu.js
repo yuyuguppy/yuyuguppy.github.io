@@ -8,6 +8,24 @@
     if (document.getElementById('yuyu-menu-style')) return;
     const page = location.pathname.split('/').pop() || 'index.html';
     const warm = page === 'betta.html' || location.pathname.includes('/guides/');
+
+    /* SEO：首頁統一使用根網址，避免 / 與 /index.html 持續分散內部連結訊號。 */
+    const homeUrl = url('');
+
+    /* SEO：about.html 原本主視覺標題是 div，補成真正 H1；同時讓標題更貼近目前 GSC 已有排名的在地搜尋意圖。 */
+    if (page === 'about.html') {
+      const headline = document.querySelector('.main-headline');
+      if (headline && headline.tagName !== 'H1') {
+        const h1 = document.createElement('h1');
+        h1.className = headline.className;
+        h1.innerHTML = headline.innerHTML;
+        headline.replaceWith(h1);
+      }
+      document.title = '新竹水族館推薦｜宇魚水族・孔雀魚、鬥魚、茉莉魚｜新埔三合院店';
+      const desc = document.querySelector('meta[name="description"]');
+      if (desc) desc.content = '找新竹水族館或新竹水族館推薦？宇魚水族位於新竹縣新埔三合院，專營孔雀魚、鬥魚、茉莉魚與水族活體，提供新手飼養諮詢、魚缸規劃與來店挑魚。這裡也記錄宇魚從養魚興趣一路走到實體水族館的故事。';
+    }
+
     const font = document.createElement('link');
     font.rel = 'stylesheet';
     font.href = 'https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@700&display=swap';
@@ -49,9 +67,9 @@
     const header = document.createElement('header');
     header.className = 'yuyu-menu-header' + (warm ? ' yuyu-warm' : '');
     header.innerHTML = '<button type="button" class="hamburger-btn" aria-label="開啟選單" aria-controls="mySidenav" aria-expanded="false"><span class="bar"></span><span class="bar"></span><span class="bar"></span></button><a class="yuyu-brand">宇魚水族</a>';
-    header.querySelector('a').href = url('index.html');
+    header.querySelector('a').href = homeUrl;
     if (cart) {
-      header.appendChild(cart); // 移動原節點，保留購物車計數 ID 與原點擊行為。
+      header.appendChild(cart);
       if (cart.tagName !== 'BUTTON') {
         cart.setAttribute('role', 'button'); cart.tabIndex = 0;
         cart.addEventListener('keydown', event => {
@@ -77,21 +95,21 @@
     drawer.appendChild(close);
     const nav = document.createElement('nav'); nav.setAttribute('aria-label', '主要導覽'); drawer.appendChild(nav);
     const links = [
-      ['index.html','🏠 回到首頁'],['fish.html','🐠 活體專區'],
+      ['', '🏠 回到首頁'],['fish.html','🐠 活體專區'],
       ['guides/','📚 養魚知識庫'],['betta.html','🐟 鬥魚專區'],
       ['about.html','📖 關於宇魚'],['portfolio.html','📸 精選作品集'],
       ['visit.html','📍 交通與來店指南']
     ];
     for (const [path, label] of links) {
-      const a = document.createElement('a'); a.href = url(path); a.textContent = label;
-      if (page === path || (path === 'guides/' && location.pathname.includes('/guides/'))) a.setAttribute('aria-current', 'page');
+      const a = document.createElement('a'); a.href = path === '' ? homeUrl : url(path); a.textContent = label;
+      if ((path === '' && page === 'index.html') || page === path || (path === 'guides/' && location.pathname.includes('/guides/'))) a.setAttribute('aria-current', 'page');
       nav.appendChild(a);
     }
     const divider = document.createElement('hr'); divider.className = 'yuyu-menu-divider'; nav.appendChild(divider);
     const extras = [
       ['https://myship.7-11.com.tw/general/detail/GM2312087898760','🛒 硬體與飼料'],
       ['https://myship.7-11.com.tw/general/detail/GM2404054052893','❄️ 冷凍豐年蝦'],
-      [url('index.html#termsModal'),'📜 條款與細則','openTerms'],
+      [homeUrl + '#termsModal','📜 條款與細則','openTerms'],
       ['https://line.me/R/ti/p/@118rfvyo','💬 聯絡我們（官方 LINE）','openContactModal']
     ];
     for (const [href, label, action] of extras) {
