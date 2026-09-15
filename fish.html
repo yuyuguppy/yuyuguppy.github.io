@@ -589,7 +589,7 @@
 
         .cart-modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 20000; justify-content: center; align-items: center; }
 
-        .cart-content { background: #0d253f; width: 90%; max-width: 500px; border-radius: 15px; padding: 20px; border: 2px solid #64ffda; box-shadow: 0 0 30px rgba(100, 255, 218, 0.3); max-height: 90vh; display: flex; flex-direction: column; }
+        .cart-content { background: #0d253f; width: min(94%, 960px); border-radius: 15px; padding: 20px; border: 2px solid #64ffda; box-shadow: 0 0 30px rgba(100, 255, 218, 0.3); max-height: 92dvh; display: flex; flex-direction: column; box-sizing: border-box; }
 
         .cart-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; border-bottom: 1px solid #334e68; padding-bottom: 10px; }
 
@@ -602,6 +602,34 @@
         .step-container { display: none; flex-direction: column; height: 100%; overflow: hidden; }
 
         .step-container.active { display: flex; }
+
+        .checkout-single { overflow-y: auto; padding: 2px 4px 4px; }
+        .checkout-layout { display: grid; grid-template-columns: minmax(0, 1.05fr) minmax(330px, .95fr); gap: 18px; min-height: 0; }
+        .checkout-panel { min-width: 0; background: rgba(0,0,0,.13); border: 1px solid rgba(100,255,218,.18); border-radius: 12px; padding: 14px; }
+        .checkout-panel h3 { margin: 0 0 10px; color: #fff; font-size: 16px; }
+        .checkout-single .cart-items { max-height: 225px; margin-bottom: 10px; }
+        .checkout-single .form-group { margin-bottom: 10px; }
+        .checkout-single textarea.form-input { height: 58px; min-height: 58px; }
+        .checkout-single .price-summary { margin-bottom: 0; }
+        .checkout-single .cart-footer { margin-top: 14px; }
+        .delivery-payment-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+        .promo-details { margin: 0 0 10px; color: #bcccdc; font-size: 14px; }
+        .promo-details summary { cursor: pointer; color: #64ffda; font-weight: 700; padding: 4px 0 8px; }
+        .promo-details .promo-section { margin-bottom: 0; }
+        .privacy-note { margin: 4px 0 0; color: #9fb3c8; font-size: 12px; line-height: 1.5; }
+        .checkout-status { min-height: 20px; margin: 7px 0 0; color: #ffe100; text-align: center; font-size: 13px; }
+        .checkout-facebook { margin: 0; color: #9fb3c8; text-align: center; font-size: 12px; }
+        .checkout-facebook a { color: #64ffda; text-underline-offset: 3px; }
+        .hp-field { position: absolute !important; left: -9999px !important; width: 1px !important; height: 1px !important; opacity: 0 !important; pointer-events: none !important; }
+
+        @media (max-width: 760px) {
+            .cart-content { width: calc(100% - 18px); max-height: calc(100dvh - 18px); padding: 14px; }
+            .checkout-layout { grid-template-columns: 1fr; gap: 12px; }
+            .checkout-single .cart-items { max-height: 185px; }
+            .delivery-payment-grid { grid-template-columns: 1fr; gap: 0; }
+            .checkout-single .cart-actions { position: sticky; bottom: 0; background: #0d253f; padding-top: 8px; }
+            .checkout-single .btn-back { flex: 0 0 auto; }
+        }
 
 
 
@@ -3954,98 +3982,64 @@
 
             
 
-            <div class="step-container active" id="step1">
+            <div class="step-container active checkout-single" id="step1">
+                <div class="checkout-layout">
+                    <section class="checkout-panel" aria-labelledby="cartItemsTitle">
+                        <h3 id="cartItemsTitle">已選商品</h3>
+                        <div class="cart-items" id="cartItems"></div>
 
-                <div class="cart-items" id="cartItems"></div>
+                        <details class="promo-details">
+                            <summary>我有優惠碼</summary>
+                            <div class="promo-section">
+                                <input type="text" id="promoCodeInput" class="promo-input" placeholder="輸入優惠碼">
+                                <button type="button" class="promo-btn" onclick="applyPromoCode()">套用</button>
+                            </div>
+                            <div id="promoMessage" class="promo-message"></div>
+                        </details>
 
-                
+                        <div id="priceSummaryArea">
+                            <div id="shippingAlert" class="free-shipping-alert">還差 <b id="diffAmount">0</b> 元即享免運優惠！</div>
+                            <div class="price-summary">
+                                <div class="summary-row"><span>商品小計</span><span>NT$ <span id="subTotal">0</span></span></div>
+                                <div class="summary-row"><span>運費</span><span id="shippingFeeDisplay">NT$ 200</span></div>
+                                <div class="summary-row" id="discountRow" style="display:none; color:#06C755;"><span>優惠折抵</span><span>- NT$ <span id="discountValue">0</span></span></div>
+                                <div class="summary-row final"><span>總金額</span><span>NT$ <span id="finalTotal">0</span></span></div>
+                            </div>
+                        </div>
+                    </section>
 
-                <div class="promo-section">
-
-                    <input type="text" id="promoCodeInput" class="promo-input" placeholder="請輸入優惠碼 (如: yuyu1380)">
-
-                    <button class="promo-btn" onclick="applyPromoCode()">套用</button>
-
-                </div>
-
-                <div id="promoMessage" class="promo-message"></div>
-
-
-
-                <div id="priceSummaryArea">
-
-                    <div id="shippingAlert" class="free-shipping-alert">
-
-                        還差 <b id="diffAmount">0</b> 元即享免運優惠！
-
-                    </div>
-
-                    <div class="price-summary">
-
-                        <div class="summary-row"><span>小計</span><span>NT$ <span id="subTotal">0</span></span></div>
-
-                        <div class="summary-row"><span>黑貓運費</span><span id="shippingFeeDisplay">NT$ 200</span></div>
-
-                        <div class="summary-row" id="discountRow" style="display:none; color:#06C755;"><span>優惠折抵</span><span>- NT$ <span id="discountValue">0</span></span></div>
-
-                        <div class="summary-row final"><span>總金額</span><span>NT$ <span id="finalTotal">0</span></span></div>
-
-                    </div>
-
-                </div>
-
-                <div class="cart-footer">
-
-                    <div class="cart-actions">
-
-                        <button class="action-btn btn-back" onclick="closeCart()">繼續選購</button>
-
-                        <button class="action-btn btn-next" onclick="goToStep2()">下一步：填寫資料 ➤</button>
-
-                    </div>
-
-                </div>
-
-            </div>
-
-
-
-            <div class="step-container" id="step2">
-
-                <div style="flex-grow: 1; overflow-y: auto; padding: 5px;">
-
-                    <div class="form-group">
-                        <label class="form-label">付款方式 <span style="color:red">*</span></label>
-                        <select id="paymentMethod" class="form-select">
-                            <option value="atm">🏧 銀行匯款 (ATM)</option>
-                            <option value="cod">🚚 貨到付款 (黑貓)</option>
-                        </select>
-                    </div>
-
-
-
-                    <div class="form-group"><label class="form-label">收件人姓名 <span style="color:red">*</span></label><input type="text" id="custName" class="form-input" placeholder="請輸入姓名"></div>
-
-                    <div class="form-group"><label class="form-label">聯絡電話 <span style="color:red">*</span></label><input type="tel" id="custPhone" class="form-input" placeholder="09xxxxxxxx"></div>
-
-                    <div class="form-group"><label class="form-label">收件地址 <span style="color:red">*</span></label><input type="text" id="custAddr" class="form-input" placeholder="縣市/區域/街道巷弄"></div>
-
-                    <div class="form-group"><label class="form-label">訂單備註</label><textarea id="custNote" class="form-input" placeholder="例如：管理室代收、指定時段..."></textarea></div>
-
+                    <section class="checkout-panel" aria-labelledby="checkoutInfoTitle">
+                        <h3 id="checkoutInfoTitle">取貨與聯絡資料</h3>
+                        <div class="delivery-payment-grid">
+                            <div class="form-group">
+                                <label class="form-label" for="deliveryMethod">取貨方式 <span style="color:red">*</span></label>
+                                <select id="deliveryMethod" class="form-select" onchange="updateDeliveryOptions()">
+                                    <option value="shipping">🚚 黑貓宅配</option>
+                                    <option value="pickup">🏠 到店取貨</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label" for="paymentMethod">付款方式 <span style="color:red">*</span></label>
+                                <select id="paymentMethod" class="form-select"></select>
+                            </div>
+                        </div>
+                        <div class="form-group"><label class="form-label" for="custName">姓名 <span style="color:red">*</span></label><input type="text" id="custName" class="form-input" autocomplete="name" maxlength="60" placeholder="請輸入姓名"></div>
+                        <div class="form-group"><label class="form-label" for="custPhone">聯絡電話 <span style="color:red">*</span></label><input type="tel" id="custPhone" class="form-input" autocomplete="tel" inputmode="tel" maxlength="30" placeholder="09xxxxxxxx"></div>
+                        <div class="form-group" id="addressGroup"><label class="form-label" for="custAddr">收件地址 <span style="color:red">*</span></label><input type="text" id="custAddr" class="form-input" autocomplete="street-address" maxlength="160" placeholder="縣市／區域／街道巷弄"></div>
+                        <div class="form-group"><label class="form-label" for="custNote">備註</label><textarea id="custNote" class="form-input" maxlength="300" placeholder="例如：管理室代收、希望到貨時段"></textarea></div>
+                        <input type="text" id="website" class="hp-field" tabindex="-1" autocomplete="off" aria-hidden="true">
+                        <p class="privacy-note">資料僅用於訂單聯絡與配送。送出後會開啟官方 LINE，請按「傳送」完成確認。</p>
+                    </section>
                 </div>
 
                 <div class="cart-footer">
-
                     <div class="cart-actions">
-
-                        <button class="action-btn btn-back" onclick="goToStep1()">❮ 返回確認</button>
-
-                        <button class="action-btn btn-next" onclick="prepareOrder()">送出訂單 (LINE) ➤</button>
-
+                        <button type="button" class="action-btn btn-back" onclick="closeCart()">繼續選購</button>
+                        <button type="button" class="action-btn btn-next" id="submitOrderBtn" onclick="prepareOrder()">建立訂單並前往 LINE ➤</button>
                     </div>
-
+                    <p class="checkout-status" id="checkoutStatus" role="status" aria-live="polite"></p>
+                    <p class="checkout-facebook">若無法順利跳轉至官方 LINE，請<a href="https://www.facebook.com/share/1Bmaun2kfL/?mibextid=wwXIfr" target="_blank" rel="noopener noreferrer">私訊臉書粉專</a>。</p>
                 </div>
-
             </div>
 
         </div>
@@ -4077,7 +4071,7 @@
                     </div>
                 </div>
             </div>
-            <p class="order-facebook">若無法順利跳轉至官方 LINE，請<a href="https://www.facebook.com/Yuyuquppy/" target="_blank" rel="noopener noreferrer">私訊臉書粉專</a>。</p>
+            <p class="order-facebook">若無法順利跳轉至官方 LINE，請<a href="https://www.facebook.com/share/1Bmaun2kfL/?mibextid=wwXIfr" target="_blank" rel="noopener noreferrer">私訊臉書粉專</a>。</p>
         </div>
     </div>
 
@@ -6445,12 +6439,6 @@ var qrcode = function() {
 
         const googleSheetID = "1a0w_rwgHkmewRXDZ1nG1Tiito3qaK9huNO7xzOmc0BI"; 
 
-        const BANK_CODE = "006 (合作金庫)";
-
-        const BANK_ACC = "0190765514472";
-
-
-
         let products = [];
 
         let cart = [];
@@ -7678,9 +7666,11 @@ let noticeText = product.notice ? product.notice : (mainProduct && mainProduct.n
                 currentPromoCode = "";
                 document.getElementById('promoMessage').textContent = '商品金額未達優惠門檻，折扣已取消；達標後可重新套用。';
             }
-            const isFreeShipping = subtotal >= FREE_SHIPPING_THRESHOLD;
-            const shippingFee = cart.length ? (isFreeShipping ? 0 : SHIPPING_COST) : 0;
-            return { subtotal, isFreeShipping, shippingFee, finalTotal: Math.max(0, subtotal + shippingFee - currentDiscount) };
+            const deliveryMethod = document.getElementById('deliveryMethod')?.value || 'shipping';
+            const isPickup = deliveryMethod === 'pickup';
+            const isFreeShipping = isPickup || subtotal >= FREE_SHIPPING_THRESHOLD;
+            const shippingFee = cart.length && !isFreeShipping ? SHIPPING_COST : 0;
+            return { subtotal, isPickup, isFreeShipping, shippingFee, finalTotal: Math.max(0, subtotal + shippingFee - currentDiscount) };
         }
 
         // Keep item IDs/quantities in this tab only; never add customer details here.
@@ -7789,7 +7779,7 @@ let noticeText = product.notice ? product.notice : (mainProduct && mainProduct.n
 
                 document.getElementById('priceSummaryArea').style.display = 'none';
 
-                document.querySelector('.btn-next').style.display = 'none';
+                document.getElementById('submitOrderBtn').style.display = 'none';
 
                 return;
 
@@ -7797,7 +7787,7 @@ let noticeText = product.notice ? product.notice : (mainProduct && mainProduct.n
 
                 document.getElementById('priceSummaryArea').style.display = 'block';
 
-                document.querySelector('.btn-next').style.display = 'block';
+                document.getElementById('submitOrderBtn').style.display = 'block';
 
             }
 
@@ -7838,6 +7828,7 @@ let noticeText = product.notice ? product.notice : (mainProduct && mainProduct.n
 
 
             const isFreeShipping = totals.isFreeShipping;
+            const isPickup = totals.isPickup;
             const finalTotal = totals.finalTotal;
 
 
@@ -7850,13 +7841,18 @@ let noticeText = product.notice ? product.notice : (mainProduct && mainProduct.n
 
             const shippingDisplay = document.getElementById('shippingFeeDisplay');
 
-            shippingDisplay.innerHTML = isFreeShipping ? `<span style="text-decoration:line-through; color:#888; margin-right:5px;">NT$ ${SHIPPING_COST}</span> <span style="color:#64ffda">NT$ 0 (免運)</span>` : `NT$ ${SHIPPING_COST}`;
+            shippingDisplay.innerHTML = isPickup
+                ? `<span style="color:#64ffda">NT$ 0（到店取貨）</span>`
+                : (isFreeShipping ? `<span style="text-decoration:line-through; color:#888; margin-right:5px;">NT$ ${SHIPPING_COST}</span> <span style="color:#64ffda">NT$ 0（免運）</span>` : `NT$ ${SHIPPING_COST}`);
 
 
 
             const alertBox = document.getElementById('shippingAlert');
 
-            alertBox.innerHTML = isFreeShipping ? '🎉 恭喜！您已符合免運資格！' : `還差 <b>${FREE_SHIPPING_THRESHOLD - subtotal}</b> 元即享黑貓免運優惠！`;
+            alertBox.classList.toggle('free-shipping-success', isFreeShipping);
+            alertBox.innerHTML = isPickup
+                ? '🏠 到店取貨不收運費'
+                : (isFreeShipping ? '🎉 恭喜！您已符合免運資格！' : `還差 <b>${FREE_SHIPPING_THRESHOLD - subtotal}</b> 元即享黑貓免運優惠！`);
 
         }
 
@@ -7886,51 +7882,134 @@ let noticeText = product.notice ? product.notice : (mainProduct && mainProduct.n
 
 
 
-        function openCart() { document.getElementById('cartModal').style.display = 'flex'; goToStep1(); }
+        function openCart() { document.getElementById('cartModal').style.display = 'flex'; updateDeliveryOptions(); updateCartUI(); }
 
         function closeCart() { document.getElementById('cartModal').style.display = 'none'; }
 
-        function goToStep2() { if (cart.length === 0) return; document.getElementById('step1').classList.remove('active'); document.getElementById('step2').classList.add('active'); }
+        function goToStep2() { openCart(); }
 
-        function goToStep1() { document.getElementById('step2').classList.remove('active'); document.getElementById('step1').classList.add('active'); }
-
-
+        function goToStep1() { openCart(); }
 
 
-        function prepareOrder() {
+
+
+        const ORDER_BACKEND_URL = 'https://script.google.com/macros/s/AKfycbxAff6__efkjc1NyGpo8K4e9xWxAhDsNg6EKdlAL8Xnqo2mSo8dh2urb6UKh7w3ll5M/exec';
+        let pendingOrderId = '';
+
+        function updateDeliveryOptions() {
+            const delivery = document.getElementById('deliveryMethod').value;
+            const payment = document.getElementById('paymentMethod');
+            const previous = payment.value;
+            payment.innerHTML = delivery === 'pickup'
+                ? '<option value="pickup_pay">💵 到店付款</option><option value="atm">🏧 ATM 轉帳</option>'
+                : '<option value="atm">🏧 ATM 轉帳</option><option value="cod">🚚 貨到付款</option>';
+            if ([...payment.options].some(option => option.value === previous)) payment.value = previous;
+            const addressGroup = document.getElementById('addressGroup');
+            const address = document.getElementById('custAddr');
+            addressGroup.hidden = delivery === 'pickup';
+            address.required = delivery !== 'pickup';
+            updateCartUI();
+        }
+
+        function createOrderId() {
+            const parts = new Intl.DateTimeFormat('en-CA', {
+                timeZone: 'Asia/Taipei', year: '2-digit', month: '2-digit', day: '2-digit',
+                hour: '2-digit', minute: '2-digit', hour12: false
+            }).formatToParts(new Date()).reduce((result, part) => (result[part.type] = part.value, result), {});
+            const bytes = new Uint8Array(2);
+            if (window.crypto?.getRandomValues) window.crypto.getRandomValues(bytes);
+            else { bytes[0] = Math.random() * 256; bytes[1] = Math.random() * 256; }
+            return `YY${parts.year}${parts.month}${parts.day}-${parts.hour}${parts.minute}-${[...bytes].map(value => value.toString(16).padStart(2, '0')).join('').toUpperCase()}`;
+        }
+
+        function paymentLabel(value) {
+            return { atm: 'ATM 轉帳', cod: '貨到付款', pickup_pay: '到店付款' }[value] || value;
+        }
+
+        async function saveOrderRecord(order) {
+            if (!ORDER_BACKEND_URL.startsWith('https://script.google.com/')) throw new Error('訂單系統尚未完成設定');
+            const body = new URLSearchParams({ payload: JSON.stringify(order) });
+            await fetch(ORDER_BACKEND_URL, {
+                method: 'POST', mode: 'no-cors', keepalive: true,
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8' }, body
+            });
+        }
+
+        function markLineOpened() {
+            if (!pendingOrderId || !ORDER_BACKEND_URL.startsWith('https://script.google.com/')) return;
+            const body = new URLSearchParams({ payload: JSON.stringify({ action: 'line_open', orderId: pendingOrderId }) });
+            if (navigator.sendBeacon) navigator.sendBeacon(ORDER_BACKEND_URL, body);
+            else fetch(ORDER_BACKEND_URL, { method: 'POST', mode: 'no-cors', keepalive: true, body }).catch(() => {});
+        }
+
+        async function prepareOrder() {
             if (!cart.length) { alert('請先選擇商品。'); return; }
             updateCartUI();
             const name = document.getElementById('custName').value.trim();
             const phone = document.getElementById('custPhone').value.trim();
             const addr = document.getElementById('custAddr').value.trim();
             const note = document.getElementById('custNote').value.trim();
+            const delivery = document.getElementById('deliveryMethod').value;
             const payment = document.getElementById('paymentMethod').value;
+            const deliveryText = delivery === 'pickup' ? '到店取貨' : '黑貓宅配';
+            const paymentText = paymentLabel(payment);
+            const website = document.getElementById('website').value;
 
-            if (!name || !phone || !addr) { alert('請完整填寫姓名、電話與地址喔！'); return; }
+            if (!name || !phone || (delivery === 'shipping' && !addr)) {
+                alert(delivery === 'shipping' ? '請填寫姓名、電話與收件地址。' : '請填寫姓名與電話。');
+                return;
+            }
+            if (!/^[0-9+()\-\s]{8,20}$/.test(phone)) { alert('請確認聯絡電話是否正確。'); return; }
 
             localStorage.setItem('yuyu_customer', JSON.stringify({ name, phone, addr }));
+            const { subtotal, isFreeShipping, isPickup, shippingFee, finalTotal } = calculateCartTotals();
+            pendingOrderId = createOrderId();
 
-            const paymentText = payment === 'atm' ? '🏧 銀行匯款' : '🚚 貨到付款';
-            const { subtotal, isFreeShipping, shippingFee, finalTotal } = calculateCartTotals();
-
-            let message = `嗨宇哥！我要下單：\n------------------\n`;
-            cart.forEach(item => { message += `${item.name} x ${item.qty} = ${item.price * item.qty}\n`; });
-            message += `------------------\n`;
-            message += `商品小計：${subtotal}\n`;
-            if (currentDiscount > 0) message += `🎉 優惠碼折抵 (${currentPromoCode})：-${currentDiscount}\n`;
-            message += `黑貓運費：${shippingFee} ${isFreeShipping ? '(達標免運)' : ''}\n`;
-            message += `💰 總金額：${finalTotal}\n`;
-            message += `------------------\n`;
-            message += `【付款方式】：${paymentText}\n`;
-            if (payment === 'atm') message += `(匯款帳號：${BANK_CODE} ${BANK_ACC})\n(匯款後將依序安排出貨！)\n`;
-            message += `【收件資訊】\n姓名：${name}\n電話：${phone}\n地址：${addr}\n`;
+            let message = `嗨宇哥！我要確認訂單 ${pendingOrderId}：\n------------------\n`;
+            cart.forEach(item => { message += `${item.name} × ${item.qty}＝NT$${item.price * item.qty}\n`; });
+            message += `------------------\n商品小計：NT$${subtotal}\n`;
+            if (currentDiscount > 0) message += `優惠折抵（${currentPromoCode}）：-NT$${currentDiscount}\n`;
+            message += `運費：NT$${shippingFee}${isPickup ? '（到店取貨）' : (isFreeShipping ? '（免運）' : '')}\n`;
+            message += `總金額：NT$${finalTotal}\n------------------\n`;
+            message += `取貨方式：${deliveryText}\n付款方式：${paymentText}\n`;
+            message += `姓名：${name}\n電話：${phone}\n`;
+            if (delivery === 'shipping') message += `地址：${addr}\n`;
             if (note) message += `備註：${note}\n`;
-            message += `\n麻煩確認訂單，謝謝！`;
-
+            message += `\n麻煩幫我確認庫存與付款方式，謝謝！`;
             pendingOrderMessage = message;
 
-            document.getElementById('orderDraftText').value = pendingOrderMessage;
-            showOrderHandoff();
+            const order = {
+                orderId: pendingOrderId, website, name, phone,
+                address: delivery === 'shipping' ? addr : '', note,
+                delivery: deliveryText, payment: paymentText,
+                items: cart.map(item => ({ name: item.name, qty: item.qty, price: item.price })),
+                subtotal, shippingFee, discount: currentDiscount, total: finalTotal,
+                promoCode: currentPromoCode, sourcePage: location.href
+            };
+
+            const button = document.getElementById('submitOrderBtn');
+            const status = document.getElementById('checkoutStatus');
+            button.disabled = true;
+            button.textContent = '正在建立訂單…';
+            status.textContent = '';
+            try {
+                await saveOrderRecord(order);
+                document.getElementById('orderDraftText').value = pendingOrderMessage;
+                if (isOrderMobile()) {
+                    status.textContent = '訂單已建立，正在開啟 LINE…';
+                    markLineOpened();
+                    window.location.href = orderLineUrl();
+                } else {
+                    closeCart();
+                    showOrderHandoff();
+                }
+            } catch (error) {
+                console.error(error);
+                status.textContent = '暫時無法建立訂單，請稍後重試或私訊臉書粉專。';
+            } finally {
+                button.disabled = false;
+                button.textContent = '建立訂單並前往 LINE ➤';
+            }
         }
 
         const OFFICIAL_ORDER_URL = 'https://line.me/R/oaMessage/%40118rfvyo';
@@ -7993,6 +8072,7 @@ let noticeText = product.notice ? product.notice : (mainProduct && mainProduct.n
         function finalSubmit() {
             if (!pendingOrderMessage) return;
             saveCartDraft();
+            markLineOpened();
             window.location.href = orderLineUrl();
         }
         async function copyOrderText() {
