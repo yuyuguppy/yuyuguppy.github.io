@@ -1,0 +1,52 @@
+name: One-time Molly sitemap sync
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/one-time-molly-sitemap.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  sync-molly-sitemap:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Add molly guide to generated sitemap source and current XML
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+
+          script = Path('scripts/build_products.py')
+          text = script.read_text(encoding='utf-8')
+          anchor = '        (f"{SITE}/guides/betta-care.html", "monthly", "0.8"),\n'
+          addition = '        (f"{SITE}/guides/molly-care.html", "monthly", "0.8"),\n'
+          if addition not in text:
+              if anchor not in text:
+                  raise SystemExit('Sitemap fixed-list anchor not found')
+              text = text.replace(anchor, anchor + addition, 1)
+              script.write_text(text, encoding='utf-8')
+
+          sitemap = Path('sitemap.xml')
+          xml = sitemap.read_text(encoding='utf-8')
+          molly_url = 'https://yuyuguppy.github.io/guides/molly-care.html'
+          if molly_url not in xml:
+              anchor_xml = '  <url><loc>https://yuyuguppy.github.io/guides/betta-care.html</loc><lastmod>2026-09-08</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>\n'
+              new_xml = '  <url><loc>https://yuyuguppy.github.io/guides/molly-care.html</loc><lastmod>2026-09-16</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>\n'
+              if anchor_xml not in xml:
+                  raise SystemExit('Current sitemap anchor not found')
+              sitemap.write_text(xml.replace(anchor_xml, anchor_xml + new_xml, 1), encoding='utf-8')
+          PY
+      - name: Remove one-time workflow
+        run: rm .github/workflows/one-time-molly-sitemap.yml
+      - name: Commit sitemap sync
+        run: |
+          git config user.name "yuyuguppy"
+          git config user.email "jeffreyyu86@gmail.com"
+          git add scripts/build_products.py sitemap.xml .github/workflows/one-time-molly-sitemap.yml
+          git commit -m "將茉莉魚指南納入自動 sitemap"
+          git push
