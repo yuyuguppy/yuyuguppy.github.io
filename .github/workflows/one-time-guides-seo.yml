@@ -1,0 +1,81 @@
+name: One-time Guides SEO cleanup
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/one-time-guides-seo.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  patch-guides:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Patch article schema and knowledge hub
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+
+          targets = [
+              Path('guides/guppy-care.html'),
+              Path('guides/betta-care.html'),
+              Path('guides/guppy-symptoms.html'),
+          ]
+          old_author = '"author":{"@type":"Organization","name":"宇魚水族","url":"https://yuyuguppy.github.io/"}'
+          new_author = '"author":{"@type":"Organization","name":"宇魚水族","url":"https://yuyuguppy.github.io/","logo":{"@type":"ImageObject","url":"https://yuyuguppy.github.io/logo.jpg"}}'
+          for path in targets:
+              text = path.read_text(encoding='utf-8')
+              if old_author not in text:
+                  raise SystemExit(f'Expected author schema not found in {path}')
+              text = text.replace(old_author, new_author, 1)
+              text = text.replace('alt="" class="daohui-dog-img"', 'alt="島輝回到頁面頂端" class="daohui-dog-img"', 1)
+              path.write_text(text, encoding='utf-8')
+
+          hub = Path('guides/index.html')
+          text = hub.read_text(encoding='utf-8')
+          text = text.replace(
+              '<a class="species-card" href="molly-care.html"><span class="icon">🌿</span><strong>茉莉魚</strong><span>完整新手指南正在整理中，之後會從實際飼養經驗慢慢補上。</span><b>即將上線 →</b></a>',
+              '<a class="species-card" href="molly-care.html"><span class="icon">🌿</span><strong>茉莉魚</strong><span>水溫、魚缸、餵食、換水、繁殖、混養、加鹽與常見品系差異。</span><b>看茉莉魚指南 →</b></a>'
+          )
+
+          css_anchor = '.experience{color:#624d40;margin:0}.experience strong{color:#8e452e}'
+          css_extra = '.experience{color:#624d40;margin:0}.experience strong{color:#8e452e}.topic-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.topic-link{display:block;text-decoration:none;background:#fffaf3;border:1px solid #ead4be;border-radius:14px;padding:14px}.topic-link strong{display:block;color:#8e452e;margin-bottom:4px}.topic-link span{font-size:13px;color:#755c4c;line-height:1.7}'
+          if css_anchor not in text:
+              raise SystemExit('Knowledge hub CSS anchor not found')
+          text = text.replace(css_anchor, css_extra, 1)
+          text = text.replace('@media(max-width:680px){.wrap{width:calc(100% - 20px);padding-top:16px}.hero,.section{padding:18px 16px;border-radius:18px}.species-grid,.use-list{grid-template-columns:1fr;gap:9px}', '@media(max-width:680px){.wrap{width:calc(100% - 20px);padding-top:16px}.hero,.section{padding:18px 16px;border-radius:18px}.species-grid,.use-list,.topic-grid{grid-template-columns:1fr;gap:9px}', 1)
+
+          insert_after = '<section class="section"><h2>不知道從哪裡看？</h2><div class="use-list"><div class="use-item"><strong>先看環境</strong><span>水溫、魚缸大小、過濾和換水，是很多問題最先要確認的地方。</span></div><div class="use-item"><strong>再看每天怎麼養</strong><span>餵多少、多久整理一次，以及新魚剛到家怎麼適應，都比一次買很多設備更重要。</span></div><div class="use-item"><strong>魚怪怪的再查症狀</strong><span>先把看到的樣子、最近做過的變動和整缸狀況整理起來，再決定下一步。</span></div></div></section>'
+          new_section = insert_after + '''\n<section class="section"><h2>常見問題快速找</h2><div class="topic-grid">
+<a class="topic-link" href="guppy-care.html"><strong>🌡️ 冬天要不要加溫？</strong><span>孔雀魚水溫、寒流與加溫棒怎麼判斷。</span></a>
+<a class="topic-link" href="guppy-care.html"><strong>🛬 新魚到家怎麼入缸？</strong><span>對溫、第一天餵食與降低緊迫的做法。</span></a>
+<a class="topic-link" href="guppy-care.html"><strong>🏠 一尺缸可以養幾隻？</strong><span>從 2 對開始，依水量、過濾與繁殖再調整。</span></a>
+<a class="topic-link" href="guppy-care.html"><strong>🤰 孔雀魚多久生一次？</strong><span>夏冬週期、日期記錄與新手常見誤判。</span></a>
+<a class="topic-link" href="betta-care.html"><strong>🐟 鬥魚需要過濾嗎？</strong><span>水流要柔和，大尾型尤其別讓牠一直對抗水流。</span></a>
+<a class="topic-link" href="betta-care.html"><strong>🪞 鬥魚可以照鏡子嗎？</strong><span>短暫刺激可以，但不要長時間維持警戒。</span></a>
+<a class="topic-link" href="molly-care.html"><strong>🧂 茉莉魚一定要加鹽嗎？</strong><span>耐鹽不等於每缸必須加鹽，硬度與穩定更重要。</span></a>
+<a class="topic-link" href="molly-care.html"><strong>🎨 乳牛、斑馬、大理石差在哪？</strong><span>從花紋辨認常見茉莉魚市場名稱。</span></a>
+</div></section>'''
+          if insert_after not in text:
+              raise SystemExit('Knowledge hub insertion anchor not found')
+          text = text.replace(insert_after, new_section, 1)
+          text = text.replace('alt="" class="daohui-dog-img"', 'alt="島輝回到頁面頂端" class="daohui-dog-img"', 1)
+          hub.write_text(text, encoding='utf-8')
+          PY
+
+      - name: Remove one-time workflow
+        run: rm .github/workflows/one-time-guides-seo.yml
+
+      - name: Commit SEO cleanup
+        run: |
+          git config user.name "yuyuguppy"
+          git config user.email "jeffreyyu86@gmail.com"
+          git add guides/guppy-care.html guides/betta-care.html guides/guppy-symptoms.html guides/index.html .github/workflows/one-time-guides-seo.yml
+          git commit -m "修正文章結構化資料並補強養魚知識庫"
+          git push
