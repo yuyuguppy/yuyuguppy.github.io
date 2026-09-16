@@ -643,6 +643,8 @@
                 -webkit-overflow-scrolling: touch;
                 padding: 2px 2px calc(12px + env(safe-area-inset-bottom));
             }
+            /* 手機版改為一般文件流，避免 flex 把表單壓短後讓底部按鈕蓋住欄位 */
+            .step-container.active.checkout-single { display: block; }
             .checkout-layout { grid-template-columns: 1fr; gap: 12px; }
             .checkout-panel { padding: 12px; }
             .checkout-single .cart-items { max-height: none; overflow: visible; }
