@@ -12,20 +12,6 @@
     /* SEO：首頁統一使用根網址，避免 / 與 /index.html 持續分散內部連結訊號。 */
     const homeUrl = url('');
 
-    /* SEO：about.html 原本主視覺標題是 div，補成真正 H1；同時讓標題更貼近目前 GSC 已有排名的在地搜尋意圖。 */
-    if (page === 'about.html') {
-      const headline = document.querySelector('.main-headline');
-      if (headline && headline.tagName !== 'H1') {
-        const h1 = document.createElement('h1');
-        h1.className = headline.className;
-        h1.innerHTML = headline.innerHTML;
-        headline.replaceWith(h1);
-      }
-      document.title = '新竹水族館推薦｜宇魚水族・孔雀魚、鬥魚、茉莉魚｜新埔三合院店';
-      const desc = document.querySelector('meta[name="description"]');
-      if (desc) desc.content = '找新竹水族館或新竹水族館推薦？宇魚水族位於新竹縣新埔三合院，專營孔雀魚、鬥魚、茉莉魚與水族活體，提供新手飼養諮詢、魚缸規劃與來店挑魚。這裡也記錄宇魚從養魚興趣一路走到實體水族館的故事。';
-    }
-
     const font = document.createElement('link');
     font.rel = 'stylesheet';
     font.href = 'https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@700&display=swap';
