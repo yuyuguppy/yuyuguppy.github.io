@@ -37,7 +37,74 @@ button{font:inherit;cursor:pointer}.btn{border:0;border-radius:18px;padding:14px
 <section id="auction" class="screen"><button class="btn ghost back" data-nav="home">← 遊戲大廳</button><div class="panel"><div class="gameLabel">TIME GAMBLE</div><h2 class="gameTitle">時間豪賭</h2><div id="clock" class="clock">0.0</div><div id="clockStatus" class="status">準備好了就開始。</div><div class="row" style="justify-content:center;margin-top:20px"><button id="startClock" class="btn primary">開始計時</button><button id="stopClock" class="btn pink">停！</button><button id="resetClock" class="btn ghost">重來</button></div><p class="note" style="margin-top:18px">玩法：主持人設定一個目標秒數，開始後玩家不要盯著數字，靠體感喊停；最接近者得分。</p></div></section>
 
 <section id="likely" class="screen"><button class="btn ghost back" data-nav="home">← 遊戲大廳</button><div class="panel fun"><div class="gameLabel">MOST LIKELY TO...</div><div class="emoji">👀</div><h2 id="likelyQuestion">誰最有可能半夜突然買機票出國？</h2><p class="status">數到三，所有人一起指。被指最多的人要講故事。</p><button id="nextLikely" class="btn pink">換一題 😈</button></div></section>
-<section id="punish" class="screen"><button class="btn ghost back" data-nav="home">← 遊戲大廳</button><div class="panel fun"><div class="gameLabel">PENALTY COURT</div><div class="emoji">🎭</div><h2>懲罰審判所</h2><p class="status">輸家沒有消失鍵。選一種方式接受制裁。</p><div class="row" style="justify-content:center"><button id="truthMode" class="btn pink">真心話 💬</button><button id="dareMode" class="btn blue">大冒險 ⚡</button></div><div id="punishType" class="tag" style="margin:22px auto 0">真心話</div><div id="punishQuestion" class="question" style="min-height:36dvh">你最近一次心虛，是因為什麼？</div><div class="note">任何人都可以跳過不舒服的題目。大冒險不做危險、違法、羞辱、性騷擾或強迫別人的內容。</div><button id="nextPunish" class="btn primary" style="margin-top:14px">再抽一個 🎲</button></div></section><section id="bluff" class="screen"><button class="btn ghost back" data-nav="home">← 遊戲大廳</button><div class="panel"><div class="gameLabel">BLUFF KING</div><h2 class="gameTitle">誰是瞎掰王 🃏</h2><p class="status">一個人猜，其他人都要演得像真的。</p><div id="bluffCats" class="chips"></div><div class="fun" style="padding-bottom:8px"><div class="tag" id="bluffCategory">冷知識</div><h2 id="bluffWord" style="font-size:clamp(44px,9vw,80px);margin-bottom:8px">犰狳</h2><p id="bluffHint" class="status">請除了猜題者以外的人看題目，輪流講一個你認為它是什麼的解釋。</p></div><div class="note"><b>玩法：</b>只有主持人可以按「看真正意思」。其他玩家先輪流瞎掰一個看似合理的解釋；猜題者最後選出誰講的才是真的。</div><div id="bluffAnswer" class="question" style="display:none;min-height:28dvh;font-size:clamp(28px,5vw,48px)"></div><div class="row" style="margin-top:14px"><button id="showBluffAnswer" class="btn pink">看真正意思 👀</button><button id="nextBluff" class="btn primary">下一題 🎲</button></div></div></section></div><div id="toast" class="toast">OK</div>
+<section id="punish" class="screen"><button class="btn ghost back" data-nav="home">← 遊戲大廳</button><div class="panel fun"><div class="gameLabel">PENALTY COURT</div><div class="emoji">🎭</div><h2>懲罰審判所</h2><p class="status">輸家沒有消失鍵。選一種方式接受制裁。</p><div class="row" style="justify-content:center"><button id="truthMode" class="btn pink">真心話 💬</button><button id="dareMode" class="btn blue">大冒險 ⚡</button></div><div id="punishType" class="tag" style="margin:22px auto 0">真心話</div><div id="punishQuestion" class="question" style="min-height:36dvh">你最近一次心虛，是因為什麼？</div><div class="note">任何人都可以跳過不舒服的題目。大冒險不做危險、違法、羞辱、性騷擾或強迫別人的內容。</div><button id="nextPunish" class="btn primary" style="margin-top:14px">再抽一個 🎲</button></div></section><section id="bluff" class="screen"><button class="btn ghost back" data-nav="home">← 遊戲大廳</button>
+<div class="panel">
+<div class="gameLabel">BLUFF KING · MULTIPLAYER</div>
+<h2 class="gameTitle">誰是瞎掰王 🃏</h2>
+<p class="status">一個人猜真相，其他人負責把假的講得比真的還真。</p>
+
+<div id="bluffEntry">
+  <div class="row" style="margin-top:18px;justify-content:center">
+    <button id="createBluffRoom" class="btn primary">我是主持人 · 建立房間 📺</button>
+    <button id="joinBluffRoom" class="btn pink">我是玩家 · 加入房間 📱</button>
+  </div>
+  <div class="note" style="margin-top:16px"><b>推薦玩法：</b>iPad / 電腦當主持大螢幕，所有參賽者用自己的手機加入。主持人的螢幕不會顯示任何人的秘密角色。</div>
+  <button id="soloBluff" class="btn ghost" style="margin-top:12px">沒有網路？用單機主持版</button>
+</div>
+
+<div id="bluffHost" style="display:none">
+  <div class="fun" style="padding:20px 0 4px">
+    <div class="gameLabel">房間代碼</div>
+    <div id="bluffRoomCode" class="room" style="font-size:clamp(34px,8vw,58px)">------</div>
+    <p class="status" id="bluffHostStatus">等待玩家加入…</p>
+    <div class="row" style="justify-content:center"><button id="shareBluffRoom" class="btn ghost">分享加入連結 🔗</button></div>
+  </div>
+  <div class="sectionTitle"><h2>玩家</h2><span id="bluffPlayerCount">0 人</span></div>
+  <div id="bluffPlayers" class="chips" style="flex-wrap:wrap;overflow:visible"></div>
+  <div class="sectionTitle"><h2>本局設定</h2><span>猜題者每局可更換</span></div>
+  <div id="bluffHostCats" class="chips"></div>
+  <label style="display:block;margin:12px 0 6px;color:var(--muted);font-size:13px">這局誰負責猜？</label>
+  <select id="bluffGuesser" class="chip" style="width:100%;font-size:16px"></select>
+  <div class="row" style="margin-top:14px"><button id="startBluffRound" class="btn primary">開始這一局 🎲</button></div>
+  <div id="bluffHostRound" style="display:none;margin-top:18px">
+    <div class="fun" style="padding:18px 8px"><div class="tag" id="hostBluffCat">分類</div><h2 id="hostBluffWord" style="font-size:clamp(48px,10vw,86px);margin:12px 0">詞彙</h2><p id="hostBluffProgress" class="status">等待答案…</p></div>
+    <div id="hostAnswerList"></div>
+    <div id="hostReveal" class="note" style="display:none;margin-top:14px"></div>
+    <button id="nextBluffRound" class="btn primary" style="display:none;margin-top:14px">下一局 →</button>
+  </div>
+</div>
+
+<div id="bluffJoin" style="display:none">
+  <div class="gameLabel">JOIN ROOM</div><h3>加入瞎掰現場</h3>
+  <input id="bluffName" class="chip" style="width:100%;font-size:17px;margin:8px 0" maxlength="16" placeholder="你的暱稱">
+  <input id="bluffJoinCode" class="chip" style="width:100%;font-size:20px;letter-spacing:3px;margin:8px 0;text-transform:uppercase" maxlength="6" placeholder="6 位房間碼">
+  <button id="confirmBluffJoin" class="btn primary" style="width:100%;margin-top:8px">加入房間</button>
+  <p id="bluffJoinStatus" class="status">輸入主持人螢幕上的房間碼。</p>
+</div>
+
+<div id="bluffPlayer" style="display:none">
+  <div class="fun" style="padding:18px 4px">
+    <div class="tag" id="playerRoleTag">等待中</div>
+    <h2 id="playerBluffWord" style="font-size:clamp(44px,10vw,76px);margin:15px 0">等主持人開始</h2>
+    <p id="playerBluffInstruction" class="status">先不要露出可疑的表情。</p>
+  </div>
+  <div id="truthDefinitionBox" class="note" style="display:none"></div>
+  <div id="bluffSubmitBox" style="display:none;margin-top:14px">
+    <textarea id="bluffSubmission" class="chip" style="width:100%;min-height:120px;white-space:normal;font-size:17px;resize:vertical" placeholder="輸入你要說的解釋…"></textarea>
+    <div class="row" style="margin-top:10px"><button id="useTrueDefinition" class="btn ghost" style="display:none">直接使用標準答案</button><button id="submitBluff" class="btn primary">送出答案</button></div>
+  </div>
+  <div id="playerVoting" style="display:none"><div class="sectionTitle"><h2>哪個才是真的？</h2><span>猜題者請選一個</span></div><div id="playerAnswerChoices"></div></div>
+  <div id="playerReveal" class="note" style="display:none;margin-top:16px"></div>
+</div>
+
+<div id="bluffSolo" style="display:none">
+  <div id="bluffCats" class="chips"></div>
+  <div class="fun" style="padding-bottom:8px"><div class="tag" id="bluffCategory">冷知識</div><h2 id="bluffWord" style="font-size:clamp(44px,9vw,80px);margin-bottom:8px">犰狳</h2></div>
+  <div class="note"><b>單機玩法：</b>其他人先輪流瞎掰，主持人最後再揭曉真正意思。</div>
+  <div id="bluffAnswer" class="question" style="display:none;min-height:28dvh;font-size:clamp(28px,5vw,48px)"></div>
+  <div class="row" style="margin-top:14px"><button id="showBluffAnswer" class="btn pink">看真正意思 👀</button><button id="nextBluff" class="btn primary">下一題 🎲</button></div>
+</div>
+</div></section></div><div id="toast" class="toast">OK</div>
 <script>
 (function(){
 "use strict";
@@ -65,12 +132,203 @@ qs("#nextPunish").onclick=drawPunish;
 
 var bluffData={"冷知識":[["犰狳","一種有骨質甲片覆蓋身體的哺乳動物，主要分布在美洲。"],["鐘乳石","洞穴中由含礦物質的水滴長期沉積形成、從洞頂向下生長的石灰質構造。"],["潮汐鎖定","天體自轉週期與公轉週期相同，因此總以同一面朝向另一個天體。"],["共振","外力頻率接近物體固有頻率時，振幅會顯著增加的現象。"],["厄爾尼諾","赤道太平洋中東部海水異常增暖，進而影響全球氣候的現象。"],["食蟲植物","能捕捉並消化昆蟲等小型動物，以補充營養的植物。"],["回音定位","透過發出聲音並分析反射回波來判斷物體位置的方法。"],["藍月","同一個曆月內出現的第二次滿月，或特定季節中的第四次滿月。"]],"奇怪詞彙":[["囫圇","完整、不加咀嚼或不加分析地整體接受。"],["踟躕","猶豫不前、徘徊不定。"],["齟齬","意見不合或彼此不協調。"],["倥傯","事情繁忙、急迫的樣子。"],["躑躅","徘徊不前，也可指行走遲疑。"],["囈語","人在睡夢中不自覺說出的話。"],["覬覦","希望得到不屬於自己的東西，常帶有非分企圖。"],["耄耋","泛指年紀很大的人，常指八、九十歲。"]],"世界文化":[["浮世繪","日本江戶時代流行的木版畫藝術，常描繪人物、風景與庶民生活。"],["桑巴","起源於巴西、深受非洲文化影響的音樂與舞蹈形式。"],["塔帕斯","西班牙常見的小份量餐點，適合搭配飲品共享。"],["圖騰","某群體視為象徵或祖先連結的動物、植物或自然物。"],["極光","高能帶電粒子與地球高層大氣作用後產生的發光現象。"],["哈卡舞","毛利文化中的傳統群體舞蹈，以強烈動作、吶喊與節奏表達情緒與團結。"],["薩滿","某些傳統文化中，透過儀式與靈性世界溝通的人。"],["馬賽克","以許多小塊材料拼接形成圖案或圖像的裝飾藝術。"]],"科學科技":[["量子糾纏","兩個或多個量子系統呈現強關聯，使其中一方的測量結果與另一方密切相關。"],["演算法","一組用來解決問題或完成任務的明確步驟。"],["區塊鏈","以分散式方式儲存並串接資料區塊的資料結構。"],["光合作用","植物等生物利用光能把二氧化碳和水轉成有機物並釋放氧氣的過程。"],["超導體","在特定低溫等條件下電阻降為零並呈現特殊磁性的材料。"],["神經網路","受生物神經系統啟發、由多層節點構成的機器學習模型。"],["CRISPR","一類可用於精準編輯 DNA 序列的基因編輯技術。"],["黑洞","重力強到連光都無法逃離的時空區域。"]],"生活腦洞":[["機會成本","做出某個選擇時，所放棄的其他選項中價值最高的那一個。"],["安慰劑效應","即使接受的是沒有有效成分的處置，也可能因期待而產生實際感受改善的現象。"],["旁觀者效應","在場的人越多，個別旁觀者反而越可能不主動提供協助的現象。"],["沉沒成本","已經投入且無法回收的時間、金錢或資源。"],["幸存者偏差","只看成功或留下來的案例，忽略失敗或消失的案例，因而形成偏差判斷。"],["確認偏誤","傾向尋找、相信支持自己原本看法的資訊，而忽略相反證據。"],["破窗效應","環境中若小規模失序長期不被處理，可能增加更多失序行為的理論。"],["鄧寧克魯格效應","能力不足者可能高估自身能力，而較有能力者反而更清楚自身限制的認知偏差。"]]};
 var bluffCat="冷知識";
-function renderBluffCats(){var box=qs("#bluffCats");box.innerHTML="";Object.keys(bluffData).forEach(function(c){var b=document.createElement("button");b.className="chip"+(c===bluffCat?" active":"");b.textContent=c;b.onclick=function(){bluffCat=c;renderBluffCats();drawBluff()};box.appendChild(b)})}
+function renderBluffCats(){var box=qs("#bluffCats");if(!box)return;box.innerHTML="";Object.keys(bluffData).forEach(function(c){var b=document.createElement("button");b.className="chip"+(c===bluffCat?" active":"");b.textContent=c;b.onclick=function(){bluffCat=c;renderBluffCats();drawBluff()};box.appendChild(b)})}
 function drawBluff(){var pool=bluffData[bluffCat]||[];var item=pool[Math.floor(Math.random()*pool.length)];qs("#bluffCategory").textContent=bluffCat;qs("#bluffWord").textContent=item[0];qs("#bluffAnswer").textContent=item[1];qs("#bluffAnswer").style.display="none";qs("#showBluffAnswer").textContent="看真正意思 👀"}
 qs("#showBluffAnswer").onclick=function(){var a=qs("#bluffAnswer");var show=a.style.display==="none";a.style.display=show?"flex":"none";qs("#showBluffAnswer").textContent=show?"藏起真正意思 🙈":"看真正意思 👀"};
 qs("#nextBluff").onclick=drawBluff;
 renderBluffCats();drawBluff();
 
+var peerLibPromise=null;
+function loadPeerLib(){
+  if(window.Peer)return Promise.resolve();
+  if(peerLibPromise)return peerLibPromise;
+  peerLibPromise=new Promise(function(resolve,reject){
+    var s=document.createElement("script");
+    s.src="https://unpkg.com/peerjs@1.5.5/dist/peerjs.min.js";
+    s.onload=function(){window.Peer?resolve():reject(new Error("PeerJS not available"))};
+    s.onerror=function(){reject(new Error("無法載入多人連線模組"))};
+    document.head.appendChild(s);
+  });
+  return peerLibPromise;
+}
+var bluffNet={mode:null,peer:null,hostConn:null,conns:{},players:{},room:"",round:null,roundNo:0,lastGuesser:null};
+
+function makeRoomCode(){
+  var chars="ABCDEFGHJKLMNPQRSTUVWXYZ23456789",out="";
+  for(var i=0;i<6;i++)out+=chars[Math.floor(Math.random()*chars.length)];
+  return out;
+}
+function peerIdFromCode(code){return "bobo-"+String(code||"").toLowerCase()}
+function safeSend(conn,data){try{if(conn&&conn.open)conn.send(data)}catch(e){}}
+function broadcast(data){Object.keys(bluffNet.conns).forEach(function(id){safeSend(bluffNet.conns[id],data)})}
+function playerArray(){return Object.keys(bluffNet.players).map(function(id){return bluffNet.players[id]})}
+function updateHostRoster(){
+  var box=qs("#bluffPlayers"),sel=qs("#bluffGuesser"),arr=playerArray();
+  box.innerHTML=""; sel.innerHTML="";
+  arr.forEach(function(p){
+    var chip=document.createElement("div");chip.className="chip";chip.textContent=p.name+" · "+(p.score||0)+"分";box.appendChild(chip);
+    var o=document.createElement("option");o.value=p.id;o.textContent=p.name;sel.appendChild(o);
+  });
+  qs("#bluffPlayerCount").textContent=arr.length+" 人";
+  if(bluffNet.lastGuesser&&bluffNet.players[bluffNet.lastGuesser]){
+    var idx=arr.findIndex(function(p){return p.id===bluffNet.lastGuesser});
+    if(arr.length>1)sel.value=arr[(idx+1)%arr.length].id;
+  }
+}
+function renderHostCats(){
+  var box=qs("#bluffHostCats");box.innerHTML="";
+  Object.keys(bluffData).forEach(function(c){var b=document.createElement("button");b.className="chip"+(c===bluffCat?" active":"");b.textContent=c;b.onclick=function(){bluffCat=c;renderHostCats()};box.appendChild(b)})
+}
+function showBluffPane(id){
+  ["bluffEntry","bluffHost","bluffJoin","bluffPlayer","bluffSolo"].forEach(function(x){qs("#"+x).style.display=x===id?"block":"none"})
+}
+function hostMessage(conn,msg){
+  if(!msg||!msg.type)return;
+  if(msg.type==="join"){
+    var nm=String(msg.name||"玩家").trim().slice(0,16)||"玩家";
+    bluffNet.players[conn.peer]={id:conn.peer,name:nm,score:0};
+    safeSend(conn,{type:"joined",name:nm});
+    updateHostRoster();broadcast({type:"roster",players:playerArray().map(function(p){return{id:p.id,name:p.name,score:p.score}})});
+    qs("#bluffHostStatus").textContent=playerArray().length+" 位玩家已加入";
+  }
+  if(msg.type==="submit"&&bluffNet.round&&conn.peer!==bluffNet.round.guesser){
+    bluffNet.round.submissions[conn.peer]=String(msg.text||"").trim().slice(0,260);
+    safeSend(conn,{type:"submitted"});
+    hostRoundProgress();
+    var need=playerArray().filter(function(p){return p.id!==bluffNet.round.guesser}).length;
+    if(Object.keys(bluffNet.round.submissions).length>=need)publishAnswers();
+  }
+  if(msg.type==="vote"&&bluffNet.round&&conn.peer===bluffNet.round.guesser){resolveVote(msg.answerId)}
+}
+function attachHostConn(conn){
+  bluffNet.conns[conn.peer]=conn;
+  conn.on("data",function(msg){hostMessage(conn,msg)});
+  conn.on("close",function(){delete bluffNet.conns[conn.peer];delete bluffNet.players[conn.peer];updateHostRoster()});
+  conn.on("error",function(){});
+}
+function createBluffHost(){
+  loadPeerLib().then(function(){
+    bluffNet.mode="host";bluffNet.room=makeRoomCode();
+    var id=peerIdFromCode(bluffNet.room);
+    bluffNet.peer=new Peer(id);
+    bluffNet.peer.on("open",function(){
+      showBluffPane("bluffHost");qs("#bluffRoomCode").textContent=bluffNet.room;renderHostCats();updateHostRoster();
+      qs("#bluffHostStatus").textContent="房間已開好，等朋友加入";
+      history.replaceState(null,"",location.pathname+"?bluff="+bluffNet.room);
+    });
+    bluffNet.peer.on("connection",attachHostConn);
+    bluffNet.peer.on("error",function(err){qs("#bluffHostStatus").textContent="連線失敗："+(err.type||"請重試");toast("房間建立失敗")});
+  }).catch(function(){toast("多人模組載入失敗，請檢查網路");showBluffPane("bluffSolo")});
+}
+function joinBluff(){
+  var code=qs("#bluffJoinCode").value.trim().toUpperCase(),name=qs("#bluffName").value.trim();
+  if(!name){toast("先輸入暱稱");return} if(code.length!==6){toast("房間碼是 6 位");return}
+  qs("#bluffJoinStatus").textContent="連線中…";
+  loadPeerLib().then(function(){
+    bluffNet.mode="player";bluffNet.room=code;bluffNet.peer=new Peer();
+    bluffNet.peer.on("open",function(){
+      var conn=bluffNet.peer.connect(peerIdFromCode(code),{reliable:true});
+      bluffNet.hostConn=conn;
+      conn.on("open",function(){safeSend(conn,{type:"join",name:name});qs("#bluffJoinStatus").textContent="已找到房間"});
+      conn.on("data",playerMessage);
+      conn.on("close",function(){qs("#playerBluffInstruction").textContent="與主持人連線中斷，請重新加入。"});
+      conn.on("error",function(){qs("#bluffJoinStatus").textContent="加入失敗，請確認房間碼"});
+    });
+    bluffNet.peer.on("error",function(){qs("#bluffJoinStatus").textContent="找不到這個房間，請確認房間碼"});
+  }).catch(function(){qs("#bluffJoinStatus").textContent="多人模組載入失敗，請檢查網路"});
+}
+function playerMessage(msg){
+  if(!msg||!msg.type)return;
+  if(msg.type==="joined"){showBluffPane("bluffPlayer");qs("#playerRoleTag").textContent="已加入";qs("#playerBluffWord").textContent="等待開局";qs("#playerBluffInstruction").textContent="主持人開始後，你的秘密身份會出現在這裡。"}
+  if(msg.type==="role"){
+    qs("#playerReveal").style.display="none";qs("#playerVoting").style.display="none";
+    qs("#playerBluffWord").textContent=msg.word;qs("#bluffSubmission").value="";
+    if(msg.role==="guesser"){
+      qs("#playerRoleTag").textContent="🔎 你是猜題者";qs("#playerBluffInstruction").textContent="你只知道詞彙。等大家交卷後，找出真正意思。";qs("#truthDefinitionBox").style.display="none";qs("#bluffSubmitBox").style.display="none";
+    }else if(msg.role==="truth"){
+      qs("#playerRoleTag").textContent="👑 你拿到真相";qs("#playerBluffInstruction").textContent="其他人都在瞎掰。請把真正意思說得自然一點，別被抓到。";qs("#truthDefinitionBox").style.display="block";qs("#truthDefinitionBox").innerHTML="<b>真正意思：</b>"+msg.definition;qs("#bluffSubmitBox").style.display="block";qs("#useTrueDefinition").style.display="inline-block";qs("#useTrueDefinition").dataset.answer=msg.definition;
+    }else{
+      qs("#playerRoleTag").textContent="😈 你是瞎掰者";qs("#playerBluffInstruction").textContent="你不知道真正答案。編一個夠合理、最好能騙過猜題者的解釋。";qs("#truthDefinitionBox").style.display="none";qs("#bluffSubmitBox").style.display="block";qs("#useTrueDefinition").style.display="none";
+    }
+  }
+  if(msg.type==="submitted"){qs("#bluffSubmitBox").style.display="none";qs("#playerBluffInstruction").textContent="已交卷。現在請裝得像什麼都知道。"}
+  if(msg.type==="answers"){
+    if(msg.isGuesser){
+      qs("#playerVoting").style.display="block";var box=qs("#playerAnswerChoices");box.innerHTML="";
+      msg.answers.forEach(function(a,i){var b=document.createElement("button");b.className="card";b.style.minHeight="0";b.style.width="100%";b.style.marginBottom="10px";b.innerHTML="<b>答案 "+String.fromCharCode(65+i)+"</b><p style='margin-top:8px'>"+escapeHtml(a.text)+"</p>";b.onclick=function(){safeSend(bluffNet.hostConn,{type:"vote",answerId:a.id});qsa("#playerAnswerChoices button").forEach(function(x){x.disabled=true});qs("#playerBluffInstruction").textContent="已選擇，等主持人揭曉。"};box.appendChild(b)})
+    }else{qs("#playerBluffInstruction").textContent="答案已上桌，猜題者正在選。"}
+  }
+  if(msg.type==="reveal"){
+    qs("#playerVoting").style.display="none";qs("#bluffSubmitBox").style.display="none";qs("#truthDefinitionBox").style.display="none";
+    qs("#playerReveal").style.display="block";qs("#playerReveal").innerHTML="<b>"+(msg.correct?"猜中了！":"被瞎掰成功！")+"</b><br>真正意思："+escapeHtml(msg.definition)+"<br><br><b>目前排行：</b><br>"+msg.scores.map(function(s,i){return (i+1)+". "+escapeHtml(s.name)+"　"+s.score+" 分"}).join("<br>");
+    qs("#playerRoleTag").textContent="本局結束";qs("#playerBluffInstruction").textContent="下一局準備中。";
+  }
+}
+function escapeHtml(s){return String(s||"").replace(/[&<>"']/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]})}
+function startHostRound(){
+  var arr=playerArray(),guesser=qs("#bluffGuesser").value;
+  if(arr.length<3){toast("至少要 3 位玩家");return}
+  if(!guesser||!bluffNet.players[guesser]){toast("先選猜題者");return}
+  var eligible=arr.filter(function(p){return p.id!==guesser});
+  var truth=eligible[Math.floor(Math.random()*eligible.length)];
+  var pool=bluffData[bluffCat],item=pool[Math.floor(Math.random()*pool.length)];
+  bluffNet.roundNo++;
+  bluffNet.round={word:item[0],definition:item[1],category:bluffCat,guesser:guesser,truth:truth.id,submissions:{},answers:[],resolved:false};
+  bluffNet.lastGuesser=guesser;
+  qs("#bluffHostRound").style.display="block";qs("#hostBluffCat").textContent=bluffCat;qs("#hostBluffWord").textContent=item[0];qs("#hostReveal").style.display="none";qs("#nextBluffRound").style.display="none";qs("#hostAnswerList").innerHTML="";
+  arr.forEach(function(p){
+    var role=p.id===guesser?"guesser":(p.id===truth.id?"truth":"bluffer");
+    safeSend(bluffNet.conns[p.id],{type:"role",role:role,word:item[0],category:bluffCat,definition:role==="truth"?item[1]:null})
+  });
+  hostRoundProgress();
+}
+function hostRoundProgress(){
+  if(!bluffNet.round)return;
+  var need=playerArray().filter(function(p){return p.id!==bluffNet.round.guesser}).length;
+  var got=Object.keys(bluffNet.round.submissions).length;
+  qs("#hostBluffProgress").textContent="已收到 "+got+" / "+need+" 份答案";
+}
+function publishAnswers(){
+  var r=bluffNet.round,items=Object.keys(r.submissions).map(function(pid,i){return{id:"a"+i+"-"+Math.random().toString(36).slice(2,6),owner:pid,text:r.submissions[pid]}});
+  for(var i=items.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1)),t=items[i];items[i]=items[j];items[j]=t}
+  r.answers=items;
+  var box=qs("#hostAnswerList");box.innerHTML="<div class='sectionTitle'><h2>匿名答案</h2><span>猜題者選一個</span></div>";
+  items.forEach(function(a,i){var d=document.createElement("div");d.className="card";d.style.minHeight="0";d.style.marginBottom="10px";d.innerHTML="<b>答案 "+String.fromCharCode(65+i)+"</b><p style='margin-top:8px'>"+escapeHtml(a.text)+"</p>";box.appendChild(d)});
+  qs("#hostBluffProgress").textContent="答案已洗牌，等待猜題者選擇";
+  playerArray().forEach(function(p){safeSend(bluffNet.conns[p.id],{type:"answers",isGuesser:p.id===r.guesser,answers:items.map(function(a){return{id:a.id,text:a.text}})})})
+}
+function resolveVote(answerId){
+  var r=bluffNet.round;if(!r||r.resolved)return;r.resolved=true;
+  var chosen=r.answers.find(function(a){return a.id===answerId});if(!chosen)return;
+  var correct=chosen.owner===r.truth;
+  if(correct)bluffNet.players[r.guesser].score=(bluffNet.players[r.guesser].score||0)+2;
+  else if(bluffNet.players[chosen.owner])bluffNet.players[chosen.owner].score=(bluffNet.players[chosen.owner].score||0)+1;
+  var scores=playerArray().slice().sort(function(a,b){return(b.score||0)-(a.score||0)}).map(function(p){return{name:p.name,score:p.score||0}});
+  var guesserName=bluffNet.players[r.guesser].name,truthName=bluffNet.players[r.truth].name,chosenName=bluffNet.players[chosen.owner].name;
+  qs("#hostReveal").style.display="block";qs("#hostReveal").innerHTML="<b>"+(correct?"🎯 "+escapeHtml(guesserName)+" 猜中真相！":"😈 "+escapeHtml(chosenName)+" 成功騙過 "+escapeHtml(guesserName)+"！")+"</b><br>拿到真答案的是："+escapeHtml(truthName)+"<br>真正意思："+escapeHtml(r.definition)+"<br><br><b>排行榜：</b><br>"+scores.map(function(s,i){return(i+1)+". "+escapeHtml(s.name)+"　"+s.score+" 分"}).join("<br>");
+  qs("#nextBluffRound").style.display="inline-block";qs("#hostBluffProgress").textContent="本局結束";
+  broadcast({type:"reveal",correct:correct,definition:r.definition,scores:scores});
+  updateHostRoster();
+}
+qs("#createBluffRoom").onclick=createBluffHost;
+qs("#joinBluffRoom").onclick=function(){showBluffPane("bluffJoin")};
+qs("#soloBluff").onclick=function(){showBluffPane("bluffSolo")};
+qs("#confirmBluffJoin").onclick=joinBluff;
+qs("#startBluffRound").onclick=startHostRound;
+qs("#nextBluffRound").onclick=function(){qs("#bluffHostRound").style.display="none";updateHostRoster();toast("選好猜題者就能開下一局")};
+qs("#submitBluff").onclick=function(){var t=qs("#bluffSubmission").value.trim();if(!t){toast("先寫一個解釋");return}safeSend(bluffNet.hostConn,{type:"submit",text:t})};
+qs("#useTrueDefinition").onclick=function(){qs("#bluffSubmission").value=qs("#useTrueDefinition").dataset.answer||""};
+qs("#shareBluffRoom").onclick=function(){
+  var url=location.origin+location.pathname+"?bluff="+bluffNet.room;
+  if(navigator.share)navigator.share({title:"誰是瞎掰王",text:"加入房間 "+bluffNet.room,url:url}).catch(function(){});
+  else if(navigator.clipboard)navigator.clipboard.writeText(url).then(function(){toast("加入連結已複製")});
+};
+renderHostCats();
+
+(function(){
+  var p=new URLSearchParams(location.search),code=(p.get("bluff")||"").toUpperCase();
+  if(code){show("bluff");showBluffPane("bluffJoin");qs("#bluffJoinCode").value=code}
+})();
 var running=false,start=0,raf=0,last=0;
 function tick(){if(!running)return;last=(performance.now()-start)/1000;qs("#clock").textContent=last.toFixed(1);raf=requestAnimationFrame(tick)}
 qs("#startClock").onclick=function(){if(running)return;running=true;start=performance.now();last=0;qs("#clockStatus").textContent="靠感覺抓秒數！";cancelAnimationFrame(raf);tick()};
