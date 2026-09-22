@@ -283,7 +283,11 @@
   <style>
     :root { color-scheme: dark; --aqua:#64ffda; --yellow:#ffe100; --panel:#0d253f; --muted:#bcccdc; }
     * { box-sizing:border-box; }
-    body { margin:0; background:radial-gradient(circle at 50% 5%,#1a3c5e 0%,#03101f 72%); color:#f0f4f8; font-family:"Microsoft JhengHei",sans-serif; line-height:1.75; }
+    html { -webkit-text-size-adjust:100%; text-size-adjust:100%; }
+    body { margin:0; background:radial-gradient(circle at 50% 5%,#1a3c5e 0%,#03101f 72%); color:#f0f4f8; font-family:"Microsoft JhengHei",sans-serif; line-height:1.75; line-break:strict; overflow-wrap:break-word; }
+    h1,h2,h3,p,li,td,figcaption { text-wrap:pretty; line-break:strict; hyphens:none; }
+    h1,h2,h3 { overflow-wrap:normal; }
+    @supports(word-break:auto-phrase) { body,h1,h2,h3,p,li,td,figcaption { word-break:auto-phrase; } }
     a { color:var(--aqua); }
     .wrap { width:min(1080px,calc(100% - 32px)); margin:auto; padding:24px 0 60px; }
     .top { display:flex; align-items:center; justify-content:space-between; gap:16px; margin-bottom:20px; }
