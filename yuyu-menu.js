@@ -1,4 +1,4 @@
-/* 宇魚共用選單 v1 — 僅更新導覽，不修改商品、購物車或訂單流程。 */
+/* 宇魚共用選單 v2 — 統一導覽與中英文響應式排版，不修改商品、購物車或訂單流程。 */
 (function () {
   'use strict';
   const script = document.currentScript;
@@ -19,7 +19,13 @@
     const style = document.createElement('style');
     style.id = 'yuyu-menu-style';
     style.textContent = `
-      html{scroll-padding-top:calc(var(--yuyu-ann-height,0px) + 70px)}
+      html{scroll-padding-top:calc(var(--yuyu-ann-height,0px) + 70px);-webkit-text-size-adjust:100%;text-size-adjust:100%}
+      body{line-break:strict;overflow-wrap:break-word}
+      :where(h1,h2,h3,h4,.main-headline,.section-title,.hero-title){text-wrap:pretty!important;line-break:strict;overflow-wrap:normal;hyphens:none}
+      :where(p,li,dd,figcaption,.lead,.subtitle,.intro,.note){text-wrap:pretty;line-break:strict;hyphens:none}
+      @supports(word-break:auto-phrase){body,:where(h1,h2,h3,h4,p,li,dd,figcaption,.lead,.subtitle,.intro,.note,.main-headline,.section-title,.hero-title){word-break:auto-phrase}}
+      .yuyu-nowrap{white-space:nowrap}
+      .mobile-line-break{display:none!important}
       body.yuyu-menu-ready{padding-top:calc(var(--yuyu-ann-height,0px) + 56px)!important}
       .yuyu-menu-header,#mySidenav.yuyu-menu-drawer{--menu-bg:#03101f;--menu-ink:#f0f4f8;--menu-accent:#64ffda;--menu-line:#334e68}
       .yuyu-menu-header.yuyu-warm,#mySidenav.yuyu-warm{--menu-bg:#fff6e9;--menu-ink:#503d30;--menu-accent:#885327;--menu-line:#dbc3a8}
@@ -42,6 +48,7 @@
       .yuyu-menu-header a:focus-visible,.yuyu-menu-header button:focus-visible,#mySidenav.yuyu-menu-drawer a:focus-visible,#mySidenav.yuyu-menu-drawer button:focus-visible{outline:3px solid var(--menu-accent);outline-offset:2px}
       .yuyu-chapters{display:flex;flex-wrap:wrap;justify-content:center;gap:12px 24px;width:100%;box-sizing:border-box;padding:14px 18px;font:700 16px/1.6 'Zen Maru Gothic','Microsoft JhengHei',sans-serif}
       .yuyu-chapters a{color:inherit;text-decoration:underline;text-underline-offset:4px}
+      @media(max-width:680px){:where(h1,.main-headline,.hero-title){letter-spacing:.015em!important;line-height:1.42!important}:where(p,li,.lead,.subtitle,.intro){line-height:1.85}}
       @media(prefers-reduced-motion:reduce){#mySidenav.yuyu-menu-drawer{transition:none}}
     `;
     document.head.appendChild(style);
