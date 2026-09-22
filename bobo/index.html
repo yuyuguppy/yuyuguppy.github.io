@@ -61,13 +61,27 @@ button{font:inherit;cursor:pointer}.btn{border:0;border-radius:18px;padding:14px
   </div>
   <div class="sectionTitle"><h2>玩家</h2><span id="bluffPlayerCount">0 人</span></div>
   <div id="bluffPlayers" class="chips" style="flex-wrap:wrap;overflow:visible"></div>
-  <div class="sectionTitle"><h2>本局設定</h2><span>猜題者每局可更換</span></div>
+  <div class="sectionTitle"><h2>本局設定</h2><span>任何裝置都能當主持人</span></div>
   <div id="bluffHostCats" class="chips"></div>
+  <div class="row" style="margin-top:12px">
+    <div style="flex:1;min-width:150px">
+      <label style="display:block;margin:0 0 6px;color:var(--muted);font-size:13px">本房人數上限</label>
+      <select id="bluffMaxPlayers" class="chip" style="width:100%;font-size:16px">
+        <option value="3">3 人</option><option value="4">4 人</option><option value="5">5 人</option><option value="6" selected>6 人</option><option value="7">7 人</option><option value="8">8 人</option><option value="9">9 人</option><option value="10">10 人</option><option value="12">12 人</option>
+      </select>
+    </div>
+    <div style="flex:1;min-width:150px">
+      <label style="display:block;margin:0 0 6px;color:var(--muted);font-size:13px">作答限時</label>
+      <select id="bluffTimeLimit" class="chip" style="width:100%;font-size:16px">
+        <option value="30">30 秒</option><option value="45">45 秒</option><option value="60" selected>60 秒</option><option value="90">90 秒</option><option value="120">120 秒</option>
+      </select>
+    </div>
+  </div>
   <label style="display:block;margin:12px 0 6px;color:var(--muted);font-size:13px">這局誰負責猜？</label>
   <select id="bluffGuesser" class="chip" style="width:100%;font-size:16px"></select>
   <div class="row" style="margin-top:14px"><button id="startBluffRound" class="btn primary">開始這一局 🎲</button></div>
   <div id="bluffHostRound" style="display:none;margin-top:18px">
-    <div class="fun" style="padding:18px 8px"><div class="tag" id="hostBluffCat">分類</div><h2 id="hostBluffWord" style="font-size:clamp(48px,10vw,86px);margin:12px 0">詞彙</h2><p id="hostBluffProgress" class="status">等待答案…</p></div>
+    <div class="fun" style="padding:18px 8px"><div class="tag" id="hostBluffCat">分類</div><h2 id="hostBluffWord" style="font-size:clamp(48px,10vw,86px);margin:12px 0">詞彙</h2><div id="hostBluffHints" class="row" style="justify-content:center;margin-bottom:10px"></div><div id="hostTimer" class="room" style="font-size:clamp(34px,8vw,58px);letter-spacing:1px">60</div><p id="hostBluffProgress" class="status">等待答案…</p></div>
     <div id="hostAnswerList"></div>
     <div id="hostReveal" class="note" style="display:none;margin-top:14px"></div>
     <button id="nextBluffRound" class="btn primary" style="display:none;margin-top:14px">下一局 →</button>
@@ -86,6 +100,8 @@ button{font:inherit;cursor:pointer}.btn{border:0;border-radius:18px;padding:14px
   <div class="fun" style="padding:18px 4px">
     <div class="tag" id="playerRoleTag">等待中</div>
     <h2 id="playerBluffWord" style="font-size:clamp(44px,10vw,76px);margin:15px 0">等主持人開始</h2>
+    <div id="playerBluffHints" class="row" style="justify-content:center;margin-bottom:10px"></div>
+    <div id="playerTimer" class="room" style="font-size:clamp(32px,8vw,54px);letter-spacing:1px">—</div>
     <p id="playerBluffInstruction" class="status">先不要露出可疑的表情。</p>
   </div>
   <div id="truthDefinitionBox" class="note" style="display:none"></div>
@@ -130,7 +146,7 @@ qs("#truthMode").onclick=function(){punishMode="truth";drawPunish()};
 qs("#dareMode").onclick=function(){punishMode="dare";drawPunish()};
 qs("#nextPunish").onclick=drawPunish;
 
-var bluffData={"冷知識":[["犰狳","一種有骨質甲片覆蓋身體的哺乳動物，主要分布在美洲。"],["鐘乳石","洞穴中由含礦物質的水滴長期沉積形成、從洞頂向下生長的石灰質構造。"],["潮汐鎖定","天體自轉週期與公轉週期相同，因此總以同一面朝向另一個天體。"],["共振","外力頻率接近物體固有頻率時，振幅會顯著增加的現象。"],["厄爾尼諾","赤道太平洋中東部海水異常增暖，進而影響全球氣候的現象。"],["食蟲植物","能捕捉並消化昆蟲等小型動物，以補充營養的植物。"],["回音定位","透過發出聲音並分析反射回波來判斷物體位置的方法。"],["藍月","同一個曆月內出現的第二次滿月，或特定季節中的第四次滿月。"]],"奇怪詞彙":[["囫圇","完整、不加咀嚼或不加分析地整體接受。"],["踟躕","猶豫不前、徘徊不定。"],["齟齬","意見不合或彼此不協調。"],["倥傯","事情繁忙、急迫的樣子。"],["躑躅","徘徊不前，也可指行走遲疑。"],["囈語","人在睡夢中不自覺說出的話。"],["覬覦","希望得到不屬於自己的東西，常帶有非分企圖。"],["耄耋","泛指年紀很大的人，常指八、九十歲。"]],"世界文化":[["浮世繪","日本江戶時代流行的木版畫藝術，常描繪人物、風景與庶民生活。"],["桑巴","起源於巴西、深受非洲文化影響的音樂與舞蹈形式。"],["塔帕斯","西班牙常見的小份量餐點，適合搭配飲品共享。"],["圖騰","某群體視為象徵或祖先連結的動物、植物或自然物。"],["極光","高能帶電粒子與地球高層大氣作用後產生的發光現象。"],["哈卡舞","毛利文化中的傳統群體舞蹈，以強烈動作、吶喊與節奏表達情緒與團結。"],["薩滿","某些傳統文化中，透過儀式與靈性世界溝通的人。"],["馬賽克","以許多小塊材料拼接形成圖案或圖像的裝飾藝術。"]],"科學科技":[["量子糾纏","兩個或多個量子系統呈現強關聯，使其中一方的測量結果與另一方密切相關。"],["演算法","一組用來解決問題或完成任務的明確步驟。"],["區塊鏈","以分散式方式儲存並串接資料區塊的資料結構。"],["光合作用","植物等生物利用光能把二氧化碳和水轉成有機物並釋放氧氣的過程。"],["超導體","在特定低溫等條件下電阻降為零並呈現特殊磁性的材料。"],["神經網路","受生物神經系統啟發、由多層節點構成的機器學習模型。"],["CRISPR","一類可用於精準編輯 DNA 序列的基因編輯技術。"],["黑洞","重力強到連光都無法逃離的時空區域。"]],"生活腦洞":[["機會成本","做出某個選擇時，所放棄的其他選項中價值最高的那一個。"],["安慰劑效應","即使接受的是沒有有效成分的處置，也可能因期待而產生實際感受改善的現象。"],["旁觀者效應","在場的人越多，個別旁觀者反而越可能不主動提供協助的現象。"],["沉沒成本","已經投入且無法回收的時間、金錢或資源。"],["幸存者偏差","只看成功或留下來的案例，忽略失敗或消失的案例，因而形成偏差判斷。"],["確認偏誤","傾向尋找、相信支持自己原本看法的資訊，而忽略相反證據。"],["破窗效應","環境中若小規模失序長期不被處理，可能增加更多失序行為的理論。"],["鄧寧克魯格效應","能力不足者可能高估自身能力，而較有能力者反而更清楚自身限制的認知偏差。"]]};
+var bluffData={"冷知識":[["犰狳","一種有骨質甲片覆蓋身體的哺乳動物，主要分布在美洲。",["護甲","美洲"]],["鐘乳石","洞穴中由含礦物質的水滴長期沉積形成、從洞頂向下生長的石灰質構造。",["洞穴","礦物"]],["潮汐鎖定","天體自轉週期與公轉週期相同，因此總以同一面朝向另一個天體。",["自轉","同一面"]],["共振","外力頻率接近物體固有頻率時，振幅會顯著增加的現象。",["頻率","振幅"]],["厄爾尼諾","赤道太平洋中東部海水異常增暖，進而影響全球氣候的現象。",["太平洋","暖化"]],["食蟲植物","能捕捉並消化昆蟲等小型動物，以補充營養的植物。",["捕捉","營養"]],["回音定位","透過發出聲音並分析反射回波來判斷物體位置的方法。",["聲波","反射"]],["藍月","同一個曆月內出現的第二次滿月，或特定季節中的第四次滿月。",["滿月","曆月"]]],"奇怪詞彙":[["囫圇","完整、不加咀嚼或不加分析地整體接受。",["完整","不細分"]],["踟躕","猶豫不前、徘徊不定。",["猶豫","徘徊"]],["齟齬","意見不合或彼此不協調。",["不合","衝突"]],["倥傯","事情繁忙、急迫的樣子。",["繁忙","急迫"]],["躑躅","徘徊不前，也可指行走遲疑。",["徘徊","遲疑"]],["囈語","人在睡夢中不自覺說出的話。",["睡夢","說話"]],["覬覦","希望得到不屬於自己的東西，常帶有非分企圖。",["想得到","非分"]],["耄耋","泛指年紀很大的人，常指八、九十歲。",["高齡","老人"]]],"世界文化":[["浮世繪","日本江戶時代流行的木版畫藝術，常描繪人物、風景與庶民生活。",["日本","木版畫"]],["桑巴","起源於巴西、深受非洲文化影響的音樂與舞蹈形式。",["巴西","舞蹈"]],["塔帕斯","西班牙常見的小份量餐點，適合搭配飲品共享。",["西班牙","小份餐"]],["圖騰","某群體視為象徵或祖先連結的動物、植物或自然物。",["象徵","群體"]],["極光","高能帶電粒子與地球高層大氣作用後產生的發光現象。",["高空","帶電粒子"]],["哈卡舞","毛利文化中的傳統群體舞蹈，以強烈動作、吶喊與節奏表達情緒與團結。",["毛利","吶喊"]],["薩滿","某些傳統文化中，透過儀式與靈性世界溝通的人。",["儀式","靈性"]],["馬賽克","以許多小塊材料拼接形成圖案或圖像的裝飾藝術。",["拼接","小塊材料"]]],"科學科技":[["量子糾纏","兩個或多個量子系統呈現強關聯，使其中一方的測量結果與另一方密切相關。",["量子","關聯"]],["演算法","一組用來解決問題或完成任務的明確步驟。",["步驟","解題"]],["區塊鏈","以分散式方式儲存並串接資料區塊的資料結構。",["分散式","資料區塊"]],["光合作用","植物等生物利用光能把二氧化碳和水轉成有機物並釋放氧氣的過程。",["光能","植物"]],["超導體","在特定低溫等條件下電阻降為零並呈現特殊磁性的材料。",["低溫","零電阻"]],["神經網路","受生物神經系統啟發、由多層節點構成的機器學習模型。",["機器學習","節點"]],["CRISPR","一類可用於精準編輯 DNA 序列的基因編輯技術。",["基因","編輯"]],["黑洞","重力強到連光都無法逃離的時空區域。",["重力","光逃不出"]]],"生活腦洞":[["機會成本","做出某個選擇時，所放棄的其他選項中價值最高的那一個。",["選擇","放棄"]],["安慰劑效應","即使接受的是沒有有效成分的處置，也可能因期待而產生實際感受改善的現象。",["期待","改善"]],["旁觀者效應","在場的人越多，個別旁觀者反而越可能不主動提供協助的現象。",["人多","不出手"]],["沉沒成本","已經投入且無法回收的時間、金錢或資源。",["已投入","拿不回"]],["幸存者偏差","只看成功或留下來的案例，忽略失敗或消失的案例，因而形成偏差判斷。",["只看成功","忽略失敗"]],["確認偏誤","傾向尋找、相信支持自己原本看法的資訊，而忽略相反證據。",["只找支持","忽略反證"]],["破窗效應","環境中若小規模失序長期不被處理，可能增加更多失序行為的理論。",["失序","擴散"]],["鄧寧克魯格效應","能力不足者可能高估自身能力，而較有能力者反而更清楚自身限制的認知偏差。",["高估自己","認知偏差"]]]};
 var bluffCat="冷知識";
 function renderBluffCats(){var box=qs("#bluffCats");if(!box)return;box.innerHTML="";Object.keys(bluffData).forEach(function(c){var b=document.createElement("button");b.className="chip"+(c===bluffCat?" active":"");b.textContent=c;b.onclick=function(){bluffCat=c;renderBluffCats();drawBluff()};box.appendChild(b)})}
 function drawBluff(){var pool=bluffData[bluffCat]||[];var item=pool[Math.floor(Math.random()*pool.length)];qs("#bluffCategory").textContent=bluffCat;qs("#bluffWord").textContent=item[0];qs("#bluffAnswer").textContent=item[1];qs("#bluffAnswer").style.display="none";qs("#showBluffAnswer").textContent="看真正意思 👀"}
@@ -151,7 +167,7 @@ function loadPeerLib(){
   });
   return peerLibPromise;
 }
-var bluffNet={mode:null,peer:null,hostConn:null,conns:{},players:{},room:"",round:null,roundNo:0,lastGuesser:null};
+var bluffNet={mode:null,peer:null,hostConn:null,conns:{},players:{},room:"",round:null,roundNo:0,lastGuesser:null,maxPlayers:6,timeLimit:60,timerId:null};
 
 function makeRoomCode(){
   var chars="ABCDEFGHJKLMNPQRSTUVWXYZ23456789",out="";
@@ -186,7 +202,7 @@ function hostMessage(conn,msg){
   if(!msg||!msg.type)return;
   if(msg.type==="join"){
     var nm=String(msg.name||"玩家").trim().slice(0,16)||"玩家";
-    bluffNet.players[conn.peer]={id:conn.peer,name:nm,score:0};
+    if(playerArray().length>=bluffNet.maxPlayers){safeSend(conn,{type:"roomFull",max:bluffNet.maxPlayers});return;} bluffNet.players[conn.peer]={id:conn.peer,name:nm,score:0};
     safeSend(conn,{type:"joined",name:nm});
     updateHostRoster();broadcast({type:"roster",players:playerArray().map(function(p){return{id:p.id,name:p.name,score:p.score}})});
     qs("#bluffHostStatus").textContent=playerArray().length+" 位玩家已加入";
@@ -239,10 +255,10 @@ function joinBluff(){
 }
 function playerMessage(msg){
   if(!msg||!msg.type)return;
-  if(msg.type==="joined"){showBluffPane("bluffPlayer");qs("#playerRoleTag").textContent="已加入";qs("#playerBluffWord").textContent="等待開局";qs("#playerBluffInstruction").textContent="主持人開始後，你的秘密身份會出現在這裡。"}
+  if(msg.type==="roomFull"){qs("#bluffJoinStatus").textContent="房間已滿（上限 "+msg.max+" 人）";return} if(msg.type==="joined"){showBluffPane("bluffPlayer");qs("#playerRoleTag").textContent="已加入";qs("#playerBluffWord").textContent="等待開局";qs("#playerBluffInstruction").textContent="主持人開始後，你的秘密身份會出現在這裡。"}
   if(msg.type==="role"){
     qs("#playerReveal").style.display="none";qs("#playerVoting").style.display="none";
-    qs("#playerBluffWord").textContent=msg.word;qs("#bluffSubmission").value="";
+    qs("#playerBluffWord").textContent=msg.word;qs("#playerBluffHints").innerHTML=(msg.hints||[]).map(function(h){return "<span class=\"chip\">提示："+escapeHtml(h)+"</span>"}).join("");qs("#playerTimer").textContent=(msg.timeLimit||60)+" 秒";qs("#bluffSubmission").value="";
     if(msg.role==="guesser"){
       qs("#playerRoleTag").textContent="🔎 你是猜題者";qs("#playerBluffInstruction").textContent="你只知道詞彙。等大家交卷後，找出真正意思。";qs("#truthDefinitionBox").style.display="none";qs("#bluffSubmitBox").style.display="none";
     }else if(msg.role==="truth"){
@@ -251,7 +267,7 @@ function playerMessage(msg){
       qs("#playerRoleTag").textContent="😈 你是瞎掰者";qs("#playerBluffInstruction").textContent="你不知道真正答案。編一個夠合理、最好能騙過猜題者的解釋。";qs("#truthDefinitionBox").style.display="none";qs("#bluffSubmitBox").style.display="block";qs("#useTrueDefinition").style.display="none";
     }
   }
-  if(msg.type==="submitted"){qs("#bluffSubmitBox").style.display="none";qs("#playerBluffInstruction").textContent="已交卷。現在請裝得像什麼都知道。"}
+  if(msg.type==="tick"){qs("#playerTimer").textContent=msg.left+" 秒"} if(msg.type==="submitted"){qs("#bluffSubmitBox").style.display="none";qs("#playerBluffInstruction").textContent="已交卷。現在請裝得像什麼都知道。"}
   if(msg.type==="answers"){
     if(msg.isGuesser){
       qs("#playerVoting").style.display="block";var box=qs("#playerAnswerChoices");box.innerHTML="";
@@ -271,17 +287,35 @@ function startHostRound(){
   if(!guesser||!bluffNet.players[guesser]){toast("先選猜題者");return}
   var eligible=arr.filter(function(p){return p.id!==guesser});
   var truth=eligible[Math.floor(Math.random()*eligible.length)];
-  var pool=bluffData[bluffCat],item=pool[Math.floor(Math.random()*pool.length)];
+  bluffNet.maxPlayers=parseInt(qs("#bluffMaxPlayers").value||"6",10);bluffNet.timeLimit=parseInt(qs("#bluffTimeLimit").value||"60",10);var pool=bluffData[bluffCat],item=pool[Math.floor(Math.random()*pool.length)];
   bluffNet.roundNo++;
-  bluffNet.round={word:item[0],definition:item[1],category:bluffCat,guesser:guesser,truth:truth.id,submissions:{},answers:[],resolved:false};
+  bluffNet.round={word:item[0],definition:item[1],hints:item[2]||[],category:bluffCat,guesser:guesser,truth:truth.id,submissions:{},answers:[],resolved:false,deadline:Date.now()+bluffNet.timeLimit*1000};
   bluffNet.lastGuesser=guesser;
-  qs("#bluffHostRound").style.display="block";qs("#hostBluffCat").textContent=bluffCat;qs("#hostBluffWord").textContent=item[0];qs("#hostReveal").style.display="none";qs("#nextBluffRound").style.display="none";qs("#hostAnswerList").innerHTML="";
+  qs("#bluffHostRound").style.display="block";qs("#hostBluffCat").textContent=bluffCat;qs("#hostBluffWord").textContent=item[0];qs("#hostBluffHints").innerHTML=(item[2]||[]).map(function(h){return "<span class=\"chip\">提示："+escapeHtml(h)+"</span>"}).join("");qs("#hostReveal").style.display="none";qs("#nextBluffRound").style.display="none";qs("#hostAnswerList").innerHTML="";
   arr.forEach(function(p){
     var role=p.id===guesser?"guesser":(p.id===truth.id?"truth":"bluffer");
-    safeSend(bluffNet.conns[p.id],{type:"role",role:role,word:item[0],category:bluffCat,definition:role==="truth"?item[1]:null})
+    safeSend(bluffNet.conns[p.id],{type:"role",role:role,word:item[0],hints:item[2]||[],category:bluffCat,definition:role==="truth"?item[1]:null,timeLimit:bluffNet.timeLimit,deadline:bluffNet.round.deadline})
   });
-  hostRoundProgress();
+  hostRoundProgress();startBluffTimer();
 }
+
+function startBluffTimer(){
+  clearInterval(bluffNet.timerId);
+  function paint(){
+    if(!bluffNet.round)return;
+    var left=Math.max(0,Math.ceil((bluffNet.round.deadline-Date.now())/1000));
+    qs("#hostTimer").textContent=left+" 秒";
+    broadcast({type:"tick",left:left});
+    if(left<=0){
+      clearInterval(bluffNet.timerId);
+      var need=playerArray().filter(function(p){return p.id!==bluffNet.round.guesser}).length;
+      if(Object.keys(bluffNet.round.submissions).length>0)publishAnswers();
+      else qs("#hostBluffProgress").textContent="時間到，還沒有人交答案";
+    }
+  }
+  paint();bluffNet.timerId=setInterval(paint,500);
+}
+
 function hostRoundProgress(){
   if(!bluffNet.round)return;
   var need=playerArray().filter(function(p){return p.id!==bluffNet.round.guesser}).length;
