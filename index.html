@@ -326,7 +326,15 @@
         .service-card { padding: 17px 12px; border: 1px solid rgba(100, 255, 218, 0.25); border-radius: 13px; background: rgba(16, 42, 67, 0.58); text-align: center; }
         .service-icon { display: block; margin-bottom: 7px; font-size: 25px; }
         .service-name { display: block; color: #64ffda; font-size: 15px; font-weight: 700; }
-        .service-note { display: block; margin-top: 5px; color: #aebccf; font-size: 12px; line-height: 1.5; }.visit-guide-card { width: 100%; max-width: 480px; box-sizing: border-box; margin: 0 0 28px; padding: 20px; border: 1px solid rgba(255, 225, 0, 0.42); border-radius: 15px; background: linear-gradient(135deg, rgba(255, 225, 0, 0.08), rgba(100, 255, 218, 0.08)); text-align: left; }
+        .service-note { display: block; margin-top: 5px; color: #aebccf; font-size: 12px; line-height: 1.5; }
+        .fit-card { width: 100%; max-width: 480px; box-sizing: border-box; margin: 0 0 28px; padding: 18px 20px; border: 1px solid rgba(100,255,218,.22); border-radius: 14px; background: rgba(16,42,67,.45); }
+        .fit-card h2 { margin: 0 0 10px; color: #64ffda; font-family: 'Zen Maru Gothic', sans-serif; font-size: 19px; text-align: center; }
+        .fit-card ul { margin: 0; padding-left: 1.25em; color: #d7e3ef; font-size: 14px; line-height: 1.8; }
+        .fit-card li + li { margin-top: 5px; }
+        .fit-card .fit-note { margin: 12px 0 0; padding-top: 10px; border-top: 1px solid rgba(100,255,218,.16); color: #aebccf; font-size: 13px; line-height: 1.75; }
+        .static-category-links { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; margin: 10px 0 4px; }
+        .static-category-links .contact-action { margin: 0 !important; }
+        .visit-guide-card { width: 100%; max-width: 480px; box-sizing: border-box; margin: 0 0 28px; padding: 20px; border: 1px solid rgba(255, 225, 0, 0.42); border-radius: 15px; background: linear-gradient(135deg, rgba(255, 225, 0, 0.08), rgba(100, 255, 218, 0.08)); text-align: left; }
         .visit-guide-card h2 { margin: 0 0 8px; color: #ffe100; font-family: 'Zen Maru Gothic', sans-serif; font-size: 20px; }
         .visit-guide-card p { margin: 0 0 14px; color: #d7e3ef; font-size: 14px; line-height: 1.75; }
         .visit-guide-features { display: flex; flex-wrap: wrap; gap: 7px; margin-bottom: 15px; }
@@ -608,21 +616,38 @@
   "sameAs": [
     "https://www.facebook.com/Yuyuquppy/",
     "https://www.instagram.com/yuyuguppy_",
-    "https://www.tiktok.com/@yuyu_aqua1997"
+    "https://www.tiktok.com/@yuyu_aqua1997",
+    "https://portaly.cc/yuyuguppy",
+    "https://myship.7-11.com.tw/general/detail?id=GM2312087898760"
   ],
+  "hasMap": "https://maps.app.goo.gl/2QDBuNmmoMHXF8GU8",
   "priceRange": "$$",
   "specialOpeningHoursSpecification": [
     {
       "@type": "OpeningHoursSpecification",
-      "validFrom": "2026-09-25",
-      "validThrough": "2026-09-27",
+      "validFrom": "2026-10-24",
+      "validThrough": "2026-10-26",
       "opens": "12:00",
       "closes": "17:00"
     },
     {
       "@type": "OpeningHoursSpecification",
-      "validFrom": "2026-09-28",
-      "validThrough": "2026-09-30",
+      "validFrom": "2026-10-30",
+      "validThrough": "2026-11-01",
+      "opens": "00:00",
+      "closes": "00:00"
+    },
+    {
+      "@type": "OpeningHoursSpecification",
+      "validFrom": "2026-11-21",
+      "validThrough": "2026-11-22",
+      "opens": "00:00",
+      "closes": "00:00"
+    },
+    {
+      "@type": "OpeningHoursSpecification",
+      "validFrom": "2026-11-28",
+      "validThrough": "2026-11-28",
       "opens": "00:00",
       "closes": "00:00"
     }
@@ -763,7 +788,6 @@
           <div class="info-title" style="margin-bottom: 0;">重要公告（10 月／11 月特殊營業時間）</div>
             <p style="margin: 0; font-weight: bold; color: #f0f4f8; line-height: 1.8;">🕒 特殊營業與店休公告</p>
             <p style="color: #f57d7d; margin: 0; line-height: 1.8;">
-                10/17（六）：店休<br>
                 10/24（六）～10/26（一）光復連假：12:00–17:00<br>
                 10/30（五）～11/1（日）：店休<br>
                 11/21（六）～11/22（日）：店休<br>
@@ -807,6 +831,18 @@
             <div class="service-card"><span class="service-icon">🛠️</span><span class="service-name">到府安裝</span><span class="service-note">管線、設備與整體配置</span></div>
             <div class="service-card"><span class="service-icon">🧪</span><span class="service-name">水族用品</span><span class="service-note">飼料、濾材與實用周邊</span></div>
         </section>
+
+        <section class="fit-card" aria-labelledby="fitTitle">
+            <h2 id="fitTitle">哪些魚友適合來宇魚？</h2>
+            <ul>
+                <li>第一次養魚，想先了解水質、設備與預算怎麼安排。</li>
+                <li>想找自家繁殖、已適應在地水質的純品系孔雀魚或茉莉魚。</li>
+                <li>想現場觀察孔雀魚、鬥魚與茉莉魚，再依實際狀態挑選。</li>
+                <li>需要活體宅配、魚缸客製、到府安裝或後續飼養建議。</li>
+            </ul>
+            <p class="fit-note">若主要尋找大型海水魚、珊瑚或龍魚，並不是宇魚目前的主要方向；出發前也可以先詢問當日魚況。</p>
+        </section>
+
         <div class="awards-section">
             <div class="awards-title">🏆 宇魚獲獎經歷 🏆</div>
             <div class="awards-grid">
@@ -940,9 +976,14 @@
     <div class="beginner-scroll-container" id="guppyScroll"></div>
     <div class="slider-dots" id="guppyDots"></div>
    <div id="recommendationFallback" style="text-align:center;padding:16px 10px;line-height:1.8;">
-       <p id="recommendationStatus" role="status">推薦商品載入中，也可以直接查看全部商品或詢問我們。</p>
-       <a class="contact-action" href="fish.html" style="display:inline-block;margin:4px;">查看全部商品</a>
-       <a class="contact-action" href="https://line.me/R/ti/p/@118rfvyo" target="_blank" rel="noopener noreferrer" style="display:inline-block;margin:4px;">官方 LINE 詢問</a>
+       <p id="recommendationStatus" role="status">宇魚目前整理孔雀魚、茉莉魚、鬥魚與米蝦等活體；實際品系與數量會依每日魚況更新。</p>
+       <nav class="static-category-links" aria-label="活體商品分類">
+           <a class="contact-action" href="fish.html?cat=guppy">孔雀魚</a>
+           <a class="contact-action" href="fish.html?cat=molly">茉莉魚</a>
+           <a class="contact-action" href="betta.html">鬥魚</a>
+           <a class="contact-action" href="fish.html">查看全部商品</a>
+       </nav>
+       <a class="contact-action" href="https://line.me/R/ti/p/@118rfvyo" target="_blank" rel="noopener noreferrer" style="display:inline-block;margin:4px;">官方 LINE 詢問當日魚況</a>
    </div>
 </div>
         <div class="reviews-section">
@@ -1059,7 +1100,8 @@
 
         <div class="counter-section">
             <div class="counter-text">
-                宇魚伴游第 <span id="days-count">0</span> 個日子
+                宇魚伴游第 <span id="days-count">1114</span> 個日子
+                <span style="position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0;">宇魚水族自 2023 年 10 月 1 日起持續陪伴魚友</span>
             </div>
             <!-- 下面是新增的版權聲明 -->
             <div style="margin-top: 15px; font-size: 13px; color: #64ffda; opacity: 0.6;">
